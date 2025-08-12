@@ -5,6 +5,17 @@ This repository is a structured, beginner-friendly, offline study resource for l
 - Track progress in: `checklist.md`
 - Notes live under: `notes/`
  - Runnable code samples: `examples/`
+ - Setup guide (Windows/.NET SDK): `SETUP.md`
+
+## Print all notes in one shot
+- Build a single printable book (Markdown + HTML):
+  1. Run PowerShell from repo root: `./build-book.ps1`
+  2. This generates `book/book.md` and `book/book.html` and opens the HTML.
+  3. In the browser, use Print → Save as PDF (or send to a printer).
+
+Notes
+- The builder includes every `*.md` under `notes/` in a stable order.
+- Page breaks are added between files. The Markdown version is provided too.
 
 ## Index
 

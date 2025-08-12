@@ -1,0 +1,703 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>C#/.NET Learning Notes (Compiled)</title>
+    <style>
+        body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; line-height: 1.5; max-width: 900px; margin: 1rem auto; padding: 0 1rem; }
+        code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+        pre { background: #f6f8fa; padding: 12px; overflow: auto; }
+        h1, h2, h3 { margin-top: 1.6em; }
+        hr { margin: 2rem 0; }
+        .page-break { page-break-before: always; }
+        @media print {
+            a[href]:after { content: " (" attr(href) ")"; font-size: 90%; }
+            pre { white-space: pre-wrap; }
+        }
+    </style>
+</head>
+<body>
+<h1 id="c.net-learning-notes-compiled">C#/.NET Learning Notes (Compiled)</h1>
+<ul>
+<li><a href="01-csharp-basics/01-data-types.md">C# Basics: Data Types (Primitive, Value vs Reference)</a></li>
+<li><a href="01-csharp-basics/02-variables-operators-expressions.md">C# Basics: Variables, Operators, and Expressions</a></li>
+<li><a href="01-csharp-basics/03-type-conversion.md">Type Conversion in C# (Implicit/Explicit, Boxing/Unboxing)</a></li>
+<li><a href="01-csharp-basics/04-namespaces.md">Namespaces in C#</a></li>
+<li><a href="02-flow-control/01-branching.md">Branching in C# (if/else, switch)</a></li>
+<li><a href="02-flow-control/02-looping.md">Looping in C# (for, while, foreach)</a></li>
+<li><a href="03-dotnet-ecosystem/01-clr.md">Common Language Runtime (CLR)</a></li>
+<li><a href="03-dotnet-ecosystem/02-fcl.md">.NET Framework Class Library (BCL/FCL)</a></li>
+<li><a href="03-dotnet-ecosystem/03-ide-setup.md">IDE Setup (Visual Studio / VS Code)</a></li>
+<li><a href="04-oop/01-classes-objects.md">Classes and Objects</a></li>
+<li><a href="04-oop/02-oop-principles.md">OOP Principles</a></li>
+<li><a href="04-oop/03-advanced-oop.md">Advanced OOP</a></li>
+<li><a href="05-collections/01-built-in.md">Built-in Collections</a></li>
+<li><a href="05-collections/02-custom.md">Custom Collections</a></li>
+<li><a href="06-error-debugging/01-exceptions.md">Exception Handling</a></li>
+<li><a href="06-error-debugging/02-custom-exceptions.md">Custom Exceptions</a></li>
+<li><a href="06-error-debugging/03-debugging.md">Debugging Techniques</a></li>
+<li><a href="07-advanced-csharp/01-delegates-events.md">Delegates and Events</a></li>
+<li><a href="07-advanced-csharp/02-linq.md">LINQ</a></li>
+<li><a href="07-advanced-csharp/03-async.md">Asynchronous Programming</a></li>
+<li><a href="08-data-access/01-ado-net.md">ADO.NET</a></li>
+<li><a href="08-data-access/02-ef-core.md">Entity Framework Core</a></li>
+<li><a href="08-data-access/03-file-io.md">File I/O</a></li>
+<li><a href="09-wpf/01-xaml-basics.md">WPF: XAML Basics</a></li>
+<li><a href="09-wpf/02-advanced-wpf.md">WPF: Advanced</a></li>
+<li><a href="10-web/01-aspnet-core.md">ASP.NET Core Fundamentals</a></li>
+<li><a href="10-web/02-blazor.md">Blazor</a></li>
+<li><a href="10-web/03-security.md">Web Security</a></li>
+<li><a href="11-cross-platform/01-xamarin-forms.md">Xamarin.Forms</a></li>
+<li><a href="11-cross-platform/02-mobile-features.md">Mobile Features</a></li>
+<li><a href="12-devops/01-cloud-deployment.md">Cloud Deployment</a></li>
+<li><a href="12-devops/02-ci-cd.md">CI/CD Pipelines</a></li>
+</ul>
+<hr />
+<h1 id="c-basics-data-types-primitive-value-vs-reference">C# Basics: Data Types (Primitive, Value vs Reference)</h1>
+<h1 id="c-basics-data-types-primitive-value-vs-reference-1">C# Basics: Data Types (Primitive, Value vs Reference)</h1>
+<h2 id="what-are-data-types">What are Data Types?</h2>
+<p>Data types define the kind of data a variable can hold in a programming language. In C#, data types are crucial because they determine how much memory is allocated and what operations can be performed on the data.</p>
+<h2 id="categories-of-data-types-in-c">Categories of Data Types in C#</h2>
+<ol>
+<li>Primitive (Built-in) Types: These are basic types provided by the language, such as int, double, char, and bool.</li>
+<li>Value Types: These types store data directly. Examples include all primitive types (except string), structs, and enums. Value types are usually stored on the stack.</li>
+<li>Reference Types: These types store a reference (address) to the actual data. Examples include string, arrays, classes, and delegates. Reference types are stored on the heap, and variables hold a reference to the memory location.</li>
+</ol>
+<h2 id="value-vs-reference-types">Value vs Reference Types</h2>
+<ul>
+<li>Value Types: When you assign a value type variable to another, a copy of the value is made. Changes to one variable do not affect the other.</li>
+<li>Reference Types: When you assign a reference type variable to another, both variables refer to the same object in memory. Changes to one variable affect the other.</li>
+</ul>
+<h2 id="why-is-this-important">Why is this important?</h2>
+<p>Understanding the difference helps you predict how your data will behave when passed to methods or assigned to new variables, which is essential for writing bug-free code.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li>Microsoft Docs: Types in C#: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/built-in-types">https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/built-in-types</a></li>
+<li>Microsoft Docs: Value Types and Reference Types: <a href="https://learn.microsoft.com/dotnet/csharp/programming-guide/types/">https://learn.microsoft.com/dotnet/csharp/programming-guide/types/</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="c-basics-variables-operators-and-expressions">C# Basics: Variables, Operators, and Expressions</h1>
+<h1 id="c-basics-variables-operators-and-expressions-1">C# Basics: Variables, Operators, and Expressions</h1>
+<h2 id="variables">Variables</h2>
+<p>Variables are named storage locations in memory that hold data. In C#, you must declare a variable with a specific data type before using it. This helps the compiler allocate the right amount of memory and enforce type safety.</p>
+<h3 id="key-points">Key Points:</h3>
+<ul>
+<li>Variables must be declared before use.</li>
+<li>The data type determines what kind of data the variable can store.</li>
+<li>Variable names should be descriptive and follow C# naming conventions (camelCase for local variables).</li>
+</ul>
+<h2 id="operators">Operators</h2>
+<p>Operators are symbols that perform operations on variables and values. C# includes several types of operators:</p>
+<ul>
+<li>Arithmetic Operators: For mathematical operations (e.g., +, -, *, /, %)</li>
+<li>Assignment Operators: For assigning values (e.g., =, +=, -=)</li>
+<li>Comparison Operators: For comparing values (e.g., ==, !=, &lt;, &gt;, &lt;=, &gt;=)</li>
+<li>Logical Operators: For logical operations (e.g., &amp;&amp;, ||, !)</li>
+</ul>
+<h2 id="expressions">Expressions</h2>
+<p>An expression is a combination of variables, values, and operators that produces a result. For example, a + b is an expression that adds two variables.</p>
+<h2 id="best-practices">Best Practices</h2>
+<ul>
+<li>Use meaningful variable names.</li>
+<li>Keep expressions simple and readable.</li>
+<li>Use parentheses to clarify complex expressions.</li>
+</ul>
+<h2 id="further-reading-1">Further Reading</h2>
+<ul>
+<li>Microsoft Docs: Variables: <a href="https://learn.microsoft.com/dotnet/csharp/programming-guide/variables/">https://learn.microsoft.com/dotnet/csharp/programming-guide/variables/</a></li>
+<li>Microsoft Docs: Operators: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/operators/">https://learn.microsoft.com/dotnet/csharp/language-reference/operators/</a></li>
+<li>Microsoft Docs: Expressions: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/operators/expressions">https://learn.microsoft.com/dotnet/csharp/language-reference/operators/expressions</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="type-conversion-in-c-implicitexplicit-boxingunboxing">Type Conversion in C# (Implicit/Explicit, Boxing/Unboxing)</h1>
+<h1 id="type-conversion-in-c-implicitexplicit-boxingunboxing-1">Type Conversion in C# (Implicit/Explicit, Boxing/Unboxing)</h1>
+<h2 id="why-conversion-matters">Why Conversion Matters</h2>
+<p>C# is statically typed, so types must match. Conversions let values move between compatible types with predictable behavior.</p>
+<h2 id="implicit-vs-explicit-conversion">Implicit vs Explicit Conversion</h2>
+<ul>
+<li>Implicit conversions are safe and lossless (e.g., smaller numeric type to larger). The compiler applies them automatically.</li>
+<li>Explicit conversions require intent because information may be lost or the conversion may fail at runtime.</li>
+</ul>
+<h2 id="numeric-conversions">Numeric Conversions</h2>
+<ul>
+<li>Widening (safe): smaller range/precision to larger range/precision.</li>
+<li>Narrowing (risky): larger to smaller; may overflow, truncate, or throw at runtime if checked.</li>
+</ul>
+<h2 id="reference-conversions">Reference Conversions</h2>
+<ul>
+<li>Upcast (derived to base) is safe conceptually.</li>
+<li>Downcast (base to derived) requires runtime type compatibility.</li>
+</ul>
+<h2 id="boxingunboxing">Boxing/Unboxing</h2>
+<ul>
+<li>Boxing: wrapping a value type instance as an object to treat it as a reference type.</li>
+<li>Unboxing: extracting the value type from an object; requires the exact original value type.</li>
+<li>Performance note: boxing allocates on the heap and can pressure GC; avoid in hot paths.</li>
+</ul>
+<h2 id="best-practices-1">Best Practices</h2>
+<ul>
+<li>Prefer implicit conversions when they are guaranteed safe.</li>
+<li>Be explicit and intentional with narrowing conversions; validate ranges.</li>
+<li>Minimize boxing by using generics and avoiding APIs that require object.</li>
+</ul>
+<h2 id="read-more">Read More</h2>
+<ul>
+<li>Microsoft Docs: Conversions in C#: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/numeric-conversions">https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/numeric-conversions</a></li>
+<li>Microsoft Docs: Boxing and Unboxing: <a href="https://learn.microsoft.com/dotnet/csharp/programming-guide/types/boxing-and-unboxing">https://learn.microsoft.com/dotnet/csharp/programming-guide/types/boxing-and-unboxing</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="namespaces-in-c">Namespaces in C#</h1>
+<h1 id="namespaces-in-c-1">Namespaces in C#</h1>
+<h2 id="purpose-of-namespaces">Purpose of Namespaces</h2>
+<p>Namespaces organize types and prevent naming collisions across libraries and projects.</p>
+<h2 id="key-concepts">Key Concepts</h2>
+<ul>
+<li>Logical grouping: types with related purpose live together.</li>
+<li>Disambiguation: identical type names can coexist in different namespaces.</li>
+<li>Using directives: bring a namespace into scope to shorten type names.</li>
+<li>Aliases: assign a local alias to a type or namespace to avoid ambiguity.</li>
+</ul>
+<h2 id="design-tips">Design Tips</h2>
+<ul>
+<li>Mirror folder structure with namespaces for clarity.</li>
+<li>Use company/product root (e.g., Company.Product.Module).</li>
+<li>Avoid deep nesting unless it communicates meaningful boundaries.</li>
+</ul>
+<h2 id="read-more-1">Read More</h2>
+<ul>
+<li>Microsoft Docs: Namespaces: <a href="https://learn.microsoft.com/dotnet/csharp/fundamentals/types/namespaces">https://learn.microsoft.com/dotnet/csharp/fundamentals/types/namespaces</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="branching-in-c-ifelse-switch">Branching in C# (if/else, switch)</h1>
+<h1 id="branching-in-c-ifelse-switch-1">Branching in C# (if/else, switch)</h1>
+<h2 id="when-to-branch">When to Branch</h2>
+<p>Branching selects different execution paths based on conditions.</p>
+<h2 id="if-else">if / else</h2>
+<ul>
+<li>Evaluate a boolean condition to choose a path.</li>
+<li>Multiple else-if blocks support more than two choices.</li>
+</ul>
+<h2 id="switch">switch</h2>
+<ul>
+<li>Good for discrete choices based on a single value.</li>
+<li>Pattern matching expands switch power (types, ranges, conditions) while staying readable.</li>
+</ul>
+<h2 id="best-practices-2">Best Practices</h2>
+<ul>
+<li>Keep conditions simple and intention-revealing.</li>
+<li>Prefer switch for many discrete cases; avoid long if/else chains.</li>
+<li>Extract complex conditions into well-named helpers for readability and reuse.</li>
+</ul>
+<h2 id="read-more-2">Read More</h2>
+<ul>
+<li>Microsoft Docs: if-else: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/statements/selection-statements">https://learn.microsoft.com/dotnet/csharp/language-reference/statements/selection-statements</a></li>
+<li>Microsoft Docs: switch and pattern matching: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/operators/switch-expression">https://learn.microsoft.com/dotnet/csharp/language-reference/operators/switch-expression</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="looping-in-c-for-while-foreach">Looping in C# (for, while, foreach)</h1>
+<h1 id="looping-in-c-for-while-foreach-1">Looping in C# (for, while, foreach)</h1>
+<h2 id="why-loops">Why Loops</h2>
+<p>Loops repeat work over a sequence or until a condition changes.</p>
+<h2 id="for-while">for / while</h2>
+<ul>
+<li>for: use when you control an index and have clear start/stop/step.</li>
+<li>while: use when you loop until a condition becomes false.</li>
+</ul>
+<h2 id="foreach">foreach</h2>
+<ul>
+<li>Iterates elements of a collection in sequence order.</li>
+<li>Emphasizes the element rather than index bookkeeping.</li>
+</ul>
+<h2 id="pitfalls-and-tips">Pitfalls and Tips</h2>
+<ul>
+<li>Avoid off-by-one errors by defining inclusive/exclusive bounds explicitly.</li>
+<li>Ensure loop termination; mutate conditions correctly.</li>
+<li>Prefer foreach for readability when indexing isn't needed.</li>
+</ul>
+<h2 id="read-more-3">Read More</h2>
+<ul>
+<li>Microsoft Docs: Iteration statements: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/statements/iteration-statements">https://learn.microsoft.com/dotnet/csharp/language-reference/statements/iteration-statements</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="common-language-runtime-clr">Common Language Runtime (CLR)</h1>
+<h1 id="common-language-runtime-clr-1">Common Language Runtime (CLR)</h1>
+<h2 id="role-of-clr">Role of CLR</h2>
+<ul>
+<li>Executes .NET code (IL -&gt; native) via Just-In-Time (JIT) compilation.</li>
+<li>Provides memory management (GC), type safety, security, and exceptions.</li>
+</ul>
+<h2 id="key-services">Key Services</h2>
+<ul>
+<li>Garbage Collection (automatic memory reclamation)</li>
+<li>JIT Compilation and Tiered JIT</li>
+<li>Type System and Metadata</li>
+<li>Assemblies and AppDomains (historical) / AssemblyLoadContext (modern)</li>
+</ul>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Performance, safety, interoperability, and deployment behavior all depend on CLR services.</p>
+<h2 id="read-more-4">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/standard/clr">https://learn.microsoft.com/dotnet/standard/clr</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="net-framework-class-library-bclfcl">.NET Framework Class Library (BCL/FCL)</h1>
+<h1 id="net-framework-class-library-bclfcl-1">.NET Framework Class Library (BCL/FCL)</h1>
+<h2 id="what-it-is">What It Is</h2>
+<p>The foundational library of types for collections, IO, networking, threading, etc.</p>
+<h2 id="common-namespaces">Common Namespaces</h2>
+<ul>
+<li>System, System.Collections.Generic</li>
+<li>System.IO, System.Net.Http</li>
+<li>System.Threading, System.Threading.Tasks</li>
+</ul>
+<h2 id="tips">Tips</h2>
+<p>Prefer BCL types before third-party libraries; they’re well-tested and supported.</p>
+<h2 id="read-more-5">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/standard/class-library-overview">https://learn.microsoft.com/dotnet/standard/class-library-overview</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="ide-setup-visual-studio-vs-code">IDE Setup (Visual Studio / VS Code)</h1>
+<h1 id="ide-setup-visual-studio-vs-code-1">IDE Setup (Visual Studio / VS Code)</h1>
+<h2 id="vs-code">VS Code</h2>
+<ul>
+<li>Install C# Dev Kit extension (and dependencies).</li>
+<li>Use dotnet SDK (<a href="https://dotnet.microsoft.com/download">https://dotnet.microsoft.com/download</a>).</li>
+</ul>
+<h2 id="visual-studio">Visual Studio</h2>
+<ul>
+<li>Install the &quot;.NET desktop development&quot; and &quot;.NET Web&quot; workloads as needed.</li>
+</ul>
+<h2 id="tips-1">Tips</h2>
+<ul>
+<li>Enable nullable reference types in projects for safer code.</li>
+<li>Use formatters and analyzers (EditorConfig, Roslyn analyzers).</li>
+</ul>
+<h2 id="read-more-6">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/core/tutorials/with-visual-studio">https://learn.microsoft.com/dotnet/core/tutorials/with-visual-studio</a></li>
+<li><a href="https://learn.microsoft.com/dotnet/core/tutorials/with-visual-studio-code">https://learn.microsoft.com/dotnet/core/tutorials/with-visual-studio-code</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="classes-and-objects">Classes and Objects</h1>
+<h1 id="classes-and-objects-1">Classes and Objects</h1>
+<h2 id="concepts">Concepts</h2>
+<ul>
+<li>Class: blueprint of state (fields/properties) and behavior (methods).</li>
+<li>Object: instance of a class with its own state.</li>
+<li>Constructors/Destructors: init/cleanup; destructors are rare in modern .NET.</li>
+<li>Properties/Indexers: encapsulate access; prefer auto-properties with validation as needed.</li>
+<li>Static Members: shared across all instances.</li>
+</ul>
+<h2 id="read-more-7">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/csharp/fundamentals/types/classes">https://learn.microsoft.com/dotnet/csharp/fundamentals/types/classes</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="oop-principles">OOP Principles</h1>
+<h1 id="oop-principles-1">OOP Principles</h1>
+<h2 id="encapsulation">Encapsulation</h2>
+<p>Hide implementation details; expose a clear interface.</p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Share and specialize behavior; avoid deep hierarchies.</p>
+<h2 id="polymorphism">Polymorphism</h2>
+<p>Same interface, different implementations (overloading vs overriding).</p>
+<h2 id="abstraction">Abstraction</h2>
+<p>Model only what’s essential using abstract classes or interfaces.</p>
+<h2 id="read-more-8">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/csharp/fundamentals/object-oriented/">https://learn.microsoft.com/dotnet/csharp/fundamentals/object-oriented/</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="advanced-oop">Advanced OOP</h1>
+<h1 id="advanced-oop-1">Advanced OOP</h1>
+<h2 id="structs-vs-classes">Structs vs Classes</h2>
+<ul>
+<li>Structs are value types (stack-friendly, small, immutable preferred).</li>
+</ul>
+<h2 id="enums-nested-types">Enums &amp; Nested Types</h2>
+<ul>
+<li>Enums for constrained sets; nested types for close coupling.</li>
+</ul>
+<h2 id="partial-types">Partial Types</h2>
+<ul>
+<li>Split type definitions across files for organization.</li>
+</ul>
+<h2 id="read-more-9">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/struct">https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/struct</a></li>
+<li><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/enum">https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/enum</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="built-in-collections">Built-in Collections</h1>
+<h1 id="built-in-collections-1">Built-in Collections</h1>
+<h2 id="core-types">Core Types</h2>
+<ul>
+<li>Arrays, List<T>, Dictionary&lt;TKey,TValue&gt;</li>
+<li>HashSet<T>, Queue<T>, Stack<T></li>
+<li>Concurrent collections for multi-threading scenarios</li>
+</ul>
+<h2 id="selection-tips">Selection Tips</h2>
+<ul>
+<li>List for ordered lists; Dictionary for key lookups; HashSet for uniqueness.</li>
+</ul>
+<h2 id="read-more-10">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/standard/collections/">https://learn.microsoft.com/dotnet/standard/collections/</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="custom-collections">Custom Collections</h1>
+<h1 id="custom-collections-1">Custom Collections</h1>
+<h2 id="implementing-ienumerable">Implementing IEnumerable</h2>
+<p>Expose sequences safely; favor yield for lazy iteration.</p>
+<h2 id="implementing-ilist">Implementing IList<T></h2>
+<p>Provide indexable, mutable collections when needed—consider complexity and invariants.</p>
+<h2 id="read-more-11">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1</a></li>
+<li><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="exception-handling">Exception Handling</h1>
+<h1 id="exception-handling-1">Exception Handling</h1>
+<h2 id="principles">Principles</h2>
+<ul>
+<li>Use exceptions for exceptional conditions, not flow control.</li>
+<li>try/catch/finally for handling and cleanup.</li>
+</ul>
+<h2 id="guidance">Guidance</h2>
+<ul>
+<li>Catch only what you can handle.</li>
+<li>Preserve stack traces; include context in messages.</li>
+</ul>
+<h2 id="read-more-12">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/csharp/fundamentals/exceptions/">https://learn.microsoft.com/dotnet/csharp/fundamentals/exceptions/</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="custom-exceptions">Custom Exceptions</h1>
+<h1 id="custom-exceptions-1">Custom Exceptions</h1>
+<h2 id="when-to-create-one">When to Create One</h2>
+<ul>
+<li>To represent domain-specific error conditions.</li>
+</ul>
+<h2 id="best-practices-3">Best Practices</h2>
+<ul>
+<li>Derive from Exception (or a relevant subclass).</li>
+<li>Be serializable; include useful constructors.</li>
+</ul>
+<h2 id="read-more-13">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/standard/exceptions/how-to-create-user-defined-exceptions">https://learn.microsoft.com/dotnet/standard/exceptions/how-to-create-user-defined-exceptions</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="debugging-techniques">Debugging Techniques</h1>
+<h1 id="debugging-techniques-1">Debugging Techniques</h1>
+<h2 id="tools">Tools</h2>
+<ul>
+<li>Breakpoints, Watches, Locals, Call Stack, Immediate Window.</li>
+<li>Logging for post-mortem analysis.</li>
+</ul>
+<h2 id="tips-2">Tips</h2>
+<ul>
+<li>Reproduce reliably; binary search the fault; isolate changes.</li>
+</ul>
+<h2 id="read-more-14">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/visualstudio/debugger/debugger-feature-tour">https://learn.microsoft.com/visualstudio/debugger/debugger-feature-tour</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="delegates-and-events">Delegates and Events</h1>
+<h1 id="delegates-and-events-1">Delegates and Events</h1>
+<h2 id="delegates">Delegates</h2>
+<p>Type-safe function pointers; Action/Func cover common signatures.</p>
+<h2 id="lambdas">Lambdas</h2>
+<p>Inline function expressions; capture variables (closures) with care.</p>
+<h2 id="events">Events</h2>
+<p>Publish/subscribe pattern for notifications.</p>
+<h2 id="read-more-15">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/csharp/programming-guide/delegates/">https://learn.microsoft.com/dotnet/csharp/programming-guide/delegates/</a></li>
+<li><a href="https://learn.microsoft.com/dotnet/csharp/programming-guide/events/">https://learn.microsoft.com/dotnet/csharp/programming-guide/events/</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="linq">LINQ</h1>
+<h1 id="linq-1">LINQ</h1>
+<h2 id="two-styles">Two Styles</h2>
+<ul>
+<li>Query syntax vs method syntax; both compile to the same operators.</li>
+</ul>
+<h2 id="key-concepts-1">Key Concepts</h2>
+<ul>
+<li>Deferred execution, filtering, projection, grouping, joining.</li>
+</ul>
+<h2 id="iqueryable-vs-ienumerable">IQueryable vs IEnumerable</h2>
+<ul>
+<li>IEnumerable executes in-memory; IQueryable can translate to remote providers.</li>
+</ul>
+<h2 id="read-more-16">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/csharp/programming-guide/concepts/linq/">https://learn.microsoft.com/dotnet/csharp/programming-guide/concepts/linq/</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="asynchronous-programming">Asynchronous Programming</h1>
+<h1 id="asynchronous-programming-1">Asynchronous Programming</h1>
+<h2 id="asyncawait">async/await</h2>
+<ul>
+<li>Compose asynchronous operations without blocking threads.</li>
+</ul>
+<h2 id="tasks-and-parallelism">Tasks and Parallelism</h2>
+<ul>
+<li>Task represents ongoing work; Parallel APIs for data parallelism.</li>
+</ul>
+<h2 id="cancellation-tokens">Cancellation Tokens</h2>
+<ul>
+<li>Cooperative cancellation via tokens passed to async operations.</li>
+</ul>
+<h2 id="read-more-17">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/csharp/asynchronous-programming/">https://learn.microsoft.com/dotnet/csharp/asynchronous-programming/</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="ado.net">ADO.NET</h1>
+<h1 id="ado.net-1">ADO.NET</h1>
+<h2 id="connected-vs-disconnected">Connected vs Disconnected</h2>
+<ul>
+<li>Connected: direct commands and readers over open connections.</li>
+<li>Disconnected: DataSet/DataTable for offline manipulation.</li>
+</ul>
+<h2 id="transactions">Transactions</h2>
+<ul>
+<li>Ensure atomicity across multiple operations.</li>
+</ul>
+<h2 id="read-more-18">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/framework/data/adonet/ado-net-overview">https://learn.microsoft.com/dotnet/framework/data/adonet/ado-net-overview</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="entity-framework-core">Entity Framework Core</h1>
+<h1 id="entity-framework-core-1">Entity Framework Core</h1>
+<h2 id="approaches">Approaches</h2>
+<ul>
+<li>Code-First vs Database-First; migrations manage schema changes.</li>
+</ul>
+<h2 id="tips-3">Tips</h2>
+<ul>
+<li>Use DbContext lifetime appropriately; track changes intentionally.</li>
+</ul>
+<h2 id="read-more-19">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/ef/core/">https://learn.microsoft.com/ef/core/</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="file-io">File I/O</h1>
+<h1 id="file-io-1">File I/O</h1>
+<h2 id="streams">Streams</h2>
+<ul>
+<li>FileStream/MemoryStream are building blocks for reading/writing.</li>
+</ul>
+<h2 id="serialization">Serialization</h2>
+<ul>
+<li>JSON, XML, Binary trade-offs: interoperability, performance, fidelity.</li>
+</ul>
+<h2 id="read-more-20">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/standard/io/">https://learn.microsoft.com/dotnet/standard/io/</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="wpf-xaml-basics">WPF: XAML Basics</h1>
+<h1 id="wpf-xaml-basics-1">WPF: XAML Basics</h1>
+<h2 id="layouts">Layouts</h2>
+<ul>
+<li>Grid, StackPanel for arranging controls.</li>
+</ul>
+<h2 id="controls">Controls</h2>
+<ul>
+<li>Buttons, TextBox, and common controls.</li>
+</ul>
+<h2 id="data-binding">Data Binding</h2>
+<ul>
+<li>INotifyPropertyChanged for reactive UI.</li>
+</ul>
+<h2 id="read-more-21">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/desktop/wpf/xaml-services/?view=netdesktop-8.0">https://learn.microsoft.com/dotnet/desktop/wpf/xaml-services/?view=netdesktop-8.0</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="wpf-advanced">WPF: Advanced</h1>
+<h1 id="wpf-advanced-1">WPF: Advanced</h1>
+<h2 id="styles-and-templates">Styles and Templates</h2>
+<ul>
+<li>Separate look from behavior; reuse visuals.</li>
+</ul>
+<h2 id="commands">Commands</h2>
+<ul>
+<li>ICommand to decouple UI actions from handlers.</li>
+</ul>
+<h2 id="mvvm-pattern">MVVM Pattern</h2>
+<ul>
+<li>Model-View-ViewModel for testable, maintainable UI.</li>
+</ul>
+<h2 id="read-more-22">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/desktop/wpf/get-started/create-app-visual-studio">https://learn.microsoft.com/dotnet/desktop/wpf/get-started/create-app-visual-studio</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="asp.net-core-fundamentals">ASP.NET Core Fundamentals</h1>
+<h1 id="asp.net-core-fundamentals-1">ASP.NET Core Fundamentals</h1>
+<h2 id="middleware-pipeline">Middleware Pipeline</h2>
+<ul>
+<li>Request flows through configurable components.</li>
+</ul>
+<h2 id="razor-pages-vs-mvc">Razor Pages vs MVC</h2>
+<ul>
+<li>Pages for page-centric apps; MVC for controllers/views.</li>
+</ul>
+<h2 id="web-api">Web API</h2>
+<ul>
+<li>Build RESTful endpoints; content negotiation and model binding.</li>
+</ul>
+<h2 id="read-more-23">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/aspnet/core/">https://learn.microsoft.com/aspnet/core/</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="blazor">Blazor</h1>
+<h1 id="blazor-1">Blazor</h1>
+<h2 id="components-and-binding">Components and Binding</h2>
+<ul>
+<li>Reusable components; bind to data and events.</li>
+</ul>
+<h2 id="hosting-models">Hosting Models</h2>
+<ul>
+<li>Server vs WebAssembly; trade-offs in latency and capabilities.</li>
+</ul>
+<h2 id="dependency-injection">Dependency Injection</h2>
+<ul>
+<li>Built-in DI for services and state.</li>
+</ul>
+<h2 id="read-more-24">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/aspnet/core/blazor/">https://learn.microsoft.com/aspnet/core/blazor/</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="web-security">Web Security</h1>
+<h1 id="web-security-1">Web Security</h1>
+<h2 id="authentication">Authentication</h2>
+<ul>
+<li>Cookies, JWT, external providers.</li>
+</ul>
+<h2 id="authorization">Authorization</h2>
+<ul>
+<li>Role- and policy-based strategies.</li>
+</ul>
+<h2 id="transport-cross-origin">Transport &amp; Cross-Origin</h2>
+<ul>
+<li>HTTPS everywhere; CORS for cross-origin requests.</li>
+</ul>
+<h2 id="read-more-25">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/aspnet/core/security/">https://learn.microsoft.com/aspnet/core/security/</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="xamarin.forms">Xamarin.Forms</h1>
+<h1 id="xamarin.forms-1">Xamarin.Forms</h1>
+<h2 id="xaml-layouts">XAML Layouts</h2>
+<ul>
+<li>Build UI using XAML markup and controls.</li>
+</ul>
+<h2 id="navigation">Navigation</h2>
+<ul>
+<li>Master-Detail, Tabs, and navigation stacks.</li>
+</ul>
+<h2 id="read-more-26">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/xamarin/xamarin-forms/">https://learn.microsoft.com/xamarin/xamarin-forms/</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="mobile-features">Mobile Features</h1>
+<h1 id="mobile-features-1">Mobile Features</h1>
+<h2 id="local-storage">Local Storage</h2>
+<ul>
+<li>SQLite.NET for on-device data.</li>
+</ul>
+<h2 id="platform-specific-code">Platform-Specific Code</h2>
+<ul>
+<li>DependencyService/Handlers for native features.</li>
+</ul>
+<h2 id="oauth-2.0">OAuth 2.0</h2>
+<ul>
+<li>Secure auth with external identity providers.</li>
+</ul>
+<h2 id="read-more-27">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/xamarin/">https://learn.microsoft.com/xamarin/</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="cloud-deployment">Cloud Deployment</h1>
+<h1 id="cloud-deployment-1">Cloud Deployment</h1>
+<h2 id="options">Options</h2>
+<ul>
+<li>Azure App Service, Docker containers, AWS Elastic Beanstalk.</li>
+</ul>
+<h2 id="considerations">Considerations</h2>
+<ul>
+<li>Configuration, secrets, logging, scaling.</li>
+</ul>
+<h2 id="read-more-28">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/azure/app-service/">https://learn.microsoft.com/azure/app-service/</a></li>
+<li><a href="https://docs.docker.com/get-started/">https://docs.docker.com/get-started/</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="cicd-pipelines">CI/CD Pipelines</h1>
+<h1 id="cicd-pipelines-1">CI/CD Pipelines</h1>
+<h2 id="tools-1">Tools</h2>
+<ul>
+<li>GitHub Actions, Azure DevOps Pipelines.</li>
+</ul>
+<h2 id="practices">Practices</h2>
+<ul>
+<li>Build/test on each push; versioning; automated deployments.</li>
+</ul>
+<h2 id="read-more-29">Read More</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/azure/devops/pipelines/">https://learn.microsoft.com/azure/devops/pipelines/</a></li>
+<li><a href="https://docs.github.com/actions">https://docs.github.com/actions</a></li>
+</ul>
+<div class="page-break"></div>
+
+</body>
+</html>
