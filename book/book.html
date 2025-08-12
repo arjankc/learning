@@ -26,6 +26,7 @@
 <li><a href="01-csharp-basics/04-namespaces.md">Namespaces in C#</a></li>
 <li><a href="02-flow-control/01-branching.md">Branching in C# (if/else, switch)</a></li>
 <li><a href="02-flow-control/02-looping.md">Looping in C# (for, while, foreach)</a></li>
+<li><a href="02-flow-control/03-iterators.md">Iterators and <code>yield</code></a></li>
 <li><a href="03-dotnet-ecosystem/01-clr.md">Common Language Runtime (CLR)</a></li>
 <li><a href="03-dotnet-ecosystem/02-fcl.md">.NET Framework Class Library (BCL/FCL)</a></li>
 <li><a href="03-dotnet-ecosystem/03-ide-setup.md">IDE Setup (Visual Studio / VS Code)</a></li>
@@ -71,6 +72,27 @@
 </ul>
 <h2 id="why-is-this-important">Why is this important?</h2>
 <p>Understanding the difference helps you predict how your data will behave when passed to methods or assigned to new variables, which is essential for writing bug-free code.</p>
+<h2 id="examples">Examples</h2>
+<p>Value copy vs reference sharing:</p>
+<pre><code class="language-csharp">// Value types: copy the value
+int a = 42;
+int b = a;    // copy
+b++;
+// a == 42, b == 43
+
+// Reference types: copy the reference
+int[] arr1 = { 1, 2, 3 };
+int[] arr2 = arr1;  // same reference
+arr2[0] = 99;
+// arr1[0] == 99 and arr2[0] == 99
+
+// Strings are reference types but immutable
+string s1 = &quot;hello&quot;;
+string s2 = s1;
+s2 = s2.ToUpperInvariant();
+// s1 == &quot;hello&quot; (unchanged), s2 == &quot;HELLO&quot;
+</code></pre>
+<p>Tip: prefer small, immutable structs for simple data; use classes for entities with identity and shared references.</p>
 <h2 id="further-reading">Further Reading</h2>
 <ul>
 <li>Microsoft Docs: Types in C#: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/built-in-types">https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/built-in-types</a></li>
@@ -98,6 +120,23 @@
 </ul>
 <h2 id="expressions">Expressions</h2>
 <p>An expression is a combination of variables, values, and operators that produces a result. For example, a + b is an expression that adds two variables.</p>
+<h3 id="examples-1">Examples</h3>
+<p>Declarations and arithmetic:</p>
+<pre><code class="language-csharp">int x = 10, y = 3;
+int sum = x + y;     // 13
+int product = x * y; // 30
+int quotient = x / y;  // 3 (integer division)
+int remainder = x % y; // 1
+</code></pre>
+<p>Comparison and logical:</p>
+<pre><code class="language-csharp">bool isGreater = x &gt; y;              // true
+bool bothPositive = (x &gt; 0) &amp;&amp; (y &gt; 0); // true
+bool eitherLarge = (x &gt;= 10) || (y &gt;= 10); // true
+</code></pre>
+<p>Precedence and grouping:</p>
+<pre><code class="language-csharp">int result = x + y * 2;   // 10 + 3*2 = 16
+int clearer = (x + y) * 2; // 26
+</code></pre>
 <h2 id="best-practices">Best Practices</h2>
 <ul>
 <li>Use meaningful variable names.</li>
@@ -143,6 +182,31 @@
 <li>Be explicit and intentional with narrowing conversions; validate ranges.</li>
 <li>Minimize boxing by using generics and avoiding APIs that require object.</li>
 </ul>
+<h2 id="examples-2">Examples</h2>
+<p>Implicit vs explicit and overflow checking:</p>
+<pre><code class="language-csharp">int small = 123;
+long bigger = small; // implicit widening
+
+double pi = 3.14;
+int truncated = (int)pi; // explicit narrowing =&gt; 3
+
+try
+{
+	checked
+	{
+		int max = int.MaxValue;
+		int overflow = max + 1; // throws OverflowException in checked context
+	}
+}
+catch (OverflowException)
+{
+	// handle
+}
+
+// Boxing/unboxing
+object boxed = small;         // boxing
+int unboxed = (int)boxed;     // unboxing
+</code></pre>
 <h2 id="read-more">Read More</h2>
 <ul>
 <li>Microsoft Docs: Conversions in C#: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/numeric-conversions">https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/numeric-conversions</a></li>
@@ -167,6 +231,23 @@
 <li>Use company/product root (e.g., Company.Product.Module).</li>
 <li>Avoid deep nesting unless it communicates meaningful boundaries.</li>
 </ul>
+<h2 id="examples-3">Examples</h2>
+<p>Using directives and aliases:</p>
+<pre><code class="language-csharp">using System.Text;                 // bring types into scope
+using Col = System.Collections.Generic; // alias
+
+namespace Demo.Project;
+
+public class Example
+{
+	public string JoinWords(Col.List&lt;string&gt; words)
+		=&gt; string.Join(' ', words);
+}
+</code></pre>
+<p>Disambiguation with fully-qualified names:</p>
+<pre><code class="language-csharp">// If two types have the same name in different namespaces
+global::System.Uri uri = new(&quot;https://example.com&quot;);
+</code></pre>
 <h2 id="read-more-1">Read More</h2>
 <ul>
 <li>Microsoft Docs: Namespaces: <a href="https://learn.microsoft.com/dotnet/csharp/fundamentals/types/namespaces">https://learn.microsoft.com/dotnet/csharp/fundamentals/types/namespaces</a></li>
@@ -175,23 +256,63 @@
 <hr />
 <h1 id="branching-in-c-ifelse-switch">Branching in C# (if/else, switch)</h1>
 <h1 id="branching-in-c-ifelse-switch-1">Branching in C# (if/else, switch)</h1>
-<h2 id="when-to-branch">When to Branch</h2>
-<p>Branching selects different execution paths based on conditions.</p>
+<h2 id="what-and-why">What and Why</h2>
+<p>Branching lets a program choose different execution paths based on conditions. It’s fundamental to decision-making logic and input validation.</p>
 <h2 id="if-else">if / else</h2>
 <ul>
 <li>Evaluate a boolean condition to choose a path.</li>
-<li>Multiple else-if blocks support more than two choices.</li>
+<li>Chain with else if for multiple cases; prefer early returns (guard clauses) for readability.</li>
 </ul>
+<p>Example:</p>
+<pre><code class="language-csharp">int score = 78;
+if (score &lt; 0 || score &gt; 100)
+{
+	throw new ArgumentOutOfRangeException(nameof(score));
+}
+else if (score &gt;= 90)
+{
+	Console.WriteLine(&quot;A&quot;);
+}
+else if (score &gt;= 80)
+{
+	Console.WriteLine(&quot;B&quot;);
+}
+else
+{
+	Console.WriteLine(&quot;C or below&quot;);
+}
+</code></pre>
 <h2 id="switch">switch</h2>
 <ul>
 <li>Good for discrete choices based on a single value.</li>
-<li>Pattern matching expands switch power (types, ranges, conditions) while staying readable.</li>
+<li>Pattern matching unlocks matching on types, ranges, and conditions.</li>
 </ul>
+<p>Examples:</p>
+<pre><code class="language-csharp">string GradeCategory(int score) =&gt; score switch
+{
+	&gt;= 90 =&gt; &quot;Excellent&quot;,
+	&gt;= 80 =&gt; &quot;Good&quot;,
+	&gt;= 70 =&gt; &quot;Fair&quot;,
+	_ =&gt; &quot;Needs Improvement&quot;
+};
+
+// Type pattern example
+string Describe(object o) =&gt; o switch
+{
+	null =&gt; &quot;null&quot;,
+	string s when s.Length == 0 =&gt; &quot;empty string&quot;,
+	string s =&gt; $&quot;string of length {s.Length}&quot;,
+	int n =&gt; $&quot;int {n}&quot;,
+	_ =&gt; o.GetType().Name
+};
+</code></pre>
 <h2 id="best-practices-2">Best Practices</h2>
 <ul>
 <li>Keep conditions simple and intention-revealing.</li>
 <li>Prefer switch for many discrete cases; avoid long if/else chains.</li>
 <li>Extract complex conditions into well-named helpers for readability and reuse.</li>
+<li>Avoid duplication: compute a value once and reuse it.</li>
+<li>Use guard clauses to fail fast when inputs are invalid.</li>
 </ul>
 <h2 id="read-more-2">Read More</h2>
 <ul>
@@ -202,28 +323,163 @@
 <hr />
 <h1 id="looping-in-c-for-while-foreach">Looping in C# (for, while, foreach)</h1>
 <h1 id="looping-in-c-for-while-foreach-1">Looping in C# (for, while, foreach)</h1>
-<h2 id="why-loops">Why Loops</h2>
-<p>Loops repeat work over a sequence or until a condition changes.</p>
+<h2 id="what-and-why-1">What and Why</h2>
+<p>Loops repeat work over a sequence or until a condition changes. They help process collections, perform retries, and implement state machines.</p>
 <h2 id="for-while">for / while</h2>
 <ul>
 <li>for: use when you control an index and have clear start/stop/step.</li>
 <li>while: use when you loop until a condition becomes false.</li>
 </ul>
+<p>Examples:</p>
+<pre><code class="language-csharp">int total = 0;
+for (int i = 1; i &lt;= 3; i++)
+{
+	total += i; // 1+2+3
+}
+
+int n = 3;
+while (n &gt; 0)
+{
+	n--; // 3,2,1 -&gt; stop when 0
+}
+</code></pre>
 <h2 id="foreach">foreach</h2>
 <ul>
 <li>Iterates elements of a collection in sequence order.</li>
 <li>Emphasizes the element rather than index bookkeeping.</li>
 </ul>
+<pre><code class="language-csharp">var items = new[] { &quot;a&quot;, &quot;b&quot;, &quot;c&quot; };
+foreach (var it in items)
+{
+	Console.WriteLine(it);
+}
+</code></pre>
 <h2 id="pitfalls-and-tips">Pitfalls and Tips</h2>
 <ul>
 <li>Avoid off-by-one errors by defining inclusive/exclusive bounds explicitly.</li>
 <li>Ensure loop termination; mutate conditions correctly.</li>
 <li>Prefer foreach for readability when indexing isn't needed.</li>
+<li>Use break/continue judiciously; they can simplify control flow but overuse harms clarity.</li>
 </ul>
+<pre><code class="language-csharp">foreach (var word in words)
+{
+	if (string.IsNullOrWhiteSpace(word)) continue; // skip blanks
+	if (word == &quot;STOP&quot;) break;                    // early exit
+	Console.WriteLine(word);
+}
+</code></pre>
 <h2 id="read-more-3">Read More</h2>
 <ul>
 <li>Microsoft Docs: Iteration statements: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/statements/iteration-statements">https://learn.microsoft.com/dotnet/csharp/language-reference/statements/iteration-statements</a></li>
 </ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="iterators-and-yield">Iterators and <code>yield</code></h1>
+<h1 id="iterators-and-yield-1">Iterators and <code>yield</code></h1>
+<p>Iterators generate sequence elements on demand with minimal memory and clear code. In C#, you implement iterators with <code>yield return</code> and <code>yield break</code>, and the compiler builds the underlying state machine for <code>IEnumerable</code>/<code>IEnumerator</code>.</p>
+<h2 id="when-to-use">When to use</h2>
+<ul>
+<li>Stream large or expensive data lazily (avoid loading everything into memory).</li>
+<li>Compose pipelines (filter, map) without intermediate allocations.</li>
+<li>Model infinite or open-ended sequences safely.</li>
+</ul>
+<h2 id="the-iterator-contract">The iterator contract</h2>
+<ul>
+<li><code>IEnumerable&lt;T&gt;.GetEnumerator()</code> returns an <code>IEnumerator&lt;T&gt;</code>.</li>
+<li><code>IEnumerator&lt;T&gt;</code> has <code>bool MoveNext()</code>, <code>T Current { get; }</code>, and <code>void Reset()</code> (rarely used), plus <code>IDisposable</code>.</li>
+<li>An iterator method that uses <code>yield</code> implicitly implements this contract for you.</li>
+</ul>
+<h2 id="basics-yield-return-and-yield-break">Basics: <code>yield return</code> and <code>yield break</code></h2>
+<pre><code class="language-csharp">IEnumerable&lt;int&gt; FirstN(int count)
+{
+    for (int i = 1; i &lt;= count; i++)
+        yield return i; // execution suspends here until next MoveNext()
+}
+
+// End a sequence early
+IEnumerable&lt;int&gt; OddsUntil(int limit)
+{
+    for (int i = 1; ; i += 2)
+    {
+        if (i &gt; limit) yield break;
+        yield return i;
+    }
+}
+</code></pre>
+<p>Usage:</p>
+<pre><code class="language-csharp">foreach (var n in FirstN(3))
+    Console.WriteLine(n); // 1 2 3
+
+Console.WriteLine(string.Join(&quot;, &quot;, OddsUntil(7))); // 1, 3, 5, 7
+</code></pre>
+<h2 id="real-world-lazy-file-processing">Real-world: lazy file processing</h2>
+<p>Prefer <code>File.ReadLines</code> (lazy) to <code>ReadAllLines</code> (eager) for large files.</p>
+<pre><code class="language-csharp">IEnumerable&lt;string&gt; ErrorLines(string path)
+{
+    foreach (var line in File.ReadLines(path)) // streams lines lazily
+        if (line.Contains(&quot;ERROR&quot;))
+            yield return line;
+}
+
+// Consumers can bail early without reading the whole file
+var firstError = ErrorLines(&quot;app.log&quot;).FirstOrDefault();
+</code></pre>
+<h2 id="composing-iterators">Composing iterators</h2>
+<pre><code class="language-csharp">IEnumerable&lt;int&gt; Range(int start, int count)
+{
+    for (int i = 0; i &lt; count; i++)
+        yield return start + i;
+}
+
+IEnumerable&lt;int&gt; Squares(IEnumerable&lt;int&gt; numbers)
+{
+    foreach (var n in numbers)
+        yield return n * n;
+}
+
+var firstFiveSquares = Squares(Range(1, 5)); // 1, 4, 9, 16, 25
+</code></pre>
+<h2 id="state-exceptions-and-cleanup">State, exceptions, and cleanup</h2>
+<ul>
+<li>State machine: Local variables are preserved between <code>yield return</code>s.</li>
+<li>Exceptions thrown inside the iterator surface at enumeration time (when <code>MoveNext()</code> runs).</li>
+<li>Use <code>try/finally</code> to guarantee cleanup at the end of enumeration.</li>
+</ul>
+<pre><code class="language-csharp">IEnumerable&lt;string&gt; ReadLinesWithFooter(string path)
+{
+    using var reader = new StreamReader(path);
+    string? line;
+    try
+    {
+        while ((line = reader.ReadLine()) is not null)
+            yield return line;
+    }
+    finally
+    {
+        yield return &quot;-- EOF --&quot;; // allowed: finally runs on normal or early termination
+    }
+}
+</code></pre>
+<p>Note: In iterators, <code>using</code> translates to <code>try/finally</code> so the resource is disposed when enumeration completes or is abandoned.</p>
+<h2 id="common-pitfalls-and-tips">Common pitfalls and tips</h2>
+<ul>
+<li>Multiple enumeration repeats work. If you need to iterate multiple times, materialize once: <code>var cache = source.ToList();</code>.</li>
+<li>Side effects happen on enumeration, not declaration. Be mindful when passing an <code>IEnumerable&lt;T&gt;</code> around.</li>
+<li>Don’t capture mutable outer variables you later change; it can lead to confusing results.</li>
+<li>Prefer returning <code>IEnumerable&lt;T&gt;</code> over concrete collections when laziness is desired.</li>
+</ul>
+<h2 id="async-streams-brief">Async streams (brief)</h2>
+<p>For async producers/consumers, use <code>IAsyncEnumerable&lt;T&gt;</code> with <code>await foreach</code> and <code>yield return</code> in <code>async</code> iterator methods.</p>
+<pre><code class="language-csharp">async IAsyncEnumerable&lt;int&gt; Tick(int intervalMs, [EnumeratorCancellation] CancellationToken ct = default)
+{
+    int i = 0;
+    while (!ct.IsCancellationRequested)
+    {
+        await Task.Delay(intervalMs, ct);
+        yield return ++i;
+    }
+}
+</code></pre>
 <div class="page-break"></div>
 <hr />
 <h1 id="common-language-runtime-clr">Common Language Runtime (CLR)</h1>
@@ -291,15 +547,97 @@
 <hr />
 <h1 id="classes-and-objects">Classes and Objects</h1>
 <h1 id="classes-and-objects-1">Classes and Objects</h1>
-<h2 id="concepts">Concepts</h2>
-<ul>
-<li>Class: blueprint of state (fields/properties) and behavior (methods).</li>
-<li>Object: instance of a class with its own state.</li>
-<li>Constructors/Destructors: init/cleanup; destructors are rare in modern .NET.</li>
-<li>Properties/Indexers: encapsulate access; prefer auto-properties with validation as needed.</li>
-<li>Static Members: shared across all instances.</li>
-</ul>
-<h2 id="read-more-7">Read More</h2>
+<p>Classes model state and behavior; objects are instances with their own state. Prefer small, cohesive classes with clear responsibilities.</p>
+<h2 id="anatomy-of-a-class">Anatomy of a class</h2>
+<pre><code class="language-csharp">public class BankAccount
+{
+	private decimal _balance;              // encapsulated field
+	public string Owner { get; }           // init-only via constructor
+	public decimal Balance =&gt; _balance;    // read-only property (expression-bodied)
+
+	public BankAccount(string owner, decimal openingBalance = 0)
+	{
+		Owner = owner ?? throw new ArgumentNullException(nameof(owner));
+		if (openingBalance &lt; 0) throw new ArgumentOutOfRangeException(nameof(openingBalance));
+		_balance = openingBalance;
+	}
+
+	public void Deposit(decimal amount)
+	{
+		if (amount &lt;= 0) throw new ArgumentOutOfRangeException(nameof(amount));
+		_balance += amount;
+	}
+
+	public bool TryWithdraw(decimal amount)
+	{
+		if (amount &lt;= 0) return false;
+		if (amount &gt; _balance) return false;
+		_balance -= amount;
+		return true;
+	}
+}
+
+// Usage
+var acct = new BankAccount(&quot;Alice&quot;, 100m);
+acct.Deposit(50m);
+Console.WriteLine(acct.Balance); // 150
+</code></pre>
+<h2 id="properties-init-only-and-validation">Properties, init-only, and validation</h2>
+<pre><code class="language-csharp">public class Person
+{
+	private int _age;
+	public string FirstName { get; init; } = string.Empty; // init-only at construction
+	public string LastName  { get; init; } = string.Empty;
+	public int Age
+	{
+		get =&gt; _age;
+		set =&gt; _age = value &gt;= 0 ? value : throw new ArgumentOutOfRangeException();
+	}
+}
+
+var p = new Person { FirstName = &quot;Ada&quot;, LastName = &quot;Lovelace&quot;, Age = 28 };
+</code></pre>
+<h2 id="indexers-and-static-members">Indexers and static members</h2>
+<pre><code class="language-csharp">public class WordBag
+{
+	private readonly Dictionary&lt;string,int&gt; _counts = new(StringComparer.OrdinalIgnoreCase);
+	public int this[string word]
+	{
+		get =&gt; _counts.TryGetValue(word, out var c) ? c : 0;
+		set =&gt; _counts[word] = value;
+	}
+
+	public static WordBag FromText(string text)
+	{
+		var bag = new WordBag();
+		foreach (var w in text.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+			bag[w]++;
+		return bag;
+	}
+}
+
+var bag = WordBag.FromText(&quot;to be or not to be&quot;);
+Console.WriteLine(bag[&quot;be&quot;]); // 1
+</code></pre>
+<h2 id="records-for-immutable-data-models">Records for immutable data models</h2>
+<pre><code class="language-csharp">public record Customer(string Id, string Name);
+
+var c1 = new Customer(&quot;42&quot;, &quot;Dana&quot;);
+var c2 = c1 with { Name = &quot;Dana S.&quot; }; // non-destructive mutation
+Console.WriteLine(c1 == c2); // false (value equality)
+</code></pre>
+<h2 id="object-initialization-and-deconstruction">Object initialization and deconstruction</h2>
+<pre><code class="language-csharp">public class Point
+{
+	public int X { get; init; }
+	public int Y { get; init; }
+	public void Deconstruct(out int x, out int y) { x = X; y = Y; }
+}
+
+var pt = new Point { X = 3, Y = 4 };
+var (x, y) = pt; // x=3, y=4
+</code></pre>
+<h2 id="read-more-7">Read more</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/dotnet/csharp/fundamentals/types/classes">https://learn.microsoft.com/dotnet/csharp/fundamentals/types/classes</a></li>
 </ul>
@@ -307,14 +645,69 @@
 <hr />
 <h1 id="oop-principles">OOP Principles</h1>
 <h1 id="oop-principles-1">OOP Principles</h1>
+<p>Core pillars: Encapsulation, Inheritance, Polymorphism, and Abstraction. Favor composition over deep inheritance chains.</p>
 <h2 id="encapsulation">Encapsulation</h2>
-<p>Hide implementation details; expose a clear interface.</p>
-<h2 id="inheritance">Inheritance</h2>
-<p>Share and specialize behavior; avoid deep hierarchies.</p>
+<p>Hide state, expose behavior with invariants enforced inside the type.</p>
+<pre><code class="language-csharp">public class Thermostat
+{
+	private double _temperature;
+	public double Temperature
+	{
+		get =&gt; _temperature;
+		set =&gt; _temperature = Math.Clamp(value, 10, 30); // keep within safe range
+	}
+}
+</code></pre>
+<h2 id="inheritance-use-sparingly">Inheritance (use sparingly)</h2>
+<pre><code class="language-csharp">public abstract class Shape { public abstract double Area(); }
+public class Rectangle : Shape
+{
+	public double Width { get; init; }
+	public double Height { get; init; }
+	public override double Area() =&gt; Width * Height;
+}
+public class Circle : Shape
+{
+	public double Radius { get; init; }
+	public override double Area() =&gt; Math.PI * Radius * Radius;
+}
+
+Shape s = new Circle { Radius = 2 };
+Console.WriteLine(s.Area());
+</code></pre>
 <h2 id="polymorphism">Polymorphism</h2>
-<p>Same interface, different implementations (overloading vs overriding).</p>
+<p>Overriding via virtual/abstract methods; interface-based polymorphism preferred for decoupling.</p>
+<pre><code class="language-csharp">public interface IPrinter { void Print(string message); }
+public class ConsolePrinter : IPrinter { public void Print(string m) =&gt; Console.WriteLine(m); }
+public class UpperCasePrinter : IPrinter { public void Print(string m) =&gt; Console.WriteLine(m.ToUpperInvariant()); }
+
+void Notify(IPrinter printer) =&gt; printer.Print(&quot;Hello&quot;);
+</code></pre>
 <h2 id="abstraction">Abstraction</h2>
-<p>Model only what’s essential using abstract classes or interfaces.</p>
+<p>Express intent without committing to details.</p>
+<pre><code class="language-csharp">public interface IRepository&lt;T&gt;
+{
+	T? Get(string id);
+	void Add(T entity);
+}
+</code></pre>
+<h2 id="composition-over-inheritance">Composition over inheritance</h2>
+<pre><code class="language-csharp">public class CachedRepository&lt;T&gt; : IRepository&lt;T&gt;
+{
+	private readonly IRepository&lt;T&gt; _inner;
+	private readonly Dictionary&lt;string,T&gt; _cache = new();
+	public CachedRepository(IRepository&lt;T&gt; inner) =&gt; _inner = inner;
+
+	public T? Get(string id)
+	{
+		if (_cache.TryGetValue(id, out var v)) return v;
+		var e = _inner.Get(id);
+		if (e is not null) _cache[id] = e;
+		return e;
+	}
+	public void Add(T entity) =&gt; _inner.Add(entity);
+}
+</code></pre>
 <h2 id="read-more-8">Read More</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/dotnet/csharp/fundamentals/object-oriented/">https://learn.microsoft.com/dotnet/csharp/fundamentals/object-oriented/</a></li>
@@ -325,15 +718,55 @@
 <h1 id="advanced-oop-1">Advanced OOP</h1>
 <h2 id="structs-vs-classes">Structs vs Classes</h2>
 <ul>
-<li>Structs are value types (stack-friendly, small, immutable preferred).</li>
+<li>Structs are value types; copied by value, allocated inline when possible.</li>
+<li>Prefer for small, immutable data (e.g., 2–3 fields). Avoid large or mutable structs.</li>
 </ul>
-<h2 id="enums-nested-types">Enums &amp; Nested Types</h2>
+<pre><code class="language-csharp">public readonly struct Money
+{
+	public decimal Amount { get; }
+	public string Currency { get; }
+	public Money(decimal amount, string currency) { Amount = amount; Currency = currency; }
+	public override string ToString() =&gt; $&quot;{Amount} {Currency}&quot;;
+}
+</code></pre>
+<h2 id="enums-flags">Enums &amp; Flags</h2>
+<pre><code class="language-csharp">[Flags]
+public enum FileAccessRights { None = 0, Read = 1, Write = 2, Execute = 4 }
+var rights = FileAccessRights.Read | FileAccessRights.Write;
+bool canWrite = rights.HasFlag(FileAccessRights.Write);
+</code></pre>
+<h2 id="nested-types">Nested types</h2>
+<p>Keep helpers close to usage; avoid overexposure of internals.</p>
+<pre><code class="language-csharp">public class Parser
+{
+	public sealed class Result { public bool Success { get; init; } public string? Error { get; init; } }
+}
+</code></pre>
+<h2 id="partial-typesmembers">Partial types/members</h2>
+<p>Split large types across files or generate parts via source generators.</p>
+<pre><code class="language-csharp">public partial class UserService { partial void OnCreated(); }
+public partial class UserService { partial void OnCreated() { /* hook */ } }
+</code></pre>
+<h2 id="operator-overloads-use-judiciously">Operator overloads (use judiciously)</h2>
+<pre><code class="language-csharp">public readonly record struct Vector2(double X, double Y)
+{
+	public static Vector2 operator +(Vector2 a, Vector2 b) =&gt; new(a.X + b.X, a.Y + b.Y);
+}
+</code></pre>
+<h2 id="equality-semantics">Equality semantics</h2>
 <ul>
-<li>Enums for constrained sets; nested types for close coupling.</li>
+<li>Classes default to reference equality; override <code>Equals/GetHashCode</code> or use records for value semantics.</li>
 </ul>
-<h2 id="partial-types">Partial Types</h2>
+<pre><code class="language-csharp">public record Person(string First, string Last);
+var a = new Person(&quot;Ada&quot;,&quot;Lovelace&quot;);
+var b = new Person(&quot;Ada&quot;,&quot;Lovelace&quot;);
+Console.WriteLine(a == b); // true (value-based)
+</code></pre>
+<h2 id="best-practices-3">Best practices</h2>
 <ul>
-<li>Split type definitions across files for organization.</li>
+<li>Favor immutability where practical.</li>
+<li>Keep constructors simple; use factories/builders if setup is complex.</li>
+<li>Keep inheritance shallow; prefer interfaces + composition.</li>
 </ul>
 <h2 id="read-more-9">Read More</h2>
 <ul>
@@ -397,7 +830,7 @@
 <ul>
 <li>To represent domain-specific error conditions.</li>
 </ul>
-<h2 id="best-practices-3">Best Practices</h2>
+<h2 id="best-practices-4">Best Practices</h2>
 <ul>
 <li>Derive from Exception (or a relevant subclass).</li>
 <li>Be serializable; include useful constructors.</li>
