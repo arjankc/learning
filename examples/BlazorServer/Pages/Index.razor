@@ -1,0 +1,10 @@
+@page "/"
+
+<h3>Blazor Server: Counter</h3>
+<p>Current count: @count</p>
+<button class="btn" @onclick="Increment">Click me</button>
+
+@code {
+    private int count;
+    private void Increment() => count++;
+}

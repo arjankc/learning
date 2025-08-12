@@ -27,3 +27,10 @@ More sections and links will be added as we generate notes.
 
 ### Examples
 - Basics demos: `examples/Basics`
+- LINQ demos: `examples/Linq`
+- Async demos: `examples/Async`
+- File I/O demos: `examples/FileIO`
+- EF Core demos: `examples/EFCore`
+- ADO.NET demos: `examples/AdoNet`
+- WPF app: `examples/WpfApp` (Windows only)
+- ASP.NET Core Web API: `examples/WebApi`

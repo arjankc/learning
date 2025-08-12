@@ -1,0 +1,4 @@
+body { font-family: Arial, Helvetica, sans-serif; }
+.btn { padding: .5rem 1rem; background: #0d6efd; color: #fff; border: none; cursor: pointer; }
+.main { margin: 1rem; }
+.top-row { margin-bottom: 1rem; font-weight: bold; }
