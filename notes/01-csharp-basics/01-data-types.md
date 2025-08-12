@@ -15,6 +15,31 @@ Data types define the kind of data a variable can hold in a programming language
 ## Why is this important?
 Understanding the difference helps you predict how your data will behave when passed to methods or assigned to new variables, which is essential for writing bug-free code.
 
+## Examples
+Value copy vs reference sharing:
+
+```csharp
+// Value types: copy the value
+int a = 42;
+int b = a;    // copy
+b++;
+// a == 42, b == 43
+
+// Reference types: copy the reference
+int[] arr1 = { 1, 2, 3 };
+int[] arr2 = arr1;  // same reference
+arr2[0] = 99;
+// arr1[0] == 99 and arr2[0] == 99
+
+// Strings are reference types but immutable
+string s1 = "hello";
+string s2 = s1;
+s2 = s2.ToUpperInvariant();
+// s1 == "hello" (unchanged), s2 == "HELLO"
+```
+
+Tip: prefer small, immutable structs for simple data; use classes for entities with identity and shared references.
+
 ## Further Reading
 - Microsoft Docs: Types in C#: https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/built-in-types
 - Microsoft Docs: Value Types and Reference Types: https://learn.microsoft.com/dotnet/csharp/programming-guide/types/

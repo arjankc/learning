@@ -18,6 +18,32 @@ Operators are symbols that perform operations on variables and values. C# includ
 ## Expressions
 An expression is a combination of variables, values, and operators that produces a result. For example, a + b is an expression that adds two variables.
 
+### Examples
+Declarations and arithmetic:
+
+```csharp
+int x = 10, y = 3;
+int sum = x + y;     // 13
+int product = x * y; // 30
+int quotient = x / y;  // 3 (integer division)
+int remainder = x % y; // 1
+```
+
+Comparison and logical:
+
+```csharp
+bool isGreater = x > y;              // true
+bool bothPositive = (x > 0) && (y > 0); // true
+bool eitherLarge = (x >= 10) || (y >= 10); // true
+```
+
+Precedence and grouping:
+
+```csharp
+int result = x + y * 2;   // 10 + 3*2 = 16
+int clearer = (x + y) * 2; // 26
+```
+
 ## Best Practices
 - Use meaningful variable names.
 - Keep expressions simple and readable.

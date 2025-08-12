@@ -25,6 +25,33 @@ C# is statically typed, so types must match. Conversions let values move between
 - Be explicit and intentional with narrowing conversions; validate ranges.
 - Minimize boxing by using generics and avoiding APIs that require object.
 
+## Examples
+Implicit vs explicit and overflow checking:
+
+```csharp
+int small = 123;
+long bigger = small; // implicit widening
+
+double pi = 3.14;
+int truncated = (int)pi; // explicit narrowing => 3
+
+try
+{
+	checked
+	{
+		int max = int.MaxValue;
+		int overflow = max + 1; // throws OverflowException in checked context
+	}
+}
+catch (OverflowException)
+{
+	// handle
+}
+
+// Boxing/unboxing
+object boxed = small;         // boxing
+int unboxed = (int)boxed;     // unboxing
+```
 ## Read More
 - Microsoft Docs: Conversions in C#: https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/numeric-conversions
 - Microsoft Docs: Boxing and Unboxing: https://learn.microsoft.com/dotnet/csharp/programming-guide/types/boxing-and-unboxing

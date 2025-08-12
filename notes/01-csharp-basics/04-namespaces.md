@@ -14,5 +14,28 @@ Namespaces organize types and prevent naming collisions across libraries and pro
 - Use company/product root (e.g., Company.Product.Module).
 - Avoid deep nesting unless it communicates meaningful boundaries.
 
+## Examples
+Using directives and aliases:
+
+```csharp
+using System.Text;                 // bring types into scope
+using Col = System.Collections.Generic; // alias
+
+namespace Demo.Project;
+
+public class Example
+{
+	public string JoinWords(Col.List<string> words)
+		=> string.Join(' ', words);
+}
+```
+
+Disambiguation with fully-qualified names:
+
+```csharp
+// If two types have the same name in different namespaces
+global::System.Uri uri = new("https://example.com");
+```
+
 ## Read More
 - Microsoft Docs: Namespaces: https://learn.microsoft.com/dotnet/csharp/fundamentals/types/namespaces
