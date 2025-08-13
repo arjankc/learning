@@ -18,6 +18,7 @@ internal class Program
         OopDemo.Run();
         CollectionsDemo.Run();
         ExceptionsDemo.Run();
+    DelegatesEventsDemo.Run();
 
         Console.WriteLine("\nAll demos complete.");
     }
