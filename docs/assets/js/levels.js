@@ -2,28 +2,105 @@
 
 let LevelsData = [];
 
+// Preloader functions
+function showPreloader() {
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        preloader.classList.remove('hidden');
+    }
+}
+
+function hidePreloader() {
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        setTimeout(() => {
+            preloader.classList.add('hidden');
+        }, 500); // Small delay for better UX
+    }
+}
+
+function updateLoadingProgress(percent, status) {
+    const progressBar = document.getElementById('loading-progress-bar');
+    const statusElement = document.getElementById('loading-status');
+    
+    if (progressBar) {
+        progressBar.style.width = percent + '%';
+    }
+    
+    if (statusElement) {
+        statusElement.textContent = status;
+    }
+}
+
+// Fetch levels data with progress tracking
 async function fetchLevels() {
     try {
-        console.log('Fetching levels from data/levels.json...');
-        const res = await fetch('data/levels.json');
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
+        updateLoadingProgress(10, 'Connecting to server...');
+        
+        const response = await fetch('data/levels.json');
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const json = await res.json();
-        LevelsData = Array.isArray(json.levels) ? json.levels : [];
-        console.log(`Loaded ${LevelsData.length} levels`);
+        
+        updateLoadingProgress(30, 'Receiving data...');
+        
+        // Get the content length for progress tracking
+        const contentLength = response.headers.get('content-length');
+        
+        if (contentLength) {
+            const total = parseInt(contentLength, 10);
+            let loaded = 0;
+            
+            const reader = response.body.getReader();
+            const chunks = [];
+            
+            while (true) {
+                const { done, value } = await reader.read();
+                
+                if (done) break;
+                
+                chunks.push(value);
+                loaded += value.length;
+                
+                const progress = Math.min(30 + (loaded / total) * 40, 70);
+                updateLoadingProgress(progress, 'Loading curriculum data...');
+            }
+            
+            // Combine chunks into final response
+            const allChunks = new Uint8Array(loaded);
+            let position = 0;
+            for (const chunk of chunks) {
+                allChunks.set(chunk, position);
+                position += chunk.length;
+            }
+            
+            const text = new TextDecoder().decode(allChunks);
+            updateLoadingProgress(80, 'Processing curriculum...');
+            
+            const data = JSON.parse(text);
+            
+            // Assign to global variable
+            LevelsData = data;
+            
+            updateLoadingProgress(90, 'Initializing interface...');
+            
+            return data;
+        } else {
+            // Fallback for servers that don't provide content-length
+            updateLoadingProgress(50, 'Loading curriculum data...');
+            const data = await response.json();
+            
+            // Assign to global variable
+            LevelsData = data;
+            
+            updateLoadingProgress(80, 'Processing curriculum...');
+            return data;
+        }
     } catch (error) {
         console.error('Error fetching levels:', error);
-        // Show error message to user
-        const progressEl = document.getElementById('progress-text');
-        if (progressEl) {
-            progressEl.textContent = 'Error loading levels. Please refresh the page.';
-            progressEl.style.color = 'red';
-        }
-        const list = document.getElementById('levels-list');
-        if (list) {
-            list.innerHTML = '<p style="color: red;">Failed to load levels. Please check your internet connection and refresh the page.</p>';
-        }
+        updateLoadingProgress(0, 'Error loading curriculum. Please refresh the page.');
+        throw error;
     }
 }
 
@@ -393,9 +470,15 @@ function completeCurrentLevel(level) {
 
 async function initLevelsPage() {
     console.log('Initializing levels page...');
+    showPreloader();
+    
     try {
+        updateLoadingProgress(5, 'Starting application...');
+        
         await fetchLevels();
         console.log('Levels fetched successfully, setting up UI...');
+        
+        updateLoadingProgress(95, 'Finalizing setup...');
         
         const tierFilter = document.getElementById('tier-filter');
         if (tierFilter) {
@@ -405,9 +488,46 @@ async function initLevelsPage() {
         renderProgress();
         renderLevelsList();
         setupCodePlayground();
+        
+        updateLoadingProgress(100, 'Ready to learn!');
         console.log('Levels page initialized successfully');
+        
+        // Hide preloader after a short delay
+        setTimeout(() => {
+            hidePreloader();
+        }, 500);
     } catch (error) {
         console.error('Error initializing levels page:', error);
+        updateLoadingProgress(0, 'Failed to load. Please refresh the page.');
+        
+        // Show error message and hide preloader after delay
+        setTimeout(() => {
+            hidePreloader();
+            showErrorMessage('Failed to load the curriculum. Please check your internet connection and refresh the page.');
+        }, 2000);
+    }
+}
+
+function showErrorMessage(message) {
+    const container = document.querySelector('.container');
+    if (container) {
+        container.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: #e74c3c;">
+                <h2>⚠️ Loading Error</h2>
+                <p>${message}</p>
+                <button onclick="location.reload()" style="
+                    padding: 10px 20px; 
+                    background: #3498db; 
+                    color: white; 
+                    border: none; 
+                    border-radius: 5px; 
+                    cursor: pointer; 
+                    margin-top: 20px;
+                ">
+                    Refresh Page
+                </button>
+            </div>
+        `;
     }
 }
 
