@@ -7,26 +7,196 @@
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="theme-color" content="#007acc" />
+    <style>
+        .achievements-header {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #333;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin: -2rem -2rem 2rem -2rem;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .achievements-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .achievements-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+        
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .achievement-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .achievement-card.unlocked {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, #e8f5e8 0%, #f1f8e9 100%);
+        }
+        
+        .achievement-card.locked {
+            opacity: 0.6;
+            background: #f5f5f5;
+        }
+        
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .achievement-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            filter: grayscale(100%);
+        }
+        
+        .achievement-card.unlocked .achievement-icon {
+            filter: none;
+            animation: bounce 0.6s ease;
+        }
+        
+        .achievement-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .achievement-description {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+        
+        .achievement-progress {
+            background: #e0e0e0;
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        
+        .achievement-progress-bar {
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+        
+        .stats-overview {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% {
+                transform: scale(1);
+            }
+            40%, 43% {
+                transform: scale(1.1);
+            }
+            70% {
+                transform: scale(1.05);
+            }
+            90% {
+                transform: scale(1.02);
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Achievements</h1>
+        <h1>🏆 Achievements</h1>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="leaderboard.html">Leaderboard</a></li>
-                <li><a href="achievements.html">Achievements</a></li>
+                <li><a href="index.html">🏠 Home</a></li>
+                <li><a href="levels.html">📚 Levels</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <section class="container card">
-            <h2>Your Achievements</h2>
-            <ul id="achievements"></ul>
+        <section class="achievements-header">
+            <h1 class="achievements-title">
+                🏆 Your Learning Achievements
+            </h1>
+            <p class="achievements-subtitle">Track your progress and celebrate your C# learning milestones</p>
+        </section>
+        
+        <section class="container">
+            <div class="stats-overview">
+                <h2 style="margin-bottom: 1rem;">📊 Achievement Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number" id="unlocked-count">0</span>
+                        <span class="stat-label">Unlocked</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="total-count">0</span>
+                        <span class="stat-label">Total Available</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="completion-rate">0%</span>
+                        <span class="stat-label">Completion Rate</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="total-xp">0</span>
+                        <span class="stat-label">Total XP</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>🎯 Achievement Gallery</h2>
+                <div id="achievements" class="achievements-grid"></div>
+            </div>
         </section>
     </main>
     <footer>
-        <p>&copy; 2023 C# Gamified Learning Project</p>
+        <p>&copy; 2025 C# Gamified Learning Project</p>
     </footer>
     <script src="assets/js/app.js"></script>
     <script src="assets/js/achievements.js"></script>

@@ -298,7 +298,13 @@ function showLevelDetail(levelId) {
     
     // Code
     const code = document.getElementById('level-code');
-    code.textContent = level.code || '';
+    if (level.code) {
+        // Replace \n with actual line breaks for proper display
+        const formattedCode = level.code.replace(/\\n/g, '\n');
+        code.textContent = formattedCode;
+    } else {
+        code.textContent = '';
+    }
     
     // Apply syntax highlighting if Prism is available
     if (window.Prism && level.code) {

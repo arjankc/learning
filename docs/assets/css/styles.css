@@ -75,6 +75,45 @@ footer {
     background: #005fa3;
 }
 
+/* Code Block Styles */
+pre {
+    background: #f8f8f8;
+    border: 1px solid #e1e1e8;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+    font-family: 'Courier New', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    line-height: 1.4;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+pre code {
+    background: transparent;
+    border: none;
+    padding: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+code {
+    background: #f1f1f1;
+    border: 1px solid #e1e1e8;
+    border-radius: 4px;
+    padding: 0.2em 0.4em;
+    font-family: 'Courier New', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-size: 0.9em;
+    color: #d73a49;
+}
+
+/* Ensure proper code highlighting */
+#level-code {
+    display: block;
+    white-space: pre;
+    word-wrap: break-word;
+    tab-size: 4;
+}
+
 /* Progress Bar Styles */
 .progress-bar-container {
     background: #e0e0e0;

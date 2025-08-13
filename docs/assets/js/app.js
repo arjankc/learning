@@ -17,14 +17,7 @@ function initApp() {
 
 function setupEventListeners() {
     // Set up event listeners for navigation and interactions
-    const leaderboardButton = document.getElementById('leaderboard-button');
     const achievementsButton = document.getElementById('achievements-button');
-
-    if (leaderboardButton) {
-        leaderboardButton.addEventListener('click', () => {
-            window.location.href = 'leaderboard.html';
-        });
-    }
 
     if (achievementsButton) {
         achievementsButton.addEventListener('click', () => {
