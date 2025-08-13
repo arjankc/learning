@@ -1,39 +1,16 @@
 {
   "achievements": [
-    {
-      "id": 1,
-      "title": "First Steps",
-      "description": "Complete the first level.",
-      "points": 10,
-      "criteria": "Finish Level 01: Hello World"
-    },
-    {
-      "id": 2,
-      "title": "Variable Master",
-      "description": "Complete the second level.",
-      "points": 20,
-      "criteria": "Finish Level 02: Variables"
-    },
-    {
-      "id": 3,
-      "title": "Control Flow Expert",
-      "description": "Complete the third level.",
-      "points": 30,
-      "criteria": "Finish Level 03: Control Flow"
-    },
-    {
-      "id": 4,
-      "title": "C# Novice",
-      "description": "Complete all levels.",
-      "points": 50,
-      "criteria": "Finish all levels in the gamified learning project"
-    },
-    {
-      "id": 5,
-      "title": "Bug Hunter",
-      "description": "Identify and report a bug.",
-      "points": 15,
-      "criteria": "Submit a bug report through the feedback form"
-    }
+    { "id": 1, "title": "First Steps", "description": "Complete Level 1.", "points": 10, "type": "levelComplete", "value": 1 },
+    { "id": 2, "title": "Data Types Apprentice", "description": "Complete Level 2.", "points": 10, "type": "levelComplete", "value": 2 },
+    { "id": 3, "title": "Control Flow Expert", "description": "Complete Level 3.", "points": 10, "type": "levelComplete", "value": 3 },
+
+    { "id": 10, "title": "Tier 1 Complete", "description": "Complete all Tier 1 levels.", "points": 30, "type": "tierComplete", "value": 1 },
+    { "id": 11, "title": "Tier 2 Complete", "description": "Complete all Tier 2 levels.", "points": 40, "type": "tierComplete", "value": 2 },
+    { "id": 12, "title": "Tier 3 Complete", "description": "Complete all Tier 3 levels.", "points": 50, "type": "tierComplete", "value": 3 },
+
+    { "id": 20, "title": "Quiz Whiz", "description": "Score 80%+ on a quiz.", "points": 10, "type": "quizScore", "value": 80 },
+    { "id": 21, "title": "Quiz Master", "description": "Score 100% on a quiz.", "points": 20, "type": "quizScore", "value": 100 },
+
+    { "id": 99, "title": "Bug Hunter", "description": "Identify and report a bug.", "points": 15, "type": "meta", "value": "bug-report" }
   ]
 }

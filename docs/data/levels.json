@@ -2,35 +2,157 @@
   "levels": [
     {
       "id": 1,
+      "tier": 1,
       "title": "Hello World",
-      "description": "Learn the basics of C# by creating a simple 'Hello, World!' application.",
+      "description": "Create and run your first C# program.",
       "requirements": [
-        "Understand the structure of a C# program",
-        "Write and execute your first C# program"
+        "Install .NET SDK",
+        "Create a new console app",
+        "Run the app"
       ],
-      "completionCriteria": "Successfully run the program and display 'Hello, World!' in the console.",
+      "theory": "<p>A C# console app starts in <code>static void Main</code>. The <code>System</code> namespace provides core types like <code>Console</code>. The compiler turns C# into IL; the CLR executes IL with JIT compilation.</p>",
+      "code": "using System;\nclass Program {\n    static void Main() {\n        Console.WriteLine(\"Hello, World!\");\n    }\n}",
+      "quiz": [
+        { "q": "What is the entry point in a C# console program?", "options": ["Main", "Start", "Run", "Init"], "answer": 0 },
+        { "q": "Which type prints to the console?", "options": ["System.IO.File", "System.Console", "System.Text.StringBuilder"], "answer": 1 }
+      ],
+      "completionCriteria": "Console prints 'Hello, World!'",
       "nextLevel": 2
     },
     {
       "id": 2,
-      "title": "Variables",
-      "description": "Explore variables and data types in C#.",
+      "tier": 1,
+      "title": "Data Types",
+      "description": "Understand value vs reference types and primitives.",
       "requirements": [
-        "Learn about different data types",
-        "Declare and initialize variables"
+        "Declare value types (int, bool)",
+        "Declare reference types (string, arrays)"
       ],
-      "completionCriteria": "Create a program that uses variables to store and display user information.",
+      "theory": "<p>Value types (structs) live on the stack or inline; assignment copies the value. Reference types (classes) live on the heap; variables hold references. Strings are immutable reference types.</p>",
+      "code": "int x = 42;\nint y = x; // copy\ny++; // x remains 42\nstring s1 = \"hi\";\nstring s2 = s1; // reference to same string instance\ns2 += \"!\"; // new string created, s1 unchanged",
+      "quiz": [
+        { "q": "Select all value types.", "options": ["int", "string", "bool", "DateTime"], "answer": [0,2,3], "multi": true }
+      ],
+      "completionCriteria": "Explain value vs reference behavior with an example.",
       "nextLevel": 3
     },
     {
       "id": 3,
-      "title": "Control Flow",
-      "description": "Understand control flow statements in C#.",
+      "tier": 1,
+      "title": "Variables, Operators, Expressions",
+      "description": "Work with variables and operators.",
       "requirements": [
-        "Learn about if statements, loops, and switch cases",
-        "Implement control flow in your programs"
+        "Use arithmetic and comparison operators",
+        "Use var with type inference"
       ],
-      "completionCriteria": "Write a program that uses control flow to make decisions based on user input.",
+      "theory": "<p><code>var</code> uses compile-time type inference. Operators include arithmetic (+, -, *, /, %), comparison (==, !=, <, >), logical (&&, ||, !). Beware integer division.</p>",
+      "code": "var a = 5; var b = 2;\nint sum = a + b; // 7\nint div = a / b; // 2 (integer division)\ndouble d = (double)a / b; // 2.5",
+      "quiz": [
+        { "q": "What is 5/2 with int operands?", "options": ["2", "2.5", "3"], "answer": 0 }
+      ],
+      "completionCriteria": "Program prints correct results for mixed int/double division.",
+      "nextLevel": 4
+    },
+    {
+      "id": 4,
+      "tier": 1,
+      "title": "Type Conversion",
+      "description": "Implicit/explicit conversions, boxing/unboxing.",
+      "requirements": [
+        "Cast between numeric types",
+        "Box and unbox value types"
+      ],
+      "theory": "<p>Implicit conversions are safe (e.g., int→double). Explicit casts may lose data (double→int). Boxing wraps a value type in an object; unboxing extracts the value (ensure the correct type).</p>",
+      "code": "int i = 42; double d = i; // implicit\nd = 3.14; i = (int)d; // explicit (i = 3)\nobject o = i; // boxing\nint j = (int)o; // unboxing",
+      "quiz": [
+        { "q": "Which is boxing?", "options": ["int i = 1; object o = i;", "object o = \"x\"; string s = (string)o;"], "answer": 0 }
+      ],
+      "completionCriteria": "Demonstrate boxing/unboxing without InvalidCastException.",
+      "nextLevel": 5
+    },
+    {
+      "id": 5,
+      "tier": 1,
+      "title": "Namespaces",
+      "description": "Organize code with namespaces and using directives.",
+      "requirements": [
+        "Declare a namespace",
+        "Use using directives"
+      ],
+      "theory": "<p>Namespaces prevent name collisions and group related types. <code>using</code> imports namespaces or creates aliases.</p>",
+      "code": "namespace MyApp.Models {\n    public class Person { public string Name { get; set; } }\n}\nusing MyApp.Models;\nvar p = new Person { Name = \"Ada\" };",
+      "quiz": [
+        { "q": "Primary purpose of namespaces?", "options": ["Performance", "Security", "Organization"], "answer": 2 }
+      ],
+      "completionCriteria": "Type compiles in declared namespace and is used via using.",
+      "nextLevel": 6
+    },
+    {
+      "id": 6,
+      "tier": 1,
+      "title": "Branching",
+      "description": "if/else and switch expressions.",
+      "requirements": [
+        "Implement if/else",
+        "Use switch expression"
+      ],
+      "theory": "<p><code>switch</code> expressions are concise and exhaustive-friendly. Pattern matching allows type and relational checks.</p>",
+      "code": "int n = 3;\nstring desc = n switch { 1 => \"one\", 2 => \"two\", _ => \"many\" };",
+      "quiz": [
+        { "q": "Which is a valid switch expression arm?", "options": ["case 1:", "1 => \"one\""], "answer": 1 }
+      ],
+      "completionCriteria": "Program uses switch expression for mapping values.",
+      "nextLevel": 7
+    },
+    {
+      "id": 7,
+      "tier": 1,
+      "title": "Looping",
+      "description": "for, while, foreach patterns.",
+      "requirements": [
+        "Iterate arrays and lists",
+        "Avoid off-by-one errors"
+      ],
+      "theory": "<p><code>foreach</code> is safest for collections; prefer <code>for</code> when you need indices. Consider <code>Span<T></code> for performance-sensitive loops.</p>",
+      "code": "var nums = new[] {1,2,3};\nforeach(var n in nums) Console.WriteLine(n);",
+      "quiz": [
+        { "q": "Which loop guarantees at least one iteration?", "options": ["for", "while", "do-while"], "answer": 2 }
+      ],
+      "completionCriteria": "Loop prints all items exactly once.",
+      "nextLevel": 8
+    },
+    {
+      "id": 8,
+      "tier": 1,
+      "title": "Iterators",
+      "description": "yield return and IEnumerable.",
+      "requirements": [
+        "Implement an iterator method",
+        "Use deferred execution"
+      ],
+      "theory": "<p><code>yield return</code> creates a state machine that implements <code>IEnumerable</code>. Execution is deferred until enumeration.</p>",
+      "code": "IEnumerable<int> Evens(int max){\n  for(int i=0;i<=max;i+=2) yield return i;\n}\nforeach(var e in Evens(6)) Console.WriteLine(e);",
+      "quiz": [
+        { "q": "What does yield return enable?", "options": ["Eager evaluation", "Deferred execution"], "answer": 1 }
+      ],
+      "completionCriteria": "Custom iterator yields expected sequence.",
+      "nextLevel": 9
+    },
+    {
+      "id": 9,
+      "tier": 1,
+      "title": ".NET Ecosystem",
+      "description": "CLR, FCL, tooling overview.",
+      "requirements": [
+        "Explain CLR and FCL",
+        "Install and verify .NET SDK"
+      ],
+      "theory": "<p>The CLR provides GC, JIT, and type safety. The FCL is the base library (System.*). Use <code>dotnet --info</code> to inspect your SDKs.</p>",
+      "code": "// Verify SDK via command line\n// dotnet --version\n// dotnet new console -n Hello\n// dotnet run",
+      "quiz": [
+        { "q": "JIT compiles IL to?", "options": ["Java bytecode", "Native machine code"], "answer": 1 }
+      ],
+      "completionCriteria": "Explain CLR vs FCL in your own words.",
       "nextLevel": null
     }
   ]

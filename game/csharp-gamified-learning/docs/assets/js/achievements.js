@@ -15,6 +15,7 @@ async function loadAchievements() {
 // Display achievements on the achievements page
 function displayAchievements() {
     const achievementsList = document.getElementById('achievements');
+    if (!achievementsList) return; // not on achievements page
     achievementsList.innerHTML = '';
     const unlocked = window.LearningStorage?.getUnlockedAchievements(USER_ID) || new Set();
     achievements.forEach(achievement => {
