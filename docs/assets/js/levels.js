@@ -29,9 +29,17 @@ async function fetchLevels() {
 
 function renderProgress() {
     const progressEl = document.getElementById('progress-text');
-    const progress = window.LearningStorage?.getUserProgress(window.window.USER_ID) || {};
+    const progress = window.LearningStorage?.getUserProgress(window.USER_ID) || {};
     const completed = (progress.completedLevels || []).length;
     progressEl.textContent = `Completed ${completed}/${LevelsData.length} levels • XP: ${progress.xp || 0}`;
+}
+
+function isLevelUnlocked(levelId, completedLevels) {
+    // Level 1 is always unlocked
+    if (levelId === 1) return true;
+    
+    // For other levels, check if the previous level is completed
+    return completedLevels.has(levelId - 1);
 }
 
 function renderLevelsList() {
@@ -43,7 +51,7 @@ function renderLevelsList() {
     }
     
     console.log(`Rendering ${LevelsData.length} levels`);
-    const progress = window.LearningStorage?.getUserProgress(window.window.USER_ID) || {};
+    const progress = window.LearningStorage?.getUserProgress(window.USER_ID) || {};
     const done = new Set(progress.completedLevels || []);
     const tierFilter = document.getElementById('tier-filter');
     const tierValue = tierFilter ? tierFilter.value : 'all';
@@ -58,16 +66,52 @@ function renderLevelsList() {
     }
     
     filteredLevels.forEach(l => {
+        const isUnlocked = isLevelUnlocked(l.id, done);
+        const isCompleted = done.has(l.id);
+        
         const div = document.createElement('div');
         div.className = 'card';
-        const status = done.has(l.id) ? '✅ Completed' : '⏳ Not completed';
+        
+        // Add visual styling based on level state
+        if (!isUnlocked) {
+            div.style.opacity = '0.5';
+            div.style.filter = 'grayscale(100%)';
+        }
+        
+        let status, buttonContent, buttonEnabled;
+        if (isCompleted) {
+            status = '✅ Completed';
+            buttonContent = 'Review';
+            buttonEnabled = true;
+        } else if (isUnlocked) {
+            status = '🔓 Available';
+            buttonContent = 'Start';
+            buttonEnabled = true;
+        } else {
+            status = '🔒 Locked';
+            buttonContent = 'Locked';
+            buttonEnabled = false;
+        }
+        
         div.innerHTML = `
             <h3>${l.id.toString().padStart(2,'0')}: ${l.title}</h3>
             <p>${l.description}</p>
             <p><strong>Tier:</strong> ${l.tier || 'N/A'}</p>
             <p><strong>Status:</strong> ${status}</p>
-            <a href="#" class="button" data-level-id="${l.id}">View</a>
+            ${buttonEnabled ? 
+                `<a href="#" class="button" data-level-id="${l.id}">${buttonContent}</a>` :
+                `<button class="button" disabled style="opacity: 0.5; cursor: not-allowed;">${buttonContent}</button>`
+            }
         `;
+        
+        // Show requirement for locked levels
+        if (!isUnlocked && l.id > 1) {
+            const requirementText = document.createElement('p');
+            requirementText.innerHTML = `<small><em>Complete Level ${l.id - 1} to unlock</em></small>`;
+            requirementText.style.color = '#666';
+            div.appendChild(requirementText);
+        }
+        
         list.appendChild(div);
     });
 
@@ -87,6 +131,18 @@ function renderLevelsList() {
 function showLevelDetail(levelId) {
     const level = LevelsData.find(l => l.id === levelId);
     if (!level) return;
+    
+    const progress = window.LearningStorage?.getUserProgress(window.USER_ID) || {};
+    const done = new Set(progress.completedLevels || []);
+    const isUnlocked = isLevelUnlocked(level.id, done);
+    const isCompleted = done.has(level.id);
+    
+    // Check if user should be able to access this level
+    if (!isUnlocked) {
+        alert(`Level ${level.id} is locked. Complete Level ${level.id - 1} first!`);
+        return;
+    }
+    
     document.getElementById('level-title').textContent = `${level.id.toString().padStart(2,'0')}: ${level.title}`;
     document.getElementById('level-description').textContent = level.description;
     const req = document.getElementById('level-requirements');
@@ -108,20 +164,43 @@ function showLevelDetail(levelId) {
     }
     // Quiz
     renderQuiz(level);
+    
+    // Update button based on completion status
     const btn = document.getElementById('complete-level');
+    if (isCompleted) {
+        btn.textContent = 'Mark as completed (Already completed)';
+        btn.style.opacity = '0.7';
+    } else {
+        btn.textContent = 'Mark as completed';
+        btn.style.opacity = '1';
+    }
     btn.onclick = () => completeCurrentLevel(level);
+    
     document.getElementById('level-detail').style.display = '';
     window.scrollTo({ top: document.getElementById('level-detail').offsetTop, behavior: 'smooth' });
 }
 
 function completeCurrentLevel(level) {
-    window.LearningStorage?.completeLevel(window.window.USER_ID, level.id);
+    window.LearningStorage?.completeLevel(window.USER_ID, level.id);
     // award XP per level (simple rule)
-    window.LearningStorage?.addXp(window.window.USER_ID, 10);
+    window.LearningStorage?.addXp(window.USER_ID, 10);
     maybeAwardAchievements(level);
-    alert(`Great job! Marked "${level.title}" as completed and awarded 10 XP.`);
+    
+    // Check if there's a next level to unlock
+    const nextLevel = LevelsData.find(l => l.id === level.id + 1);
+    let message = `Great job! Marked "${level.title}" as completed and awarded 10 XP.`;
+    
+    if (nextLevel) {
+        message += `\n\n🎉 Level ${nextLevel.id} "${nextLevel.title}" is now unlocked!`;
+    }
+    
+    alert(message);
     renderProgress();
     renderLevelsList();
+    
+    // Hide level detail and scroll back to the list
+    document.getElementById('level-detail').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 async function initLevelsPage() {
