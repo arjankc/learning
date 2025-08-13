@@ -1,0 +1,33 @@
+name: Mirror game docs to /docs
+
+on:
+  push:
+    paths:
+      - 'game/csharp-gamified-learning/docs/**'
+      - '.github/workflows/mirror-game-docs.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Mirror game PWA to top-level /docs
+        run: |
+          rsync -a --delete "game/csharp-gamified-learning/docs/" "docs/"
+      - name: Commit and push if changes
+        run: |
+          if [[ -n $(git status --porcelain docs) ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add docs
+            git commit -m "chore: mirror game PWA to /docs [skip ci]"
+            git push
+          else
+            echo "No changes to commit."
+          fi
