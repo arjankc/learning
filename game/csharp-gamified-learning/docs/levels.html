@@ -23,6 +23,13 @@
         <section class="card">
             <h2>Progress</h2>
             <p id="progress-text">Loading…</p>
+            <label for="tier-filter"><strong>Filter by Tier:</strong></label>
+            <select id="tier-filter">
+                <option value="all">All</option>
+                <option value="1">Tier 1 (Essential)</option>
+                <option value="2">Tier 2 (Intermediate)</option>
+                <option value="3">Tier 3 (Advanced)</option>
+            </select>
         </section>
 
         <section class="card">
@@ -35,6 +42,18 @@
             <p id="level-description"></p>
             <h3>Requirements</h3>
             <ul id="level-requirements"></ul>
+
+            <h3>Theory</h3>
+            <div id="level-theory"></div>
+
+            <h3>Example Code</h3>
+            <pre><code id="level-code" class="language-csharp"></code></pre>
+
+            <h3>Quick Quiz</h3>
+            <div id="quiz-container"></div>
+            <button id="submit-quiz" class="button" style="display:none">Submit Answers</button>
+            <p id="quiz-result"></p>
+
             <button id="complete-level" class="button">Mark as completed</button>
         </section>
     </main>
@@ -43,6 +62,7 @@
     </footer>
     <script src="assets/js/app.js"></script>
     <script src="assets/js/storage.js"></script>
+    <script src="assets/js/achievements.js"></script>
     <script src="assets/js/levels.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
