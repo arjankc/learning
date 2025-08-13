@@ -51,7 +51,17 @@ window.LearningStorage = {
     getUserProgress,
     clearProgress,
     addXp,
-    completeLevel
+    completeLevel,
+    unlockAchievement: function(userId, achievementId){
+        const progress = getUserProgress(userId);
+        const unlocked = new Set(progress.unlockedAchievements || []);
+        unlocked.add(achievementId);
+        saveProgress(userId, { unlockedAchievements: Array.from(unlocked) });
+    },
+    getUnlockedAchievements: function(userId){
+        const progress = getUserProgress(userId);
+        return new Set(progress.unlockedAchievements || []);
+    }
 };
 
 // Example usage
