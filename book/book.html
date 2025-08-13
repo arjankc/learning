@@ -5,21 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>C#/.NET Learning Notes (Compiled)</title>
     <style>
-        body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; line-height: 1.5; max-width: 900px; margin: 1rem auto; padding: 0 1rem; }
+        :root { --ink: #111; --muted: #666; }
+        body { color: var(--ink); font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; line-height: 1.55; max-width: 900px; margin: 1rem auto; padding: 0 1rem; }
         code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-        pre { background: #f6f8fa; padding: 12px; overflow: auto; }
-        h1, h2, h3 { margin-top: 1.6em; }
+        pre { background: #f6f8fa; padding: 12px; overflow: auto; border-radius: 6px; }
+        h1 { font-size: 1.9rem; margin-top: 2.2rem; }
+        h2 { font-size: 1.5rem; margin-top: 1.8rem; }
+        h3 { font-size: 1.2rem; margin-top: 1.4rem; }
         hr { margin: 2rem 0; }
         .page-break { page-break-before: always; }
+        .toc h1 { margin-top: 0; }
         @media print {
-            a[href]:after { content: " (" attr(href) ")"; font-size: 90%; }
+            @page { margin: 18mm 14mm; size: A4; }
+            body { margin: 0; }
+            header, footer { position: fixed; left: 0; right: 0; color: var(--muted); font-size: 10pt; }
+            header { top: 0; }
+            footer { bottom: 0; }
+            footer .page:after { content: counter(page); }
             pre { white-space: pre-wrap; }
+            a[href]:after { content: " (" attr(href) ")"; font-size: 90%; }
         }
     </style>
 </head>
 <body>
-<h1 id="c.net-learning-notes-compiled">C#/.NET Learning Notes (Compiled)</h1>
+<header></header>
+<footer><span class="page"></span></footer>
+<h1 id="c.net-learning-notes">C#/.NET Learning Notes</h1>
+<p>Compiled for offline study and printing. Start with the Study Guide.</p>
 <ul>
+<li><a href="00-study-guide.md">Study Guide: C#/.NET Exam Prep</a></li>
 <li><a href="01-csharp-basics/01-data-types.md">C# Basics: Data Types (Primitive, Value vs Reference)</a></li>
 <li><a href="01-csharp-basics/02-variables-operators-expressions.md">C# Basics: Variables, Operators, and Expressions</a></li>
 <li><a href="01-csharp-basics/03-type-conversion.md">Type Conversion in C# (Implicit/Explicit, Boxing/Unboxing)</a></li>
@@ -53,7 +67,37 @@
 <li><a href="11-cross-platform/02-mobile-features.md">Mobile Features</a></li>
 <li><a href="12-devops/01-cloud-deployment.md">Cloud Deployment</a></li>
 <li><a href="12-devops/02-ci-cd.md">CI/CD Pipelines</a></li>
+<li><a href="99-exam-cram.md">Exam Cram: C#/.NET Quick Reference</a></li>
 </ul>
+<hr />
+<h1 id="study-guide-c.net-exam-prep">Study Guide: C#/.NET Exam Prep</h1>
+<h1 id="study-guide-c.net-exam-prep-1">Study Guide: C#/.NET Exam Prep</h1>
+<p>Use this as your roadmap. Tiers reflect priority: Tier 1 first, then Tier 2, then Tier 3.</p>
+<h2 id="how-to-study">How to study</h2>
+<ul>
+<li>Read the theory, then type out the examples yourself.</li>
+<li>After each section, answer the “Check yourself” questions without looking.</li>
+<li>Spaced repetition: revisit weak spots after 1–2 days.</li>
+<li>Practice: small katas; then build a tiny app that touches multiple topics.</li>
+</ul>
+<h2 id="suggested-sequence-23-weeks">Suggested sequence (2–3 weeks)</h2>
+<ol>
+<li>Tier 1 (Days 1–7): C# Basics, Flow, .NET ecosystem, OOP, Collections, Exceptions/Debugging.</li>
+<li>Tier 2 (Days 8–13): Delegates/Events, LINQ, Async, ADO.NET/EF Core, File I/O, WPF basics.</li>
+<li>Tier 3 (Days 14–18): ASP.NET Core, Blazor, Security, Mobile/Xamarin/MAUI, DevOps.</li>
+</ol>
+<h2 id="check-yourself-sample-prompts">Check yourself (sample prompts)</h2>
+<ul>
+<li>Explain value vs reference semantics; show a bug that arises from misunderstanding them.</li>
+<li>When would you use yield? Show a lazy pipeline over a large file.</li>
+<li>Demonstrate inheritance vs composition; when is each preferable?</li>
+<li>Write a LINQ query for: top 3 items per group; inner join vs group join difference.</li>
+<li>Show async/await with cancellation and explain why async void is dangerous.</li>
+<li>ADO.NET vs EF Core: trade-offs and when to choose each.</li>
+<li>WPF binding modes and validation: set up TwoWay binding with validation.</li>
+</ul>
+<p>Good luck—keep it small, steady, and hands-on.</p>
+<div class="page-break"></div>
 <hr />
 <h1 id="c-basics-data-types-primitive-value-vs-reference">C# Basics: Data Types (Primitive, Value vs Reference)</h1>
 <h1 id="c-basics-data-types-primitive-value-vs-reference-1">C# Basics: Data Types (Primitive, Value vs Reference)</h1>
@@ -1171,6 +1215,12 @@ var arr = seq.ToArray(); // 10, 20, 30
 <li>Push filters early (Where) and project only what you need (Select) to reduce work.</li>
 <li>Avoid multiple enumeration if source is expensive; materialize once when needed.</li>
 </ul>
+<h2 id="practice">Practice</h2>
+<ul>
+<li>Given orders with a CustomerId, output the top 3 orders by total per customer.</li>
+<li>Inner join vs group join: produce both and explain the shape differences.</li>
+<li>Flatten nested collections (customers -&gt; orders -&gt; lines) and compute totals with SelectMany.</li>
+</ul>
 <h2 id="read-more-16">Read More</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/dotnet/csharp/programming-guide/concepts/linq/">https://learn.microsoft.com/dotnet/csharp/programming-guide/concepts/linq/</a></li>
@@ -1217,6 +1267,12 @@ var pages = await Task.WhenAll(tasks);
 <ul>
 <li>Don’t block on async (no .Result/.Wait()); make your call chain async.</li>
 <li>Use <code>ValueTask</code> for high-throughput hot paths when appropriate.</li>
+</ul>
+<h2 id="practice-1">Practice</h2>
+<ul>
+<li>Wrap an external API call with timeout and cancellation, surfacing a custom exception on failure.</li>
+<li>Convert a synchronous file processing loop to async and ensure max 4 concurrent operations.</li>
+<li>Explain ConfigureAwait(false) and where it’s appropriate; demonstrate a context-deadlock caused by .Result.</li>
 </ul>
 <h2 id="read-more-17">Read More</h2>
 <ul>
@@ -1297,6 +1353,12 @@ var blogs = await db.Blogs.AsNoTracking().Where(b =&gt; b.Title.Contains(&quot;H
 <li>Scope DbContext per unit of work (e.g., per web request).</li>
 <li>Use AsNoTracking for read-only queries; include navigation properties with <code>.Include</code> when needed.</li>
 </ul>
+<h2 id="practice-2">Practice</h2>
+<ul>
+<li>Add a unique index to Blog.Title using Fluent API and verify the constraint.</li>
+<li>Demonstrate tracking vs AsNoTracking and explain memory/perf impact in a list view.</li>
+<li>Implement a one-to-many with cascade delete and write a test to verify.</li>
+</ul>
 <h2 id="read-more-19">Read More</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/ef/core/">https://learn.microsoft.com/ef/core/</a></li>
@@ -1371,6 +1433,16 @@ xmlSer.Serialize(xfs, new Person(&quot;Ada&quot;, 28));
 		public void RaiseCanExecuteChanged()=&gt;CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 }
 </code></pre>
+<h2 id="binding-modes-and-validation">Binding modes and validation</h2>
+<ul>
+<li>Modes: OneTime, OneWay, TwoWay (default for TextBox.Text), OneWayToSource.</li>
+<li>Validation: IDataErrorInfo/INotifyDataErrorInfo; ValidationRules on bindings.</li>
+</ul>
+<h2 id="practice-3">Practice</h2>
+<ul>
+<li>Bind a Slider to a numeric property (TwoWay) and display its value.</li>
+<li>Add validation to disallow empty names and show a red adornment.</li>
+</ul>
 <h2 id="read-more-21">Read More</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/dotnet/desktop/wpf/xaml-services/?view=netdesktop-8.0">https://learn.microsoft.com/dotnet/desktop/wpf/xaml-services/?view=netdesktop-8.0</a></li>
@@ -1614,6 +1686,109 @@ jobs:
 <ul>
 <li><a href="https://learn.microsoft.com/azure/devops/pipelines/">https://learn.microsoft.com/azure/devops/pipelines/</a></li>
 <li><a href="https://docs.github.com/actions">https://docs.github.com/actions</a></li>
+</ul>
+<div class="page-break"></div>
+<hr />
+<h1 id="exam-cram-c.net-quick-reference">Exam Cram: C#/.NET Quick Reference</h1>
+<h1 id="exam-cram-c.net-quick-reference-1">Exam Cram: C#/.NET Quick Reference</h1>
+<p>Use this as your last‑minute refresher. Practice from the section prompts in each chapter; this page is for recall.</p>
+<h2 id="core-c">Core C#</h2>
+<ul>
+<li>Value vs reference: structs/enums vs classes/arrays/strings (string is reference/immutable). Passing ref type copies the reference.</li>
+<li>Conversions: implicit (safe) vs explicit (cast); checked for overflow; boxing/unboxing for value types.</li>
+<li>Flow: if/else, switch (patterns, when guards), loops (for/while/foreach), break/continue.</li>
+<li>Iterators: <code>yield return</code> (lazy), <code>yield break</code> (stop). Side effects occur on enumeration.</li>
+</ul>
+<h2 id="oop-essentials">OOP essentials</h2>
+<ul>
+<li>Encapsulation: hide fields; validate in properties; keep invariants.</li>
+<li>Inheritance: <code>virtual/override/abstract/sealed</code>; prefer composition for reuse.</li>
+<li>Polymorphism: interfaces or virtual methods; favor interface‑first design.</li>
+<li>Records: value semantics and with‑expressions; great for immutable DTOs.</li>
+</ul>
+<h2 id="collections-pick-fast">Collections: pick fast</h2>
+<ul>
+<li>List<T>: ordered, O(1) index, appends amortized O(1).</li>
+<li>Dictionary&lt;TKey,TValue&gt;: O(1) avg lookup; use StringComparer for string keys.</li>
+<li>HashSet<T>: fast uniqueness membership.</li>
+<li>Queue/Stack: FIFO/LIFO O(1) ops; BlockingCollection/ConcurrentBag for threads.</li>
+<li>Avoid repeated List.Remove in loops; prefer RemoveAll/filtering.</li>
+</ul>
+<h2 id="exceptions">Exceptions</h2>
+<ul>
+<li>Use exceptions for exceptional paths; not control flow.</li>
+<li>Pattern: try → specific catch → generic catch (log) → finally. Filters: <code>catch (X ex) when (cond)</code>.</li>
+<li>Rethrow with <code>throw;</code> to preserve stack; prefer <code>TryXxx</code> for expected failures.</li>
+<li>Custom exception: serializable, useful properties, preserve inner.</li>
+</ul>
+<h2 id="delegates-events">Delegates &amp; events</h2>
+<ul>
+<li>Delegates: <code>Action</code>, <code>Func</code>, <code>Predicate</code> cover most needs. Lambdas can capture variables (closures).</li>
+<li>Events: <code>event EventHandler&lt;T&gt;</code>; raise with null‑conditional; unsubscribe to avoid leaks.</li>
+</ul>
+<h2 id="linq-map">LINQ map</h2>
+<ul>
+<li>Filter: Where; Project: Select/SelectMany; Sort: OrderBy/ThenBy; Group: GroupBy; Join: Join/GroupJoin; Sets: Distinct/Union/Intersect/Except; Aggregates: Count/Sum/Average/Aggregate.</li>
+<li>Deferred vs immediate: pipelines run on enumeration; materialize with ToList/ToArray when needed.</li>
+<li>IEnumerable vs IQueryable: in‑memory vs provider‑translated; avoid client‑only methods in IQueryable.</li>
+</ul>
+<h2 id="asyncawait">Async/await</h2>
+<ul>
+<li>Don’t block (no .Result/.Wait); async all the way. Use <code>Task.WhenAll</code> for parallel async IO.</li>
+<li>Cancellation: pass CancellationToken; catch OperationCanceledException. Timeouts via CTS.</li>
+<li>Libraries: <code>ConfigureAwait(false)</code>; UI apps usually capture context.</li>
+<li>Parallel: CPU‑bound → Parallel.ForEach/PLINQ; IO‑bound → async + WhenAll.</li>
+</ul>
+<h2 id="ado.net-vs-ef-core">ADO.NET vs EF Core</h2>
+<ul>
+<li>ADO.NET: explicit SqlConnection/Command/Reader; optimal control and perf.</li>
+<li>EF Core: LINQ + change tracking; faster dev, migrations, relationships.</li>
+<li>Transactions: <code>BeginTransaction</code> + commit/rollback. Parameters prevent SQL injection.</li>
+<li>EF tips: scope DbContext per unit of work; <code>AsNoTracking</code> for read‑only; <code>Include</code> for navs; migrations: <code>add</code> then <code>update</code>.</li>
+</ul>
+<h2 id="file-io-2">File I/O</h2>
+<ul>
+<li>Use async IO on servers; <code>File.ReadLines</code> for lazy large files. JSON with System.Text.Json; XML with XmlSerializer.</li>
+</ul>
+<h2 id="wpf">WPF</h2>
+<ul>
+<li>Binding: INotifyPropertyChanged; modes (OneWay, TwoWay). Commands (ICommand) decouple UI.</li>
+<li>Validation: IDataErrorInfo/INotifyDataErrorInfo or ValidationRules on bindings.</li>
+</ul>
+<h2 id="asp.net-core">ASP.NET Core</h2>
+<ul>
+<li>Pipeline order: UseRouting → UseAuthentication → UseAuthorization → Map endpoints.</li>
+<li>Minimal API shape: <code>app.MapGet(&quot;/path&quot;, (deps, ...) =&gt; Results.Ok(...));</code></li>
+<li>Model binding, validation attributes, content negotiation (JSON default).</li>
+</ul>
+<h2 id="blazor-2">Blazor</h2>
+<ul>
+<li>Server vs WASM: latency/connection vs offline/native‑like; same component model.</li>
+<li>@inject DI for services; parameters via <code>[Parameter]</code>.</li>
+</ul>
+<h2 id="security">Security</h2>
+<ul>
+<li>Cookies (server pages) vs JWT (APIs/SPAs). HTTPS always; strict CORS.</li>
+<li>Roles: <code>[Authorize(Roles=&quot;Admin&quot;)]</code>; Policies: central requirements; claims‑based.</li>
+</ul>
+<h2 id="clrbcl">CLR/BCL</h2>
+<ul>
+<li>GC: Gen0/1/2, LOH; allocations cheap when short‑lived. Exceptions are costly when thrown.</li>
+<li>JIT: tiered compilation, ReadyToRun; diagnostics via dotnet‑trace/counters.</li>
+<li>Prefer BCL types first (collections, IO, HttpClient, JsonSerializer).</li>
+</ul>
+<h2 id="devops">DevOps</h2>
+<ul>
+<li>CI: restore/build/test on push/PR. Cache deps. Fail fast on warnings.</li>
+<li>Docker: multi‑stage build; environment via variables; health checks.</li>
+<li>Cloud: config from env/Key Vault; enable logs and health probes; use slots for safe deploys.</li>
+</ul>
+<h2 id="lastminute-checks">Last‑minute checks</h2>
+<ul>
+<li>Nullable enabled; guard public APIs.</li>
+<li>Dispose IDisposables (<code>using</code>/<code>await using</code>).</li>
+<li>Avoid multiple enumeration of expensive sources.</li>
+<li>Validate user input; parameterize SQL; never log secrets.</li>
 </ul>
 <div class="page-break"></div>
 

@@ -40,8 +40,9 @@ string GetTitle(string path)
 var sbMd = new StringBuilder();
 
 // Title page
-sbMd.AppendLine("# C#/.NET Learning Notes (Compiled)");
+sbMd.AppendLine("# C#/.NET Learning Notes");
 sbMd.AppendLine();
+sbMd.AppendLine("Compiled for offline study and printing. Start with the Study Guide.");
 
 // Table of contents (level-2 entries from file titles)
 foreach (var f in files)
@@ -76,19 +77,31 @@ var template = """
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>C#/.NET Learning Notes (Compiled)</title>
     <style>
-        body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; line-height: 1.5; max-width: 900px; margin: 1rem auto; padding: 0 1rem; }
+        :root { --ink: #111; --muted: #666; }
+        body { color: var(--ink); font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; line-height: 1.55; max-width: 900px; margin: 1rem auto; padding: 0 1rem; }
         code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-        pre { background: #f6f8fa; padding: 12px; overflow: auto; }
-        h1, h2, h3 { margin-top: 1.6em; }
+        pre { background: #f6f8fa; padding: 12px; overflow: auto; border-radius: 6px; }
+        h1 { font-size: 1.9rem; margin-top: 2.2rem; }
+        h2 { font-size: 1.5rem; margin-top: 1.8rem; }
+        h3 { font-size: 1.2rem; margin-top: 1.4rem; }
         hr { margin: 2rem 0; }
         .page-break { page-break-before: always; }
+        .toc h1 { margin-top: 0; }
         @media print {
-            a[href]:after { content: " (" attr(href) ")"; font-size: 90%; }
+            @page { margin: 18mm 14mm; size: A4; }
+            body { margin: 0; }
+            header, footer { position: fixed; left: 0; right: 0; color: var(--muted); font-size: 10pt; }
+            header { top: 0; }
+            footer { bottom: 0; }
+            footer .page:after { content: counter(page); }
             pre { white-space: pre-wrap; }
+            a[href]:after { content: " (" attr(href) ")"; font-size: 90%; }
         }
     </style>
 </head>
 <body>
+<header></header>
+<footer><span class="page"></span></footer>
 %%BODY%%
 </body>
 </html>

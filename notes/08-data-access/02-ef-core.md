@@ -35,5 +35,10 @@ var blogs = await db.Blogs.AsNoTracking().Where(b => b.Title.Contains("H")).ToLi
 - Scope DbContext per unit of work (e.g., per web request).
 - Use AsNoTracking for read-only queries; include navigation properties with `.Include` when needed.
 
+## Practice
+- Add a unique index to Blog.Title using Fluent API and verify the constraint.
+- Demonstrate tracking vs AsNoTracking and explain memory/perf impact in a list view.
+- Implement a one-to-many with cascade delete and write a test to verify.
+
 ## Read More
 - https://learn.microsoft.com/ef/core/

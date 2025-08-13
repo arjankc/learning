@@ -57,5 +57,10 @@ var arr = seq.ToArray(); // 10, 20, 30
 - Push filters early (Where) and project only what you need (Select) to reduce work.
 - Avoid multiple enumeration if source is expensive; materialize once when needed.
 
+## Practice
+- Given orders with a CustomerId, output the top 3 orders by total per customer.
+- Inner join vs group join: produce both and explain the shape differences.
+- Flatten nested collections (customers -> orders -> lines) and compute totals with SelectMany.
+
 ## Read More
 - https://learn.microsoft.com/dotnet/csharp/programming-guide/concepts/linq/

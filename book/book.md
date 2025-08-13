@@ -1,5 +1,7 @@
-# C#/.NET Learning Notes (Compiled)
+# C#/.NET Learning Notes
 
+Compiled for offline study and printing. Start with the Study Guide.
+- [Study Guide: C#/.NET Exam Prep](00-study-guide.md)
 - [C# Basics: Data Types (Primitive, Value vs Reference)](01-csharp-basics/01-data-types.md)
 - [C# Basics: Variables, Operators, and Expressions](01-csharp-basics/02-variables-operators-expressions.md)
 - [Type Conversion in C# (Implicit/Explicit, Boxing/Unboxing)](01-csharp-basics/03-type-conversion.md)
@@ -33,7 +35,42 @@
 - [Mobile Features](11-cross-platform/02-mobile-features.md)
 - [Cloud Deployment](12-devops/01-cloud-deployment.md)
 - [CI/CD Pipelines](12-devops/02-ci-cd.md)
+- [Exam Cram: C#/.NET Quick Reference](99-exam-cram.md)
 
+
+
+---
+
+# Study Guide: C#/.NET Exam Prep
+
+# Study Guide: C#/.NET Exam Prep
+
+Use this as your roadmap. Tiers reflect priority: Tier 1 first, then Tier 2, then Tier 3.
+
+## How to study
+- Read the theory, then type out the examples yourself.
+- After each section, answer the “Check yourself” questions without looking.
+- Spaced repetition: revisit weak spots after 1–2 days.
+- Practice: small katas; then build a tiny app that touches multiple topics.
+
+## Suggested sequence (2–3 weeks)
+1. Tier 1 (Days 1–7): C# Basics, Flow, .NET ecosystem, OOP, Collections, Exceptions/Debugging.
+2. Tier 2 (Days 8–13): Delegates/Events, LINQ, Async, ADO.NET/EF Core, File I/O, WPF basics.
+3. Tier 3 (Days 14–18): ASP.NET Core, Blazor, Security, Mobile/Xamarin/MAUI, DevOps.
+
+## Check yourself (sample prompts)
+- Explain value vs reference semantics; show a bug that arises from misunderstanding them.
+- When would you use yield? Show a lazy pipeline over a large file.
+- Demonstrate inheritance vs composition; when is each preferable?
+- Write a LINQ query for: top 3 items per group; inner join vs group join difference.
+- Show async/await with cancellation and explain why async void is dangerous.
+- ADO.NET vs EF Core: trade-offs and when to choose each.
+- WPF binding modes and validation: set up TwoWay binding with validation.
+
+Good luck—keep it small, steady, and hands-on.
+
+
+<div class="page-break"></div>
 
 
 ---
@@ -1333,6 +1370,11 @@ var arr = seq.ToArray(); // 10, 20, 30
 - Push filters early (Where) and project only what you need (Select) to reduce work.
 - Avoid multiple enumeration if source is expensive; materialize once when needed.
 
+## Practice
+- Given orders with a CustomerId, output the top 3 orders by total per customer.
+- Inner join vs group join: produce both and explain the shape differences.
+- Flatten nested collections (customers -> orders -> lines) and compute totals with SelectMany.
+
 ## Read More
 - https://learn.microsoft.com/dotnet/csharp/programming-guide/concepts/linq/
 
@@ -1393,6 +1435,11 @@ var pages = await Task.WhenAll(tasks);
 ## Tips
 - Don’t block on async (no .Result/.Wait()); make your call chain async.
 - Use `ValueTask` for high-throughput hot paths when appropriate.
+
+## Practice
+- Wrap an external API call with timeout and cancellation, surfacing a custom exception on failure.
+- Convert a synchronous file processing loop to async and ensure max 4 concurrent operations.
+- Explain ConfigureAwait(false) and where it’s appropriate; demonstrate a context-deadlock caused by .Result.
 
 ## Read More
 - https://learn.microsoft.com/dotnet/csharp/asynchronous-programming/
@@ -1493,6 +1540,11 @@ var blogs = await db.Blogs.AsNoTracking().Where(b => b.Title.Contains("H")).ToLi
 - Scope DbContext per unit of work (e.g., per web request).
 - Use AsNoTracking for read-only queries; include navigation properties with `.Include` when needed.
 
+## Practice
+- Add a unique index to Blog.Title using Fluent API and verify the constraint.
+- Demonstrate tracking vs AsNoTracking and explain memory/perf impact in a list view.
+- Implement a one-to-many with cascade delete and write a test to verify.
+
 ## Read More
 - https://learn.microsoft.com/ef/core/
 
@@ -1589,6 +1641,14 @@ public class RelayCommand : ICommand
 		public void RaiseCanExecuteChanged()=>CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 }
 ```
+
+## Binding modes and validation
+- Modes: OneTime, OneWay, TwoWay (default for TextBox.Text), OneWayToSource.
+- Validation: IDataErrorInfo/INotifyDataErrorInfo; ValidationRules on bindings.
+
+## Practice
+- Bind a Slider to a numeric property (TwoWay) and display its value.
+- Add validation to disallow empty names and show a red adornment.
 
 ## Read More
 - https://learn.microsoft.com/dotnet/desktop/wpf/xaml-services/?view=netdesktop-8.0
@@ -1892,6 +1952,100 @@ jobs:
 ## Read More
 - https://learn.microsoft.com/azure/devops/pipelines/
 - https://docs.github.com/actions
+
+
+<div class="page-break"></div>
+
+
+---
+
+# Exam Cram: C#/.NET Quick Reference
+
+# Exam Cram: C#/.NET Quick Reference
+
+Use this as your last‑minute refresher. Practice from the section prompts in each chapter; this page is for recall.
+
+## Core C#
+- Value vs reference: structs/enums vs classes/arrays/strings (string is reference/immutable). Passing ref type copies the reference.
+- Conversions: implicit (safe) vs explicit (cast); checked for overflow; boxing/unboxing for value types.
+- Flow: if/else, switch (patterns, when guards), loops (for/while/foreach), break/continue.
+- Iterators: `yield return` (lazy), `yield break` (stop). Side effects occur on enumeration.
+
+## OOP essentials
+- Encapsulation: hide fields; validate in properties; keep invariants.
+- Inheritance: `virtual/override/abstract/sealed`; prefer composition for reuse.
+- Polymorphism: interfaces or virtual methods; favor interface‑first design.
+- Records: value semantics and with‑expressions; great for immutable DTOs.
+
+## Collections: pick fast
+- List<T>: ordered, O(1) index, appends amortized O(1).
+- Dictionary<TKey,TValue>: O(1) avg lookup; use StringComparer for string keys.
+- HashSet<T>: fast uniqueness membership.
+- Queue/Stack: FIFO/LIFO O(1) ops; BlockingCollection/ConcurrentBag for threads.
+- Avoid repeated List.Remove in loops; prefer RemoveAll/filtering.
+
+## Exceptions
+- Use exceptions for exceptional paths; not control flow.
+- Pattern: try → specific catch → generic catch (log) → finally. Filters: `catch (X ex) when (cond)`.
+- Rethrow with `throw;` to preserve stack; prefer `TryXxx` for expected failures.
+- Custom exception: serializable, useful properties, preserve inner.
+
+## Delegates & events
+- Delegates: `Action`, `Func`, `Predicate` cover most needs. Lambdas can capture variables (closures).
+- Events: `event EventHandler<T>`; raise with null‑conditional; unsubscribe to avoid leaks.
+
+## LINQ map
+- Filter: Where; Project: Select/SelectMany; Sort: OrderBy/ThenBy; Group: GroupBy; Join: Join/GroupJoin; Sets: Distinct/Union/Intersect/Except; Aggregates: Count/Sum/Average/Aggregate.
+- Deferred vs immediate: pipelines run on enumeration; materialize with ToList/ToArray when needed.
+- IEnumerable vs IQueryable: in‑memory vs provider‑translated; avoid client‑only methods in IQueryable.
+
+## Async/await
+- Don’t block (no .Result/.Wait); async all the way. Use `Task.WhenAll` for parallel async IO.
+- Cancellation: pass CancellationToken; catch OperationCanceledException. Timeouts via CTS.
+- Libraries: `ConfigureAwait(false)`; UI apps usually capture context.
+- Parallel: CPU‑bound → Parallel.ForEach/PLINQ; IO‑bound → async + WhenAll.
+
+## ADO.NET vs EF Core
+- ADO.NET: explicit SqlConnection/Command/Reader; optimal control and perf.
+- EF Core: LINQ + change tracking; faster dev, migrations, relationships.
+- Transactions: `BeginTransaction` + commit/rollback. Parameters prevent SQL injection.
+- EF tips: scope DbContext per unit of work; `AsNoTracking` for read‑only; `Include` for navs; migrations: `add` then `update`.
+
+## File I/O
+- Use async IO on servers; `File.ReadLines` for lazy large files. JSON with System.Text.Json; XML with XmlSerializer.
+
+## WPF
+- Binding: INotifyPropertyChanged; modes (OneWay, TwoWay). Commands (ICommand) decouple UI.
+- Validation: IDataErrorInfo/INotifyDataErrorInfo or ValidationRules on bindings.
+
+## ASP.NET Core
+- Pipeline order: UseRouting → UseAuthentication → UseAuthorization → Map endpoints.
+- Minimal API shape: `app.MapGet("/path", (deps, ...) => Results.Ok(...));`
+- Model binding, validation attributes, content negotiation (JSON default).
+
+## Blazor
+- Server vs WASM: latency/connection vs offline/native‑like; same component model.
+- @inject DI for services; parameters via `[Parameter]`.
+
+## Security
+- Cookies (server pages) vs JWT (APIs/SPAs). HTTPS always; strict CORS.
+- Roles: `[Authorize(Roles="Admin")]`; Policies: central requirements; claims‑based.
+
+## CLR/BCL
+- GC: Gen0/1/2, LOH; allocations cheap when short‑lived. Exceptions are costly when thrown.
+- JIT: tiered compilation, ReadyToRun; diagnostics via dotnet‑trace/counters.
+- Prefer BCL types first (collections, IO, HttpClient, JsonSerializer).
+
+## DevOps
+- CI: restore/build/test on push/PR. Cache deps. Fail fast on warnings.
+- Docker: multi‑stage build; environment via variables; health checks.
+- Cloud: config from env/Key Vault; enable logs and health probes; use slots for safe deploys.
+
+## Last‑minute checks
+- Nullable enabled; guard public APIs.
+- Dispose IDisposables (`using`/`await using`).
+- Avoid multiple enumeration of expensive sources.
+- Validate user input; parameterize SQL; never log secrets.
 
 
 <div class="page-break"></div>
