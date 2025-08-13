@@ -22,15 +22,22 @@
     </header>
     <main class="container">
         <section class="card">
-            <h2>Progress</h2>
+            <h2>🎯 Your Progress</h2>
             <p id="progress-text">Loading…</p>
-            <label for="tier-filter"><strong>Filter by Tier:</strong></label>
-            <select id="tier-filter">
-                <option value="all">All</option>
-                <option value="1">Tier 1 (Essential)</option>
-                <option value="2">Tier 2 (Intermediate)</option>
-                <option value="3">Tier 3 (Advanced)</option>
-            </select>
+            <div class="progress-bar-container" style="margin: 15px 0;">
+                <div class="progress-bar" id="progress-bar" style="width: 0%; height: 20px; background: linear-gradient(90deg, #4CAF50, #8BC34A); border-radius: 10px; transition: width 0.5s ease;"></div>
+            </div>
+            <div id="xp-display" style="text-align: center; margin: 10px 0; font-weight: bold; color: #007acc;"></div>
+            
+            <div style="margin: 20px 0;">
+                <label for="tier-filter"><strong>🔍 Filter by Tier:</strong></label>
+                <select id="tier-filter" style="margin-left: 10px; padding: 5px;">
+                    <option value="all">All Levels</option>
+                    <option value="1">🟢 Tier 1 (Essential)</option>
+                    <option value="2">🟡 Tier 2 (Intermediate)</option>
+                    <option value="3">🔴 Tier 3 (Advanced)</option>
+                </select>
+            </div>
         </section>
 
         <section class="card">
@@ -39,23 +46,42 @@
         </section>
 
         <section class="card" id="level-detail" style="display:none">
-            <h2 id="level-title"></h2>
-            <p id="level-description"></p>
-            <h3>Requirements</h3>
+            <div class="level-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 id="level-title"></h2>
+                <div class="level-navigation">
+                    <button id="prev-level" class="button" style="margin-right: 10px;">← Previous</button>
+                    <button id="next-level" class="button">Next →</button>
+                    <button id="close-level" class="button" style="margin-left: 10px; background: #666;">✕ Close</button>
+                </div>
+            </div>
+            
+            <div id="level-difficulty" style="margin-bottom: 15px;"></div>
+            <p id="level-description" style="font-size: 1.1em; margin-bottom: 20px;"></p>
+            
+            <h3>📋 Requirements</h3>
             <ul id="level-requirements"></ul>
 
-            <h3>Theory</h3>
+            <h3>📖 Theory</h3>
             <div id="level-theory"></div>
 
-            <h3>Example Code</h3>
+            <h3>💻 Example Code</h3>
             <pre><code id="level-code" class="language-csharp"></code></pre>
+            
+            <div id="code-playground" style="margin: 20px 0; display: none;">
+                <h4>🎮 Try it yourself:</h4>
+                <textarea id="user-code" placeholder="Write your C# code here..." style="width: 100%; height: 120px; font-family: monospace; padding: 10px; border: 2px solid #ddd; border-radius: 5px;"></textarea>
+                <button id="run-code" class="button" style="margin-top: 10px;">▶️ Run Code</button>
+                <div id="code-output" style="margin-top: 10px; padding: 10px; background: #f5f5f5; border-radius: 5px; font-family: monospace; display: none;"></div>
+            </div>
 
-            <h3>Quick Quiz</h3>
+            <h3>🧠 Quick Quiz</h3>
             <div id="quiz-container"></div>
-            <button id="submit-quiz" class="button" style="display:none">Submit Answers</button>
-            <p id="quiz-result"></p>
+            <button id="submit-quiz" class="button" style="display:none">🎯 Submit Answers</button>
+            <div id="quiz-result" style="margin-top: 10px;"></div>
 
-            <button id="complete-level" class="button">Mark as completed</button>
+            <div style="margin-top: 30px; text-align: center;">
+                <button id="complete-level" class="button" style="font-size: 1.2em; padding: 15px 30px;">🎉 Mark as Completed</button>
+            </div>
         </section>
     </main>
     <footer>
