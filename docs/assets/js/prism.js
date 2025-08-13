@@ -5,6 +5,14 @@ window.Prism = {
     highlightElement: function(element) {
         // Simple syntax highlighting for C# keywords
         if (element && element.textContent) {
+            // Check if already highlighted or contains escaped HTML
+            if (element.classList.contains('prism-highlighted') || 
+                element.innerHTML.includes('<span class="token') ||
+                element.innerHTML.includes('&lt;span') ||
+                element.textContent.includes('<span class=')) {
+                return;
+            }
+            
             const code = element.textContent;
             const highlighted = code
                 // C# keywords
@@ -24,6 +32,20 @@ window.Prism = {
                 .replace(/([{}()\[\];,.])/g, '<span class="token punctuation">$1</span>');
             
             element.innerHTML = highlighted;
+            element.classList.add('prism-highlighted');
+        }
+    },
+    
+    resetElement: function(element) {
+        if (element) {
+            element.classList.remove('prism-highlighted');
+            // If the element has been highlighted, restore original text
+            if (element.innerHTML.includes('<span class="token')) {
+                // Extract text content from highlighted HTML
+                const textContent = element.textContent || element.innerText;
+                element.innerHTML = '';
+                element.textContent = textContent;
+            }
         }
     },
     

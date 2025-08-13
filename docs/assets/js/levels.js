@@ -428,14 +428,31 @@ function showLevelDetail(levelId) {
     if (level.code) {
         // Replace \n with actual line breaks for proper display
         const formattedCode = level.code.replace(/\\n/g, '\n');
+        
+        // Clear any existing content and highlighting
+        code.innerHTML = '';
+        code.className = 'language-csharp';
+        code.classList.remove('prism-highlighted');
+        
+        // Set the plain text content
         code.textContent = formattedCode;
+        
+        // Apply syntax highlighting if Prism is available
+        if (window.Prism && typeof window.Prism.highlightElement === 'function') {
+            try {
+                // Small delay to ensure DOM is ready
+                setTimeout(() => {
+                    Prism.highlightElement(code);
+                }, 10);
+            } catch (error) {
+                console.warn('Prism highlighting failed:', error);
+                // Fallback: just show the plain code
+            }
+        }
     } else {
         code.textContent = '';
-    }
-    
-    // Apply syntax highlighting if Prism is available
-    if (window.Prism && level.code) {
-        Prism.highlightElement(code);
+        code.className = 'language-csharp';
+        code.classList.remove('prism-highlighted');
     }
     
     // Set up navigation buttons
