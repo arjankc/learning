@@ -262,6 +262,12 @@ function showLevelDetail(levelId) {
     const level = LevelsData.find(l => l.id === levelId);
     if (!level) return;
     
+    // Clear any existing proceed section from previous level completion
+    const existingProceedSection = document.getElementById('proceed-section');
+    if (existingProceedSection) {
+        existingProceedSection.remove();
+    }
+    
     const progress = window.LearningStorage?.getUserProgress(window.USER_ID) || {};
     const done = new Set(progress.completedLevels || []);
     const isUnlocked = isLevelUnlocked(level.id, done);
@@ -446,6 +452,122 @@ function completeCurrentLevel(level) {
     btn.style.cursor = 'not-allowed';
     btn.classList.add('pulse');
     setTimeout(() => btn.classList.remove('pulse'), 500);
+    
+    // Add "Proceed to Next Level" functionality
+    showProceedToNextLevel(level, nextLevel);
+}
+
+// Show proceed to next level options after completion
+function showProceedToNextLevel(currentLevel, nextLevel) {
+    // Create or update the proceed section
+    let proceedSection = document.getElementById('proceed-section');
+    if (!proceedSection) {
+        proceedSection = document.createElement('div');
+        proceedSection.id = 'proceed-section';
+        proceedSection.style.cssText = `
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #e8f5e8 0%, #f1f8e9 100%);
+            border: 2px solid #4CAF50;
+            border-radius: 15px;
+            text-align: center;
+            animation: slideInUp 0.5s ease-out;
+        `;
+        
+        // Insert after the completion button
+        const completeBtn = document.getElementById('complete-level');
+        completeBtn.parentNode.insertBefore(proceedSection, completeBtn.nextSibling);
+    }
+    
+    let content = `
+        <h3 style="color: #4CAF50; margin-top: 0; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            🎉 Level ${currentLevel.id} Complete!
+        </h3>
+        <p style="margin: 1rem 0; color: #333; font-size: 1.1rem;">
+            Great job mastering "${currentLevel.title}"! 
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
+    `;
+    
+    if (nextLevel) {
+        // Show next level option
+        content += `
+            <button onclick="proceedToLevel(${nextLevel.id})" class="proceed-button primary">
+                🚀 Continue to Level ${nextLevel.id}
+                <small style="display: block; font-size: 0.9em; margin-top: 0.2rem;">
+                    "${nextLevel.title}"
+                </small>
+            </button>
+        `;
+    }
+    
+    // Always show option to browse all levels
+    content += `
+        <button onclick="proceedToBrowse()" class="proceed-button">
+            📚 Browse All Levels
+        </button>
+        <button onclick="proceedToAchievements()" class="proceed-button">
+            🏆 View Achievements
+        </button>
+    `;
+    
+    // If this is the last level, show special completion message
+    if (!nextLevel) {
+        content += `
+            <div style="margin-top: 1rem; padding: 1rem; background: #fff3cd; border-radius: 8px; border: 1px solid #ffeaa7;">
+                <strong style="color: #b8860b;">🎓 Congratulations!</strong>
+                <p style="margin: 0.5rem 0 0 0; color: #856404;">
+                    You've completed all available levels! You're now a C# master! 🎉
+                </p>
+            </div>
+        `;
+    }
+    
+    content += '</div>';
+    proceedSection.innerHTML = content;
+    
+    // Add smooth scroll to the new section
+    setTimeout(() => {
+        proceedSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+}
+
+// Proceed to specific level
+function proceedToLevel(levelId) {
+    const level = LevelsData.find(l => l.id === levelId);
+    if (level) {
+        // Hide the proceed section first
+        const proceedSection = document.getElementById('proceed-section');
+        if (proceedSection) {
+            proceedSection.style.display = 'none';
+        }
+        
+        // Show the next level
+        showLevelDetail(levelId);
+        showNotification(`🚀 Starting Level ${levelId}: ${level.title}`, 'info');
+    }
+}
+
+// Proceed to browse all levels
+function proceedToBrowse() {
+    // Close level detail view
+    const levelDetail = document.getElementById('level-detail');
+    if (levelDetail) {
+        levelDetail.style.display = 'none';
+    }
+    
+    // Scroll to levels list
+    const levelsSection = document.getElementById('levels-list');
+    if (levelsSection) {
+        levelsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    
+    showNotification('📚 Browse and select your next challenge!', 'info');
+}
+
+// Proceed to achievements page
+function proceedToAchievements() {
+    window.location.href = 'achievements.html';
 }
 
 async function initLevelsPage() {

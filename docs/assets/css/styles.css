@@ -114,6 +114,66 @@ code {
     tab-size: 4;
 }
 
+/* Proceed to Next Level Styles */
+.proceed-button {
+    background: #007acc;
+    color: white;
+    border: none;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    min-width: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.proceed-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    background: #005fa3;
+}
+
+.proceed-button.primary {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    font-size: 1.1rem;
+    padding: 1.2rem 2rem;
+}
+
+.proceed-button.primary:hover {
+    background: linear-gradient(135deg, #45a049, #3d8b40);
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive design for proceed buttons */
+@media (max-width: 768px) {
+    .proceed-button {
+        min-width: 140px;
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .proceed-button.primary {
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
 /* Progress Bar Styles */
 .progress-bar-container {
     background: #e0e0e0;
