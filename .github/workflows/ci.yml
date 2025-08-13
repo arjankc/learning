@@ -1,0 +1,29 @@
+name: ci
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Restore
+        run: dotnet restore ./LearningExamples.sln
+      - name: Build
+        run: dotnet build ./LearningExamples.sln -c Release --no-restore
+      - name: Build Book
+        run: |
+          dotnet build ./tools/BookBuilder/BookBuilder.csproj -c Release --nologo
+          dotnet run --project ./tools/BookBuilder/BookBuilder.csproj -c Release -- $pwd
+      - name: Upload book artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: book
+          path: book/

@@ -115,11 +115,6 @@ for (int i = 0; i < files.Count; i++)
     }
 
     sbMd.AppendLine(cleaned);
-
-    if (i < files.Count - 1)
-    {
-        sbMd.AppendLine("\n<div class=\"page-break\"></div>");
-    }
 }
 
 File.WriteAllText(outMd, sbMd.ToString());
@@ -143,7 +138,7 @@ var template = """
         h2 { font-size: 1.5rem; margin-top: 1.8rem; }
         h3 { font-size: 1.2rem; margin-top: 1.4rem; }
         hr { margin: 2rem 0; }
-        .page-break { page-break-before: always; }
+    /* page-break removed to allow continuous flow */
         .toc h1 { margin-top: 0; }
         @media print {
             @page { margin: 16mm 12mm; size: A4; }

@@ -16,11 +16,18 @@ while (await reader.ReadAsync())
 ## Disconnected: DataTable
 ```csharp
 var table = new System.Data.DataTable();
-using (var da = new Microsoft.Data.Sqlite.SqliteDataAdapter("SELECT 1 AS N", conn))
+using (var cmd = conn.CreateCommand())
 {
-	da.Fill(table);
+	cmd.CommandText = "SELECT 1 AS N UNION ALL SELECT 2";
+	using var reader = await cmd.ExecuteReaderAsync();
+	table.Load(reader); // Fast materialization without DataAdapter
 }
 ```
+
+Tips:
+- Track RowState (Added/Modified/Deleted) to know what to persist.
+- Prefer `DataTable.Load(IDataReader)` for simple reads.
+- Keep ADO.NET for surgical control and batching; use EF/Dapper when object mapping productivity is needed.
 
 ## Transactions
 ```csharp
@@ -38,5 +45,5 @@ catch
 }
 ```
 
-## Read More
+## Further reading
 - https://learn.microsoft.com/dotnet/framework/data/adonet/ado-net-overview

@@ -103,6 +103,7 @@
   - [ ] SQLite.NET Database
   - [ ] Platform-Specific Code (DependencyService)
   - [ ] OAuth 2.0 Integration
+ - [ ] .NET MAUI Intro
 
 ## 10. Deployment & DevOps (Tier 3)
 - [ ] Cloud Deployment
@@ -112,3 +113,4 @@
 - [ ] CI/CD Pipelines
   - [ ] GitHub Actions
   - [ ] Azure DevOps
+ - [ ] Build book in CI and publish artifact

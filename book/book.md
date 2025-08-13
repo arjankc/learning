@@ -31,10 +31,13 @@ Compiled for offline study and printing. Start with the Study Guide.
 - [ASP.NET Core Fundamentals](10-web/01-aspnet-core.md)
 - [Blazor](10-web/02-blazor.md)
 - [Web Security](10-web/03-security.md)
+- [Razor Pages vs MVC in ASP.NET Core](10-web/04-razor-pages-vs-mvc.md)
 - [Xamarin.Forms](11-cross-platform/01-xamarin-forms.md)
 - [Mobile Features](11-cross-platform/02-mobile-features.md)
+- [.NET MAUI Intro](11-cross-platform/03-maui-intro.md)
 - [Cloud Deployment](12-devops/01-cloud-deployment.md)
 - [CI/CD Pipelines](12-devops/02-ci-cd.md)
+- [Docker Containers for .NET Apps](12-devops/03-docker-containers.md)
 - [Exam Cram: C#/.NET Quick Reference](99-exam-cram.md)
 
 # Study Guide: C#/.NET Exam Prep
@@ -63,8 +66,6 @@ Use this as your roadmap. Tiers reflect priority: Tier 1 first, then Tier 2, the
 
 Good luck—keep it small, steady, and hands-on.
 
-
-<div class="page-break"></div>
 
 
 ---
@@ -115,8 +116,6 @@ Tip: prefer small, immutable structs for simple data; use classes for entities w
 - Microsoft Docs: Types in C#: https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/built-in-types
 - Microsoft Docs: Value Types and Reference Types: https://learn.microsoft.com/dotnet/csharp/programming-guide/types/
 
-
-<div class="page-break"></div>
 
 
 ---
@@ -178,8 +177,6 @@ int clearer = (x + y) * 2; // 26
 - Microsoft Docs: Expressions: https://learn.microsoft.com/dotnet/csharp/language-reference/operators/expressions
 
 
-<div class="page-break"></div>
-
 
 ---
 
@@ -239,8 +236,6 @@ int unboxed = (int)boxed;     // unboxing
 ```
 
 
-<div class="page-break"></div>
-
 
 ---
 
@@ -283,8 +278,6 @@ Disambiguation with fully-qualified names:
 global::System.Uri uri = new("https://example.com");
 ```
 
-
-<div class="page-break"></div>
 
 
 ---
@@ -354,8 +347,6 @@ string Describe(object o) => o switch
 - Use guard clauses to fail fast when inputs are invalid.
 
 
-<div class="page-break"></div>
-
 
 ---
 
@@ -411,8 +402,6 @@ foreach (var word in words)
 }
 ```
 
-
-<div class="page-break"></div>
 
 
 ---
@@ -533,8 +522,6 @@ async IAsyncEnumerable<int> Tick(int intervalMs, [EnumeratorCancellation] Cancel
 ```
 
 
-<div class="page-break"></div>
-
 
 ---
 
@@ -576,8 +563,6 @@ Native.Sleep(100);
 - ETW/EventPipe (dotnet-trace), dotnet-counters, dotnet-gcdump, PerfView.
 - In-process: `GC.GetTotalMemory`, `GC.TryStartNoGCRegion`, `Activity` for tracing.
 
-
-<div class="page-break"></div>
 
 
 ---
@@ -622,8 +607,6 @@ catch (TaskCanceledException) { /* expected */ }
 - Check for `TryXxx` methods to avoid exceptions for common failure paths.
 
 
-<div class="page-break"></div>
-
 
 ---
 
@@ -648,8 +631,6 @@ catch (TaskCanceledException) { /* expected */ }
 - `dotnet new`, `dotnet add package`, `dotnet build`, `dotnet test`, `dotnet publish`.
 - `dotnet watch run` for hot reload during development.
 
-
-<div class="page-break"></div>
 
 
 ---
@@ -758,8 +739,6 @@ var (x, y) = pt; // x=3, y=4
 ```
 
 
-<div class="page-break"></div>
-
 
 ---
 
@@ -840,8 +819,6 @@ public class CachedRepository<T> : IRepository<T>
 ```
 
 
-<div class="page-break"></div>
-
 
 ---
 
@@ -907,8 +884,6 @@ Console.WriteLine(a == b); // true (value-based)
 - Keep inheritance shallow; prefer interfaces + composition.
 
 
-<div class="page-break"></div>
-
 
 ---
 
@@ -956,6 +931,10 @@ var prod = Task.Run(() => { for (int i = 0; i < 10; i++) queue.Add(i); queue.Com
 var cons = Task.Run(() => { foreach (var item in queue.GetConsumingEnumerable()) Console.WriteLine(item); });
 await Task.WhenAll(prod, cons);
 ```
+When to use which:
+- Use ConcurrentDictionary when multiple threads update shared counters/state per key.
+- Use BlockingCollection for producer/consumer pipelines with backpressure.
+- Prefer immutable snapshots (e.g., ImmutableArray) for many-readers/few-writers patterns.
 
 ## Complexity cheatsheet (typical)
 - List<T>: index O(1), append amortized O(1), remove by value O(n).
@@ -967,8 +946,9 @@ await Task.WhenAll(prod, cons);
 - Use `StringComparer.OrdinalIgnoreCase` when keys are case-insensitive.
 - Avoid repeated `List<T>.Remove(item)` in a loop; filter with `Where`/`RemoveAll`.
 
+## Further reading
+- https://learn.microsoft.com/dotnet/standard/collections/
 
-<div class="page-break"></div>
 
 
 ---
@@ -1016,8 +996,6 @@ public class BoundedList<T> : IList<T>
 }
 ```
 
-
-<div class="page-break"></div>
 
 
 ---
@@ -1071,8 +1049,6 @@ catch (OrderStorageException ex)
 ```
 
 
-<div class="page-break"></div>
-
 
 ---
 
@@ -1102,8 +1078,6 @@ public class OrderProcessingException : Exception
 - Avoid throwing exceptions for control flow; use `TryXxx` when failure is common.
 
 
-<div class="page-break"></div>
-
 
 ---
 
@@ -1132,8 +1106,6 @@ logger.LogInformation("Starting module {Module}", "X");
 ## Performance debugging
 - dotnet-trace/dotnet-counters; sampling profilers; memory dumps (dotnet-gcdump).
 
-
-<div class="page-break"></div>
 
 
 ---
@@ -1206,8 +1178,6 @@ public event EventHandler Something
 - Unsubscribe from long-lived events to avoid memory leaks.
 
 
-<div class="page-break"></div>
-
 
 ---
 
@@ -1276,8 +1246,6 @@ var arr = seq.ToArray(); // 10, 20, 30
 - Flatten nested collections (customers -> orders -> lines) and compute totals with SelectMany.
 
 
-<div class="page-break"></div>
-
 
 ---
 
@@ -1337,8 +1305,6 @@ var pages = await Task.WhenAll(tasks);
 - Explain ConfigureAwait(false) and where it’s appropriate; demonstrate a context-deadlock caused by .Result.
 
 
-<div class="page-break"></div>
-
 
 ---
 
@@ -1360,11 +1326,18 @@ while (await reader.ReadAsync())
 ## Disconnected: DataTable
 ```csharp
 var table = new System.Data.DataTable();
-using (var da = new Microsoft.Data.Sqlite.SqliteDataAdapter("SELECT 1 AS N", conn))
+using (var cmd = conn.CreateCommand())
 {
-	da.Fill(table);
+	cmd.CommandText = "SELECT 1 AS N UNION ALL SELECT 2";
+	using var reader = await cmd.ExecuteReaderAsync();
+	table.Load(reader); // Fast materialization without DataAdapter
 }
 ```
+
+Tips:
+- Track RowState (Added/Modified/Deleted) to know what to persist.
+- Prefer `DataTable.Load(IDataReader)` for simple reads.
+- Keep ADO.NET for surgical control and batching; use EF/Dapper when object mapping productivity is needed.
 
 ## Transactions
 ```csharp
@@ -1382,8 +1355,9 @@ catch
 }
 ```
 
+## Further reading
+- https://learn.microsoft.com/dotnet/framework/data/adonet/ado-net-overview
 
-<div class="page-break"></div>
 
 
 ---
@@ -1431,8 +1405,6 @@ var blogs = await db.Blogs.AsNoTracking().Where(b => b.Title.Contains("H")).ToLi
 - Implement a one-to-many with cascade delete and write a test to verify.
 
 
-<div class="page-break"></div>
-
 
 ---
 
@@ -1469,8 +1441,6 @@ xmlSer.Serialize(xfs, new Person("Ada", 28));
 - Prefer async IO for scalability in servers; sync is often fine for small local work.
 - Use File.ReadLines (lazy) over ReadAllLines (eager) for large files.
 
-
-<div class="page-break"></div>
 
 
 ---
@@ -1526,8 +1496,6 @@ public class RelayCommand : ICommand
 - Add validation to disallow empty names and show a red adornment.
 
 
-<div class="page-break"></div>
-
 
 ---
 
@@ -1564,8 +1532,6 @@ public class MainViewModel
 - Enable exceptions on binding failures in dev.
 
 
-<div class="page-break"></div>
-
 
 ---
 
@@ -1592,8 +1558,6 @@ app.MapPost("/sum", (int a, int b) => Results.Ok(new { sum = a + b }));
 ## Web API essentials
 - Model binding, validation attributes, filters, content negotiation (JSON by default).
 
-
-<div class="page-break"></div>
 
 
 ---
@@ -1631,8 +1595,6 @@ app.MapPost("/sum", (int a, int b) => Results.Ok(new { sum = a + b }));
 - WebAssembly: runs in browser, offline capable, larger download.
 
 
-<div class="page-break"></div>
-
 
 ---
 
@@ -1645,6 +1607,14 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer();
 ```
 
 ## Authorization
+## Security checklist (practical)
+- Enforce HTTPS; add HSTS in production.
+- Validate and encode all inputs/outputs to prevent XSS/SQLi.
+- Use ASP.NET Core Data Protection for key management.
+- Store secrets outside source control (User Secrets/Azure Key Vault).
+- Implement proper CORS policy (allow only known origins, methods, headers).
+- Add rate limiting for public endpoints.
+- Log auth failures and suspicious activities; monitor with alerts.
 - Roles: [Authorize(Roles = "Admin")]
 - Policies: configure requirements centrally.
 ```csharp
@@ -1659,7 +1629,27 @@ app.UseCors(p => p.WithOrigins("https://example.com").AllowAnyHeader().AllowAnyM
 ```
 
 
-<div class="page-break"></div>
+
+---
+
+# Razor Pages vs MVC in ASP.NET Core
+
+Understand when to choose Razor Pages or MVC:
+
+- Razor Pages: Page-focused, minimal ceremony, great for simple CRUD and forms. Files live side-by-side (.cshtml + PageModel).
+- MVC: Controller-centric, great for larger apps, strong separation of concerns, filters, and complex routing.
+
+Key differences:
+- Handler methods (OnGet/OnPost) in Pages vs Controller actions.
+- Routing conventions: folder-based for Pages vs attribute/conventional for MVC.
+- View models: both support, MVC often uses dedicated DTOs and services.
+
+When to pick:
+- Small to medium apps, internal tools → Razor Pages.
+- Complex APIs, multiple controllers, rich filters → MVC.
+
+Tip: You can mix both in one app.
+
 
 
 ---
@@ -1690,8 +1680,6 @@ await Navigation.PushAsync(new DetailsPage());
 - Bind View to ViewModel properties/commands via INotifyPropertyChanged and ICommand.
 
 
-<div class="page-break"></div>
-
 
 ---
 
@@ -1717,7 +1705,33 @@ public interface IDeviceInfo { string GetModel(); }
 - Store tokens securely (Keychain/Keystore); refresh tokens carefully.
 
 
-<div class="page-break"></div>
+
+---
+
+# .NET MAUI Intro
+
+Modern cross-platform UI framework (Windows, macOS, iOS, Android) succeeding Xamarin.Forms.
+
+Concepts:
+- Single project targeting multiple platforms
+- XAML UI with MVVM
+- Handlers (replacing renderers)
+- Essentials (device APIs)
+
+Quick start steps:
+1) Install .NET SDK with MAUI workload
+2) Create a new MAUI app
+3) Run on Windows or Android emulator
+
+Migration notes from Xamarin.Forms:
+- Namespaces and APIs updated
+- Renderers → Handlers
+- Shell navigation remains, improved
+
+When to choose MAUI vs Xamarin:
+- New apps: MAUI.
+- Existing Xamarin.Forms: plan for migration.
+
 
 
 ---
@@ -1752,8 +1766,6 @@ ENTRYPOINT ["dotnet", "WebApi.dll"]
 - Health checks endpoint; autoscaling rules; rolling deployments/slots.
 
 
-<div class="page-break"></div>
-
 
 ---
 
@@ -1784,7 +1796,41 @@ jobs:
 - Use environments and approvals for production.
 
 
-<div class="page-break"></div>
+
+---
+
+# Docker Containers for .NET Apps
+
+This guide shows how to containerize your .NET applications and run them locally. It pairs with the `examples/WebApi` project.
+
+## Why containers
+- Consistent runtime across machines
+- Fast deploys and easy rollbacks
+- Great fit for CI/CD and cloud platforms
+
+## Minimal Dockerfile (ASP.NET Core)
+We include a ready-to-use Dockerfile in `examples/WebApi` targeting .NET 8.
+
+Key points:
+- Multi-stage build (restore/build/publish runtime image)
+- Non-root user for runtime (where supported)
+- Expose port 8080 inside the container
+
+## Build and run
+1) Build image
+   - Image name: `learning-webapi:dev`
+2) Run container
+   - Map host port 8080 to container 8080
+   - Hit http://localhost:8080/swagger
+
+Troubleshooting:
+- If the port is in use, change host mapping `-p 8081:8080` and browse 8081.
+- Ensure HTTPS is disabled or dev certs are handled inside container; our sample uses HTTP for simplicity.
+
+## Next steps
+- Push to a registry (Docker Hub, GHCR, ACR)
+- Deploy to Azure Web App for Containers or Kubernetes
+
 
 
 ---

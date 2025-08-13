@@ -42,6 +42,10 @@ var prod = Task.Run(() => { for (int i = 0; i < 10; i++) queue.Add(i); queue.Com
 var cons = Task.Run(() => { foreach (var item in queue.GetConsumingEnumerable()) Console.WriteLine(item); });
 await Task.WhenAll(prod, cons);
 ```
+When to use which:
+- Use ConcurrentDictionary when multiple threads update shared counters/state per key.
+- Use BlockingCollection for producer/consumer pipelines with backpressure.
+- Prefer immutable snapshots (e.g., ImmutableArray) for many-readers/few-writers patterns.
 
 ## Complexity cheatsheet (typical)
 - List<T>: index O(1), append amortized O(1), remove by value O(n).
@@ -53,5 +57,5 @@ await Task.WhenAll(prod, cons);
 - Use `StringComparer.OrdinalIgnoreCase` when keys are case-insensitive.
 - Avoid repeated `List<T>.Remove(item)` in a loop; filter with `Where`/`RemoveAll`.
 
-## Read More
+## Further reading
 - https://learn.microsoft.com/dotnet/standard/collections/
