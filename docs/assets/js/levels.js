@@ -115,8 +115,21 @@ function renderProgress() {
     const percentage = total > 0 ? (completed / total) * 100 : 0;
     const xp = progress.xp || 0;
     
-    // Update text
-    progressEl.textContent = `🎯 ${completed}/${total} levels completed`;
+    // Calculate unlocked levels
+    const done = new Set(progress.completedLevels || []);
+    const unlocked = LevelsData.filter(l => isLevelUnlocked(l.id, done)).length;
+    const nextLevelToUnlock = LevelsData.find(l => !isLevelUnlocked(l.id, done));
+    
+    // Update text with cleaner information
+    let progressText = `🎯 ${completed}/${total} levels completed`;
+    if (unlocked < total) {
+        progressText += ` | 🔓 ${unlocked} available`;
+        if (nextLevelToUnlock) {
+            progressText += ` | 🎯 Complete Level ${nextLevelToUnlock.id - 1} to unlock "${nextLevelToUnlock.title}"`;
+        }
+    }
+    
+    progressEl.textContent = progressText;
     
     // Update progress bar with animation
     if (progressBar) {
@@ -160,8 +173,16 @@ function renderLevelsList() {
     const tierValue = tierFilter ? tierFilter.value : 'all';
     list.innerHTML = '';
     
-    const filteredLevels = LevelsData.filter(l => tierValue === 'all' || String(l.tier) === String(tierValue));
-    console.log(`Filtered to ${filteredLevels.length} levels for tier ${tierValue}`);
+    const filteredLevels = LevelsData.filter(l => {
+        // First filter by tier
+        const tierMatch = tierValue === 'all' || String(l.tier) === String(tierValue);
+        
+        // Then filter by unlock status - only show unlocked levels
+        const isUnlocked = isLevelUnlocked(l.id, done);
+        
+        return tierMatch && isUnlocked;
+    });
+    console.log(`Filtered to ${filteredLevels.length} levels for tier ${tierValue} (unlocked only)`);
     
     if (filteredLevels.length === 0) {
         list.innerHTML = '<p>No levels available. Please check if the data loaded correctly.</p>';
@@ -169,7 +190,6 @@ function renderLevelsList() {
     }
     
     filteredLevels.forEach(l => {
-        const isUnlocked = isLevelUnlocked(l.id, done);
         const isCompleted = done.has(l.id);
         
         const div = document.createElement('div');
@@ -178,35 +198,21 @@ function renderLevelsList() {
         // Add appropriate classes for styling
         if (isCompleted) {
             div.classList.add('completed');
-        } else if (isUnlocked) {
-            div.classList.add('unlocked');
         } else {
-            div.classList.add('locked');
-        }
-        
-        // Add visual styling based on level state
-        if (!isUnlocked) {
-            div.style.opacity = '0.6';
-            div.style.filter = 'grayscale(70%)';
+            div.classList.add('unlocked');
         }
         
         // Determine difficulty and status
         const difficulty = l.tier === 1 ? 'beginner' : l.tier === 2 ? 'intermediate' : 'advanced';
         const difficultyText = l.tier === 1 ? '🟢 Beginner' : l.tier === 2 ? '🟡 Intermediate' : '🔴 Advanced';
         
-        let status, buttonContent, buttonEnabled;
+        let status, buttonContent;
         if (isCompleted) {
             status = '✅ Completed';
             buttonContent = '📖 Review';
-            buttonEnabled = true;
-        } else if (isUnlocked) {
+        } else {
             status = '🔓 Ready to Start';
             buttonContent = '🚀 Start Level';
-            buttonEnabled = true;
-        } else {
-            status = '🔒 Locked';
-            buttonContent = '🔒 Locked';
-            buttonEnabled = false;
         }
         
         div.innerHTML = `
@@ -216,38 +222,24 @@ function renderLevelsList() {
             </div>
             <p style="margin: 10px 0; color: #666;">${l.description}</p>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
-                <span style="font-weight: bold; color: ${isCompleted ? '#4CAF50' : isUnlocked ? '#2196F3' : '#999'};">
+                <span style="font-weight: bold; color: ${isCompleted ? '#4CAF50' : '#2196F3'};">
                     ${status}
                 </span>
-                ${buttonEnabled ? 
-                    `<button class="button" data-level-id="${l.id}" style="border: none; cursor: pointer;">${buttonContent}</button>` :
-                    `<button class="button" disabled style="opacity: 0.5; cursor: not-allowed; border: none;">${buttonContent}</button>`
-                }
+                <button class="button" data-level-id="${l.id}" style="border: none; cursor: pointer;">${buttonContent}</button>
             </div>
         `;
         
-        // Show requirement for locked levels
-        if (!isUnlocked && l.id > 1) {
-            const requirementText = document.createElement('div');
-            requirementText.innerHTML = `<small style="color: #666; font-style: italic; margin-top: 10px; display: block;">🔑 Complete Level ${l.id - 1} to unlock</small>`;
-            div.appendChild(requirementText);
-        }
+        // Add hover effect for all visible levels (they're all unlocked)
+        div.style.cursor = 'pointer';
+        div.addEventListener('mouseenter', () => {
+            div.style.transform = 'translateY(-2px)';
+            div.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+        });
         
-        // Add hover effect
-        if (isUnlocked) {
-            div.style.cursor = 'pointer';
-            div.addEventListener('mouseenter', () => {
-                if (!div.classList.contains('locked')) {
-                    div.style.transform = 'translateY(-2px)';
-                    div.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-                }
-            });
-            
-            div.addEventListener('mouseleave', () => {
-                div.style.transform = 'translateY(0)';
-                div.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)';
-            });
-        }
+        div.addEventListener('mouseleave', () => {
+            div.style.transform = 'translateY(0)';
+            div.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)';
+        });
         
         list.appendChild(div);
     });
@@ -324,11 +316,20 @@ function showLevelDetail(levelId) {
     if (isCompleted) {
         btn.innerHTML = '✅ Mark as completed (Already completed)';
         btn.style.opacity = '0.7';
+        btn.disabled = false;
+        btn.style.cursor = 'pointer';
     } else {
-        btn.innerHTML = '🎉 Mark as Completed';
-        btn.style.opacity = '1';
+        // Start disabled - user must complete quiz perfectly
+        btn.innerHTML = '🔒 Complete quiz perfectly to unlock';
+        btn.style.opacity = '0.5';
+        btn.disabled = true;
+        btn.style.cursor = 'not-allowed';
     }
-    btn.onclick = () => completeCurrentLevel(level);
+    btn.onclick = () => {
+        if (!btn.disabled) {
+            completeCurrentLevel(level);
+        }
+    };
     
     // Show level detail with animation
     const levelDetail = document.getElementById('level-detail');
@@ -403,6 +404,13 @@ function showNotification(message, type = 'info') {
 }
 
 function completeCurrentLevel(level) {
+    // Prevent completion if button is disabled
+    const btn = document.getElementById('complete-level');
+    if (btn.disabled) {
+        showNotification('Complete the quiz perfectly first!', 'warning');
+        return;
+    }
+    
     window.LearningStorage?.completeLevel(window.USER_ID, level.id);
     // award XP per level (simple rule)
     const xpAwarded = level.tier * 20; // More XP for harder levels
@@ -426,9 +434,10 @@ function completeCurrentLevel(level) {
     setupLevelNavigation(level.id);
     
     // Update the completion button
-    const btn = document.getElementById('complete-level');
     btn.innerHTML = '✅ Completed!';
     btn.style.opacity = '0.7';
+    btn.disabled = true;
+    btn.style.cursor = 'not-allowed';
     btn.classList.add('pulse');
     setTimeout(() => btn.classList.remove('pulse'), 500);
 }
@@ -576,6 +585,7 @@ function renderQuiz(level){
         });
         
         const score = Math.round((correct / totalQuestions) * 100);
+        const isPerfectScore = correct === totalQuestions;
         let resultHTML = '';
         
         if (score >= 90) {
@@ -585,7 +595,7 @@ function renderQuiz(level){
             resultHTML = `👍 <strong>Good job!</strong> ${score}% (${correct}/${totalQuestions}) - Keep it up!`;
             resultEl.style.color = '#2196F3';
         } else {
-            resultHTML = `🤔 <strong>Keep learning!</strong> ${score}% (${correct}/${totalQuestions}) - Review the theory and try again.`;
+            resultHTML = `🤔 <strong>Keep learning!</strong> ${score}% (${correct}/${totalQuestions}) - <a href="#" onclick="resetQuiz(${level.id})" style="color: #FF9800; text-decoration: underline; cursor: pointer;">Review the theory and try again</a>.`;
             resultEl.style.color = '#FF9800';
         }
         
@@ -601,11 +611,77 @@ function renderQuiz(level){
         
         renderProgress();
         
+        // Update completion button based on quiz performance
+        const completeBtn = document.getElementById('complete-level');
+        if (isPerfectScore) {
+            // Enable completion button only for perfect score
+            completeBtn.disabled = false;
+            completeBtn.style.opacity = '1';
+            completeBtn.style.cursor = 'pointer';
+            if (!completeBtn.innerHTML.includes('Already completed')) {
+                completeBtn.innerHTML = '🎉 Mark as Completed';
+            }
+        } else {
+            // Disable completion button for imperfect scores
+            completeBtn.disabled = true;
+            completeBtn.style.opacity = '0.5';
+            completeBtn.style.cursor = 'not-allowed';
+            if (!completeBtn.innerHTML.includes('Already completed')) {
+                completeBtn.innerHTML = '🔒 Complete quiz perfectly to unlock';
+            }
+        }
+        
         // Disable submit button after submission
         submitBtn.disabled = true;
         submitBtn.innerHTML = '✅ Quiz Submitted';
         submitBtn.style.opacity = '0.7';
     };
+}
+
+// Reset quiz function for trying again
+function resetQuiz(levelId) {
+    const level = LevelsData.find(l => l.id === levelId);
+    if (!level) return;
+    
+    // Clear all visual feedback and reset styles
+    const container = document.getElementById('quiz-container');
+    const options = container.querySelectorAll('.quiz-option');
+    options.forEach(option => {
+        option.classList.remove('correct', 'incorrect');
+        option.style.background = '';
+        option.style.border = '';
+    });
+    
+    // Uncheck all inputs
+    const inputs = container.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+    inputs.forEach(input => {
+        input.checked = false;
+    });
+    
+    // Clear result display
+    const resultEl = document.getElementById('quiz-result');
+    resultEl.innerHTML = '';
+    
+    // Re-enable submit button
+    const submitBtn = document.getElementById('submit-quiz');
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = 'Submit Quiz';
+    submitBtn.style.opacity = '1';
+    
+    // Reset completion button to disabled state
+    const completeBtn = document.getElementById('complete-level');
+    const progress = window.LearningStorage?.getUserProgress(window.USER_ID) || {};
+    const isCompleted = (progress.completedLevels || []).includes(levelId);
+    
+    if (!isCompleted) {
+        completeBtn.disabled = true;
+        completeBtn.style.opacity = '0.5';
+        completeBtn.style.cursor = 'not-allowed';
+        completeBtn.innerHTML = '🔒 Complete quiz perfectly to unlock';
+    }
+    
+    // Scroll to quiz for better UX
+    container.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function maybeAwardAchievements(level){
