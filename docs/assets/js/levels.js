@@ -895,6 +895,10 @@ function renderQuiz(level){
     container.innerHTML = '';
     resultEl.innerHTML = '';
     
+    // Reset submit button to default state
+    submitBtn.textContent = '🎯 Submit Answers';
+    submitBtn.disabled = false;
+    
     if (!Array.isArray(level.quiz) || level.quiz.length === 0){
         container.innerHTML = '<p style="color: #666; font-style: italic;">🤔 No quiz available for this level.</p>';
         submitBtn.style.display = 'none';
