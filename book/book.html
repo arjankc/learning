@@ -1052,12 +1052,61 @@ logger.LogInformation(&quot;Starting module {Module}&quot;, &quot;X&quot;);
 <hr />
 <h1 id="delegates-and-events">Delegates and Events</h1>
 <h1 id="delegates-and-events-1">Delegates and Events</h1>
-<h2 id="delegates">Delegates</h2>
-<p>Type-safe function pointers; Action/Func cover common signatures.</p>
-<h2 id="lambdas">Lambdas</h2>
-<p>Inline function expressions; capture variables (closures) with care.</p>
-<h2 id="events">Events</h2>
-<p>Publish/subscribe pattern for notifications.</p>
+<p>Delegates are type-safe function references; events build a publish/subscribe layer on top.</p>
+<h2 id="delegates-and-built-ins">Delegates and built-ins</h2>
+<pre><code class="language-csharp">// Custom delegate type
+public delegate int BinaryOp(int a, int b);
+int Add(int x, int y) =&gt; x + y;
+BinaryOp op = Add;
+int r = op(2, 3); // 5
+
+// Built-ins
+Action&lt;string&gt; log = Console.WriteLine;     // no return
+Func&lt;int,int,int&gt; mul = (a,b) =&gt; a * b;     // returns int
+Predicate&lt;int&gt; isEven = n =&gt; n % 2 == 0;    // bool-returning Func&lt;T,bool&gt;
+</code></pre>
+<h2 id="lambdas-and-closures">Lambdas and closures</h2>
+<pre><code class="language-csharp">int factor = 10;                  // captured variable
+Func&lt;int,int&gt; times = n =&gt; n * factor;
+factor = 20;                      // closure observes latest value
+Console.WriteLine(times(2));      // 40
+</code></pre>
+<h2 id="multicast-delegates">Multicast delegates</h2>
+<pre><code class="language-csharp">Action pipeline = () =&gt; Console.Write(&quot;A&quot;);
+pipeline += () =&gt; Console.Write(&quot;B&quot;);
+pipeline(); // prints AB
+</code></pre>
+<h2 id="events-eventhandler-pattern">Events (EventHandler pattern)</h2>
+<pre><code class="language-csharp">public class Counter
+{
+	public event EventHandler&lt;int&gt;? ThresholdReached; // payload via generic arg
+	private int _count;
+	public void Increment()
+	{
+		_count++;
+		if (_count % 5 == 0)
+			ThresholdReached?.Invoke(this, _count); // raise safely with null-conditional
+	}
+}
+
+var c = new Counter();
+c.ThresholdReached += (s, value) =&gt; Console.WriteLine($&quot;Hit {value}&quot;);
+for (int i=0;i&lt;10;i++) c.Increment();
+</code></pre>
+<h2 id="custom-event-accessors-advanced">Custom event accessors (advanced)</h2>
+<pre><code class="language-csharp">private EventHandler? _handlers;
+public event EventHandler Something
+{
+	add { _handlers = (EventHandler?)Delegate.Combine(_handlers, value); }
+	remove { _handlers = (EventHandler?)Delegate.Remove(_handlers, value); }
+}
+</code></pre>
+<h2 id="tips-3">Tips</h2>
+<ul>
+<li>Prefer Action/Func over custom delegate types unless naming adds clarity.</li>
+<li>Be careful with closures in loops; capture the loop variable into a local.</li>
+<li>Unsubscribe from long-lived events to avoid memory leaks.</li>
+</ul>
 <h2 id="read-more-15">Read More</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/dotnet/csharp/programming-guide/delegates/">https://learn.microsoft.com/dotnet/csharp/programming-guide/delegates/</a></li>
@@ -1067,17 +1116,60 @@ logger.LogInformation(&quot;Starting module {Module}&quot;, &quot;X&quot;);
 <hr />
 <h1 id="linq">LINQ</h1>
 <h1 id="linq-1">LINQ</h1>
-<h2 id="two-styles">Two Styles</h2>
+<p>LINQ provides declarative querying for objects, XML, databases, and more.</p>
+<h2 id="two-styles">Two styles</h2>
+<pre><code class="language-csharp">// Query syntax
+var q = from n in Enumerable.Range(1, 10)
+		where n % 2 == 0
+		select n * n;
+
+// Method syntax
+var m = Enumerable.Range(1,10).Where(n =&gt; n % 2 == 0).Select(n =&gt; n * n);
+</code></pre>
+<h2 id="core-operators">Core operators</h2>
 <ul>
-<li>Query syntax vs method syntax; both compile to the same operators.</li>
+<li>Filtering: Where</li>
+<li>Projection: Select, SelectMany</li>
+<li>Sorting: OrderBy/ThenBy</li>
+<li>Grouping: GroupBy</li>
+<li>Joining: Join, GroupJoin</li>
+<li>Set ops: Distinct, Union, Intersect, Except</li>
+<li>Aggregates: Count, Sum, Min/Max, Average, Aggregate</li>
 </ul>
-<h2 id="key-concepts-1">Key Concepts</h2>
+<pre><code class="language-csharp">var people = new[] {
+	new { Name = &quot;Ann&quot;, City = &quot;NY&quot;, Age = 30 },
+	new { Name = &quot;Bob&quot;, City = &quot;SF&quot;, Age = 25 },
+	new { Name = &quot;Cat&quot;, City = &quot;NY&quot;, Age = 40 },
+};
+
+var byCity = people.GroupBy(p =&gt; p.City)
+				   .Select(g =&gt; new { City = g.Key, AvgAge = g.Average(p =&gt; p.Age) });
+
+var orders = new[] { new { Id = 1, Customer = &quot;Ann&quot; } };
+var customers = new[] { new { Name = &quot;Ann&quot; }, new { Name = &quot;Bob&quot; } };
+var join = from o in orders
+		   join c in customers on o.Customer equals c.Name
+		   select new { o.Id, o.Customer };
+</code></pre>
+<h2 id="deferred-vs-immediate-execution">Deferred vs immediate execution</h2>
 <ul>
-<li>Deferred execution, filtering, projection, grouping, joining.</li>
+<li>Deferred: Where/Select build a pipeline evaluated on enumeration.</li>
+<li>Immediate: ToList/ToArray/Count materialize or compute immediately.</li>
 </ul>
-<h2 id="iqueryable-vs-ienumerable">IQueryable vs IEnumerable</h2>
+<pre><code class="language-csharp">var source = new List&lt;int&gt; { 1, 2 };
+var seq = source.Select(n =&gt; n * 10); // deferred
+source.Add(3);
+var arr = seq.ToArray(); // 10, 20, 30
+</code></pre>
+<h2 id="ienumerable-vs-iqueryable">IEnumerable vs IQueryable</h2>
 <ul>
-<li>IEnumerable executes in-memory; IQueryable can translate to remote providers.</li>
+<li>IEnumerable: in-memory; operators run as .NET delegates.</li>
+<li>IQueryable: expression trees; provider can translate to SQL or other backends. Beware of unsupported methods.</li>
+</ul>
+<h2 id="tips-4">Tips</h2>
+<ul>
+<li>Push filters early (Where) and project only what you need (Select) to reduce work.</li>
+<li>Avoid multiple enumeration if source is expensive; materialize once when needed.</li>
 </ul>
 <h2 id="read-more-16">Read More</h2>
 <ul>
@@ -1087,17 +1179,44 @@ logger.LogInformation(&quot;Starting module {Module}&quot;, &quot;X&quot;);
 <hr />
 <h1 id="asynchronous-programming">Asynchronous Programming</h1>
 <h1 id="asynchronous-programming-1">Asynchronous Programming</h1>
-<h2 id="asyncawait">async/await</h2>
+<p>Use async/await to free threads while work is pending (IO), improving scalability and responsiveness.</p>
+<h2 id="asyncawait-basics">async/await basics</h2>
+<pre><code class="language-csharp">async Task&lt;string&gt; DownloadAsync(HttpClient http, string url)
+{
+	var resp = await http.GetAsync(url); // awaits without blocking
+	resp.EnsureSuccessStatusCode();
+	return await resp.Content.ReadAsStringAsync();
+}
+</code></pre>
+<h2 id="cancellation-and-timeouts">Cancellation and timeouts</h2>
+<pre><code class="language-csharp">using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+try
+{
+	await Task.Delay(5000, cts.Token);
+}
+catch (OperationCanceledException)
+{
+	// cancelled
+}
+</code></pre>
+<h2 id="error-handling">Error handling</h2>
+<pre><code class="language-csharp">try { await SomeAsync(); }
+catch (HttpRequestException ex) { /* network failure */ }
+</code></pre>
+<h2 id="configureawait">ConfigureAwait</h2>
+<p>In libraries, prefer <code>await task.ConfigureAwait(false)</code> to avoid capturing context. In apps (UI), default capture is usually fine.</p>
+<h2 id="parallelism">Parallelism</h2>
+<pre><code class="language-csharp">// CPU-bound parallel loop (data parallelism)
+Parallel.ForEach(data, item =&gt; Process(item));
+
+// Fire multiple IO tasks concurrently and await all
+var tasks = urls.Select(http.GetStringAsync);
+var pages = await Task.WhenAll(tasks);
+</code></pre>
+<h2 id="tips-5">Tips</h2>
 <ul>
-<li>Compose asynchronous operations without blocking threads.</li>
-</ul>
-<h2 id="tasks-and-parallelism">Tasks and Parallelism</h2>
-<ul>
-<li>Task represents ongoing work; Parallel APIs for data parallelism.</li>
-</ul>
-<h2 id="cancellation-tokens">Cancellation Tokens</h2>
-<ul>
-<li>Cooperative cancellation via tokens passed to async operations.</li>
+<li>Don’t block on async (no .Result/.Wait()); make your call chain async.</li>
+<li>Use <code>ValueTask</code> for high-throughput hot paths when appropriate.</li>
 </ul>
 <h2 id="read-more-17">Read More</h2>
 <ul>
@@ -1107,15 +1226,37 @@ logger.LogInformation(&quot;Starting module {Module}&quot;, &quot;X&quot;);
 <hr />
 <h1 id="ado.net">ADO.NET</h1>
 <h1 id="ado.net-1">ADO.NET</h1>
-<h2 id="connected-vs-disconnected">Connected vs Disconnected</h2>
-<ul>
-<li>Connected: direct commands and readers over open connections.</li>
-<li>Disconnected: DataSet/DataTable for offline manipulation.</li>
-</ul>
+<p>Low-level data access with explicit connections, commands, and readers. Great for tight control and performance.</p>
+<h2 id="connected-commands-and-readers">Connected: commands and readers</h2>
+<pre><code class="language-csharp">using var conn = new Microsoft.Data.Sqlite.SqliteConnection(&quot;Data Source=:memory:&quot;);
+await conn.OpenAsync();
+using var cmd = conn.CreateCommand();
+cmd.CommandText = &quot;CREATE TABLE T(Id INTEGER PRIMARY KEY, Name TEXT); INSERT INTO T(Name) VALUES ('Ada'); SELECT Id, Name FROM T;&quot;;
+using var reader = await cmd.ExecuteReaderAsync();
+while (await reader.ReadAsync())
+	Console.WriteLine($&quot;{reader.GetInt32(0)} {reader.GetString(1)}&quot;);
+</code></pre>
+<h2 id="disconnected-datatable">Disconnected: DataTable</h2>
+<pre><code class="language-csharp">var table = new System.Data.DataTable();
+using (var da = new Microsoft.Data.Sqlite.SqliteDataAdapter(&quot;SELECT 1 AS N&quot;, conn))
+{
+	da.Fill(table);
+}
+</code></pre>
 <h2 id="transactions">Transactions</h2>
-<ul>
-<li>Ensure atomicity across multiple operations.</li>
-</ul>
+<pre><code class="language-csharp">using var tx = await conn.BeginTransactionAsync();
+try
+{
+	using var c1 = conn.CreateCommand(); c1.Transaction = tx; c1.CommandText = &quot;INSERT INTO T(Name) VALUES ('Babbage')&quot;; await c1.ExecuteNonQueryAsync();
+	using var c2 = conn.CreateCommand(); c2.Transaction = tx; c2.CommandText = &quot;INSERT INTO T(Name) VALUES ('Turing')&quot;; await c2.ExecuteNonQueryAsync();
+	await tx.CommitAsync();
+}
+catch
+{
+	await tx.RollbackAsync();
+	throw;
+}
+</code></pre>
 <h2 id="read-more-18">Read More</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/dotnet/framework/data/adonet/ado-net-overview">https://learn.microsoft.com/dotnet/framework/data/adonet/ado-net-overview</a></li>
@@ -1124,13 +1265,37 @@ logger.LogInformation(&quot;Starting module {Module}&quot;, &quot;X&quot;);
 <hr />
 <h1 id="entity-framework-core">Entity Framework Core</h1>
 <h1 id="entity-framework-core-1">Entity Framework Core</h1>
-<h2 id="approaches">Approaches</h2>
+<p>ORM for .NET with LINQ queries and change tracking.</p>
+<h2 id="model-dbcontext">Model &amp; DbContext</h2>
+<pre><code class="language-csharp">public class Blog { public int Id { get; set; } public string Title { get; set; } = &quot;&quot;; public List&lt;Post&gt; Posts { get; set; } = new(); }
+public class Post { public int Id { get; set; } public string Content { get; set; } = &quot;&quot;; public int BlogId { get; set; } public Blog? Blog { get; set; } }
+
+public class AppDb : DbContext
+{
+	public DbSet&lt;Blog&gt; Blogs =&gt; Set&lt;Blog&gt;();
+	public DbSet&lt;Post&gt; Posts =&gt; Set&lt;Post&gt;();
+	protected override void OnConfiguring(DbContextOptionsBuilder b) =&gt; b.UseSqlite(&quot;Data Source=app.db&quot;);
+	protected override void OnModelCreating(ModelBuilder mb) =&gt; mb.Entity&lt;Post&gt;().HasIndex(p =&gt; p.BlogId);
+}
+</code></pre>
+<h2 id="queries-and-tracking">Queries and tracking</h2>
+<pre><code class="language-csharp">using var db = new AppDb();
+db.Database.EnsureCreated();
+db.Blogs.Add(new Blog { Title = &quot;Hello&quot; });
+db.SaveChanges();
+
+var blogs = await db.Blogs.AsNoTracking().Where(b =&gt; b.Title.Contains(&quot;H&quot;)).ToListAsync();
+</code></pre>
+<h2 id="migrations-concept">Migrations (concept)</h2>
 <ul>
-<li>Code-First vs Database-First; migrations manage schema changes.</li>
+<li>Add: dotnet ef migrations add Initial</li>
+<li>Update DB: dotnet ef database update</li>
+<li>Track schema changes over time; commit migration files.</li>
 </ul>
-<h2 id="tips-3">Tips</h2>
+<h2 id="tips-6">Tips</h2>
 <ul>
-<li>Use DbContext lifetime appropriately; track changes intentionally.</li>
+<li>Scope DbContext per unit of work (e.g., per web request).</li>
+<li>Use AsNoTracking for read-only queries; include navigation properties with <code>.Include</code> when needed.</li>
 </ul>
 <h2 id="read-more-19">Read More</h2>
 <ul>
@@ -1141,12 +1306,28 @@ logger.LogInformation(&quot;Starting module {Module}&quot;, &quot;X&quot;);
 <h1 id="file-io">File I/O</h1>
 <h1 id="file-io-1">File I/O</h1>
 <h2 id="streams">Streams</h2>
+<pre><code class="language-csharp">await using var fs = new FileStream(&quot;data.bin&quot;, FileMode.Create, FileAccess.Write, FileShare.None, 8192, useAsync: true);
+var bytes = Encoding.UTF8.GetBytes(&quot;hello&quot;);
+await fs.WriteAsync(bytes);
+</code></pre>
+<h2 id="text-convenience">Text convenience</h2>
+<pre><code class="language-csharp">File.WriteAllText(&quot;greet.txt&quot;, &quot;hi&quot;);
+var text = File.ReadAllText(&quot;greet.txt&quot;);
+</code></pre>
+<h2 id="json-serialization">JSON serialization</h2>
+<pre><code class="language-csharp">record Person(string Name, int Age);
+var json = System.Text.Json.JsonSerializer.Serialize(new Person(&quot;Ada&quot;, 28));
+var p = System.Text.Json.JsonSerializer.Deserialize&lt;Person&gt;(json);
+</code></pre>
+<h2 id="xml-serialization">XML serialization</h2>
+<pre><code class="language-csharp">var xmlSer = new System.Xml.Serialization.XmlSerializer(typeof(Person));
+await using var xfs = File.Create(&quot;person.xml&quot;);
+xmlSer.Serialize(xfs, new Person(&quot;Ada&quot;, 28));
+</code></pre>
+<h2 id="tips-7">Tips</h2>
 <ul>
-<li>FileStream/MemoryStream are building blocks for reading/writing.</li>
-</ul>
-<h2 id="serialization">Serialization</h2>
-<ul>
-<li>JSON, XML, Binary trade-offs: interoperability, performance, fidelity.</li>
+<li>Prefer async IO for scalability in servers; sync is often fine for small local work.</li>
+<li>Use File.ReadLines (lazy) over ReadAllLines (eager) for large files.</li>
 </ul>
 <h2 id="read-more-20">Read More</h2>
 <ul>
@@ -1157,17 +1338,39 @@ logger.LogInformation(&quot;Starting module {Module}&quot;, &quot;X&quot;);
 <h1 id="wpf-xaml-basics">WPF: XAML Basics</h1>
 <h1 id="wpf-xaml-basics-1">WPF: XAML Basics</h1>
 <h2 id="layouts">Layouts</h2>
-<ul>
-<li>Grid, StackPanel for arranging controls.</li>
-</ul>
-<h2 id="controls">Controls</h2>
-<ul>
-<li>Buttons, TextBox, and common controls.</li>
-</ul>
-<h2 id="data-binding">Data Binding</h2>
-<ul>
-<li>INotifyPropertyChanged for reactive UI.</li>
-</ul>
+<pre><code class="language-xml">&lt;Grid&gt;
+	&lt;Grid.RowDefinitions&gt;
+		&lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+		&lt;RowDefinition Height=&quot;*&quot;/&gt;
+	&lt;/Grid.RowDefinitions&gt;
+	&lt;StackPanel Orientation=&quot;Horizontal&quot; Margin=&quot;8&quot;&gt;
+		&lt;TextBlock Text=&quot;Name:&quot; Margin=&quot;0,0,8,0&quot;/&gt;
+		&lt;TextBox Width=&quot;200&quot; Text=&quot;{Binding Name, UpdateSourceTrigger=PropertyChanged}&quot;/&gt;
+	&lt;/StackPanel&gt;
+	&lt;ListBox Grid.Row=&quot;1&quot; ItemsSource=&quot;{Binding Items}&quot;/&gt;
+	&lt;/Grid&gt;
+</code></pre>
+<h2 id="data-binding-with-inotifypropertychanged">Data Binding with INotifyPropertyChanged</h2>
+<pre><code class="language-csharp">public class MainViewModel : INotifyPropertyChanged
+{
+		private string _name = string.Empty;
+		public string Name { get =&gt; _name; set { if (_name!=value){ _name=value; OnPropertyChanged(); } } }
+		public ObservableCollection&lt;string&gt; Items { get; } = new();
+		public event PropertyChangedEventHandler? PropertyChanged;
+		void OnPropertyChanged([CallerMemberName] string? n=null) =&gt; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(n));
+}
+</code></pre>
+<h2 id="commands-basic">Commands (basic)</h2>
+<pre><code class="language-csharp">public class RelayCommand : ICommand
+{
+		private readonly Action _exec; private readonly Func&lt;bool&gt;? _can;
+		public RelayCommand(Action exec, Func&lt;bool&gt;? can=null){_exec=exec;_can=can;}
+		public event EventHandler? CanExecuteChanged;
+		public bool CanExecute(object? p)=&gt;_can?.Invoke()??true;
+		public void Execute(object? p)=&gt;_exec();
+		public void RaiseCanExecuteChanged()=&gt;CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+}
+</code></pre>
 <h2 id="read-more-21">Read More</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/dotnet/desktop/wpf/xaml-services/?view=netdesktop-8.0">https://learn.microsoft.com/dotnet/desktop/wpf/xaml-services/?view=netdesktop-8.0</a></li>
@@ -1177,16 +1380,31 @@ logger.LogInformation(&quot;Starting module {Module}&quot;, &quot;X&quot;);
 <h1 id="wpf-advanced">WPF: Advanced</h1>
 <h1 id="wpf-advanced-1">WPF: Advanced</h1>
 <h2 id="styles-and-templates">Styles and Templates</h2>
+<pre><code class="language-xml">&lt;Window.Resources&gt;
+	&lt;Style TargetType=&quot;Button&quot;&gt;
+		&lt;Setter Property=&quot;Margin&quot; Value=&quot;4&quot;/&gt;
+	&lt;/Style&gt;
+	&lt;DataTemplate DataType=&quot;{x:Type vm:Person}&quot;&gt;
+		&lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
+			&lt;TextBlock Text=&quot;{Binding First}&quot;/&gt;
+			&lt;TextBlock Text=&quot; &quot;/&gt;
+			&lt;TextBlock Text=&quot;{Binding Last}&quot;/&gt;
+		&lt;/StackPanel&gt;
+	&lt;/DataTemplate&gt;
+ &lt;/Window.Resources&gt;
+</code></pre>
+<h2 id="commands-and-mvvm">Commands and MVVM</h2>
+<pre><code class="language-csharp">public class MainViewModel
+{
+		public ObservableCollection&lt;Person&gt; People { get; } = new();
+		public ICommand AddPerson { get; }
+		public MainViewModel(){ AddPerson = new RelayCommand(() =&gt; People.Add(new Person(&quot;Ada&quot;,&quot;Lovelace&quot;))); }
+}
+</code></pre>
+<h2 id="binding-diagnostics">Binding diagnostics</h2>
 <ul>
-<li>Separate look from behavior; reuse visuals.</li>
-</ul>
-<h2 id="commands">Commands</h2>
-<ul>
-<li>ICommand to decouple UI actions from handlers.</li>
-</ul>
-<h2 id="mvvm-pattern">MVVM Pattern</h2>
-<ul>
-<li>Model-View-ViewModel for testable, maintainable UI.</li>
+<li>Use PresentationTraceSources for binding debug.</li>
+<li>Enable exceptions on binding failures in dev.</li>
 </ul>
 <h2 id="read-more-22">Read More</h2>
 <ul>
@@ -1196,17 +1414,24 @@ logger.LogInformation(&quot;Starting module {Module}&quot;, &quot;X&quot;);
 <hr />
 <h1 id="asp.net-core-fundamentals">ASP.NET Core Fundamentals</h1>
 <h1 id="asp.net-core-fundamentals-1">ASP.NET Core Fundamentals</h1>
-<h2 id="middleware-pipeline">Middleware Pipeline</h2>
-<ul>
-<li>Request flows through configurable components.</li>
-</ul>
+<h2 id="middleware-pipeline">Middleware pipeline</h2>
+<pre><code class="language-csharp">var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+app.Use(async (ctx, next) =&gt; { Console.WriteLine($&quot;{ctx.Request.Path}&quot;); await next(); });
+app.MapGet(&quot;/hello&quot;, () =&gt; &quot;world&quot;);
+app.Run();
+</code></pre>
 <h2 id="razor-pages-vs-mvc">Razor Pages vs MVC</h2>
 <ul>
-<li>Pages for page-centric apps; MVC for controllers/views.</li>
+<li>Razor Pages: page-focused, good for simple apps.</li>
+<li>MVC: controllers/views, better for larger apps and separation concerns.</li>
 </ul>
-<h2 id="web-api">Web API</h2>
+<h2 id="minimal-apis">Minimal APIs</h2>
+<pre><code class="language-csharp">app.MapPost(&quot;/sum&quot;, (int a, int b) =&gt; Results.Ok(new { sum = a + b }));
+</code></pre>
+<h2 id="web-api-essentials">Web API essentials</h2>
 <ul>
-<li>Build RESTful endpoints; content negotiation and model binding.</li>
+<li>Model binding, validation attributes, filters, content negotiation (JSON by default).</li>
 </ul>
 <h2 id="read-more-23">Read More</h2>
 <ul>
@@ -1216,17 +1441,30 @@ logger.LogInformation(&quot;Starting module {Module}&quot;, &quot;X&quot;);
 <hr />
 <h1 id="blazor">Blazor</h1>
 <h1 id="blazor-1">Blazor</h1>
-<h2 id="components-and-binding">Components and Binding</h2>
+<h2 id="component-basics">Component basics</h2>
+<pre><code class="language-razor">@page &quot;/counter&quot;
+&lt;h3&gt;Counter&lt;/h3&gt;
+&lt;p&gt;Current count: @count&lt;/p&gt;
+&lt;button class=&quot;btn btn-primary&quot; @onclick=&quot;Increment&quot;&gt;Click me&lt;/button&gt;
+@code { int count; void Increment() =&gt; count++; }
+</code></pre>
+<h2 id="parameters-and-cascading-values">Parameters and cascading values</h2>
+<pre><code class="language-razor">&lt;MyCard Title=&quot;Hello&quot;&gt;Content&lt;/MyCard&gt;
+
+@code {
+	[Parameter] public string Title { get; set; } = string.Empty;
+}
+</code></pre>
+<h2 id="dependency-injection">Dependency injection</h2>
+<pre><code class="language-razor">@inject HttpClient Http
+@code {
+	protected override async Task OnInitializedAsync() { var data = await Http.GetStringAsync(&quot;/api&quot;); }
+}
+</code></pre>
+<h2 id="hosting-models">Hosting models</h2>
 <ul>
-<li>Reusable components; bind to data and events.</li>
-</ul>
-<h2 id="hosting-models">Hosting Models</h2>
-<ul>
-<li>Server vs WebAssembly; trade-offs in latency and capabilities.</li>
-</ul>
-<h2 id="dependency-injection">Dependency Injection</h2>
-<ul>
-<li>Built-in DI for services and state.</li>
+<li>Server: thin client, low download, requires persistent connection.</li>
+<li>WebAssembly: runs in browser, offline capable, larger download.</li>
 </ul>
 <h2 id="read-more-24">Read More</h2>
 <ul>
@@ -1238,16 +1476,22 @@ logger.LogInformation(&quot;Starting module {Module}&quot;, &quot;X&quot;);
 <h1 id="web-security-1">Web Security</h1>
 <h2 id="authentication">Authentication</h2>
 <ul>
-<li>Cookies, JWT, external providers.</li>
+<li>Cookies (server-rendered sites) vs JWT (APIs/SPAs). External providers via OAuth/OIDC.</li>
 </ul>
+<pre><code class="language-csharp">builder.Services.AddAuthentication(&quot;Bearer&quot;).AddJwtBearer();
+</code></pre>
 <h2 id="authorization">Authorization</h2>
 <ul>
-<li>Role- and policy-based strategies.</li>
+<li>Roles: [Authorize(Roles = &quot;Admin&quot;)]</li>
+<li>Policies: configure requirements centrally.</li>
 </ul>
-<h2 id="transport-cross-origin">Transport &amp; Cross-Origin</h2>
-<ul>
-<li>HTTPS everywhere; CORS for cross-origin requests.</li>
-</ul>
+<pre><code class="language-csharp">builder.Services.AddAuthorization(o =&gt; o.AddPolicy(&quot;AdultOnly&quot;, p =&gt; p.RequireClaim(&quot;age&quot;, &quot;18+&quot;)));
+app.MapGet(&quot;/secure&quot;, [Authorize(Policy=&quot;AdultOnly&quot;)] () =&gt; &quot;ok&quot;);
+</code></pre>
+<h2 id="https-cors">HTTPS &amp; CORS</h2>
+<pre><code class="language-csharp">app.UseHttpsRedirection();
+app.UseCors(p =&gt; p.WithOrigins(&quot;https://example.com&quot;).AllowAnyHeader().AllowAnyMethod());
+</code></pre>
 <h2 id="read-more-25">Read More</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/aspnet/core/security/">https://learn.microsoft.com/aspnet/core/security/</a></li>
@@ -1256,13 +1500,24 @@ logger.LogInformation(&quot;Starting module {Module}&quot;, &quot;X&quot;);
 <hr />
 <h1 id="xamarin.forms">Xamarin.Forms</h1>
 <h1 id="xamarin.forms-1">Xamarin.Forms</h1>
+<p>Note: .NET MAUI is the modern successor; concepts are similar.</p>
 <h2 id="xaml-layouts">XAML Layouts</h2>
-<ul>
-<li>Build UI using XAML markup and controls.</li>
-</ul>
+<pre><code class="language-xml">&lt;ContentPage xmlns=&quot;http://xamarin.com/schemas/2014/forms&quot;
+						 xmlns:x=&quot;http://schemas.microsoft.com/winfx/2009/xaml&quot;
+						 x:Class=&quot;Sample.MainPage&quot;&gt;
+	&lt;StackLayout Padding=&quot;20&quot;&gt;
+		&lt;Label Text=&quot;Hello&quot;/&gt;
+		&lt;Entry Text=&quot;{Binding Name}&quot;/&gt;
+		&lt;Button Text=&quot;Click&quot; Command=&quot;{Binding SayHello}&quot;/&gt;
+	&lt;/StackLayout&gt;
+ &lt;/ContentPage&gt;
+</code></pre>
 <h2 id="navigation">Navigation</h2>
+<pre><code class="language-csharp">await Navigation.PushAsync(new DetailsPage());
+</code></pre>
+<h2 id="mvvm">MVVM</h2>
 <ul>
-<li>Master-Detail, Tabs, and navigation stacks.</li>
+<li>Bind View to ViewModel properties/commands via INotifyPropertyChanged and ICommand.</li>
 </ul>
 <h2 id="read-more-26">Read More</h2>
 <ul>
@@ -1272,17 +1527,21 @@ logger.LogInformation(&quot;Starting module {Module}&quot;, &quot;X&quot;);
 <hr />
 <h1 id="mobile-features">Mobile Features</h1>
 <h1 id="mobile-features-1">Mobile Features</h1>
-<h2 id="local-storage">Local Storage</h2>
+<h2 id="local-storage-sqlite.net">Local Storage (SQLite.NET)</h2>
+<pre><code class="language-csharp">using SQLite;
+public class Person { [PrimaryKey, AutoIncrement] public int Id { get; set; } public string Name { get; set; } = &quot;&quot;; }
+var db = new SQLiteAsyncConnection(dbPath);
+await db.CreateTableAsync&lt;Person&gt;();
+await db.InsertAsync(new Person { Name = &quot;Ada&quot; });
+</code></pre>
+<h2 id="platform-specific-code">Platform-specific code</h2>
+<pre><code class="language-csharp">public interface IDeviceInfo { string GetModel(); }
+// Implement per platform and register with DependencyService or via MAUI handlers.
+</code></pre>
+<h2 id="oauth-2.0-oidc">OAuth 2.0 / OIDC</h2>
 <ul>
-<li>SQLite.NET for on-device data.</li>
-</ul>
-<h2 id="platform-specific-code">Platform-Specific Code</h2>
-<ul>
-<li>DependencyService/Handlers for native features.</li>
-</ul>
-<h2 id="oauth-2.0">OAuth 2.0</h2>
-<ul>
-<li>Secure auth with external identity providers.</li>
+<li>Use the system browser; follow the authorization code flow with PKCE.</li>
+<li>Store tokens securely (Keychain/Keystore); refresh tokens carefully.</li>
 </ul>
 <h2 id="read-more-27">Read More</h2>
 <ul>
@@ -1292,13 +1551,33 @@ logger.LogInformation(&quot;Starting module {Module}&quot;, &quot;X&quot;);
 <hr />
 <h1 id="cloud-deployment">Cloud Deployment</h1>
 <h1 id="cloud-deployment-1">Cloud Deployment</h1>
-<h2 id="options">Options</h2>
+<h2 id="azure-app-service-typical-flow">Azure App Service (typical flow)</h2>
 <ul>
-<li>Azure App Service, Docker containers, AWS Elastic Beanstalk.</li>
+<li>Publish from CLI: <code>dotnet publish -c Release</code> then deploy via Azure CLI or VS.</li>
+<li>Configure app settings/environment variables in App Service (Key Vault for secrets).</li>
+<li>Enable logging and Application Insights.</li>
 </ul>
-<h2 id="considerations">Considerations</h2>
+<h2 id="docker-containers">Docker containers</h2>
+<pre><code class="language-dockerfile">FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 8080
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY . .
+RUN dotnet publish -c Release -o /out
+FROM base AS final
+WORKDIR /app
+COPY --from=build /out .
+ENTRYPOINT [&quot;dotnet&quot;, &quot;WebApi.dll&quot;]
+</code></pre>
+<h2 id="configuration-secrets">Configuration &amp; secrets</h2>
 <ul>
-<li>Configuration, secrets, logging, scaling.</li>
+<li>Use appsettings..json + environment variables; never commit secrets.</li>
+<li>For cloud, prefer managed secret stores (Azure Key Vault, AWS Secrets Manager).</li>
+</ul>
+<h2 id="scaling-health">Scaling &amp; health</h2>
+<ul>
+<li>Health checks endpoint; autoscaling rules; rolling deployments/slots.</li>
 </ul>
 <h2 id="read-more-28">Read More</h2>
 <ul>
@@ -1309,13 +1588,27 @@ logger.LogInformation(&quot;Starting module {Module}&quot;, &quot;X&quot;);
 <hr />
 <h1 id="cicd-pipelines">CI/CD Pipelines</h1>
 <h1 id="cicd-pipelines-1">CI/CD Pipelines</h1>
-<h2 id="tools">Tools</h2>
-<ul>
-<li>GitHub Actions, Azure DevOps Pipelines.</li>
-</ul>
+<p>Automate build, test, and deploy on every change.</p>
+<h2 id="github-actions-example">GitHub Actions (example)</h2>
+<pre><code class="language-yaml">name: build
+on: [push, pull_request]
+jobs:
+	build:
+		runs-on: windows-latest
+		steps:
+			- uses: actions/checkout@v4
+			- uses: actions/setup-dotnet@v4
+				with: { dotnet-version: '8.0.x' }
+			- run: dotnet restore
+			- run: dotnet build --no-restore -c Release
+			- run: dotnet test --no-build -c Release
+</code></pre>
 <h2 id="practices">Practices</h2>
 <ul>
-<li>Build/test on each push; versioning; automated deployments.</li>
+<li>Build/test on every push and PR; enforce quality gates.</li>
+<li>Cache dependencies where possible for speed.</li>
+<li>Version artifacts and publish build outputs (e.g., to GitHub Releases).</li>
+<li>Use environments and approvals for production.</li>
 </ul>
 <h2 id="read-more-29">Read More</h2>
 <ul>

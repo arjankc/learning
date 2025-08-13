@@ -1,13 +1,24 @@
 # Web Security
 
 ## Authentication
-- Cookies, JWT, external providers.
+- Cookies (server-rendered sites) vs JWT (APIs/SPAs). External providers via OAuth/OIDC.
+```csharp
+builder.Services.AddAuthentication("Bearer").AddJwtBearer();
+```
 
 ## Authorization
-- Role- and policy-based strategies.
+- Roles: [Authorize(Roles = "Admin")]
+- Policies: configure requirements centrally.
+```csharp
+builder.Services.AddAuthorization(o => o.AddPolicy("AdultOnly", p => p.RequireClaim("age", "18+")));
+app.MapGet("/secure", [Authorize(Policy="AdultOnly")] () => "ok");
+```
 
-## Transport & Cross-Origin
-- HTTPS everywhere; CORS for cross-origin requests.
+## HTTPS & CORS
+```csharp
+app.UseHttpsRedirection();
+app.UseCors(p => p.WithOrigins("https://example.com").AllowAnyHeader().AllowAnyMethod());
+```
 
 ## Read More
 - https://learn.microsoft.com/aspnet/core/security/

@@ -1197,14 +1197,70 @@ logger.LogInformation("Starting module {Module}", "X");
 
 # Delegates and Events
 
-## Delegates
-Type-safe function pointers; Action/Func cover common signatures.
+Delegates are type-safe function references; events build a publish/subscribe layer on top.
 
-## Lambdas
-Inline function expressions; capture variables (closures) with care.
+## Delegates and built-ins
+```csharp
+// Custom delegate type
+public delegate int BinaryOp(int a, int b);
+int Add(int x, int y) => x + y;
+BinaryOp op = Add;
+int r = op(2, 3); // 5
 
-## Events
-Publish/subscribe pattern for notifications.
+// Built-ins
+Action<string> log = Console.WriteLine;     // no return
+Func<int,int,int> mul = (a,b) => a * b;     // returns int
+Predicate<int> isEven = n => n % 2 == 0;    // bool-returning Func<T,bool>
+```
+
+## Lambdas and closures
+```csharp
+int factor = 10;                  // captured variable
+Func<int,int> times = n => n * factor;
+factor = 20;                      // closure observes latest value
+Console.WriteLine(times(2));      // 40
+```
+
+## Multicast delegates
+```csharp
+Action pipeline = () => Console.Write("A");
+pipeline += () => Console.Write("B");
+pipeline(); // prints AB
+```
+
+## Events (EventHandler pattern)
+```csharp
+public class Counter
+{
+	public event EventHandler<int>? ThresholdReached; // payload via generic arg
+	private int _count;
+	public void Increment()
+	{
+		_count++;
+		if (_count % 5 == 0)
+			ThresholdReached?.Invoke(this, _count); // raise safely with null-conditional
+	}
+}
+
+var c = new Counter();
+c.ThresholdReached += (s, value) => Console.WriteLine($"Hit {value}");
+for (int i=0;i<10;i++) c.Increment();
+```
+
+## Custom event accessors (advanced)
+```csharp
+private EventHandler? _handlers;
+public event EventHandler Something
+{
+	add { _handlers = (EventHandler?)Delegate.Combine(_handlers, value); }
+	remove { _handlers = (EventHandler?)Delegate.Remove(_handlers, value); }
+}
+```
+
+## Tips
+- Prefer Action/Func over custom delegate types unless naming adds clarity.
+- Be careful with closures in loops; capture the loop variable into a local.
+- Unsubscribe from long-lived events to avoid memory leaks.
 
 ## Read More
 - https://learn.microsoft.com/dotnet/csharp/programming-guide/delegates/
@@ -1220,14 +1276,62 @@ Publish/subscribe pattern for notifications.
 
 # LINQ
 
-## Two Styles
-- Query syntax vs method syntax; both compile to the same operators.
+LINQ provides declarative querying for objects, XML, databases, and more.
 
-## Key Concepts
-- Deferred execution, filtering, projection, grouping, joining.
+## Two styles
+```csharp
+// Query syntax
+var q = from n in Enumerable.Range(1, 10)
+		where n % 2 == 0
+		select n * n;
 
-## IQueryable vs IEnumerable
-- IEnumerable executes in-memory; IQueryable can translate to remote providers.
+// Method syntax
+var m = Enumerable.Range(1,10).Where(n => n % 2 == 0).Select(n => n * n);
+```
+
+## Core operators
+- Filtering: Where
+- Projection: Select, SelectMany
+- Sorting: OrderBy/ThenBy
+- Grouping: GroupBy
+- Joining: Join, GroupJoin
+- Set ops: Distinct, Union, Intersect, Except
+- Aggregates: Count, Sum, Min/Max, Average, Aggregate
+
+```csharp
+var people = new[] {
+	new { Name = "Ann", City = "NY", Age = 30 },
+	new { Name = "Bob", City = "SF", Age = 25 },
+	new { Name = "Cat", City = "NY", Age = 40 },
+};
+
+var byCity = people.GroupBy(p => p.City)
+				   .Select(g => new { City = g.Key, AvgAge = g.Average(p => p.Age) });
+
+var orders = new[] { new { Id = 1, Customer = "Ann" } };
+var customers = new[] { new { Name = "Ann" }, new { Name = "Bob" } };
+var join = from o in orders
+		   join c in customers on o.Customer equals c.Name
+		   select new { o.Id, o.Customer };
+```
+
+## Deferred vs immediate execution
+- Deferred: Where/Select build a pipeline evaluated on enumeration.
+- Immediate: ToList/ToArray/Count materialize or compute immediately.
+```csharp
+var source = new List<int> { 1, 2 };
+var seq = source.Select(n => n * 10); // deferred
+source.Add(3);
+var arr = seq.ToArray(); // 10, 20, 30
+```
+
+## IEnumerable vs IQueryable
+- IEnumerable: in-memory; operators run as .NET delegates.
+- IQueryable: expression trees; provider can translate to SQL or other backends. Beware of unsupported methods.
+
+## Tips
+- Push filters early (Where) and project only what you need (Select) to reduce work.
+- Avoid multiple enumeration if source is expensive; materialize once when needed.
 
 ## Read More
 - https://learn.microsoft.com/dotnet/csharp/programming-guide/concepts/linq/
@@ -1242,14 +1346,53 @@ Publish/subscribe pattern for notifications.
 
 # Asynchronous Programming
 
-## async/await
-- Compose asynchronous operations without blocking threads.
+Use async/await to free threads while work is pending (IO), improving scalability and responsiveness.
 
-## Tasks and Parallelism
-- Task represents ongoing work; Parallel APIs for data parallelism.
+## async/await basics
+```csharp
+async Task<string> DownloadAsync(HttpClient http, string url)
+{
+	var resp = await http.GetAsync(url); // awaits without blocking
+	resp.EnsureSuccessStatusCode();
+	return await resp.Content.ReadAsStringAsync();
+}
+```
 
-## Cancellation Tokens
-- Cooperative cancellation via tokens passed to async operations.
+## Cancellation and timeouts
+```csharp
+using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+try
+{
+	await Task.Delay(5000, cts.Token);
+}
+catch (OperationCanceledException)
+{
+	// cancelled
+}
+```
+
+## Error handling
+```csharp
+try { await SomeAsync(); }
+catch (HttpRequestException ex) { /* network failure */ }
+```
+
+## ConfigureAwait
+In libraries, prefer `await task.ConfigureAwait(false)` to avoid capturing context. In apps (UI), default capture is usually fine.
+
+## Parallelism
+```csharp
+// CPU-bound parallel loop (data parallelism)
+Parallel.ForEach(data, item => Process(item));
+
+// Fire multiple IO tasks concurrently and await all
+var tasks = urls.Select(http.GetStringAsync);
+var pages = await Task.WhenAll(tasks);
+```
+
+## Tips
+- Don’t block on async (no .Result/.Wait()); make your call chain async.
+- Use `ValueTask` for high-throughput hot paths when appropriate.
 
 ## Read More
 - https://learn.microsoft.com/dotnet/csharp/asynchronous-programming/
@@ -1264,12 +1407,43 @@ Publish/subscribe pattern for notifications.
 
 # ADO.NET
 
-## Connected vs Disconnected
-- Connected: direct commands and readers over open connections.
-- Disconnected: DataSet/DataTable for offline manipulation.
+Low-level data access with explicit connections, commands, and readers. Great for tight control and performance.
+
+## Connected: commands and readers
+```csharp
+using var conn = new Microsoft.Data.Sqlite.SqliteConnection("Data Source=:memory:");
+await conn.OpenAsync();
+using var cmd = conn.CreateCommand();
+cmd.CommandText = "CREATE TABLE T(Id INTEGER PRIMARY KEY, Name TEXT); INSERT INTO T(Name) VALUES ('Ada'); SELECT Id, Name FROM T;";
+using var reader = await cmd.ExecuteReaderAsync();
+while (await reader.ReadAsync())
+	Console.WriteLine($"{reader.GetInt32(0)} {reader.GetString(1)}");
+```
+
+## Disconnected: DataTable
+```csharp
+var table = new System.Data.DataTable();
+using (var da = new Microsoft.Data.Sqlite.SqliteDataAdapter("SELECT 1 AS N", conn))
+{
+	da.Fill(table);
+}
+```
 
 ## Transactions
-- Ensure atomicity across multiple operations.
+```csharp
+using var tx = await conn.BeginTransactionAsync();
+try
+{
+	using var c1 = conn.CreateCommand(); c1.Transaction = tx; c1.CommandText = "INSERT INTO T(Name) VALUES ('Babbage')"; await c1.ExecuteNonQueryAsync();
+	using var c2 = conn.CreateCommand(); c2.Transaction = tx; c2.CommandText = "INSERT INTO T(Name) VALUES ('Turing')"; await c2.ExecuteNonQueryAsync();
+	await tx.CommitAsync();
+}
+catch
+{
+	await tx.RollbackAsync();
+	throw;
+}
+```
 
 ## Read More
 - https://learn.microsoft.com/dotnet/framework/data/adonet/ado-net-overview
@@ -1284,11 +1458,40 @@ Publish/subscribe pattern for notifications.
 
 # Entity Framework Core
 
-## Approaches
-- Code-First vs Database-First; migrations manage schema changes.
+ORM for .NET with LINQ queries and change tracking.
+
+## Model & DbContext
+```csharp
+public class Blog { public int Id { get; set; } public string Title { get; set; } = ""; public List<Post> Posts { get; set; } = new(); }
+public class Post { public int Id { get; set; } public string Content { get; set; } = ""; public int BlogId { get; set; } public Blog? Blog { get; set; } }
+
+public class AppDb : DbContext
+{
+	public DbSet<Blog> Blogs => Set<Blog>();
+	public DbSet<Post> Posts => Set<Post>();
+	protected override void OnConfiguring(DbContextOptionsBuilder b) => b.UseSqlite("Data Source=app.db");
+	protected override void OnModelCreating(ModelBuilder mb) => mb.Entity<Post>().HasIndex(p => p.BlogId);
+}
+```
+
+## Queries and tracking
+```csharp
+using var db = new AppDb();
+db.Database.EnsureCreated();
+db.Blogs.Add(new Blog { Title = "Hello" });
+db.SaveChanges();
+
+var blogs = await db.Blogs.AsNoTracking().Where(b => b.Title.Contains("H")).ToListAsync();
+```
+
+## Migrations (concept)
+- Add: dotnet ef migrations add Initial
+- Update DB: dotnet ef database update
+- Track schema changes over time; commit migration files.
 
 ## Tips
-- Use DbContext lifetime appropriately; track changes intentionally.
+- Scope DbContext per unit of work (e.g., per web request).
+- Use AsNoTracking for read-only queries; include navigation properties with `.Include` when needed.
 
 ## Read More
 - https://learn.microsoft.com/ef/core/
@@ -1304,10 +1507,35 @@ Publish/subscribe pattern for notifications.
 # File I/O
 
 ## Streams
-- FileStream/MemoryStream are building blocks for reading/writing.
+```csharp
+await using var fs = new FileStream("data.bin", FileMode.Create, FileAccess.Write, FileShare.None, 8192, useAsync: true);
+var bytes = Encoding.UTF8.GetBytes("hello");
+await fs.WriteAsync(bytes);
+```
 
-## Serialization
-- JSON, XML, Binary trade-offs: interoperability, performance, fidelity.
+## Text convenience
+```csharp
+File.WriteAllText("greet.txt", "hi");
+var text = File.ReadAllText("greet.txt");
+```
+
+## JSON serialization
+```csharp
+record Person(string Name, int Age);
+var json = System.Text.Json.JsonSerializer.Serialize(new Person("Ada", 28));
+var p = System.Text.Json.JsonSerializer.Deserialize<Person>(json);
+```
+
+## XML serialization
+```csharp
+var xmlSer = new System.Xml.Serialization.XmlSerializer(typeof(Person));
+await using var xfs = File.Create("person.xml");
+xmlSer.Serialize(xfs, new Person("Ada", 28));
+```
+
+## Tips
+- Prefer async IO for scalability in servers; sync is often fine for small local work.
+- Use File.ReadLines (lazy) over ReadAllLines (eager) for large files.
 
 ## Read More
 - https://learn.microsoft.com/dotnet/standard/io/
@@ -1323,13 +1551,44 @@ Publish/subscribe pattern for notifications.
 # WPF: XAML Basics
 
 ## Layouts
-- Grid, StackPanel for arranging controls.
+```xml
+<Grid>
+	<Grid.RowDefinitions>
+		<RowDefinition Height="Auto"/>
+		<RowDefinition Height="*"/>
+	</Grid.RowDefinitions>
+	<StackPanel Orientation="Horizontal" Margin="8">
+		<TextBlock Text="Name:" Margin="0,0,8,0"/>
+		<TextBox Width="200" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+	</StackPanel>
+	<ListBox Grid.Row="1" ItemsSource="{Binding Items}"/>
+	</Grid>
+```
 
-## Controls
-- Buttons, TextBox, and common controls.
+## Data Binding with INotifyPropertyChanged
+```csharp
+public class MainViewModel : INotifyPropertyChanged
+{
+		private string _name = string.Empty;
+		public string Name { get => _name; set { if (_name!=value){ _name=value; OnPropertyChanged(); } } }
+		public ObservableCollection<string> Items { get; } = new();
+		public event PropertyChangedEventHandler? PropertyChanged;
+		void OnPropertyChanged([CallerMemberName] string? n=null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(n));
+}
+```
 
-## Data Binding
-- INotifyPropertyChanged for reactive UI.
+## Commands (basic)
+```csharp
+public class RelayCommand : ICommand
+{
+		private readonly Action _exec; private readonly Func<bool>? _can;
+		public RelayCommand(Action exec, Func<bool>? can=null){_exec=exec;_can=can;}
+		public event EventHandler? CanExecuteChanged;
+		public bool CanExecute(object? p)=>_can?.Invoke()??true;
+		public void Execute(object? p)=>_exec();
+		public void RaiseCanExecuteChanged()=>CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+}
+```
 
 ## Read More
 - https://learn.microsoft.com/dotnet/desktop/wpf/xaml-services/?view=netdesktop-8.0
@@ -1345,13 +1604,34 @@ Publish/subscribe pattern for notifications.
 # WPF: Advanced
 
 ## Styles and Templates
-- Separate look from behavior; reuse visuals.
+```xml
+<Window.Resources>
+	<Style TargetType="Button">
+		<Setter Property="Margin" Value="4"/>
+	</Style>
+	<DataTemplate DataType="{x:Type vm:Person}">
+		<StackPanel Orientation="Horizontal">
+			<TextBlock Text="{Binding First}"/>
+			<TextBlock Text=" "/>
+			<TextBlock Text="{Binding Last}"/>
+		</StackPanel>
+	</DataTemplate>
+ </Window.Resources>
+```
 
-## Commands
-- ICommand to decouple UI actions from handlers.
+## Commands and MVVM
+```csharp
+public class MainViewModel
+{
+		public ObservableCollection<Person> People { get; } = new();
+		public ICommand AddPerson { get; }
+		public MainViewModel(){ AddPerson = new RelayCommand(() => People.Add(new Person("Ada","Lovelace"))); }
+}
+```
 
-## MVVM Pattern
-- Model-View-ViewModel for testable, maintainable UI.
+## Binding diagnostics
+- Use PresentationTraceSources for binding debug.
+- Enable exceptions on binding failures in dev.
 
 ## Read More
 - https://learn.microsoft.com/dotnet/desktop/wpf/get-started/create-app-visual-studio
@@ -1366,14 +1646,26 @@ Publish/subscribe pattern for notifications.
 
 # ASP.NET Core Fundamentals
 
-## Middleware Pipeline
-- Request flows through configurable components.
+## Middleware pipeline
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+app.Use(async (ctx, next) => { Console.WriteLine($"{ctx.Request.Path}"); await next(); });
+app.MapGet("/hello", () => "world");
+app.Run();
+```
 
 ## Razor Pages vs MVC
-- Pages for page-centric apps; MVC for controllers/views.
+- Razor Pages: page-focused, good for simple apps.
+- MVC: controllers/views, better for larger apps and separation concerns.
 
-## Web API
-- Build RESTful endpoints; content negotiation and model binding.
+## Minimal APIs
+```csharp
+app.MapPost("/sum", (int a, int b) => Results.Ok(new { sum = a + b }));
+```
+
+## Web API essentials
+- Model binding, validation attributes, filters, content negotiation (JSON by default).
 
 ## Read More
 - https://learn.microsoft.com/aspnet/core/
@@ -1388,14 +1680,35 @@ Publish/subscribe pattern for notifications.
 
 # Blazor
 
-## Components and Binding
-- Reusable components; bind to data and events.
+## Component basics
+```razor
+@page "/counter"
+<h3>Counter</h3>
+<p>Current count: @count</p>
+<button class="btn btn-primary" @onclick="Increment">Click me</button>
+@code { int count; void Increment() => count++; }
+```
 
-## Hosting Models
-- Server vs WebAssembly; trade-offs in latency and capabilities.
+## Parameters and cascading values
+```razor
+<MyCard Title="Hello">Content</MyCard>
 
-## Dependency Injection
-- Built-in DI for services and state.
+@code {
+	[Parameter] public string Title { get; set; } = string.Empty;
+}
+```
+
+## Dependency injection
+```razor
+@inject HttpClient Http
+@code {
+	protected override async Task OnInitializedAsync() { var data = await Http.GetStringAsync("/api"); }
+}
+```
+
+## Hosting models
+- Server: thin client, low download, requires persistent connection.
+- WebAssembly: runs in browser, offline capable, larger download.
 
 ## Read More
 - https://learn.microsoft.com/aspnet/core/blazor/
@@ -1411,13 +1724,24 @@ Publish/subscribe pattern for notifications.
 # Web Security
 
 ## Authentication
-- Cookies, JWT, external providers.
+- Cookies (server-rendered sites) vs JWT (APIs/SPAs). External providers via OAuth/OIDC.
+```csharp
+builder.Services.AddAuthentication("Bearer").AddJwtBearer();
+```
 
 ## Authorization
-- Role- and policy-based strategies.
+- Roles: [Authorize(Roles = "Admin")]
+- Policies: configure requirements centrally.
+```csharp
+builder.Services.AddAuthorization(o => o.AddPolicy("AdultOnly", p => p.RequireClaim("age", "18+")));
+app.MapGet("/secure", [Authorize(Policy="AdultOnly")] () => "ok");
+```
 
-## Transport & Cross-Origin
-- HTTPS everywhere; CORS for cross-origin requests.
+## HTTPS & CORS
+```csharp
+app.UseHttpsRedirection();
+app.UseCors(p => p.WithOrigins("https://example.com").AllowAnyHeader().AllowAnyMethod());
+```
 
 ## Read More
 - https://learn.microsoft.com/aspnet/core/security/
@@ -1432,11 +1756,28 @@ Publish/subscribe pattern for notifications.
 
 # Xamarin.Forms
 
+Note: .NET MAUI is the modern successor; concepts are similar.
+
 ## XAML Layouts
-- Build UI using XAML markup and controls.
+```xml
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+						 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+						 x:Class="Sample.MainPage">
+	<StackLayout Padding="20">
+		<Label Text="Hello"/>
+		<Entry Text="{Binding Name}"/>
+		<Button Text="Click" Command="{Binding SayHello}"/>
+	</StackLayout>
+ </ContentPage>
+```
 
 ## Navigation
-- Master-Detail, Tabs, and navigation stacks.
+```csharp
+await Navigation.PushAsync(new DetailsPage());
+```
+
+## MVVM
+- Bind View to ViewModel properties/commands via INotifyPropertyChanged and ICommand.
 
 ## Read More
 - https://learn.microsoft.com/xamarin/xamarin-forms/
@@ -1451,14 +1792,24 @@ Publish/subscribe pattern for notifications.
 
 # Mobile Features
 
-## Local Storage
-- SQLite.NET for on-device data.
+## Local Storage (SQLite.NET)
+```csharp
+using SQLite;
+public class Person { [PrimaryKey, AutoIncrement] public int Id { get; set; } public string Name { get; set; } = ""; }
+var db = new SQLiteAsyncConnection(dbPath);
+await db.CreateTableAsync<Person>();
+await db.InsertAsync(new Person { Name = "Ada" });
+```
 
-## Platform-Specific Code
-- DependencyService/Handlers for native features.
+## Platform-specific code
+```csharp
+public interface IDeviceInfo { string GetModel(); }
+// Implement per platform and register with DependencyService or via MAUI handlers.
+```
 
-## OAuth 2.0
-- Secure auth with external identity providers.
+## OAuth 2.0 / OIDC
+- Use the system browser; follow the authorization code flow with PKCE.
+- Store tokens securely (Keychain/Keystore); refresh tokens carefully.
 
 ## Read More
 - https://learn.microsoft.com/xamarin/
@@ -1473,11 +1824,32 @@ Publish/subscribe pattern for notifications.
 
 # Cloud Deployment
 
-## Options
-- Azure App Service, Docker containers, AWS Elastic Beanstalk.
+## Azure App Service (typical flow)
+- Publish from CLI: `dotnet publish -c Release` then deploy via Azure CLI or VS.
+- Configure app settings/environment variables in App Service (Key Vault for secrets).
+- Enable logging and Application Insights.
 
-## Considerations
-- Configuration, secrets, logging, scaling.
+## Docker containers
+```dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 8080
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY . .
+RUN dotnet publish -c Release -o /out
+FROM base AS final
+WORKDIR /app
+COPY --from=build /out .
+ENTRYPOINT ["dotnet", "WebApi.dll"]
+```
+
+## Configuration & secrets
+- Use appsettings.{Environment}.json + environment variables; never commit secrets.
+- For cloud, prefer managed secret stores (Azure Key Vault, AWS Secrets Manager).
+
+## Scaling & health
+- Health checks endpoint; autoscaling rules; rolling deployments/slots.
 
 ## Read More
 - https://learn.microsoft.com/azure/app-service/
@@ -1493,11 +1865,29 @@ Publish/subscribe pattern for notifications.
 
 # CI/CD Pipelines
 
-## Tools
-- GitHub Actions, Azure DevOps Pipelines.
+Automate build, test, and deploy on every change.
+
+## GitHub Actions (example)
+```yaml
+name: build
+on: [push, pull_request]
+jobs:
+	build:
+		runs-on: windows-latest
+		steps:
+			- uses: actions/checkout@v4
+			- uses: actions/setup-dotnet@v4
+				with: { dotnet-version: '8.0.x' }
+			- run: dotnet restore
+			- run: dotnet build --no-restore -c Release
+			- run: dotnet test --no-build -c Release
+```
 
 ## Practices
-- Build/test on each push; versioning; automated deployments.
+- Build/test on every push and PR; enforce quality gates.
+- Cache dependencies where possible for speed.
+- Version artifacts and publish build outputs (e.g., to GitHub Releases).
+- Use environments and approvals for production.
 
 ## Read More
 - https://learn.microsoft.com/azure/devops/pipelines/
