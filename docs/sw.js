@@ -1,4 +1,3 @@
-// mirrored from game/csharp-gamified-learning/docs
 // Simple service worker for offline support
 const CACHE_NAME = 'csharp-gamified-v1';
 const OFFLINE_URLS = [

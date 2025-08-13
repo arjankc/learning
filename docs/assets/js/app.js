@@ -1,4 +1,3 @@
-// mirrored from game/csharp-gamified-learning/docs
 // This is the main JavaScript file for the gamified learning project.
 // It handles user interactions and game logic.
 
