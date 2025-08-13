@@ -1,4 +1,3 @@
-// mirrored from game/csharp-gamified-learning/docs
 // levels.js (data-driven)
 
 let LevelsData = [];

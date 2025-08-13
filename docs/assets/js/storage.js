@@ -1,4 +1,3 @@
-// mirrored from game/csharp-gamified-learning/docs
 // This file manages local storage for saving user progress and scores.
 
 const STORAGE_KEY = 'csharpGamifiedLearning';
@@ -54,3 +53,8 @@ window.LearningStorage = {
     addXp,
     completeLevel
 };
+
+// Example usage
+// saveProgress('user123', { level: 1, score: 100 });
+// console.log(getUserProgress('user123'));
+// clearProgress('user123');
