@@ -1,5 +1,6 @@
 using Markdig;
 using System.Text;
+using System.Text.RegularExpressions;
 
 var repoRoot = args.Length > 0 ? args[0] : Directory.GetCurrentDirectory();
 var notesRoot = Path.Combine(repoRoot, "notes");
@@ -53,15 +54,72 @@ foreach (var f in files)
 
 sbMd.AppendLine();
 
-// Content with page breaks between files
-foreach (var f in files)
+// Helpers to clean content
+string StripReadMoreSections(string md)
 {
+    if (string.IsNullOrWhiteSpace(md)) return md;
+    // Remove sections starting with headings like "## Read More" up to the next heading or end of file
+    var sectionPattern = new Regex(
+        pattern: @"^[ \t]{0,3}#{2,6}[ \t]+read[ \t]*more\b[^\r\n]*\r?\n.*?(?=^[ \t]{0,3}#|\z)",
+        options: RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Singleline);
+    md = sectionPattern.Replace(md, string.Empty);
+
+    // Remove single-line "Read more" bullets or paragraphs
+    var linePattern = new Regex(
+        pattern: @"^\s*(?:[-*]\s*)?(?:read\s*more\b.*)$",
+        options: RegexOptions.IgnoreCase | RegexOptions.Multiline);
+    md = linePattern.Replace(md, string.Empty);
+
+    return md;
+}
+
+string CollapseBlankLines(string md)
+{
+    if (string.IsNullOrWhiteSpace(md)) return md;
+    // Trim trailing whitespace on lines
+    md = Regex.Replace(md, "[\t ]+\r?\n", "\n");
+    // Collapse 3+ consecutive newlines to 2
+    md = Regex.Replace(md, "(?:\r?\n){3,}", "\n\n");
+    return md.TrimEnd() + "\n"; // ensure file ends with single newline
+}
+
+bool StartsWithH1(string md)
+{
+    foreach (var raw in md.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None))
+    {
+        var line = raw.Trim();
+        if (line.Length == 0) continue;
+        return line.StartsWith("# ");
+    }
+    return false;
+}
+
+// Content with page breaks between files (no trailing break at end)
+for (int i = 0; i < files.Count; i++)
+{
+    var f = files[i];
     var title = GetTitle(f);
-    sbMd.AppendLine("\n\n---\n"); // horizontal rule
-    sbMd.AppendLine($"# {title}");
-    sbMd.AppendLine();
-    sbMd.AppendLine(File.ReadAllText(f));
-    sbMd.AppendLine("\n<div class=\"page-break\"></div>");
+    var raw = File.ReadAllText(f);
+    var cleaned = CollapseBlankLines(StripReadMoreSections(raw));
+
+    // Separate files with a horizontal rule; avoid duplicate top-level heading
+    if (i > 0)
+    {
+        sbMd.AppendLine("\n\n---\n");
+    }
+
+    if (!StartsWithH1(cleaned))
+    {
+        sbMd.AppendLine($"# {title}");
+        sbMd.AppendLine();
+    }
+
+    sbMd.AppendLine(cleaned);
+
+    if (i < files.Count - 1)
+    {
+        sbMd.AppendLine("\n<div class=\"page-break\"></div>");
+    }
 }
 
 File.WriteAllText(outMd, sbMd.ToString());
@@ -88,14 +146,15 @@ var template = """
         .page-break { page-break-before: always; }
         .toc h1 { margin-top: 0; }
         @media print {
-            @page { margin: 18mm 14mm; size: A4; }
+            @page { margin: 16mm 12mm; size: A4; }
             body { margin: 0; }
             header, footer { position: fixed; left: 0; right: 0; color: var(--muted); font-size: 10pt; }
             header { top: 0; }
             footer { bottom: 0; }
             footer .page:after { content: counter(page); }
             pre { white-space: pre-wrap; }
-            a[href]:after { content: " (" attr(href) ")"; font-size: 90%; }
+            /* Don't append URLs after links to save space */
+            a[href]:after { content: ""; }
         }
     </style>
 </head>

@@ -16,14 +16,15 @@
         .page-break { page-break-before: always; }
         .toc h1 { margin-top: 0; }
         @media print {
-            @page { margin: 18mm 14mm; size: A4; }
+            @page { margin: 16mm 12mm; size: A4; }
             body { margin: 0; }
             header, footer { position: fixed; left: 0; right: 0; color: var(--muted); font-size: 10pt; }
             header { top: 0; }
             footer { bottom: 0; }
             footer .page:after { content: counter(page); }
             pre { white-space: pre-wrap; }
-            a[href]:after { content: " (" attr(href) ")"; font-size: 90%; }
+            /* Don't append URLs after links to save space */
+            a[href]:after { content: ""; }
         }
     </style>
 </head>
@@ -69,9 +70,7 @@
 <li><a href="12-devops/02-ci-cd.md">CI/CD Pipelines</a></li>
 <li><a href="99-exam-cram.md">Exam Cram: C#/.NET Quick Reference</a></li>
 </ul>
-<hr />
 <h1 id="study-guide-c.net-exam-prep">Study Guide: C#/.NET Exam Prep</h1>
-<h1 id="study-guide-c.net-exam-prep-1">Study Guide: C#/.NET Exam Prep</h1>
 <p>Use this as your roadmap. Tiers reflect priority: Tier 1 first, then Tier 2, then Tier 3.</p>
 <h2 id="how-to-study">How to study</h2>
 <ul>
@@ -100,7 +99,6 @@
 <div class="page-break"></div>
 <hr />
 <h1 id="c-basics-data-types-primitive-value-vs-reference">C# Basics: Data Types (Primitive, Value vs Reference)</h1>
-<h1 id="c-basics-data-types-primitive-value-vs-reference-1">C# Basics: Data Types (Primitive, Value vs Reference)</h1>
 <h2 id="what-are-data-types">What are Data Types?</h2>
 <p>Data types define the kind of data a variable can hold in a programming language. In C#, data types are crucial because they determine how much memory is allocated and what operations can be performed on the data.</p>
 <h2 id="categories-of-data-types-in-c">Categories of Data Types in C#</h2>
@@ -145,7 +143,6 @@ s2 = s2.ToUpperInvariant();
 <div class="page-break"></div>
 <hr />
 <h1 id="c-basics-variables-operators-and-expressions">C# Basics: Variables, Operators, and Expressions</h1>
-<h1 id="c-basics-variables-operators-and-expressions-1">C# Basics: Variables, Operators, and Expressions</h1>
 <h2 id="variables">Variables</h2>
 <p>Variables are named storage locations in memory that hold data. In C#, you must declare a variable with a specific data type before using it. This helps the compiler allocate the right amount of memory and enforce type safety.</p>
 <h3 id="key-points">Key Points:</h3>
@@ -196,7 +193,6 @@ int clearer = (x + y) * 2; // 26
 <div class="page-break"></div>
 <hr />
 <h1 id="type-conversion-in-c-implicitexplicit-boxingunboxing">Type Conversion in C# (Implicit/Explicit, Boxing/Unboxing)</h1>
-<h1 id="type-conversion-in-c-implicitexplicit-boxingunboxing-1">Type Conversion in C# (Implicit/Explicit, Boxing/Unboxing)</h1>
 <h2 id="why-conversion-matters">Why Conversion Matters</h2>
 <p>C# is statically typed, so types must match. Conversions let values move between compatible types with predictable behavior.</p>
 <h2 id="implicit-vs-explicit-conversion">Implicit vs Explicit Conversion</h2>
@@ -251,15 +247,9 @@ catch (OverflowException)
 object boxed = small;         // boxing
 int unboxed = (int)boxed;     // unboxing
 </code></pre>
-<h2 id="read-more">Read More</h2>
-<ul>
-<li>Microsoft Docs: Conversions in C#: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/numeric-conversions">https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/numeric-conversions</a></li>
-<li>Microsoft Docs: Boxing and Unboxing: <a href="https://learn.microsoft.com/dotnet/csharp/programming-guide/types/boxing-and-unboxing">https://learn.microsoft.com/dotnet/csharp/programming-guide/types/boxing-and-unboxing</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="namespaces-in-c">Namespaces in C#</h1>
-<h1 id="namespaces-in-c-1">Namespaces in C#</h1>
 <h2 id="purpose-of-namespaces">Purpose of Namespaces</h2>
 <p>Namespaces organize types and prevent naming collisions across libraries and projects.</p>
 <h2 id="key-concepts">Key Concepts</h2>
@@ -292,14 +282,9 @@ public class Example
 <pre><code class="language-csharp">// If two types have the same name in different namespaces
 global::System.Uri uri = new(&quot;https://example.com&quot;);
 </code></pre>
-<h2 id="read-more-1">Read More</h2>
-<ul>
-<li>Microsoft Docs: Namespaces: <a href="https://learn.microsoft.com/dotnet/csharp/fundamentals/types/namespaces">https://learn.microsoft.com/dotnet/csharp/fundamentals/types/namespaces</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="branching-in-c-ifelse-switch">Branching in C# (if/else, switch)</h1>
-<h1 id="branching-in-c-ifelse-switch-1">Branching in C# (if/else, switch)</h1>
 <h2 id="what-and-why">What and Why</h2>
 <p>Branching lets a program choose different execution paths based on conditions. It’s fundamental to decision-making logic and input validation.</p>
 <h2 id="if-else">if / else</h2>
@@ -358,15 +343,9 @@ string Describe(object o) =&gt; o switch
 <li>Avoid duplication: compute a value once and reuse it.</li>
 <li>Use guard clauses to fail fast when inputs are invalid.</li>
 </ul>
-<h2 id="read-more-2">Read More</h2>
-<ul>
-<li>Microsoft Docs: if-else: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/statements/selection-statements">https://learn.microsoft.com/dotnet/csharp/language-reference/statements/selection-statements</a></li>
-<li>Microsoft Docs: switch and pattern matching: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/operators/switch-expression">https://learn.microsoft.com/dotnet/csharp/language-reference/operators/switch-expression</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="looping-in-c-for-while-foreach">Looping in C# (for, while, foreach)</h1>
-<h1 id="looping-in-c-for-while-foreach-1">Looping in C# (for, while, foreach)</h1>
 <h2 id="what-and-why-1">What and Why</h2>
 <p>Loops repeat work over a sequence or until a condition changes. They help process collections, perform retries, and implement state machines.</p>
 <h2 id="for-while">for / while</h2>
@@ -412,14 +391,9 @@ foreach (var it in items)
 	Console.WriteLine(word);
 }
 </code></pre>
-<h2 id="read-more-3">Read More</h2>
-<ul>
-<li>Microsoft Docs: Iteration statements: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/statements/iteration-statements">https://learn.microsoft.com/dotnet/csharp/language-reference/statements/iteration-statements</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="iterators-and-yield">Iterators and <code>yield</code></h1>
-<h1 id="iterators-and-yield-1">Iterators and <code>yield</code></h1>
 <p>Iterators generate sequence elements on demand with minimal memory and clear code. In C#, you implement iterators with <code>yield return</code> and <code>yield break</code>, and the compiler builds the underlying state machine for <code>IEnumerable</code>/<code>IEnumerator</code>.</p>
 <h2 id="when-to-use">When to use</h2>
 <ul>
@@ -527,7 +501,6 @@ var firstFiveSquares = Squares(Range(1, 5)); // 1, 4, 9, 16, 25
 <div class="page-break"></div>
 <hr />
 <h1 id="common-language-runtime-clr">Common Language Runtime (CLR)</h1>
-<h1 id="common-language-runtime-clr-1">Common Language Runtime (CLR)</h1>
 <p>The CLR is the virtual machine that runs .NET code. It loads assemblies, verifies IL, JIT-compiles methods to native code, and manages memory and execution.</p>
 <h2 id="role-of-clr">Role of CLR</h2>
 <ul>
@@ -567,15 +540,9 @@ Native.Sleep(100);
 <li>ETW/EventPipe (dotnet-trace), dotnet-counters, dotnet-gcdump, PerfView.</li>
 <li>In-process: <code>GC.GetTotalMemory</code>, <code>GC.TryStartNoGCRegion</code>, <code>Activity</code> for tracing.</li>
 </ul>
-<h2 id="read-more-4">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/dotnet/standard/clr">https://learn.microsoft.com/dotnet/standard/clr</a></li>
-<li><a href="https://learn.microsoft.com/dotnet/standard/garbage-collection/">https://learn.microsoft.com/dotnet/standard/garbage-collection/</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="net-framework-class-library-bclfcl">.NET Framework Class Library (BCL/FCL)</h1>
-<h1 id="net-framework-class-library-bclfcl-1">.NET Framework Class Library (BCL/FCL)</h1>
 <p>The BCL/FCL is the standard library for .NET: collections, IO, networking, threading, numerics, etc. Learn its surface area to avoid reinventing wheels.</p>
 <h2 id="common-namespaces-and-anchors">Common namespaces and anchors</h2>
 <ul>
@@ -612,14 +579,9 @@ catch (TaskCanceledException) { /* expected */ }
 <li>Prefer BCL types first; they’re well-tested and supported across runtimes.</li>
 <li>Check for <code>TryXxx</code> methods to avoid exceptions for common failure paths.</li>
 </ul>
-<h2 id="read-more-5">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/dotnet/standard/class-library-overview">https://learn.microsoft.com/dotnet/standard/class-library-overview</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="ide-setup-visual-studio-vs-code">IDE Setup (Visual Studio / VS Code)</h1>
-<h1 id="ide-setup-visual-studio-vs-code-1">IDE Setup (Visual Studio / VS Code)</h1>
 <h2 id="vs-code">VS Code</h2>
 <ul>
 <li>Install C# Dev Kit and .NET Runtime extension pack.</li>
@@ -643,15 +605,9 @@ catch (TaskCanceledException) { /* expected */ }
 <li><code>dotnet new</code>, <code>dotnet add package</code>, <code>dotnet build</code>, <code>dotnet test</code>, <code>dotnet publish</code>.</li>
 <li><code>dotnet watch run</code> for hot reload during development.</li>
 </ul>
-<h2 id="read-more-6">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/dotnet/core/tutorials/with-visual-studio">https://learn.microsoft.com/dotnet/core/tutorials/with-visual-studio</a></li>
-<li><a href="https://learn.microsoft.com/dotnet/core/tutorials/with-visual-studio-code">https://learn.microsoft.com/dotnet/core/tutorials/with-visual-studio-code</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="classes-and-objects">Classes and Objects</h1>
-<h1 id="classes-and-objects-1">Classes and Objects</h1>
 <p>Classes model state and behavior; objects are instances with their own state. Prefer small, cohesive classes with clear responsibilities.</p>
 <h2 id="anatomy-of-a-class">Anatomy of a class</h2>
 <pre><code class="language-csharp">public class BankAccount
@@ -742,14 +698,9 @@ Console.WriteLine(c1 == c2); // false (value equality)
 var pt = new Point { X = 3, Y = 4 };
 var (x, y) = pt; // x=3, y=4
 </code></pre>
-<h2 id="read-more-7">Read more</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/dotnet/csharp/fundamentals/types/classes">https://learn.microsoft.com/dotnet/csharp/fundamentals/types/classes</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="oop-principles">OOP Principles</h1>
-<h1 id="oop-principles-1">OOP Principles</h1>
 <p>Core pillars: Encapsulation, Inheritance, Polymorphism, and Abstraction. Favor composition over deep inheritance chains.</p>
 <h2 id="encapsulation">Encapsulation</h2>
 <p>Hide state, expose behavior with invariants enforced inside the type.</p>
@@ -813,14 +764,9 @@ void Notify(IPrinter printer) =&gt; printer.Print(&quot;Hello&quot;);
 	public void Add(T entity) =&gt; _inner.Add(entity);
 }
 </code></pre>
-<h2 id="read-more-8">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/dotnet/csharp/fundamentals/object-oriented/">https://learn.microsoft.com/dotnet/csharp/fundamentals/object-oriented/</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="advanced-oop">Advanced OOP</h1>
-<h1 id="advanced-oop-1">Advanced OOP</h1>
 <h2 id="structs-vs-classes">Structs vs Classes</h2>
 <ul>
 <li>Structs are value types; copied by value, allocated inline when possible.</li>
@@ -873,15 +819,9 @@ Console.WriteLine(a == b); // true (value-based)
 <li>Keep constructors simple; use factories/builders if setup is complex.</li>
 <li>Keep inheritance shallow; prefer interfaces + composition.</li>
 </ul>
-<h2 id="read-more-9">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/struct">https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/struct</a></li>
-<li><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/enum">https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/enum</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="built-in-collections">Built-in Collections</h1>
-<h1 id="built-in-collections-1">Built-in Collections</h1>
 <p>Choose the right structure for performance and clarity. Know the complexity and common pitfalls.</p>
 <h2 id="core-types-and-when-to-use">Core types and when to use</h2>
 <ul>
@@ -933,14 +873,9 @@ await Task.WhenAll(prod, cons);
 <li>Use <code>StringComparer.OrdinalIgnoreCase</code> when keys are case-insensitive.</li>
 <li>Avoid repeated <code>List&lt;T&gt;.Remove(item)</code> in a loop; filter with <code>Where</code>/<code>RemoveAll</code>.</li>
 </ul>
-<h2 id="read-more-10">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/dotnet/standard/collections/">https://learn.microsoft.com/dotnet/standard/collections/</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="custom-collections">Custom Collections</h1>
-<h1 id="custom-collections-1">Custom Collections</h1>
 <p>Implementing custom collections lets you enforce invariants and expose efficient operations. Prefer composition and interfaces.</p>
 <h2 id="implementing-ienumerable">Implementing IEnumerable<T></h2>
 <pre><code class="language-csharp">public sealed class EvenNumbers : IEnumerable&lt;int&gt;
@@ -977,15 +912,9 @@ await Task.WhenAll(prod, cons);
 	System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() =&gt; _inner.GetEnumerator();
 }
 </code></pre>
-<h2 id="read-more-11">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1</a></li>
-<li><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="exception-handling">Exception Handling</h1>
-<h1 id="exception-handling-1">Exception Handling</h1>
 <p>Exceptions represent exceptional, non-expected paths. Use them to signal failure, not for normal branching.</p>
 <h2 id="basics-trycatchfinally">Basics: try/catch/finally</h2>
 <pre><code class="language-csharp">try
@@ -1028,14 +957,9 @@ catch (OrderStorageException ex)
 	throw new OrderProcessingException($&quot;Could not process order {orderId}&quot;, ex);
 }
 </code></pre>
-<h2 id="read-more-12">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/dotnet/csharp/fundamentals/exceptions/">https://learn.microsoft.com/dotnet/csharp/fundamentals/exceptions/</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="custom-exceptions">Custom Exceptions</h1>
-<h1 id="custom-exceptions-1">Custom Exceptions</h1>
 <p>Define custom exceptions to convey domain-specific failures and enable precise handling.</p>
 <h2 id="template">Template</h2>
 <pre><code class="language-csharp">[Serializable]
@@ -1057,14 +981,9 @@ public class OrderProcessingException : Exception
 <li>Preserve inner exceptions; they’re essential for root-cause analysis.</li>
 <li>Avoid throwing exceptions for control flow; use <code>TryXxx</code> when failure is common.</li>
 </ul>
-<h2 id="read-more-13">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/dotnet/standard/exceptions/how-to-create-user-defined-exceptions">https://learn.microsoft.com/dotnet/standard/exceptions/how-to-create-user-defined-exceptions</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="debugging-techniques">Debugging Techniques</h1>
-<h1 id="debugging-techniques-1">Debugging Techniques</h1>
 <p>Debugging is about fast feedback and narrowing hypotheses.</p>
 <h2 id="core-tools">Core tools</h2>
 <ul>
@@ -1088,14 +1007,9 @@ logger.LogInformation(&quot;Starting module {Module}&quot;, &quot;X&quot;);
 <ul>
 <li>dotnet-trace/dotnet-counters; sampling profilers; memory dumps (dotnet-gcdump).</li>
 </ul>
-<h2 id="read-more-14">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/visualstudio/debugger/debugger-feature-tour">https://learn.microsoft.com/visualstudio/debugger/debugger-feature-tour</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="delegates-and-events">Delegates and Events</h1>
-<h1 id="delegates-and-events-1">Delegates and Events</h1>
 <p>Delegates are type-safe function references; events build a publish/subscribe layer on top.</p>
 <h2 id="delegates-and-built-ins">Delegates and built-ins</h2>
 <pre><code class="language-csharp">// Custom delegate type
@@ -1151,15 +1065,9 @@ public event EventHandler Something
 <li>Be careful with closures in loops; capture the loop variable into a local.</li>
 <li>Unsubscribe from long-lived events to avoid memory leaks.</li>
 </ul>
-<h2 id="read-more-15">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/dotnet/csharp/programming-guide/delegates/">https://learn.microsoft.com/dotnet/csharp/programming-guide/delegates/</a></li>
-<li><a href="https://learn.microsoft.com/dotnet/csharp/programming-guide/events/">https://learn.microsoft.com/dotnet/csharp/programming-guide/events/</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="linq">LINQ</h1>
-<h1 id="linq-1">LINQ</h1>
 <p>LINQ provides declarative querying for objects, XML, databases, and more.</p>
 <h2 id="two-styles">Two styles</h2>
 <pre><code class="language-csharp">// Query syntax
@@ -1221,14 +1129,9 @@ var arr = seq.ToArray(); // 10, 20, 30
 <li>Inner join vs group join: produce both and explain the shape differences.</li>
 <li>Flatten nested collections (customers -&gt; orders -&gt; lines) and compute totals with SelectMany.</li>
 </ul>
-<h2 id="read-more-16">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/dotnet/csharp/programming-guide/concepts/linq/">https://learn.microsoft.com/dotnet/csharp/programming-guide/concepts/linq/</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="asynchronous-programming">Asynchronous Programming</h1>
-<h1 id="asynchronous-programming-1">Asynchronous Programming</h1>
 <p>Use async/await to free threads while work is pending (IO), improving scalability and responsiveness.</p>
 <h2 id="asyncawait-basics">async/await basics</h2>
 <pre><code class="language-csharp">async Task&lt;string&gt; DownloadAsync(HttpClient http, string url)
@@ -1274,14 +1177,9 @@ var pages = await Task.WhenAll(tasks);
 <li>Convert a synchronous file processing loop to async and ensure max 4 concurrent operations.</li>
 <li>Explain ConfigureAwait(false) and where it’s appropriate; demonstrate a context-deadlock caused by .Result.</li>
 </ul>
-<h2 id="read-more-17">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/dotnet/csharp/asynchronous-programming/">https://learn.microsoft.com/dotnet/csharp/asynchronous-programming/</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="ado.net">ADO.NET</h1>
-<h1 id="ado.net-1">ADO.NET</h1>
 <p>Low-level data access with explicit connections, commands, and readers. Great for tight control and performance.</p>
 <h2 id="connected-commands-and-readers">Connected: commands and readers</h2>
 <pre><code class="language-csharp">using var conn = new Microsoft.Data.Sqlite.SqliteConnection(&quot;Data Source=:memory:&quot;);
@@ -1313,14 +1211,9 @@ catch
 	throw;
 }
 </code></pre>
-<h2 id="read-more-18">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/dotnet/framework/data/adonet/ado-net-overview">https://learn.microsoft.com/dotnet/framework/data/adonet/ado-net-overview</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="entity-framework-core">Entity Framework Core</h1>
-<h1 id="entity-framework-core-1">Entity Framework Core</h1>
 <p>ORM for .NET with LINQ queries and change tracking.</p>
 <h2 id="model-dbcontext">Model &amp; DbContext</h2>
 <pre><code class="language-csharp">public class Blog { public int Id { get; set; } public string Title { get; set; } = &quot;&quot;; public List&lt;Post&gt; Posts { get; set; } = new(); }
@@ -1359,14 +1252,9 @@ var blogs = await db.Blogs.AsNoTracking().Where(b =&gt; b.Title.Contains(&quot;H
 <li>Demonstrate tracking vs AsNoTracking and explain memory/perf impact in a list view.</li>
 <li>Implement a one-to-many with cascade delete and write a test to verify.</li>
 </ul>
-<h2 id="read-more-19">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/ef/core/">https://learn.microsoft.com/ef/core/</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="file-io">File I/O</h1>
-<h1 id="file-io-1">File I/O</h1>
 <h2 id="streams">Streams</h2>
 <pre><code class="language-csharp">await using var fs = new FileStream(&quot;data.bin&quot;, FileMode.Create, FileAccess.Write, FileShare.None, 8192, useAsync: true);
 var bytes = Encoding.UTF8.GetBytes(&quot;hello&quot;);
@@ -1391,14 +1279,9 @@ xmlSer.Serialize(xfs, new Person(&quot;Ada&quot;, 28));
 <li>Prefer async IO for scalability in servers; sync is often fine for small local work.</li>
 <li>Use File.ReadLines (lazy) over ReadAllLines (eager) for large files.</li>
 </ul>
-<h2 id="read-more-20">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/dotnet/standard/io/">https://learn.microsoft.com/dotnet/standard/io/</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="wpf-xaml-basics">WPF: XAML Basics</h1>
-<h1 id="wpf-xaml-basics-1">WPF: XAML Basics</h1>
 <h2 id="layouts">Layouts</h2>
 <pre><code class="language-xml">&lt;Grid&gt;
 	&lt;Grid.RowDefinitions&gt;
@@ -1443,14 +1326,9 @@ xmlSer.Serialize(xfs, new Person(&quot;Ada&quot;, 28));
 <li>Bind a Slider to a numeric property (TwoWay) and display its value.</li>
 <li>Add validation to disallow empty names and show a red adornment.</li>
 </ul>
-<h2 id="read-more-21">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/dotnet/desktop/wpf/xaml-services/?view=netdesktop-8.0">https://learn.microsoft.com/dotnet/desktop/wpf/xaml-services/?view=netdesktop-8.0</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="wpf-advanced">WPF: Advanced</h1>
-<h1 id="wpf-advanced-1">WPF: Advanced</h1>
 <h2 id="styles-and-templates">Styles and Templates</h2>
 <pre><code class="language-xml">&lt;Window.Resources&gt;
 	&lt;Style TargetType=&quot;Button&quot;&gt;
@@ -1478,14 +1356,9 @@ xmlSer.Serialize(xfs, new Person(&quot;Ada&quot;, 28));
 <li>Use PresentationTraceSources for binding debug.</li>
 <li>Enable exceptions on binding failures in dev.</li>
 </ul>
-<h2 id="read-more-22">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/dotnet/desktop/wpf/get-started/create-app-visual-studio">https://learn.microsoft.com/dotnet/desktop/wpf/get-started/create-app-visual-studio</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="asp.net-core-fundamentals">ASP.NET Core Fundamentals</h1>
-<h1 id="asp.net-core-fundamentals-1">ASP.NET Core Fundamentals</h1>
 <h2 id="middleware-pipeline">Middleware pipeline</h2>
 <pre><code class="language-csharp">var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
@@ -1505,14 +1378,9 @@ app.Run();
 <ul>
 <li>Model binding, validation attributes, filters, content negotiation (JSON by default).</li>
 </ul>
-<h2 id="read-more-23">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/aspnet/core/">https://learn.microsoft.com/aspnet/core/</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="blazor">Blazor</h1>
-<h1 id="blazor-1">Blazor</h1>
 <h2 id="component-basics">Component basics</h2>
 <pre><code class="language-razor">@page &quot;/counter&quot;
 &lt;h3&gt;Counter&lt;/h3&gt;
@@ -1538,14 +1406,9 @@ app.Run();
 <li>Server: thin client, low download, requires persistent connection.</li>
 <li>WebAssembly: runs in browser, offline capable, larger download.</li>
 </ul>
-<h2 id="read-more-24">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/aspnet/core/blazor/">https://learn.microsoft.com/aspnet/core/blazor/</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="web-security">Web Security</h1>
-<h1 id="web-security-1">Web Security</h1>
 <h2 id="authentication">Authentication</h2>
 <ul>
 <li>Cookies (server-rendered sites) vs JWT (APIs/SPAs). External providers via OAuth/OIDC.</li>
@@ -1564,14 +1427,9 @@ app.MapGet(&quot;/secure&quot;, [Authorize(Policy=&quot;AdultOnly&quot;)] () =&g
 <pre><code class="language-csharp">app.UseHttpsRedirection();
 app.UseCors(p =&gt; p.WithOrigins(&quot;https://example.com&quot;).AllowAnyHeader().AllowAnyMethod());
 </code></pre>
-<h2 id="read-more-25">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/aspnet/core/security/">https://learn.microsoft.com/aspnet/core/security/</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="xamarin.forms">Xamarin.Forms</h1>
-<h1 id="xamarin.forms-1">Xamarin.Forms</h1>
 <p>Note: .NET MAUI is the modern successor; concepts are similar.</p>
 <h2 id="xaml-layouts">XAML Layouts</h2>
 <pre><code class="language-xml">&lt;ContentPage xmlns=&quot;http://xamarin.com/schemas/2014/forms&quot;
@@ -1591,14 +1449,9 @@ app.UseCors(p =&gt; p.WithOrigins(&quot;https://example.com&quot;).AllowAnyHeade
 <ul>
 <li>Bind View to ViewModel properties/commands via INotifyPropertyChanged and ICommand.</li>
 </ul>
-<h2 id="read-more-26">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/xamarin/xamarin-forms/">https://learn.microsoft.com/xamarin/xamarin-forms/</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="mobile-features">Mobile Features</h1>
-<h1 id="mobile-features-1">Mobile Features</h1>
 <h2 id="local-storage-sqlite.net">Local Storage (SQLite.NET)</h2>
 <pre><code class="language-csharp">using SQLite;
 public class Person { [PrimaryKey, AutoIncrement] public int Id { get; set; } public string Name { get; set; } = &quot;&quot;; }
@@ -1615,14 +1468,9 @@ await db.InsertAsync(new Person { Name = &quot;Ada&quot; });
 <li>Use the system browser; follow the authorization code flow with PKCE.</li>
 <li>Store tokens securely (Keychain/Keystore); refresh tokens carefully.</li>
 </ul>
-<h2 id="read-more-27">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/xamarin/">https://learn.microsoft.com/xamarin/</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="cloud-deployment">Cloud Deployment</h1>
-<h1 id="cloud-deployment-1">Cloud Deployment</h1>
 <h2 id="azure-app-service-typical-flow">Azure App Service (typical flow)</h2>
 <ul>
 <li>Publish from CLI: <code>dotnet publish -c Release</code> then deploy via Azure CLI or VS.</li>
@@ -1651,15 +1499,9 @@ ENTRYPOINT [&quot;dotnet&quot;, &quot;WebApi.dll&quot;]
 <ul>
 <li>Health checks endpoint; autoscaling rules; rolling deployments/slots.</li>
 </ul>
-<h2 id="read-more-28">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/azure/app-service/">https://learn.microsoft.com/azure/app-service/</a></li>
-<li><a href="https://docs.docker.com/get-started/">https://docs.docker.com/get-started/</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="cicd-pipelines">CI/CD Pipelines</h1>
-<h1 id="cicd-pipelines-1">CI/CD Pipelines</h1>
 <p>Automate build, test, and deploy on every change.</p>
 <h2 id="github-actions-example">GitHub Actions (example)</h2>
 <pre><code class="language-yaml">name: build
@@ -1682,15 +1524,9 @@ jobs:
 <li>Version artifacts and publish build outputs (e.g., to GitHub Releases).</li>
 <li>Use environments and approvals for production.</li>
 </ul>
-<h2 id="read-more-29">Read More</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/azure/devops/pipelines/">https://learn.microsoft.com/azure/devops/pipelines/</a></li>
-<li><a href="https://docs.github.com/actions">https://docs.github.com/actions</a></li>
-</ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="exam-cram-c.net-quick-reference">Exam Cram: C#/.NET Quick Reference</h1>
-<h1 id="exam-cram-c.net-quick-reference-1">Exam Cram: C#/.NET Quick Reference</h1>
 <p>Use this as your last‑minute refresher. Practice from the section prompts in each chapter; this page is for recall.</p>
 <h2 id="core-c">Core C#</h2>
 <ul>
@@ -1746,7 +1582,7 @@ jobs:
 <li>Transactions: <code>BeginTransaction</code> + commit/rollback. Parameters prevent SQL injection.</li>
 <li>EF tips: scope DbContext per unit of work; <code>AsNoTracking</code> for read‑only; <code>Include</code> for navs; migrations: <code>add</code> then <code>update</code>.</li>
 </ul>
-<h2 id="file-io-2">File I/O</h2>
+<h2 id="file-io-1">File I/O</h2>
 <ul>
 <li>Use async IO on servers; <code>File.ReadLines</code> for lazy large files. JSON with System.Text.Json; XML with XmlSerializer.</li>
 </ul>
@@ -1761,7 +1597,7 @@ jobs:
 <li>Minimal API shape: <code>app.MapGet(&quot;/path&quot;, (deps, ...) =&gt; Results.Ok(...));</code></li>
 <li>Model binding, validation attributes, content negotiation (JSON default).</li>
 </ul>
-<h2 id="blazor-2">Blazor</h2>
+<h2 id="blazor-1">Blazor</h2>
 <ul>
 <li>Server vs WASM: latency/connection vs offline/native‑like; same component model.</li>
 <li>@inject DI for services; parameters via <code>[Parameter]</code>.</li>
@@ -1790,7 +1626,6 @@ jobs:
 <li>Avoid multiple enumeration of expensive sources.</li>
 <li>Validate user input; parameterize SQL; never log secrets.</li>
 </ul>
-<div class="page-break"></div>
 
 </body>
 </html>

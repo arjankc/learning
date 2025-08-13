@@ -37,12 +37,6 @@ Compiled for offline study and printing. Start with the Study Guide.
 - [CI/CD Pipelines](12-devops/02-ci-cd.md)
 - [Exam Cram: C#/.NET Quick Reference](99-exam-cram.md)
 
-
-
----
-
-# Study Guide: C#/.NET Exam Prep
-
 # Study Guide: C#/.NET Exam Prep
 
 Use this as your roadmap. Tiers reflect priority: Tier 1 first, then Tier 2, then Tier 3.
@@ -74,8 +68,6 @@ Good luck—keep it small, steady, and hands-on.
 
 
 ---
-
-# C# Basics: Data Types (Primitive, Value vs Reference)
 
 # C# Basics: Data Types (Primitive, Value vs Reference)
 
@@ -128,8 +120,6 @@ Tip: prefer small, immutable structs for simple data; use classes for entities w
 
 
 ---
-
-# C# Basics: Variables, Operators, and Expressions
 
 # C# Basics: Variables, Operators, and Expressions
 
@@ -195,8 +185,6 @@ int clearer = (x + y) * 2; // 26
 
 # Type Conversion in C# (Implicit/Explicit, Boxing/Unboxing)
 
-# Type Conversion in C# (Implicit/Explicit, Boxing/Unboxing)
-
 ## Why Conversion Matters
 C# is statically typed, so types must match. Conversions let values move between compatible types with predictable behavior.
 
@@ -249,17 +237,12 @@ catch (OverflowException)
 object boxed = small;         // boxing
 int unboxed = (int)boxed;     // unboxing
 ```
-## Read More
-- Microsoft Docs: Conversions in C#: https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/numeric-conversions
-- Microsoft Docs: Boxing and Unboxing: https://learn.microsoft.com/dotnet/csharp/programming-guide/types/boxing-and-unboxing
 
 
 <div class="page-break"></div>
 
 
 ---
-
-# Namespaces in C#
 
 # Namespaces in C#
 
@@ -300,16 +283,11 @@ Disambiguation with fully-qualified names:
 global::System.Uri uri = new("https://example.com");
 ```
 
-## Read More
-- Microsoft Docs: Namespaces: https://learn.microsoft.com/dotnet/csharp/fundamentals/types/namespaces
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# Branching in C# (if/else, switch)
 
 # Branching in C# (if/else, switch)
 
@@ -375,17 +353,11 @@ string Describe(object o) => o switch
 - Avoid duplication: compute a value once and reuse it.
 - Use guard clauses to fail fast when inputs are invalid.
 
-## Read More
-- Microsoft Docs: if-else: https://learn.microsoft.com/dotnet/csharp/language-reference/statements/selection-statements
-- Microsoft Docs: switch and pattern matching: https://learn.microsoft.com/dotnet/csharp/language-reference/operators/switch-expression
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# Looping in C# (for, while, foreach)
 
 # Looping in C# (for, while, foreach)
 
@@ -439,16 +411,11 @@ foreach (var word in words)
 }
 ```
 
-## Read More
-- Microsoft Docs: Iteration statements: https://learn.microsoft.com/dotnet/csharp/language-reference/statements/iteration-statements
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# Iterators and `yield`
 
 # Iterators and `yield`
 
@@ -573,8 +540,6 @@ async IAsyncEnumerable<int> Tick(int intervalMs, [EnumeratorCancellation] Cancel
 
 # Common Language Runtime (CLR)
 
-# Common Language Runtime (CLR)
-
 The CLR is the virtual machine that runs .NET code. It loads assemblies, verifies IL, JIT-compiles methods to native code, and manages memory and execution.
 
 ## Role of CLR
@@ -611,17 +576,11 @@ Native.Sleep(100);
 - ETW/EventPipe (dotnet-trace), dotnet-counters, dotnet-gcdump, PerfView.
 - In-process: `GC.GetTotalMemory`, `GC.TryStartNoGCRegion`, `Activity` for tracing.
 
-## Read More
-- https://learn.microsoft.com/dotnet/standard/clr
-- https://learn.microsoft.com/dotnet/standard/garbage-collection/
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# .NET Framework Class Library (BCL/FCL)
 
 # .NET Framework Class Library (BCL/FCL)
 
@@ -662,16 +621,11 @@ catch (TaskCanceledException) { /* expected */ }
 - Prefer BCL types first; they’re well-tested and supported across runtimes.
 - Check for `TryXxx` methods to avoid exceptions for common failure paths.
 
-## Read More
-- https://learn.microsoft.com/dotnet/standard/class-library-overview
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# IDE Setup (Visual Studio / VS Code)
 
 # IDE Setup (Visual Studio / VS Code)
 
@@ -694,17 +648,11 @@ catch (TaskCanceledException) { /* expected */ }
 - `dotnet new`, `dotnet add package`, `dotnet build`, `dotnet test`, `dotnet publish`.
 - `dotnet watch run` for hot reload during development.
 
-## Read More
-- https://learn.microsoft.com/dotnet/core/tutorials/with-visual-studio
-- https://learn.microsoft.com/dotnet/core/tutorials/with-visual-studio-code
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# Classes and Objects
 
 # Classes and Objects
 
@@ -809,16 +757,11 @@ var pt = new Point { X = 3, Y = 4 };
 var (x, y) = pt; // x=3, y=4
 ```
 
-## Read more
-- https://learn.microsoft.com/dotnet/csharp/fundamentals/types/classes
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# OOP Principles
 
 # OOP Principles
 
@@ -896,16 +839,11 @@ public class CachedRepository<T> : IRepository<T>
 }
 ```
 
-## Read More
-- https://learn.microsoft.com/dotnet/csharp/fundamentals/object-oriented/
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# Advanced OOP
 
 # Advanced OOP
 
@@ -968,17 +906,11 @@ Console.WriteLine(a == b); // true (value-based)
 - Keep constructors simple; use factories/builders if setup is complex.
 - Keep inheritance shallow; prefer interfaces + composition.
 
-## Read More
-- https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/struct
-- https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/enum
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# Built-in Collections
 
 # Built-in Collections
 
@@ -1035,16 +967,11 @@ await Task.WhenAll(prod, cons);
 - Use `StringComparer.OrdinalIgnoreCase` when keys are case-insensitive.
 - Avoid repeated `List<T>.Remove(item)` in a loop; filter with `Where`/`RemoveAll`.
 
-## Read More
-- https://learn.microsoft.com/dotnet/standard/collections/
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# Custom Collections
 
 # Custom Collections
 
@@ -1089,17 +1016,11 @@ public class BoundedList<T> : IList<T>
 }
 ```
 
-## Read More
-- https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
-- https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# Exception Handling
 
 # Exception Handling
 
@@ -1149,16 +1070,11 @@ catch (OrderStorageException ex)
 }
 ```
 
-## Read More
-- https://learn.microsoft.com/dotnet/csharp/fundamentals/exceptions/
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# Custom Exceptions
 
 # Custom Exceptions
 
@@ -1185,16 +1101,11 @@ public class OrderProcessingException : Exception
 - Preserve inner exceptions; they’re essential for root-cause analysis.
 - Avoid throwing exceptions for control flow; use `TryXxx` when failure is common.
 
-## Read More
-- https://learn.microsoft.com/dotnet/standard/exceptions/how-to-create-user-defined-exceptions
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# Debugging Techniques
 
 # Debugging Techniques
 
@@ -1221,16 +1132,11 @@ logger.LogInformation("Starting module {Module}", "X");
 ## Performance debugging
 - dotnet-trace/dotnet-counters; sampling profilers; memory dumps (dotnet-gcdump).
 
-## Read More
-- https://learn.microsoft.com/visualstudio/debugger/debugger-feature-tour
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# Delegates and Events
 
 # Delegates and Events
 
@@ -1299,17 +1205,11 @@ public event EventHandler Something
 - Be careful with closures in loops; capture the loop variable into a local.
 - Unsubscribe from long-lived events to avoid memory leaks.
 
-## Read More
-- https://learn.microsoft.com/dotnet/csharp/programming-guide/delegates/
-- https://learn.microsoft.com/dotnet/csharp/programming-guide/events/
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# LINQ
 
 # LINQ
 
@@ -1375,16 +1275,11 @@ var arr = seq.ToArray(); // 10, 20, 30
 - Inner join vs group join: produce both and explain the shape differences.
 - Flatten nested collections (customers -> orders -> lines) and compute totals with SelectMany.
 
-## Read More
-- https://learn.microsoft.com/dotnet/csharp/programming-guide/concepts/linq/
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# Asynchronous Programming
 
 # Asynchronous Programming
 
@@ -1441,16 +1336,11 @@ var pages = await Task.WhenAll(tasks);
 - Convert a synchronous file processing loop to async and ensure max 4 concurrent operations.
 - Explain ConfigureAwait(false) and where it’s appropriate; demonstrate a context-deadlock caused by .Result.
 
-## Read More
-- https://learn.microsoft.com/dotnet/csharp/asynchronous-programming/
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# ADO.NET
 
 # ADO.NET
 
@@ -1492,16 +1382,11 @@ catch
 }
 ```
 
-## Read More
-- https://learn.microsoft.com/dotnet/framework/data/adonet/ado-net-overview
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# Entity Framework Core
 
 # Entity Framework Core
 
@@ -1545,16 +1430,11 @@ var blogs = await db.Blogs.AsNoTracking().Where(b => b.Title.Contains("H")).ToLi
 - Demonstrate tracking vs AsNoTracking and explain memory/perf impact in a list view.
 - Implement a one-to-many with cascade delete and write a test to verify.
 
-## Read More
-- https://learn.microsoft.com/ef/core/
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# File I/O
 
 # File I/O
 
@@ -1589,16 +1469,11 @@ xmlSer.Serialize(xfs, new Person("Ada", 28));
 - Prefer async IO for scalability in servers; sync is often fine for small local work.
 - Use File.ReadLines (lazy) over ReadAllLines (eager) for large files.
 
-## Read More
-- https://learn.microsoft.com/dotnet/standard/io/
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# WPF: XAML Basics
 
 # WPF: XAML Basics
 
@@ -1650,16 +1525,11 @@ public class RelayCommand : ICommand
 - Bind a Slider to a numeric property (TwoWay) and display its value.
 - Add validation to disallow empty names and show a red adornment.
 
-## Read More
-- https://learn.microsoft.com/dotnet/desktop/wpf/xaml-services/?view=netdesktop-8.0
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# WPF: Advanced
 
 # WPF: Advanced
 
@@ -1693,16 +1563,11 @@ public class MainViewModel
 - Use PresentationTraceSources for binding debug.
 - Enable exceptions on binding failures in dev.
 
-## Read More
-- https://learn.microsoft.com/dotnet/desktop/wpf/get-started/create-app-visual-studio
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# ASP.NET Core Fundamentals
 
 # ASP.NET Core Fundamentals
 
@@ -1727,16 +1592,11 @@ app.MapPost("/sum", (int a, int b) => Results.Ok(new { sum = a + b }));
 ## Web API essentials
 - Model binding, validation attributes, filters, content negotiation (JSON by default).
 
-## Read More
-- https://learn.microsoft.com/aspnet/core/
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# Blazor
 
 # Blazor
 
@@ -1770,16 +1630,11 @@ app.MapPost("/sum", (int a, int b) => Results.Ok(new { sum = a + b }));
 - Server: thin client, low download, requires persistent connection.
 - WebAssembly: runs in browser, offline capable, larger download.
 
-## Read More
-- https://learn.microsoft.com/aspnet/core/blazor/
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# Web Security
 
 # Web Security
 
@@ -1803,16 +1658,11 @@ app.UseHttpsRedirection();
 app.UseCors(p => p.WithOrigins("https://example.com").AllowAnyHeader().AllowAnyMethod());
 ```
 
-## Read More
-- https://learn.microsoft.com/aspnet/core/security/
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# Xamarin.Forms
 
 # Xamarin.Forms
 
@@ -1839,16 +1689,11 @@ await Navigation.PushAsync(new DetailsPage());
 ## MVVM
 - Bind View to ViewModel properties/commands via INotifyPropertyChanged and ICommand.
 
-## Read More
-- https://learn.microsoft.com/xamarin/xamarin-forms/
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# Mobile Features
 
 # Mobile Features
 
@@ -1871,16 +1716,11 @@ public interface IDeviceInfo { string GetModel(); }
 - Use the system browser; follow the authorization code flow with PKCE.
 - Store tokens securely (Keychain/Keystore); refresh tokens carefully.
 
-## Read More
-- https://learn.microsoft.com/xamarin/
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# Cloud Deployment
 
 # Cloud Deployment
 
@@ -1911,17 +1751,11 @@ ENTRYPOINT ["dotnet", "WebApi.dll"]
 ## Scaling & health
 - Health checks endpoint; autoscaling rules; rolling deployments/slots.
 
-## Read More
-- https://learn.microsoft.com/azure/app-service/
-- https://docs.docker.com/get-started/
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# CI/CD Pipelines
 
 # CI/CD Pipelines
 
@@ -1949,17 +1783,11 @@ jobs:
 - Version artifacts and publish build outputs (e.g., to GitHub Releases).
 - Use environments and approvals for production.
 
-## Read More
-- https://learn.microsoft.com/azure/devops/pipelines/
-- https://docs.github.com/actions
-
 
 <div class="page-break"></div>
 
 
 ---
-
-# Exam Cram: C#/.NET Quick Reference
 
 # Exam Cram: C#/.NET Quick Reference
 
@@ -2047,5 +1875,3 @@ Use this as your last‑minute refresher. Practice from the section prompts in e
 - Avoid multiple enumeration of expensive sources.
 - Validate user input; parameterize SQL; never log secrets.
 
-
-<div class="page-break"></div>
