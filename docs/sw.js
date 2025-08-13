@@ -1,5 +1,5 @@
 // Simple service worker for offline support
-const CACHE_NAME = 'csharp-gamified-v6';
+const CACHE_NAME = 'csharp-gamified-v3';
 const OFFLINE_URLS = [
   'index.html',
   'levels.html',
