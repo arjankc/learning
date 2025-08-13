@@ -307,16 +307,6 @@ function showLevelDetail(levelId) {
         Prism.highlightElement(code);
     }
     
-    // Set up code playground
-    const playground = document.getElementById('code-playground');
-    const userCode = document.getElementById('user-code');
-    if (level.code && level.code.trim()) {
-        playground.style.display = 'block';
-        userCode.value = level.code;
-    } else {
-        playground.style.display = 'none';
-    }
-    
     // Set up navigation buttons
     setupLevelNavigation(level.id);
     
@@ -406,37 +396,6 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
-function setupCodePlayground() {
-    const runBtn = document.getElementById('run-code');
-    const codeOutput = document.getElementById('code-output');
-    const userCode = document.getElementById('user-code');
-    
-    if (runBtn) {
-        runBtn.onclick = () => {
-            const code = userCode.value.trim();
-            if (!code) {
-                codeOutput.style.display = 'block';
-                codeOutput.innerHTML = '<span style="color: #ff6b6b;">⚠️ Please enter some code to run!</span>';
-                return;
-            }
-            
-            // Simulate code execution (since we can't actually run C# in browser)
-            codeOutput.style.display = 'block';
-            codeOutput.innerHTML = `
-                <div style="color: #4CAF50;">✅ Code compiled successfully!</div>
-                <div style="margin-top: 10px; color: #888;">
-                    💡 In a real environment, this would execute your C# code.<br>
-                    📝 Try modifying the code to experiment with different concepts!
-                </div>
-            `;
-            
-            // Add some animation
-            codeOutput.classList.add('pulse');
-            setTimeout(() => codeOutput.classList.remove('pulse'), 500);
-        };
-    }
-}
-
 function completeCurrentLevel(level) {
     window.LearningStorage?.completeLevel(window.USER_ID, level.id);
     // award XP per level (simple rule)
@@ -487,7 +446,6 @@ async function initLevelsPage() {
         
         renderProgress();
         renderLevelsList();
-        setupCodePlayground();
         
         updateLoadingProgress(100, 'Ready to learn!');
         console.log('Levels page initialized successfully');

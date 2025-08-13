@@ -207,27 +207,6 @@ footer {
     transform: translateX(0);
 }
 
-/* Code Playground */
-#user-code {
-    font-family: 'Courier New', monospace;
-    border: 2px solid #ddd;
-    border-radius: 5px;
-    transition: border-color 0.2s ease;
-}
-
-#user-code:focus {
-    border-color: #007acc;
-    outline: none;
-}
-
-#code-output {
-    background: #1e1e1e;
-    color: #d4d4d4;
-    border-radius: 5px;
-    font-family: monospace;
-    min-height: 40px;
-}
-
 /* Animations */
 @keyframes bounce {
     0%, 20%, 60%, 100% { transform: translateY(0); }
