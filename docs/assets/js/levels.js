@@ -337,16 +337,16 @@ function renderLevelsList() {
         }
         
         div.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
-                <h3 style="margin: 0;">${l.id.toString().padStart(2,'0')}: ${l.title}</h3>
-                <span class="difficulty-indicator difficulty-${difficulty}">${difficultyText}</span>
+            <div class="level-card-header" style="margin-bottom: 1rem;">
+                <h3 style="margin: 0 0 0.5rem 0; font-size: clamp(1.1rem, 2.5vw, 1.3rem);">${l.id.toString().padStart(2,'0')}: ${l.title}</h3>
+                <span class="difficulty-indicator difficulty-${difficulty}" style="font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 12px; font-weight: bold;">${difficultyText}</span>
             </div>
-            <p style="margin: 10px 0; color: #666;">${l.description}</p>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
-                <span style="font-weight: bold; color: ${isCompleted ? '#4CAF50' : '#2196F3'};">
+            <p style="margin: 0.5rem 0 1rem 0; color: #666; line-height: 1.5; font-size: 0.9rem;">${l.description}</p>
+            <div class="level-card-footer" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+                <span style="font-weight: bold; color: ${isCompleted ? '#4CAF50' : '#2196F3'}; font-size: 0.9rem;">
                     ${status}
                 </span>
-                <button class="button" data-level-id="${l.id}" style="border: none; cursor: pointer;">${buttonContent}</button>
+                <button class="button" data-level-id="${l.id}" style="border: none; cursor: pointer; padding: 0.6rem 1rem; font-size: 0.9rem; min-width: 100px;">${buttonContent}</button>
             </div>
         `;
         
@@ -707,6 +707,9 @@ async function initLevelsPage() {
         renderProgress();
         renderLevelsList();
         
+        // Add responsive enhancements
+        addResponsiveEnhancements();
+        
         // Set up weakness detection toggle
         const toggleWeaknessBtn = document.getElementById('toggle-weaknesses');
         if (toggleWeaknessBtn) {
@@ -767,6 +770,46 @@ function showErrorMessage(message) {
 }
 
 document.addEventListener('DOMContentLoaded', initLevelsPage);
+
+// Add responsive and touch enhancements
+function addResponsiveEnhancements() {
+    // Add touch-friendly interactions
+    const cards = document.querySelectorAll('.level-card, .card, .button');
+    cards.forEach(card => {
+        // Add touch feedback
+        card.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.98)';
+        });
+        
+        card.addEventListener('touchend', function() {
+            this.style.transform = '';
+        });
+    });
+    
+    // Improve quiz option touch targets on mobile
+    const quizOptions = document.querySelectorAll('.quiz-option');
+    quizOptions.forEach(option => {
+        option.style.minHeight = '44px'; // iOS recommended touch target
+        option.style.display = 'flex';
+        option.style.alignItems = 'center';
+    });
+    
+    // Handle orientation changes
+    window.addEventListener('orientationchange', function() {
+        setTimeout(() => {
+            // Recalculate layout after orientation change
+            window.scrollTo(0, window.scrollY + 1);
+            window.scrollTo(0, window.scrollY - 1);
+        }, 100);
+    });
+    
+    // Smooth scroll polyfill for older browsers
+    if (!('scrollBehavior' in document.documentElement.style)) {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/gh/iamdustan/smoothscroll@master/src/smoothscroll.js';
+        document.head.appendChild(script);
+    }
+}
 
 // Concept mapping for weakness detection
 function getConceptForLevel(levelId, questionIndex) {
