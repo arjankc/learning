@@ -64,6 +64,10 @@ function showLevelDetail(levelId) {
     // Code
     const code = document.getElementById('level-code');
     code.textContent = level.code || '';
+    // Apply syntax highlighting if Prism is available
+    if (window.Prism && level.code) {
+        Prism.highlightElement(code);
+    }
     // Quiz
     renderQuiz(level);
     const btn = document.getElementById('complete-level');

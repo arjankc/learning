@@ -1,15 +1,17 @@
 // Simple service worker for offline support
-const CACHE_NAME = 'csharp-gamified-v2';
+const CACHE_NAME = 'csharp-gamified-v3';
 const OFFLINE_URLS = [
   'index.html',
   'levels.html',
   'leaderboard.html',
   'achievements.html',
   'assets/css/styles.css',
+  'assets/css/prism.css',
   'assets/js/app.js',
   'assets/js/storage.js',
   'assets/js/levels.js',
   'assets/js/achievements.js',
+  'assets/js/prism.js',
   'data/levels.json',
   'data/achievements.json',
   'manifest.webmanifest',
