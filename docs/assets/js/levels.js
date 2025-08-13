@@ -1,7 +1,6 @@
 // levels.js (data-driven)
 
 let LevelsData = [];
-const USER_ID = 'local-user';
 
 async function fetchLevels() {
     try {
@@ -30,7 +29,7 @@ async function fetchLevels() {
 
 function renderProgress() {
     const progressEl = document.getElementById('progress-text');
-    const progress = window.LearningStorage?.getUserProgress(USER_ID) || {};
+    const progress = window.LearningStorage?.getUserProgress(window.window.USER_ID) || {};
     const completed = (progress.completedLevels || []).length;
     progressEl.textContent = `Completed ${completed}/${LevelsData.length} levels • XP: ${progress.xp || 0}`;
 }
@@ -44,7 +43,7 @@ function renderLevelsList() {
     }
     
     console.log(`Rendering ${LevelsData.length} levels`);
-    const progress = window.LearningStorage?.getUserProgress(USER_ID) || {};
+    const progress = window.LearningStorage?.getUserProgress(window.window.USER_ID) || {};
     const done = new Set(progress.completedLevels || []);
     const tierFilter = document.getElementById('tier-filter');
     const tierValue = tierFilter ? tierFilter.value : 'all';
@@ -116,9 +115,9 @@ function showLevelDetail(levelId) {
 }
 
 function completeCurrentLevel(level) {
-    window.LearningStorage?.completeLevel(USER_ID, level.id);
+    window.LearningStorage?.completeLevel(window.window.USER_ID, level.id);
     // award XP per level (simple rule)
-    window.LearningStorage?.addXp(USER_ID, 10);
+    window.LearningStorage?.addXp(window.window.USER_ID, 10);
     maybeAwardAchievements(level);
     alert(`Great job! Marked "${level.title}" as completed and awarded 10 XP.`);
     renderProgress();
@@ -182,7 +181,7 @@ function renderQuiz(level){
         resultEl.textContent = `Score: ${score}% (${correct}/${level.quiz.length})`;
         // Award XP for quiz
         if (score >= 80){
-            window.LearningStorage?.addXp(USER_ID, 10);
+            window.LearningStorage?.addXp(window.USER_ID, 10);
             maybeAwardQuizAchievements(level, score);
         }
         renderProgress();
@@ -195,20 +194,20 @@ function maybeAwardAchievements(level){
       .then(r=>r.json())
       .then(data=>{
         const items = data.achievements || [];
-        const unlocked = window.LearningStorage?.getUnlockedAchievements(USER_ID) || new Set();
+        const unlocked = window.LearningStorage?.getUnlockedAchievements(window.USER_ID) || new Set();
         // byLevel completion
         items.filter(a => a.type === 'levelComplete' && a.value === level.id)
              .forEach(a => {
-                if (!unlocked.has || !unlocked.has(a.id)) window.LearningStorage?.unlockAchievement(USER_ID, a.id);
+                if (!unlocked.has || !unlocked.has(a.id)) window.LearningStorage?.unlockAchievement(window.USER_ID, a.id);
              });
         // tier completion
-        const progress = window.LearningStorage?.getUserProgress(USER_ID) || {};
+        const progress = window.LearningStorage?.getUserProgress(window.USER_ID) || {};
         const done = new Set(progress.completedLevels || []);
         [1,2,3].forEach(tier => {
             const tierLevels = LevelsData.filter(l=>l.tier===tier).map(l=>l.id);
             if (tierLevels.length>0 && tierLevels.every(id=>done.has(id))){
                 items.filter(a=>a.type==='tierComplete' && a.value===tier)
-                    .forEach(a=>{ if(!unlocked.has || !unlocked.has(a.id)) window.LearningStorage?.unlockAchievement(USER_ID, a.id); });
+                    .forEach(a=>{ if(!unlocked.has || !unlocked.has(a.id)) window.LearningStorage?.unlockAchievement(window.USER_ID, a.id); });
             }
         });
       });
@@ -219,8 +218,8 @@ function maybeAwardQuizAchievements(level, score){
       .then(r=>r.json())
       .then(data=>{
         const items = data.achievements || [];
-        const unlocked = window.LearningStorage?.getUnlockedAchievements(USER_ID) || new Set();
+        const unlocked = window.LearningStorage?.getUnlockedAchievements(window.USER_ID) || new Set();
         items.filter(a=>a.type==='quizScore' && score >= a.value)
-             .forEach(a=>{ if(!unlocked.has || !unlocked.has(a.id)) window.LearningStorage?.unlockAchievement(USER_ID, a.id); });
+             .forEach(a=>{ if(!unlocked.has || !unlocked.has(a.id)) window.LearningStorage?.unlockAchievement(window.USER_ID, a.id); });
       });
 }

@@ -1,7 +1,6 @@
 // achievements.js
 
-const achievements = [];
-const USER_ID = 'local-user';
+let achievements = [];
 
 // Load achievements from JSON file
 async function loadAchievements() {
@@ -17,7 +16,7 @@ function displayAchievements() {
     const achievementsList = document.getElementById('achievements');
     if (!achievementsList) return; // not on achievements page
     achievementsList.innerHTML = '';
-    const unlocked = window.LearningStorage?.getUnlockedAchievements(USER_ID) || new Set();
+    const unlocked = window.LearningStorage?.getUnlockedAchievements(window.USER_ID) || new Set();
     achievements.forEach(achievement => {
         const li = document.createElement('li');
         const isUnlocked = unlocked.has ? unlocked.has(achievement.id) : unlocked.has(achievement.id);

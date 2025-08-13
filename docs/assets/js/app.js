@@ -1,6 +1,9 @@
 // This is the main JavaScript file for the gamified learning project.
 // It handles user interactions and game logic.
 
+// Global user ID for the application
+window.USER_ID = 'local-user';
+
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize the application
     initApp();
