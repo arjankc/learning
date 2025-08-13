@@ -691,6 +691,14 @@ function proceedToAchievements() {
     window.location.href = 'achievements.html';
 }
 
+// Show proceed section for completed levels (used after good score completion)
+function maybeShowProceedSection(level) {
+    const nextLevel = LevelsData.find(l => l.id === level.id + 1);
+    
+    // Always show the proceed section for completed levels
+    showProceedToNextLevel(level, nextLevel);
+}
+
 async function initLevelsPage() {
     console.log('Initializing levels page...');
     showPreloader();
@@ -950,16 +958,33 @@ function renderQuiz(level){
         
         const score = Math.round((correct / totalQuestions) * 100);
         const isPerfectScore = correct === totalQuestions;
+        const isGoodScore = score >= 70;
         let resultHTML = '';
         
         if (score >= 90) {
             resultHTML = `🎉 <strong>Excellent!</strong> ${score}% (${correct}/${totalQuestions}) - You're a C# master!`;
             resultEl.style.color = '#4CAF50';
         } else if (score >= 70) {
-            resultHTML = `👍 <strong>Good job!</strong> ${score}% (${correct}/${totalQuestions}) - Keep it up!`;
+            resultHTML = `👍 <strong>Good job!</strong> ${score}% (${correct}/${totalQuestions}) - Keep it up!<br>
+                <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+                    <button onclick="proceedWithGoodScore(${level.id})" class="btn btn-success" style="background: #4CAF50; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
+                        ✅ Proceed to Next Level
+                    </button>
+                    <button onclick="retryIncorrectQuestions(${level.id})" class="btn btn-warning" style="background: #FF9800; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
+                        🔄 Retry Wrong Answers Only
+                    </button>
+                </div>`;
             resultEl.style.color = '#2196F3';
         } else {
-            resultHTML = `🤔 <strong>Keep learning!</strong> ${score}% (${correct}/${totalQuestions}) - <a href="#" onclick="resetQuiz(${level.id})" style="color: #FF9800; text-decoration: underline; cursor: pointer;">Review the theory and try again</a>.`;
+            resultHTML = `🤔 <strong>Keep learning!</strong> ${score}% (${correct}/${totalQuestions})<br>
+                <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+                    <button onclick="retryIncorrectQuestions(${level.id})" class="btn btn-warning" style="background: #FF9800; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
+                        🔄 Retry Wrong Answers Only
+                    </button>
+                    <button onclick="resetQuiz(${level.id})" class="btn btn-secondary" style="background: #6c757d; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
+                        🔄 Start Over
+                    </button>
+                </div>`;
             resultEl.style.color = '#FF9800';
         }
         
@@ -978,15 +1003,24 @@ function renderQuiz(level){
         // Update completion button based on quiz performance
         const completeBtn = document.getElementById('complete-level');
         if (isPerfectScore) {
-            // Enable completion button only for perfect score
+            // Enable completion button for perfect score
             completeBtn.disabled = false;
             completeBtn.style.opacity = '1';
             completeBtn.style.cursor = 'pointer';
             if (!completeBtn.innerHTML.includes('Already completed')) {
                 completeBtn.innerHTML = '🎉 Mark as Completed';
             }
+        } else if (isGoodScore) {
+            // For good scores (70%+), completion is handled by the "Proceed" button
+            // Keep the regular completion button disabled for now
+            completeBtn.disabled = true;
+            completeBtn.style.opacity = '0.5';
+            completeBtn.style.cursor = 'not-allowed';
+            if (!completeBtn.innerHTML.includes('Already completed')) {
+                completeBtn.innerHTML = '🎯 Use "Proceed" button above or retry for perfect score';
+            }
         } else {
-            // Disable completion button for imperfect scores
+            // Disable completion button for low scores
             completeBtn.disabled = true;
             completeBtn.style.opacity = '0.5';
             completeBtn.style.cursor = 'not-allowed';
@@ -1046,6 +1080,109 @@ function resetQuiz(levelId) {
     
     // Scroll to quiz for better UX
     container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Allow users to proceed with good scores (70%+)
+function proceedWithGoodScore(levelId) {
+    const level = LevelsData.find(l => l.id === levelId);
+    if (!level) return;
+    
+    // Mark level as completed even with good (not perfect) score
+    window.LearningStorage?.completeLevel(window.USER_ID, levelId);
+    
+    // Update the completion button
+    const completeBtn = document.getElementById('complete-level');
+    completeBtn.disabled = false;
+    completeBtn.style.opacity = '1';
+    completeBtn.style.cursor = 'pointer';
+    completeBtn.innerHTML = '🎉 Level Completed!';
+    
+    // Award some XP for good completion
+    const xpAwarded = 5; // Reduced XP for non-perfect score
+    window.LearningStorage?.addXp(window.USER_ID, xpAwarded);
+    showNotification(`🎯 Level completed with good score! +${xpAwarded} XP earned!`, 'success');
+    
+    // Update progress display
+    renderProgress();
+    
+    // Show proceed section
+    maybeShowProceedSection(level);
+    
+    // Maybe award achievements
+    maybeAwardAchievements(level);
+}
+
+// Smart retry that only resets incorrectly answered questions
+function retryIncorrectQuestions(levelId) {
+    const level = LevelsData.find(l => l.id === levelId);
+    if (!level) return;
+    
+    const container = document.getElementById('quiz-container');
+    
+    // Find all questions that were answered incorrectly
+    const incorrectQuestions = [];
+    
+    level.quiz.forEach((question, questionIndex) => {
+        const expectedAnswers = question.correct;
+        const inputs = container.querySelectorAll(`input[name="q_${questionIndex}"]`);
+        const chosenAnswers = [];
+        
+        inputs.forEach((input, index) => {
+            if (input.checked) {
+                chosenAnswers.push(index);
+            }
+        });
+        
+        // Check if this question was answered incorrectly
+        const isCorrect = expectedAnswers.length === chosenAnswers.length &&
+                         expectedAnswers.every(ans => chosenAnswers.includes(ans));
+        
+        if (!isCorrect) {
+            incorrectQuestions.push(questionIndex);
+        }
+    });
+    
+    // Reset only the incorrect questions
+    incorrectQuestions.forEach(questionIndex => {
+        // Clear visual feedback for this question
+        const questionOptions = container.querySelectorAll(`input[name="q_${questionIndex}"]`);
+        questionOptions.forEach(input => {
+            const optionDiv = input.closest('.quiz-option');
+            optionDiv.classList.remove('correct', 'incorrect');
+            optionDiv.style.background = '';
+            optionDiv.style.border = '';
+            
+            // Only uncheck if this was an incorrect question
+            input.checked = false;
+        });
+    });
+    
+    // Clear result display
+    const resultEl = document.getElementById('quiz-result');
+    resultEl.innerHTML = `<div style="background: #e3f2fd; padding: 1rem; border-radius: 8px; margin: 1rem 0; border-left: 4px solid #2196F3;">
+        <strong>🔄 Smart Retry Mode</strong><br>
+        Only questions you got wrong have been reset. Your correct answers are preserved!<br>
+        <small style="opacity: 0.8;">Questions to retry: ${incorrectQuestions.length} out of ${level.quiz.length}</small>
+    </div>`;
+    
+    // Re-enable submit button
+    const submitBtn = document.getElementById('submit-quiz');
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = 'Submit Quiz';
+    submitBtn.style.opacity = '1';
+    
+    // Scroll to the first incorrect question for better UX
+    if (incorrectQuestions.length > 0) {
+        const firstIncorrectInput = container.querySelector(`input[name="q_${incorrectQuestions[0]}"]`);
+        if (firstIncorrectInput) {
+            firstIncorrectInput.closest('.quiz-question').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+        }
+    }
+    
+    showNotification(`🔄 Smart retry activated! ${incorrectQuestions.length} questions reset`, 'info');
 }
 
 function maybeAwardAchievements(level){

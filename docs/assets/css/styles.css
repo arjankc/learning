@@ -167,6 +167,57 @@ footer {
     transform: none;
 }
 
+/* Quiz Action Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    margin: 0.25rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-success {
+    background: #4CAF50;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #45a049;
+}
+
+.btn-warning {
+    background: #FF9800;
+    color: white;
+}
+
+.btn-warning:hover {
+    background: #f57c00;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+}
+
 /* Code Block Styles */
 pre {
     background: #f8f8f8;
@@ -178,6 +229,265 @@ pre {
     font-family: 'Courier New', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
     line-height: 1.4;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Enhanced Theory Content Styling */
+#level-theory {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #333;
+    max-width: none;
+}
+
+.theory-content {
+    background: #fafafa;
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 1.5rem 0;
+    border-left: 5px solid #007acc;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.theory-content h4 {
+    color: #007acc;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 2rem 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e3f2fd;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.theory-content h4:first-child {
+    margin-top: 0;
+}
+
+.theory-content h5 {
+    color: #1976d2;
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0.75rem 0;
+    padding-left: 0.5rem;
+    border-left: 3px solid #2196f3;
+}
+
+.theory-content p {
+    margin: 1rem 0;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    text-align: justify;
+}
+
+.theory-content p strong {
+    color: #1565c0;
+    font-weight: 600;
+}
+
+.theory-content ul {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+}
+
+.theory-content ul li {
+    margin: 0.75rem 0;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    list-style-type: none;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.theory-content ul li:before {
+    content: "▪";
+    color: #007acc;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    font-size: 1.2rem;
+}
+
+.theory-content ol {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+    counter-reset: step-counter;
+}
+
+.theory-content ol li {
+    margin: 0.75rem 0;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    list-style-type: none;
+    position: relative;
+    padding-left: 2rem;
+    counter-increment: step-counter;
+}
+
+.theory-content ol li:before {
+    content: counter(step-counter);
+    background: #007acc;
+    color: white;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    top: 0.1rem;
+    font-size: 0.85rem;
+}
+
+.theory-content code {
+    background: #e8f4f8;
+    color: #2e7d9a;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'Courier New', Consolas, Monaco, monospace;
+    font-size: 0.95rem;
+    border: 1px solid #b3e5fc;
+}
+
+.theory-content pre {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    font-size: 1rem;
+    line-height: 1.6;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.theory-content pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #333;
+    font-size: 1rem;
+}
+
+/* Level Detail Sections */
+.level-section {
+    margin: 2.5rem 0;
+    padding: 0;
+}
+
+.section-heading {
+    color: #007acc;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0 0 1.5rem 0;
+    padding: 0.75rem 0;
+    border-bottom: 3px solid #e3f2fd;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+}
+
+.section-heading:before {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: #007acc;
+    border-radius: 2px;
+}
+
+.level-description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 10px;
+    border-left: 4px solid #007acc;
+}
+
+.requirements-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.requirements-list li {
+    background: #f8f9fa;
+    margin: 0.75rem 0;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #28a745;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.requirements-list li:before {
+    content: "✓";
+    color: #28a745;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+}
+
+.code-block {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+    font-family: 'Courier New', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    line-height: 1.6;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.code-block:before {
+    content: "C#";
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    background: #007acc;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.quiz-section {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border: 1px solid #e9ecef;
+}
+
+.quiz-submit-btn {
+    margin-top: 1.5rem;
+    background: #007acc;
+    color: white;
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.quiz-result {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    line-height: 1.6;
 }
 
 pre code {
@@ -735,6 +1045,33 @@ code {
         padding: 1.5rem;
     }
     
+    /* Theory content tablet adjustments */
+    .theory-content {
+        padding: 1.5rem;
+        margin: 1rem 0;
+    }
+    
+    .theory-content h4 {
+        font-size: 1.2rem;
+    }
+    
+    .theory-content h5 {
+        font-size: 1.1rem;
+    }
+    
+    .theory-content p {
+        font-size: 1.05rem;
+    }
+    
+    .section-heading {
+        font-size: 1.3rem;
+    }
+    
+    .level-description {
+        font-size: 1.15rem;
+        padding: 1.25rem;
+    }
+    
     /* Level detail adjustments */
     .level-header {
         flex-direction: column;
@@ -842,6 +1179,15 @@ code {
         margin: 0.3rem 0;
     }
     
+    /* Quiz action buttons mobile optimization */
+    .btn {
+        width: 100%;
+        max-width: 280px;
+        padding: 0.875rem 1rem;
+        margin: 0.5rem 0;
+        font-size: 0.95rem;
+    }
+    
     /* Level cards grid */
     .levels-grid {
         display: grid;
@@ -890,6 +1236,60 @@ code {
     .weakness-card {
         padding: 1rem;
         margin: 0.5rem 0;
+    }
+    
+    /* Theory content mobile optimization */
+    .theory-content {
+        padding: 1rem;
+        margin: 1rem 0;
+        border-left-width: 3px;
+    }
+    
+    .theory-content h4 {
+        font-size: 1.1rem;
+        margin: 1.5rem 0 0.75rem 0;
+    }
+    
+    .theory-content h5 {
+        font-size: 1rem;
+        margin: 1rem 0 0.5rem 0;
+    }
+    
+    .theory-content p {
+        font-size: 1rem;
+        line-height: 1.7;
+        text-align: left;
+    }
+    
+    .theory-content ul li {
+        font-size: 1rem;
+        margin: 0.5rem 0;
+    }
+    
+    .theory-content ol li {
+        font-size: 1rem;
+        margin: 0.5rem 0;
+    }
+    
+    .section-heading {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .level-description {
+        font-size: 1.1rem;
+        padding: 1rem;
+        text-align: left;
+    }
+    
+    .code-block {
+        padding: 1rem;
+        margin: 1rem 0;
+        font-size: 0.9rem;
+    }
+    
+    .quiz-section {
+        padding: 1rem;
     }
     
     /* Home page mobile */
@@ -981,6 +1381,47 @@ code {
     .button {
         padding: 0.7rem 0.8rem;
         font-size: 0.9rem;
+    }
+    
+    /* Quiz action buttons extra small */
+    .btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.85rem;
+        margin: 0.3rem 0;
+    }
+    
+    /* Theory content extra small mobile */
+    .theory-content {
+        padding: 0.75rem;
+        margin: 0.75rem 0;
+    }
+    
+    .theory-content h4 {
+        font-size: 1rem;
+        margin: 1rem 0 0.5rem 0;
+    }
+    
+    .theory-content h5 {
+        font-size: 0.95rem;
+    }
+    
+    .theory-content p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+    
+    .section-heading {
+        font-size: 1.1rem;
+    }
+    
+    .level-description {
+        font-size: 1rem;
+        padding: 0.875rem;
+    }
+    
+    .code-block {
+        padding: 0.75rem;
+        font-size: 0.85rem;
     }
     
     /* Quiz extra small */

@@ -68,22 +68,32 @@
                 </div>
             </div>
             
-            <div id="level-difficulty" style="margin-bottom: 15px;"></div>
-            <p id="level-description" style="font-size: 1.1em; margin-bottom: 20px;"></p>
+            <div id="level-difficulty" style="margin-bottom: 20px;"></div>
+            <div id="level-description" class="level-description"></div>
             
-            <h3>📋 Requirements</h3>
-            <ul id="level-requirements"></ul>
+            <section class="level-section">
+                <h3 class="section-heading">📋 Requirements</h3>
+                <ul id="level-requirements" class="requirements-list"></ul>
+            </section>
 
-            <h3>📖 Theory</h3>
-            <div id="level-theory"></div>
+            <section class="level-section">
+                <h3 class="section-heading">📖 Theory</h3>
+                <div id="level-theory" class="theory-section"></div>
+            </section>
 
-            <h3>💻 Example Code</h3>
-            <pre><code id="level-code" class="language-csharp"></code></pre>
+            <section class="level-section">
+                <h3 class="section-heading">💻 Example Code</h3>
+            <section class="level-section">
+                <h3 class="section-heading">💻 Example Code</h3>
+                <pre class="code-block"><code id="level-code" class="language-csharp"></code></pre>
+            </section>
 
-            <h3>🧠 Quick Quiz</h3>
-            <div id="quiz-container"></div>
-            <button id="submit-quiz" class="button" style="display:none">🎯 Submit Answers</button>
-            <div id="quiz-result" style="margin-top: 10px;"></div>
+            <section class="level-section">
+                <h3 class="section-heading">🧠 Quick Quiz</h3>
+                <div id="quiz-container" class="quiz-section"></div>
+                <button id="submit-quiz" class="button quiz-submit-btn" style="display:none">🎯 Submit Answers</button>
+                <div id="quiz-result" class="quiz-result"></div>
+            </section>
 
             <div style="margin-top: 30px; text-align: center;">
                 <button id="complete-level" class="button" style="font-size: 1.2em; padding: 15px 30px;">🎉 Mark as Completed</button>
