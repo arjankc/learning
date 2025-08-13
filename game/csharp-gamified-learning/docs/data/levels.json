@@ -143,6 +143,7 @@
       "tier": 1,
       "title": ".NET Ecosystem",
       "description": "CLR, FCL, tooling overview.",
+      "concepts": ["CLR", "FCL", "Visual Studio", "VS Code Setup"],
       "requirements": [
         "Explain CLR and FCL",
         "Install and verify .NET SDK"
@@ -153,7 +154,216 @@
         { "q": "JIT compiles IL to?", "options": ["Java bytecode", "Native machine code"], "answer": 1 }
       ],
       "completionCriteria": "Explain CLR vs FCL in your own words.",
-      "nextLevel": null
+      "nextLevel": 10
+    },
+    {
+      "id": 10,
+      "tier": 1,
+      "title": "Classes & Objects",
+      "description": "Constructors, destructors, properties, indexers, static members.",
+      "concepts": ["Constructors", "Destructors", "Properties", "Indexers", "Static Members"],
+      "requirements": ["Define a class with properties", "Add a constructor", "Use a static member"],
+      "theory": "<p>Classes define reference types with state and behavior. Constructors initialize state; a finalizer (~ClassName) is rarely needed. Properties expose fields safely; indexers provide array-like access. Static members belong to the type, not instances.</p>",
+      "code": "public class Counter {\n  public static int Instances;\n  public int Value { get; private set; }\n  public int this[int i] => Value + i;\n  public Counter(int start=0){ Value = start; Instances++; }\n}",
+      "quiz": [ {"q":"What does static mean?","options":["Per instance","Per type"],"answer":1} ]
+    },
+    {
+      "id": 11,
+      "tier": 1,
+      "title": "OOP Principles",
+      "description": "Encapsulation, inheritance, polymorphism, abstraction.",
+      "concepts": ["Encapsulation", "Inheritance", "Polymorphism", "Abstraction"],
+      "requirements": ["Hide fields behind properties", "Derive a class and override a method"],
+      "theory": "<p>Encapsulation hides internal state; inheritance reuses behavior; polymorphism dispatches to overrides; abstraction exposes essential contracts via interfaces/abstract classes.</p>",
+      "code": "public abstract class Shape { public abstract double Area(); }\npublic class Rect: Shape { public double W,H; public override double Area()=> W*H; }",
+      "quiz": [ {"q":"Which enables dynamic dispatch?","options":["override","new"],"answer":0} ]
+    },
+    {
+      "id": 12,
+      "tier": 1,
+      "title": "Advanced OOP",
+      "description": "Structs vs classes, enums, nested, partial.",
+      "concepts": ["Structs vs Classes", "Enums", "Nested Classes", "Partial Classes/Methods"],
+      "requirements": ["Define a struct and compare assignment semantics"],
+      "theory": "<p>Structs are value types (copied by value), good for small immutable data. Enums map names to numeric constants. Partial types/methods split definitions across files.</p>",
+      "code": "public struct Point { public int X,Y; }\npublic enum Color { Red, Green, Blue }",
+      "quiz": [ {"q":"Struct assignment copies?","options":["Reference","Value"],"answer":1} ]
+    },
+    {
+      "id": 13,
+      "tier": 1,
+      "title": "Built-in Collections",
+      "description": "Arrays, List, Dictionary, Set, Queue, Stack, concurrent collections.",
+      "concepts": ["Arrays", "List<T>", "Dictionary<K,V>", "HashSet<T>", "Queue<T>", "Stack<T>", "Concurrent Collections"],
+      "requirements": ["Choose the right collection for a task"],
+      "theory": "<p>Use List for dynamic arrays; Dictionary for key/value; HashSet for uniqueness; Queue/Stack for FIFO/LIFO. Concurrent collections support multi-threaded producers/consumers.</p>",
+      "code": "var dict = new Dictionary<string,int>(); dict[\"a\"]=1;\nvar set = new HashSet<int>{1,2,2}; // {1,2}",
+      "quiz": [ {"q":"Which preserves insertion order by default?","options":["List","Dictionary"],"answer":0} ]
+    },
+    {
+      "id": 14,
+      "tier": 1,
+      "title": "Custom Collections",
+      "description": "Implementing IEnumerable/IEnumerator; linked lists and trees.",
+      "concepts": ["Implementing IEnumerable", "Linked Lists", "Trees"],
+      "requirements": ["Implement GetEnumerator using yield"],
+      "theory": "<p>Expose enumeration by implementing IEnumerable/IEnumerator. Nodes with Next references form linked lists; trees add hierarchical parent/children relations.</p>",
+      "code": "public IEnumerable<int> Range(int n){ for(int i=0;i<n;i++) yield return i; }",
+      "quiz": [ {"q":"yield return builds what?","options":["Iterator state machine","Array"],"answer":0} ]
+    },
+    {
+      "id": 15,
+      "tier": 1,
+      "title": "Error Handling & Debugging",
+      "description": "Exceptions, custom exceptions, breakpoints/logging.",
+      "concepts": ["Exception Handling", "Custom Exceptions", "Debugging Techniques"],
+      "requirements": ["Use try/catch/finally", "Add logging and breakpoints"],
+      "theory": "<p>Throw exceptions for exceptional conditions; catch only when you can add context or recover. Custom exception types carry intent. Debugging tools and structured logging accelerate diagnosis.</p>",
+      "code": "try { DoWork(); } catch(IOException ex){ Console.Error.WriteLine(ex.Message); throw; } finally { Cleanup(); }",
+      "quiz": [ {"q":"Rethrowing preserves stack?","options":["throw ex;","throw;"],"answer":1} ]
+    },
+    {
+      "id": 20,
+      "tier": 2,
+      "title": "Delegates & Events",
+      "description": "Delegates, lambdas, Action/Func, events.",
+      "concepts": ["Delegate Types", "Lambda Expressions", "Anonymous Methods", "Action/Func", "Event Handling"],
+      "requirements": ["Declare a delegate and subscribe to an event"],
+      "theory": "<p>Delegates are type-safe function pointers. Lambdas create inline delegates. Events wrap delegate lists with add/remove semantics for observers.</p>",
+      "code": "public event EventHandler? Changed;\nvoid Raise()=> Changed?.Invoke(this, EventArgs.Empty);",
+      "quiz": [ {"q":"Which delegate has no parameters and no return?","options":["Action","Func<int>"],"answer":0} ]
+    },
+    {
+      "id": 21,
+      "tier": 2,
+      "title": "LINQ",
+      "description": "Query vs method syntax, IEnumerable vs IQueryable, providers.",
+      "concepts": ["Query Syntax", "Method Syntax", "IEnumerable<T> vs IQueryable<T>", "LINQ Providers"],
+      "requirements": ["Compose a LINQ pipeline"],
+      "theory": "<p>LINQ provides composable querying. IEnumerable executes in-memory; IQueryable builds expression trees for translation (e.g., SQL).</p>",
+      "code": "var q = nums.Where(n=>n%2==0).Select(n=>n*n);",
+      "quiz": [ {"q":"Which defers execution until enumerated?","options":["IEnumerable","List"],"answer":0} ]
+    },
+    {
+      "id": 22,
+      "tier": 2,
+      "title": "Asynchronous Programming",
+      "description": "async/await, Tasks, Parallel.ForEach, cancellation.",
+      "concepts": ["async/await", "Task", "Parallel.ForEach", "CancellationToken"],
+      "requirements": ["Await an async method", "Cancel work cooperatively"],
+      "theory": "<p>Tasks represent ongoing work. async/await compose tasks without blocking threads. CancellationToken propagates cancel requests.</p>",
+      "code": "async Task<int> GetAsync(){ await Task.Delay(10); return 42; }",
+      "quiz": [ {"q":"Does async void belong in library code?","options":["Yes","No"],"answer":1} ]
+    },
+    {
+      "id": 23,
+      "tier": 2,
+      "title": "ADO.NET",
+      "description": "Connected/disconnected, transactions.",
+      "concepts": ["SqlConnection", "SqlCommand", "DataTable", "Transactions"],
+      "requirements": ["Open a connection and execute a command"],
+      "theory": "<p>Connected model uses open connections and readers; disconnected uses DataTable/DataSet. Transactions ensure atomicity.</p>",
+      "code": "using var con = new SqlConnection(cs); await con.OpenAsync(); using var cmd = new SqlCommand(\"SELECT 1\", con); var x = await cmd.ExecuteScalarAsync();",
+      "quiz": [ {"q":"Which reads forward-only?","options":["DataTable","DataReader"],"answer":1} ]
+    },
+    {
+      "id": 24,
+      "tier": 2,
+      "title": "Entity Framework Core",
+      "description": "Code-first vs DB-first, migrations.",
+      "concepts": ["Code-First", "Database-First", "Migrations"],
+      "requirements": ["Add a DbContext and a DbSet", "Run a migration"],
+      "theory": "<p>EF Core maps classes to tables. Code-First starts from C# models; Database-First scaffolds from an existing DB. Migrations evolve schema safely.</p>",
+      "code": "public class AppDb: DbContext { public DbSet<Person> People => Set<Person>(); }",
+      "quiz": [ {"q":"Which command adds a migration?","options":["dotnet ef migrations add","dotnet build"],"answer":0} ]
+    },
+    {
+      "id": 25,
+      "tier": 2,
+      "title": "File I/O",
+      "description": "Streams and serialization (JSON/XML/Binary).",
+      "concepts": ["FileStream", "MemoryStream", "JSON", "XML", "Binary"],
+      "requirements": ["Read and write a file", "Serialize to JSON"],
+      "theory": "<p>Streams unify reading/writing bytes. Use System.Text.Json for JSON; XmlSerializer for XML. Always dispose streams.</p>",
+      "code": "await File.WriteAllTextAsync(\"data.json\", JsonSerializer.Serialize(obj));",
+      "quiz": [ {"q":"Which API serializes JSON in .NET?","options":["System.Text.Json","System.Xml"],"answer":0} ]
+    },
+    {
+      "id": 26,
+      "tier": 2,
+      "title": "WPF Basics",
+      "description": "XAML, layouts, controls, data binding.",
+      "concepts": ["XAML Basics", "Layouts", "Controls", "Data Binding", "INotifyPropertyChanged"],
+      "requirements": ["Bind a TextBox to a ViewModel property"],
+      "theory": "<p>XAML declares UI; data binding connects UI to view models. Notify changes via INotifyPropertyChanged.</p>",
+      "code": "<TextBox Text=\"{Binding Name, UpdateSourceTrigger=PropertyChanged}\"/>",
+      "quiz": [ {"q":"Which interface notifies property changes?","options":["INotifyPropertyChanged","IEnumerable"],"answer":0} ]
+    },
+    {
+      "id": 27,
+      "tier": 2,
+      "title": "Advanced WPF",
+      "description": "Styles, templates, commands, MVVM.",
+      "concepts": ["Styles", "Templates", "ICommand", "MVVM"],
+      "requirements": ["Bind a Button to an ICommand"],
+      "theory": "<p>Styles/ControlTemplates separate look from logic. MVVM organizes UI with bindings and commands. ICommand represents UI actions.</p>",
+      "code": "<Button Command=\"{Binding SaveCommand}\" Content=\"Save\"/>",
+      "quiz": [ {"q":"MVVM layers?","options":["Model-View-ViewModel","Model-View-Manager"],"answer":0} ]
+    },
+    {
+      "id": 30,
+      "tier": 3,
+      "title": "ASP.NET Core Fundamentals",
+      "description": "Middleware pipeline, Razor Pages vs MVC, Web API.",
+      "concepts": ["Middleware Pipeline", "Razor Pages vs MVC", "RESTful APIs"],
+      "requirements": ["Add a custom middleware", "Build a minimal API"],
+      "theory": "<p>Requests flow through middleware. Razor Pages suit page-centric apps; MVC suits layered apps. Web API exposes REST endpoints.</p>",
+      "code": "var app = WebApplication.Create(); app.Use(async (ctx,next)=>{ await next(); }); app.MapGet(\"/hello\", ()=>\"hi\");",
+      "quiz": [ {"q":"Middleware order matters?","options":["Yes","No"],"answer":0} ]
+    },
+    {
+      "id": 31,
+      "tier": 3,
+      "title": "Blazor",
+      "description": "Components, binding, routing, DI, Server vs WASM.",
+      "concepts": ["Components", "Data Binding", "Routing", "Dependency Injection", "Server vs WebAssembly"],
+      "requirements": ["Create a component with @code and bind an input"],
+      "theory": "<p>Blazor components render UI with Razor syntax. Server hosts components on the server; WASM runs in the browser.</p>",
+      "code": "<input @bind=\"Name\" /> <p>@Name</p>",
+      "quiz": [ {"q":"Blazor WASM runs where?","options":["Server","Browser"],"answer":1} ]
+    },
+    {
+      "id": 32,
+      "tier": 3,
+      "title": "Security",
+      "description": "AuthN (JWT, Cookies), AuthZ (Roles/Policies), HTTPS, CORS.",
+      "concepts": ["Authentication", "Authorization", "HTTPS", "CORS"],
+      "requirements": ["Protect a minimal API endpoint"],
+      "theory": "<p>Authenticate users (cookies/JWT). Authorize via roles/policies. Always use HTTPS; configure CORS for cross-origin access.</p>",
+      "code": "builder.Services.AddAuthorization(); app.MapGet(\"/secure\", ()=>\"ok\").RequireAuthorization();",
+      "quiz": [ {"q":"Which guards cross-origin requests?","options":["CORS","CSR"],"answer":0} ]
+    },
+    {
+      "id": 33,
+      "tier": 3,
+      "title": "Cross-Platform (Xamarin/MAUI)",
+      "description": "Xamarin.Forms layouts/navigation, SQLite, DependencyService, OAuth, .NET MAUI intro.",
+      "concepts": ["XAML Layouts", "Navigation", "SQLite.NET", "DependencyService", "OAuth 2.0", ".NET MAUI Intro"],
+      "requirements": ["Create a simple page with navigation"],
+      "theory": "<p>Xamarin.Forms uses XAML for UI and supports navigation stacks. MAUI is the evolution for .NET multi-platform apps.</p>",
+      "code": "await Navigation.PushAsync(new DetailsPage());",
+      "quiz": [ {"q":"MAUI stands for?","options":["Multi-platform App UI","Mobile App UI"],"answer":0} ]
+    },
+    {
+      "id": 34,
+      "tier": 3,
+      "title": "Deployment & DevOps",
+      "description": "Azure App Service, Docker, AWS Beanstalk, CI/CD (GitHub Actions, Azure DevOps), build book in CI.",
+      "concepts": ["Azure App Service", "Docker Containers", "AWS Elastic Beanstalk", "GitHub Actions", "Azure DevOps", "Build book in CI"],
+      "requirements": ["Add a CI workflow step", "Containerize a web API"],
+      "theory": "<p>Continuous Integration builds and tests on every push. Containers bundle app + runtime. Cloud services host your apps globally.</p>",
+      "code": "# GitHub Actions YAML & Dockerfile are part of this repo",
+      "quiz": [ {"q":"Which file defines container steps?","options":["Dockerfile","package.json"],"answer":0} ]
     }
   ]
 }
