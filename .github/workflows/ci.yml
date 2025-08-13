@@ -46,3 +46,6 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          timeout: 900000  # 15 minutes timeout
+          error_count: 20  # Allow more retry attempts
