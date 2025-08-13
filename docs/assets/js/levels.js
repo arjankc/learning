@@ -80,8 +80,8 @@ async function fetchLevels() {
             
             const data = JSON.parse(text);
             
-            // Assign to global variable
-            LevelsData = data;
+            // Assign to global variable - extract levels array from JSON
+            LevelsData = data.levels || [];
             
             updateLoadingProgress(90, 'Initializing interface...');
             
@@ -91,8 +91,8 @@ async function fetchLevels() {
             updateLoadingProgress(50, 'Loading curriculum data...');
             const data = await response.json();
             
-            // Assign to global variable
-            LevelsData = data;
+            // Assign to global variable - extract levels array from JSON
+            LevelsData = data.levels || [];
             
             updateLoadingProgress(80, 'Processing curriculum...');
             return data;
@@ -144,6 +144,12 @@ function renderLevelsList() {
     const list = document.getElementById('levels-list');
     if (!list) {
         console.error('levels-list element not found');
+        return;
+    }
+    
+    if (!LevelsData || !Array.isArray(LevelsData)) {
+        console.error('LevelsData is not a valid array:', LevelsData);
+        list.innerHTML = '<p>Error: Level data is not properly loaded. Please refresh the page.</p>';
         return;
     }
     
@@ -436,6 +442,7 @@ async function initLevelsPage() {
         
         await fetchLevels();
         console.log('Levels fetched successfully, setting up UI...');
+        console.log('LevelsData:', LevelsData);
         
         updateLoadingProgress(95, 'Finalizing setup...');
         
