@@ -1,0 +1,52 @@
+<!-- mirrored from game/csharp-gamified-learning/docs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - C# Gamified Learning</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#007acc" />
+</head>
+<body>
+    <header>
+        <h1>Leaderboard</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="achievements.html">Achievements</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="leaderboard">
+            <h2>Top Scores</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Username</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Leaderboard entries will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 C# Gamified Learning Project</p>
+    </footer>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/storage.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js');
+            });
+        }
+    </script>
+</body>
+</html>

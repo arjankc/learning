@@ -1,0 +1,56 @@
+<!-- mirrored from game/csharp-gamified-learning/docs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Levels - C# Gamified Learning</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#007acc" />
+</head>
+<body>
+    <header>
+        <h1>Levels</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="leaderboard.html">Leaderboard</a></li>
+                <li><a href="achievements.html">Achievements</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="container">
+        <section class="card">
+            <h2>Progress</h2>
+            <p id="progress-text">Loading…</p>
+        </section>
+
+        <section class="card">
+            <h2>All Levels</h2>
+            <div id="levels-list"></div>
+        </section>
+
+        <section class="card" id="level-detail" style="display:none">
+            <h2 id="level-title"></h2>
+            <p id="level-description"></p>
+            <h3>Requirements</h3>
+            <ul id="level-requirements"></ul>
+            <button id="complete-level" class="button">Mark as completed</button>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 C# Gamified Learning Project</p>
+    </footer>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/storage.js"></script>
+    <script src="assets/js/levels.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js');
+            });
+        }
+    </script>
+    </body>
+    </html>

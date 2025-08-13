@@ -1,0 +1,39 @@
+{
+  "achievements": [
+    {
+      "id": 1,
+      "title": "First Steps",
+      "description": "Complete the first level.",
+      "points": 10,
+      "criteria": "Finish Level 01: Hello World"
+    },
+    {
+      "id": 2,
+      "title": "Variable Master",
+      "description": "Complete the second level.",
+      "points": 20,
+      "criteria": "Finish Level 02: Variables"
+    },
+    {
+      "id": 3,
+      "title": "Control Flow Expert",
+      "description": "Complete the third level.",
+      "points": 30,
+      "criteria": "Finish Level 03: Control Flow"
+    },
+    {
+      "id": 4,
+      "title": "C# Novice",
+      "description": "Complete all levels.",
+      "points": 50,
+      "criteria": "Finish all levels in the gamified learning project"
+    },
+    {
+      "id": 5,
+      "title": "Bug Hunter",
+      "description": "Identify and report a bug.",
+      "points": 15,
+      "criteria": "Submit a bug report through the feedback form"
+    }
+  ]
+}
