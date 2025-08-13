@@ -429,28 +429,44 @@ function showLevelDetail(levelId) {
         // Replace \n with actual line breaks for proper display
         const formattedCode = level.code.replace(/\\n/g, '\n');
         
+        console.log('Raw level.code:', JSON.stringify(level.code));
+        console.log('Formatted code:', JSON.stringify(formattedCode));
+        
         // Clear any existing content and highlighting
         code.innerHTML = '';
         code.className = 'language-csharp';
         code.classList.remove('prism-highlighted');
         
-        // Set the plain text content
+        // Set the plain text content first
         code.textContent = formattedCode;
+        
+        // Ensure code is visible with basic styling
+        code.style.display = 'block';
+        code.style.whiteSpace = 'pre';
+        code.style.fontFamily = 'monospace';
+        code.style.fontSize = '14px';
+        code.style.lineHeight = '1.5';
+        
+        console.log('Code element after setting textContent:', code.outerHTML);
         
         // Apply syntax highlighting if Prism is available
         if (window.Prism && typeof window.Prism.highlightElement === 'function') {
             try {
-                // Small delay to ensure DOM is ready
+                // Delay for better debugging
                 setTimeout(() => {
+                    console.log('Applying Prism highlighting to element:', code);
                     Prism.highlightElement(code);
-                }, 10);
+                    console.log('Code element after Prism:', code.outerHTML);
+                }, 100);
             } catch (error) {
-                console.warn('Prism highlighting failed:', error);
-                // Fallback: just show the plain code
+                console.error('Prism highlighting failed:', error);
             }
+        } else {
+            console.warn('Prism not available or highlightElement function missing');
         }
     } else {
-        code.textContent = '';
+        console.log('No code available for this level - level.code is:', level.code);
+        code.textContent = 'No example code available for this level.';
         code.className = 'language-csharp';
         code.classList.remove('prism-highlighted');
     }
