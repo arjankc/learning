@@ -1,0 +1,4544 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>C#/.NET Exam Preparation Notes</title>
+    <style>
+        :root { --ink: #111; --muted: #666; }
+        body { color: var(--ink); font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; line-height: 1.55; max-width: 900px; margin: 1rem auto; padding: 0 1rem; }
+        code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+        pre { background: #f6f8fa; padding: 12px; overflow: auto; border-radius: 6px; }
+        h1 { font-size: 1.9rem; margin-top: 2.2rem; }
+        h2 { font-size: 1.5rem; margin-top: 1.8rem; }
+        h3 { font-size: 1.2rem; margin-top: 1.4rem; }
+        hr { margin: 2rem 0; }
+    /* page-break removed to allow continuous flow */
+        .toc h1 { margin-top: 0; }
+        @media print {
+            @page { margin: 16mm 12mm; size: A4; }
+            body { margin: 0; }
+            header, footer { position: fixed; left: 0; right: 0; color: var(--muted); font-size: 10pt; }
+            header { top: 0; }
+            footer { bottom: 0; }
+            footer .page:after { content: counter(page); }
+            pre { white-space: pre-wrap; }
+            /* Don't append URLs after links to save space */
+            a[href]:after { content: ""; }
+        }
+    </style>
+</head>
+<body>
+<header></header>
+<footer><span class="page"></span></footer>
+<h1 id="c.net-learning-notes">C#/.NET Learning Notes</h1>
+<p>Compiled for offline study and printing. Start with the Study Guide.</p>
+<ul>
+<li><a href="00-exam-prep.md">C#/.NET Exam Preparation Notes</a></li>
+</ul>
+<h1 id="c.net-exam-preparation-notes">C#/.NET Exam Preparation Notes</h1>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#visual-programming">Visual Programming</a></li>
+<li><a href="#event-driven-programming">Event-Driven Programming</a></li>
+<li><a href="#net-framework-architecture">.NET Framework Architecture</a></li>
+<li><a href="#rad-tools">RAD Tools</a></li>
+<li><a href="#type-conversion">Type Conversion</a></li>
+<li><a href="#structures-vs-enumerations">Structures vs Enumerations</a></li>
+<li><a href="#collections">Collections (Generic and Non-Generic)</a></li>
+<li><a href="#regular-expressions">Regular Expressions</a></li>
+<li><a href="#polymorphism">Polymorphism</a></li>
+<li><a href="#abstract-classes-vs-interfaces">Abstract Classes vs Interfaces</a></li>
+<li><a href="#inheritance-and-encapsulation">Inheritance and Encapsulation</a></li>
+<li><a href="#exception-handling">Exception Handling</a></li>
+<li><a href="#parallel-programming">Parallel Programming</a></li>
+<li><a href="#adonet">ADO.NET</a></li>
+<li><a href="#wpf">WPF</a></li>
+<li><a href="#aspnet-aspnet-core">ASP.NET &amp; ASP.NET Core</a></li>
+<li><a href="#blazor">Blazor</a></li>
+<li><a href="#xamarin">Xamarin</a></li>
+</ol>
+<hr />
+<h2 id="visual-programming">Visual Programming</h2>
+<h3 id="definition">Definition</h3>
+<p>Visual programming is a programming paradigm that uses graphical elements rather than text to create programs. It allows developers to manipulate program elements graphically rather than textually.</p>
+<h3 id="visual-programming-vs-text-based-programming">Visual Programming vs Text-Based Programming</h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Visual Programming</th>
+<th>Text-Based Programming</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Interface</strong></td>
+<td>Drag-and-drop, visual components</td>
+<td>Text editor, code writing</td>
+</tr>
+<tr>
+<td><strong>Learning Curve</strong></td>
+<td>Easier for beginners</td>
+<td>Steeper learning curve</td>
+</tr>
+<tr>
+<td><strong>Flexibility</strong></td>
+<td>Limited by available components</td>
+<td>Full control over code</td>
+</tr>
+<tr>
+<td><strong>Debugging</strong></td>
+<td>Visual debugging tools</td>
+<td>Text-based debugging</td>
+</tr>
+<tr>
+<td><strong>Performance</strong></td>
+<td>May have overhead</td>
+<td>Direct control over performance</td>
+</tr>
+<tr>
+<td><strong>Examples</strong></td>
+<td>Visual Studio Designer, Scratch</td>
+<td>C#, Java, Python</td>
+</tr>
+</tbody>
+</table>
+<h3 id="examples-in.net">Examples in .NET</h3>
+<ul>
+<li><strong>Visual Studio Designer</strong>: For WPF, WinForms</li>
+<li><strong>XAML Designer</strong>: For WPF and UWP applications</li>
+<li><strong>Blazor Visual Designer</strong>: For web components</li>
+</ul>
+<pre><code class="language-csharp">// Text-based approach
+Button myButton = new Button();
+myButton.Text = &quot;Click Me&quot;;
+myButton.Width = 100;
+myButton.Height = 30;
+myButton.Click += MyButton_Click;
+
+// Visual approach (generated code from designer)
+// Designer generates similar code but through visual manipulation
+</code></pre>
+<hr />
+<h2 id="event-driven-programming">Event-Driven Programming</h2>
+<h3 id="definition-1">Definition</h3>
+<p>Event-driven programming is a paradigm where program flow is determined by events such as user actions, sensor outputs, or message passing.</p>
+<h3 id="key-concepts">Key Concepts</h3>
+<ol>
+<li><strong>Events</strong>: Notifications that something has happened</li>
+<li><strong>Event Handlers</strong>: Methods that respond to events</li>
+<li><strong>Event Loop</strong>: Continuously monitors for events</li>
+<li><strong>Delegates</strong>: Type-safe function pointers in C#</li>
+</ol>
+<h3 id="example-in-c">Example in C#</h3>
+<pre><code class="language-csharp">public partial class MainWindow : Window
+{
+    public MainWindow()
+    {
+        InitializeComponent();
+
+        // Subscribe to button click event
+        myButton.Click += MyButton_Click;
+    }
+
+    // Event handler method
+    private void MyButton_Click(object sender, RoutedEventArgs e)
+    {
+        MessageBox.Show(&quot;Button was clicked!&quot;);
+    }
+}
+
+// Custom event example
+public class Publisher
+{
+    // Declare event using delegate
+    public event Action&lt;string&gt; OnMessagePublished;
+
+    public void PublishMessage(string message)
+    {
+        // Raise the event
+        OnMessagePublished?.Invoke(message);
+    }
+}
+
+public class Subscriber
+{
+    public void Subscribe(Publisher pub)
+    {
+        // Subscribe to event
+        pub.OnMessagePublished += HandleMessage;
+    }
+
+    private void HandleMessage(string message)
+    {
+        Console.WriteLine($&quot;Received: {message}&quot;);
+    }
+}
+</code></pre>
+<hr />
+<h2 id="net-framework-architecture">.NET Framework Architecture</h2>
+<h3 id="key-components">Key Components</h3>
+<h4 id="common-language-runtime-clr">1. Common Language Runtime (CLR)</h4>
+<ul>
+<li><strong>Memory Management</strong>: Automatic garbage collection</li>
+<li><strong>Type Safety</strong>: Ensures type safety at runtime</li>
+<li><strong>Exception Handling</strong>: Unified exception handling</li>
+<li><strong>Thread Management</strong>: Manages application threads</li>
+<li><strong>Security</strong>: Code access security</li>
+</ul>
+<h4 id="base-class-library-bcl">2. Base Class Library (BCL)</h4>
+<ul>
+<li><strong>System.Object</strong>: Root of all .NET types</li>
+<li><strong>Collections</strong>: Generic and non-generic collections</li>
+<li><strong>I/O</strong>: File and stream operations</li>
+<li><strong>Networking</strong>: Network communication classes</li>
+</ul>
+<h4 id="net-framework-vs.net-core-vs.net-5">3. .NET Framework vs .NET Core vs .NET 5+</h4>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>.NET Framework</th>
+<th>.NET Core</th>
+<th>.NET 5+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Platform</strong></td>
+<td>Windows only</td>
+<td>Cross-platform</td>
+<td>Cross-platform</td>
+</tr>
+<tr>
+<td><strong>Open Source</strong></td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Performance</strong></td>
+<td>Good</td>
+<td>Better</td>
+<td>Best</td>
+</tr>
+<tr>
+<td><strong>Deployment</strong></td>
+<td>Framework dependent</td>
+<td>Self-contained options</td>
+<td>Self-contained options</td>
+</tr>
+</tbody>
+</table>
+<h3 id="architecture-diagram">Architecture Diagram</h3>
+<pre><code>â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚        Your Application            â”‚
+â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+â”‚    Base Class Library (BCL)        â”‚
+â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+â”‚  Common Language Runtime (CLR)     â”‚
+â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+â”‚       Operating System             â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+</code></pre>
+<hr />
+<h2 id="rad-tools">RAD Tools</h2>
+<h3 id="rapid-application-development-rad">Rapid Application Development (RAD)</h3>
+<p>RAD is a software development methodology that prioritizes rapid prototyping and quick feedback over long planning cycles.</p>
+<h3 id="rad-tools-in.net-ecosystem">RAD Tools in .NET Ecosystem</h3>
+<h4 id="visual-studio">1. Visual Studio</h4>
+<ul>
+<li><strong>IntelliSense</strong>: Code completion and suggestions</li>
+<li><strong>Debugging Tools</strong>: Breakpoints, watch windows</li>
+<li><strong>Designer Support</strong>: Visual designers for UI</li>
+<li><strong>Project Templates</strong>: Pre-built project structures</li>
+</ul>
+<h4 id="visual-studio-code">2. Visual Studio Code</h4>
+<ul>
+<li><strong>Extensions</strong>: Rich ecosystem of extensions</li>
+<li><strong>Integrated Terminal</strong>: Built-in command line</li>
+<li><strong>Git Integration</strong>: Version control support</li>
+</ul>
+<h4 id="jetbrains-rider">3. JetBrains Rider</h4>
+<ul>
+<li><strong>Advanced Refactoring</strong>: Powerful code transformation tools</li>
+<li><strong>Unit Testing</strong>: Integrated test runner</li>
+<li><strong>Database Tools</strong>: Built-in database support</li>
+</ul>
+<h3 id="example-quick-wpf-application">Example: Quick WPF Application</h3>
+<pre><code class="language-csharp">// Program.cs - Entry point
+using System;
+using System.Windows;
+
+namespace QuickApp
+{
+    public partial class App : Application
+    {
+        [STAThread]
+        public static void Main()
+        {
+            App app = new App();
+            app.Run(new MainWindow());
+        }
+    }
+}
+
+// MainWindow.xaml
+&lt;Window x:Class=&quot;QuickApp.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        Title=&quot;Quick RAD App&quot; Height=&quot;200&quot; Width=&quot;300&quot;&gt;
+    &lt;StackPanel Margin=&quot;10&quot;&gt;
+        &lt;TextBox x:Name=&quot;InputText&quot; Margin=&quot;5&quot;/&gt;
+        &lt;Button Content=&quot;Process&quot; Click=&quot;ProcessButton_Click&quot; Margin=&quot;5&quot;/&gt;
+        &lt;TextBlock x:Name=&quot;OutputText&quot; Margin=&quot;5&quot;/&gt;
+    &lt;/StackPanel&gt;
+&lt;/Window&gt;
+
+// MainWindow.xaml.cs
+public partial class MainWindow : Window
+{
+    public MainWindow()
+    {
+        InitializeComponent();
+    }
+
+    private void ProcessButton_Click(object sender, RoutedEventArgs e)
+    {
+        OutputText.Text = $&quot;Processed: {InputText.Text.ToUpper()}&quot;;
+    }
+}
+</code></pre>
+<hr />
+<h2 id="type-conversion">Type Conversion</h2>
+<h3 id="types-of-conversion">Types of Conversion</h3>
+<h4 id="implicit-conversion-automatic">1. Implicit Conversion (Automatic)</h4>
+<pre><code class="language-csharp">int intValue = 42;
+long longValue = intValue;    // Implicit conversion (safe)
+double doubleValue = intValue; // Implicit conversion (safe)
+
+// Implicit conversions for numeric types
+byte b = 100;
+short s = b;     // byte to short
+int i = s;       // short to int
+long l = i;      // int to long
+float f = l;     // long to float
+double d = f;    // float to double
+</code></pre>
+<h4 id="explicit-conversion-manual">2. Explicit Conversion (Manual)</h4>
+<pre><code class="language-csharp">double doubleValue = 42.7;
+int intValue = (int)doubleValue;  // Explicit cast (data loss possible)
+
+// Explicit conversions
+long longValue = 123456789;
+int intValue2 = (int)longValue;   // Potential overflow
+
+// Using Convert class
+string numberString = &quot;123&quot;;
+int converted = Convert.ToInt32(numberString);
+double convertedDouble = Convert.ToDouble(&quot;123.45&quot;);
+</code></pre>
+<h4 id="boxing-and-unboxing">3. Boxing and Unboxing</h4>
+<pre><code class="language-csharp">// Boxing: Value type to reference type
+int value = 42;
+object boxed = value;         // Boxing
+
+// Unboxing: Reference type to value type
+object boxedValue = 42;
+int unboxed = (int)boxedValue; // Unboxing
+
+// Performance consideration
+List&lt;object&gt; mixedList = new List&lt;object&gt;();
+mixedList.Add(42);           // Boxing occurs
+mixedList.Add(&quot;Hello&quot;);      // No boxing (already reference type)
+</code></pre>
+<h4 id="parse-and-tryparse-methods">4. Parse and TryParse Methods</h4>
+<pre><code class="language-csharp">// Parse (throws exception on failure)
+string input = &quot;123&quot;;
+int parsed = int.Parse(input);
+
+// TryParse (returns false on failure)
+string userInput = &quot;abc&quot;;
+if (int.TryParse(userInput, out int result))
+{
+    Console.WriteLine($&quot;Parsed: {result}&quot;);
+}
+else
+{
+    Console.WriteLine(&quot;Invalid input&quot;);
+}
+
+// DateTime parsing
+string dateString = &quot;2023-12-25&quot;;
+if (DateTime.TryParse(dateString, out DateTime parsedDate))
+{
+    Console.WriteLine($&quot;Date: {parsedDate:yyyy-MM-dd}&quot;);
+}
+</code></pre>
+<hr />
+<h2 id="structures-vs-enumerations">Structures vs Enumerations</h2>
+<h3 id="structures-struct">Structures (struct)</h3>
+<h4 id="definition-2">Definition</h4>
+<p>Structures are value types that can contain data members and function members.</p>
+<h4 id="key-characteristics">Key Characteristics</h4>
+<ul>
+<li><strong>Value Type</strong>: Stored on stack</li>
+<li><strong>No Inheritance</strong>: Cannot inherit from other types</li>
+<li><strong>Immutable Recommended</strong>: Should be immutable for best practices</li>
+<li><strong>Default Constructor</strong>: Always available</li>
+</ul>
+<pre><code class="language-csharp">public struct Point
+{
+    public int X { get; }
+    public int Y { get; }
+
+    public Point(int x, int y)
+    {
+        X = x;
+        Y = y;
+    }
+
+    public double DistanceFromOrigin()
+    {
+        return Math.Sqrt(X * X + Y * Y);
+    }
+
+    public override string ToString()
+    {
+        return $&quot;({X}, {Y})&quot;;
+    }
+}
+
+// Usage
+Point p1 = new Point(3, 4);
+Point p2 = new Point(); // Default constructor (0, 0)
+Console.WriteLine(p1.DistanceFromOrigin()); // 5
+</code></pre>
+<h3 id="enumerations-enum">Enumerations (enum)</h3>
+<h4 id="definition-3">Definition</h4>
+<p>Enumerations define a set of named constants of the underlying integral numeric type.</p>
+<h4 id="key-characteristics-1">Key Characteristics</h4>
+<ul>
+<li><strong>Named Constants</strong>: Improve code readability</li>
+<li><strong>Type Safe</strong>: Prevents invalid values</li>
+<li><strong>Underlying Type</strong>: Default is int, can be changed</li>
+<li><strong>Flags Support</strong>: Can be combined using bitwise operations</li>
+</ul>
+<pre><code class="language-csharp">// Basic enumeration
+public enum OrderStatus
+{
+    Pending,      // 0
+    Processing,   // 1
+    Shipped,      // 2
+    Delivered,    // 3
+    Cancelled     // 4
+}
+
+// Custom underlying type and values
+public enum Priority : byte
+{
+    Low = 1,
+    Medium = 5,
+    High = 10,
+    Critical = 20
+}
+
+// Flags enumeration
+[Flags]
+public enum FilePermissions
+{
+    None = 0,
+    Read = 1,
+    Write = 2,
+    Execute = 4,
+    ReadWrite = Read | Write,
+    All = Read | Write | Execute
+}
+
+// Usage examples
+OrderStatus status = OrderStatus.Processing;
+
+// Enum methods
+string statusName = status.ToString();              // &quot;Processing&quot;
+OrderStatus parsed = Enum.Parse&lt;OrderStatus&gt;(&quot;Shipped&quot;);
+bool isValid = Enum.IsDefined(typeof(OrderStatus), 3); // true
+
+// Flags usage
+FilePermissions permissions = FilePermissions.Read | FilePermissions.Write;
+bool canRead = permissions.HasFlag(FilePermissions.Read);    // true
+bool canExecute = permissions.HasFlag(FilePermissions.Execute); // false
+</code></pre>
+<h3 id="comparison-table">Comparison Table</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>struct</th>
+<th>enum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Purpose</strong></td>
+<td>Data containers</td>
+<td>Named constants</td>
+</tr>
+<tr>
+<td><strong>Type</strong></td>
+<td>Value type</td>
+<td>Value type (integral)</td>
+</tr>
+<tr>
+<td><strong>Memory</strong></td>
+<td>Stack</td>
+<td>Constant value</td>
+</tr>
+<tr>
+<td><strong>Inheritance</strong></td>
+<td>No inheritance</td>
+<td>No inheritance</td>
+</tr>
+<tr>
+<td><strong>Methods</strong></td>
+<td>Can have methods</td>
+<td>Only predefined methods</td>
+</tr>
+<tr>
+<td><strong>Mutability</strong></td>
+<td>Should be immutable</td>
+<td>Immutable</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="collections">Collections</h2>
+<h3 id="generic-collections-recommended">Generic Collections (Recommended)</h3>
+<h4 id="list">1. List<T></h4>
+<pre><code class="language-csharp">// Dynamic array implementation
+List&lt;string&gt; names = new List&lt;string&gt;();
+names.Add(&quot;Alice&quot;);
+names.Add(&quot;Bob&quot;);
+names.AddRange(new[] { &quot;Charlie&quot;, &quot;David&quot; });
+
+// Access and modification
+names[0] = &quot;Alice Smith&quot;;
+names.Insert(1, &quot;Betty&quot;);
+names.Remove(&quot;Bob&quot;);
+names.RemoveAt(2);
+
+// Iteration
+foreach (string name in names)
+{
+    Console.WriteLine(name);
+}
+
+// LINQ operations
+var longNames = names.Where(n =&gt; n.Length &gt; 5).ToList();
+</code></pre>
+<h4 id="dictionarytkey-tvalue">2. Dictionary&lt;TKey, TValue&gt;</h4>
+<pre><code class="language-csharp">Dictionary&lt;string, int&gt; ages = new Dictionary&lt;string, int&gt;
+{
+    [&quot;Alice&quot;] = 30,
+    [&quot;Bob&quot;] = 25
+};
+
+// Adding and accessing
+ages.Add(&quot;Charlie&quot;, 35);
+ages[&quot;David&quot;] = 28; // Add or update
+
+// Safe access
+if (ages.TryGetValue(&quot;Alice&quot;, out int aliceAge))
+{
+    Console.WriteLine($&quot;Alice is {aliceAge} years old&quot;);
+}
+
+// Iteration
+foreach (KeyValuePair&lt;string, int&gt; kvp in ages)
+{
+    Console.WriteLine($&quot;{kvp.Key}: {kvp.Value}&quot;);
+}
+</code></pre>
+<h4 id="hashset">3. HashSet<T></h4>
+<pre><code class="language-csharp">HashSet&lt;string&gt; uniqueNames = new HashSet&lt;string&gt;();
+uniqueNames.Add(&quot;Alice&quot;);
+uniqueNames.Add(&quot;Bob&quot;);
+uniqueNames.Add(&quot;Alice&quot;); // Duplicate ignored
+
+// Set operations
+HashSet&lt;string&gt; otherNames = new HashSet&lt;string&gt; { &quot;Bob&quot;, &quot;Charlie&quot; };
+uniqueNames.UnionWith(otherNames);        // Union
+uniqueNames.IntersectWith(otherNames);    // Intersection
+bool contains = uniqueNames.Contains(&quot;Alice&quot;);
+</code></pre>
+<h4 id="queue-and-stack">4. Queue<T> and Stack<T></h4>
+<pre><code class="language-csharp">// Queue (FIFO - First In, First Out)
+Queue&lt;string&gt; taskQueue = new Queue&lt;string&gt;();
+taskQueue.Enqueue(&quot;Task 1&quot;);
+taskQueue.Enqueue(&quot;Task 2&quot;);
+string nextTask = taskQueue.Dequeue(); // &quot;Task 1&quot;
+
+// Stack (LIFO - Last In, First Out)
+Stack&lt;string&gt; undoStack = new Stack&lt;string&gt;();
+undoStack.Push(&quot;Action 1&quot;);
+undoStack.Push(&quot;Action 2&quot;);
+string lastAction = undoStack.Pop(); // &quot;Action 2&quot;
+</code></pre>
+<h3 id="non-generic-collections-legacy">Non-Generic Collections (Legacy)</h3>
+<h4 id="arraylist">ArrayList</h4>
+<pre><code class="language-csharp">// Non-generic - boxing/unboxing occurs
+ArrayList list = new ArrayList();
+list.Add(42);        // Boxing
+list.Add(&quot;Hello&quot;);   // Reference type
+int value = (int)list[0]; // Unboxing + casting required
+
+// Problems:
+// 1. No compile-time type checking
+// 2. Boxing/unboxing performance overhead
+// 3. Runtime errors possible
+</code></pre>
+<h4 id="hashtable">Hashtable</h4>
+<pre><code class="language-csharp">Hashtable table = new Hashtable();
+table[&quot;key1&quot;] = &quot;value1&quot;;
+table[42] = &quot;number key&quot;;  // Any type as key
+
+// Type casting required
+string value = (string)table[&quot;key1&quot;];
+</code></pre>
+<h3 id="collection-interfaces">Collection Interfaces</h3>
+<pre><code class="language-csharp">// IEnumerable&lt;T&gt; - Basic iteration
+public void ProcessItems(IEnumerable&lt;string&gt; items)
+{
+    foreach (string item in items)
+    {
+        Console.WriteLine(item);
+    }
+}
+
+// ICollection&lt;T&gt; - Add/Remove operations
+public void ModifyCollection(ICollection&lt;string&gt; items)
+{
+    items.Add(&quot;New Item&quot;);
+    items.Remove(&quot;Old Item&quot;);
+    Console.WriteLine($&quot;Count: {items.Count}&quot;);
+}
+
+// IList&lt;T&gt; - Indexed access
+public void AccessByIndex(IList&lt;string&gt; items)
+{
+    items[0] = &quot;First Item&quot;;
+    items.Insert(1, &quot;Second Item&quot;);
+}
+</code></pre>
+<hr />
+<h2 id="regular-expressions">Regular Expressions</h2>
+<h3 id="definition-4">Definition</h3>
+<p>Regular expressions (regex) are patterns used to match character combinations in strings. They provide a powerful way to search, replace, and validate text.</p>
+<h3 id="basic-syntax">Basic Syntax</h3>
+<h4 id="metacharacters">Metacharacters</h4>
+<ul>
+<li><code>.</code> - Any character except newline</li>
+<li><code>*</code> - Zero or more occurrences</li>
+<li><code>+</code> - One or more occurrences</li>
+<li><code>?</code> - Zero or one occurrence</li>
+<li><code>^</code> - Start of string</li>
+<li><code>$</code> - End of string</li>
+<li><code>|</code> - OR operator</li>
+<li><code>[]</code> - Character class</li>
+<li><code>()</code> - Grouping</li>
+</ul>
+<h3 id="c-regex-implementation">C# Regex Implementation</h3>
+<pre><code class="language-csharp">using System.Text.RegularExpressions;
+
+// Basic pattern matching
+string text = &quot;The quick brown fox jumps over the lazy dog&quot;;
+string pattern = @&quot;quick|lazy&quot;;
+Regex regex = new Regex(pattern);
+
+// Check if pattern exists
+bool hasMatch = regex.IsMatch(text); // true
+
+// Find all matches
+MatchCollection matches = regex.Matches(text);
+foreach (Match match in matches)
+{
+    Console.WriteLine($&quot;Found: '{match.Value}' at position {match.Index}&quot;);
+}
+
+// Replace text
+string replaced = regex.Replace(text, &quot;REPLACED&quot;);
+Console.WriteLine(replaced);
+</code></pre>
+<h3 id="common-patterns">Common Patterns</h3>
+<h4 id="email-validation">Email Validation</h4>
+<pre><code class="language-csharp">string emailPattern = @&quot;^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$&quot;;
+Regex emailRegex = new Regex(emailPattern);
+
+string[] emails = { &quot;user@example.com&quot;, &quot;invalid.email&quot;, &quot;test@domain.co.uk&quot; };
+foreach (string email in emails)
+{
+    bool isValid = emailRegex.IsMatch(email);
+    Console.WriteLine($&quot;{email}: {(isValid ? &quot;Valid&quot; : &quot;Invalid&quot;)}&quot;);
+}
+</code></pre>
+<h4 id="phone-number-extraction">Phone Number Extraction</h4>
+<pre><code class="language-csharp">string phonePattern = @&quot;\b\d{3}-\d{3}-\d{4}\b&quot;;
+string text = &quot;Call me at 555-123-4567 or 555-987-6543&quot;;
+
+MatchCollection phoneMatches = Regex.Matches(text, phonePattern);
+foreach (Match match in phoneMatches)
+{
+    Console.WriteLine($&quot;Phone: {match.Value}&quot;);
+}
+</code></pre>
+<h4 id="groups-and-capturing">Groups and Capturing</h4>
+<pre><code class="language-csharp">string namePattern = @&quot;(\w+)\s+(\w+)&quot;; // First name, Last name
+string input = &quot;John Doe, Jane Smith, Bob Johnson&quot;;
+
+MatchCollection nameMatches = Regex.Matches(input, namePattern);
+foreach (Match match in nameMatches)
+{
+    string firstName = match.Groups[1].Value;
+    string lastName = match.Groups[2].Value;
+    Console.WriteLine($&quot;Name: {firstName} {lastName}&quot;);
+}
+</code></pre>
+<h3 id="advanced-features">Advanced Features</h3>
+<h4 id="regex-options">Regex Options</h4>
+<pre><code class="language-csharp">// Case-insensitive matching
+Regex regex1 = new Regex(@&quot;hello&quot;, RegexOptions.IgnoreCase);
+
+// Multiline mode
+Regex regex2 = new Regex(@&quot;^Start&quot;, RegexOptions.Multiline);
+
+// Compiled regex for performance
+Regex regex3 = new Regex(@&quot;\d+&quot;, RegexOptions.Compiled);
+</code></pre>
+<h4 id="named-groups">Named Groups</h4>
+<pre><code class="language-csharp">string pattern = @&quot;(?&lt;year&gt;\d{4})-(?&lt;month&gt;\d{2})-(?&lt;day&gt;\d{2})&quot;;
+string dateText = &quot;Today is 2023-12-25&quot;;
+
+Match match = Regex.Match(dateText, pattern);
+if (match.Success)
+{
+    string year = match.Groups[&quot;year&quot;].Value;
+    string month = match.Groups[&quot;month&quot;].Value;
+    string day = match.Groups[&quot;day&quot;].Value;
+    Console.WriteLine($&quot;Date: {year}/{month}/{day}&quot;);
+}
+</code></pre>
+<hr />
+<h2 id="polymorphism">Polymorphism</h2>
+<h3 id="definition-5">Definition</h3>
+<p>Polymorphism allows objects of different types to be treated as objects of a common base type, while maintaining their specific behavior.</p>
+<h3 id="types-of-polymorphism">Types of Polymorphism</h3>
+<h4 id="method-overloading-compile-time-polymorphism">1. Method Overloading (Compile-time Polymorphism)</h4>
+<pre><code class="language-csharp">public class Calculator
+{
+    // Same method name, different parameters
+    public int Add(int a, int b)
+    {
+        return a + b;
+    }
+
+    public double Add(double a, double b)
+    {
+        return a + b;
+    }
+
+    public int Add(int a, int b, int c)
+    {
+        return a + b + c;
+    }
+
+    public string Add(string a, string b)
+    {
+        return a + b;
+    }
+}
+
+// Usage
+Calculator calc = new Calculator();
+int result1 = calc.Add(5, 3);           // Calls int version
+double result2 = calc.Add(5.5, 3.2);    // Calls double version
+int result3 = calc.Add(1, 2, 3);        // Calls three-parameter version
+string result4 = calc.Add(&quot;Hello&quot;, &quot; World&quot;); // Calls string version
+</code></pre>
+<h4 id="method-overriding-runtime-polymorphism">2. Method Overriding (Runtime Polymorphism)</h4>
+<pre><code class="language-csharp">// Base class
+public class Animal
+{
+    public virtual void MakeSound()
+    {
+        Console.WriteLine(&quot;The animal makes a sound&quot;);
+    }
+
+    public virtual void Move()
+    {
+        Console.WriteLine(&quot;The animal moves&quot;);
+    }
+}
+
+// Derived classes
+public class Dog : Animal
+{
+    public override void MakeSound()
+    {
+        Console.WriteLine(&quot;The dog barks: Woof!&quot;);
+    }
+
+    public override void Move()
+    {
+        Console.WriteLine(&quot;The dog runs&quot;);
+    }
+}
+
+public class Cat : Animal
+{
+    public override void MakeSound()
+    {
+        Console.WriteLine(&quot;The cat meows: Meow!&quot;);
+    }
+
+    public override void Move()
+    {
+        Console.WriteLine(&quot;The cat prowls&quot;);
+    }
+}
+
+// Polymorphic usage
+Animal[] animals = { new Dog(), new Cat(), new Animal() };
+foreach (Animal animal in animals)
+{
+    animal.MakeSound(); // Calls appropriate overridden method
+    animal.Move();      // Runtime determines which method to call
+}
+</code></pre>
+<h3 id="abstract-methods-and-classes">Abstract Methods and Classes</h3>
+<pre><code class="language-csharp">public abstract class Shape
+{
+    // Abstract method - must be implemented by derived classes
+    public abstract double CalculateArea();
+
+    // Virtual method - can be overridden
+    public virtual void Display()
+    {
+        Console.WriteLine($&quot;Area: {CalculateArea():F2}&quot;);
+    }
+
+    // Regular method - inherited as-is
+    public void PrintInfo()
+    {
+        Console.WriteLine(&quot;This is a shape&quot;);
+    }
+}
+
+public class Rectangle : Shape
+{
+    public double Width { get; set; }
+    public double Height { get; set; }
+
+    public Rectangle(double width, double height)
+    {
+        Width = width;
+        Height = height;
+    }
+
+    public override double CalculateArea()
+    {
+        return Width * Height;
+    }
+
+    public override void Display()
+    {
+        Console.WriteLine($&quot;Rectangle - Width: {Width}, Height: {Height}, Area: {CalculateArea():F2}&quot;);
+    }
+}
+
+public class Circle : Shape
+{
+    public double Radius { get; set; }
+
+    public Circle(double radius)
+    {
+        Radius = radius;
+    }
+
+    public override double CalculateArea()
+    {
+        return Math.PI * Radius * Radius;
+    }
+}
+</code></pre>
+<h3 id="interface-polymorphism">Interface Polymorphism</h3>
+<pre><code class="language-csharp">public interface IDrawable
+{
+    void Draw();
+    void Resize(double factor);
+}
+
+public interface IColorable
+{
+    string Color { get; set; }
+    void ChangeColor(string newColor);
+}
+
+public class Button : IDrawable, IColorable
+{
+    public string Color { get; set; } = &quot;Gray&quot;;
+    public string Text { get; set; }
+
+    public void Draw()
+    {
+        Console.WriteLine($&quot;Drawing {Color} button with text: {Text}&quot;);
+    }
+
+    public void Resize(double factor)
+    {
+        Console.WriteLine($&quot;Resizing button by factor: {factor}&quot;);
+    }
+
+    public void ChangeColor(string newColor)
+    {
+        Color = newColor;
+        Console.WriteLine($&quot;Button color changed to: {newColor}&quot;);
+    }
+}
+
+// Polymorphic usage with interfaces
+IDrawable[] drawables = { new Button { Text = &quot;OK&quot; }, new Button { Text = &quot;Cancel&quot; } };
+foreach (IDrawable drawable in drawables)
+{
+    drawable.Draw();
+    drawable.Resize(1.5);
+}
+</code></pre>
+<hr />
+<h2 id="abstract-classes-vs-interfaces">Abstract Classes vs Interfaces</h2>
+<h3 id="abstract-classes">Abstract Classes</h3>
+<h4 id="definition-6">Definition</h4>
+<p>An abstract class is a class that cannot be instantiated and may contain both abstract and concrete members.</p>
+<h4 id="key-characteristics-2">Key Characteristics</h4>
+<ul>
+<li>Cannot be instantiated directly</li>
+<li>Can contain both abstract and concrete methods</li>
+<li>Can have constructors</li>
+<li>Can have fields and properties</li>
+<li>Supports single inheritance only</li>
+<li>Can have access modifiers for members</li>
+</ul>
+<pre><code class="language-csharp">public abstract class Vehicle
+{
+    // Fields
+    protected string brand;
+    protected int year;
+
+    // Constructor
+    public Vehicle(string brand, int year)
+    {
+        this.brand = brand;
+        this.year = year;
+    }
+
+    // Abstract method - must be implemented
+    public abstract void Start();
+    public abstract double CalculateFuelEfficiency();
+
+    // Concrete method - inherited as-is
+    public void DisplayInfo()
+    {
+        Console.WriteLine($&quot;{brand} {year}&quot;);
+    }
+
+    // Virtual method - can be overridden
+    public virtual void Stop()
+    {
+        Console.WriteLine(&quot;Vehicle stopped&quot;);
+    }
+
+    // Properties
+    public string Brand =&gt; brand;
+    public int Year =&gt; year;
+}
+
+public class Car : Vehicle
+{
+    private double engineSize;
+
+    public Car(string brand, int year, double engineSize)
+        : base(brand, year)
+    {
+        this.engineSize = engineSize;
+    }
+
+    public override void Start()
+    {
+        Console.WriteLine($&quot;Car {brand} started with {engineSize}L engine&quot;);
+    }
+
+    public override double CalculateFuelEfficiency()
+    {
+        return 25.0 - (engineSize * 2); // Simplified calculation
+    }
+
+    public override void Stop()
+    {
+        Console.WriteLine(&quot;Car stopped with brake pedal&quot;);
+    }
+}
+</code></pre>
+<h3 id="interfaces">Interfaces</h3>
+<h4 id="definition-7">Definition</h4>
+<p>An interface defines a contract that implementing classes must follow. It contains only declarations.</p>
+<h4 id="key-characteristics-3">Key Characteristics</h4>
+<ul>
+<li>Cannot be instantiated</li>
+<li>Contains only method signatures, properties, events, indexers</li>
+<li>No implementation (except default interface methods in C# 8+)</li>
+<li>No fields or constructors</li>
+<li>Supports multiple inheritance</li>
+<li>All members are implicitly public</li>
+</ul>
+<pre><code class="language-csharp">public interface IVehicle
+{
+    // Properties
+    string Brand { get; }
+    int Year { get; }
+
+    // Methods
+    void Start();
+    void Stop();
+    double CalculateFuelEfficiency();
+}
+
+public interface IElectric
+{
+    int BatteryCapacity { get; }
+    void Charge();
+    double GetRemainingCharge();
+}
+
+public interface IGasoline
+{
+    double FuelTankCapacity { get; }
+    void Refuel();
+    double GetRemainingFuel();
+}
+
+// Class implementing multiple interfaces
+public class HybridCar : IVehicle, IElectric, IGasoline
+{
+    public string Brand { get; private set; }
+    public int Year { get; private set; }
+    public int BatteryCapacity { get; private set; }
+    public double FuelTankCapacity { get; private set; }
+
+    private double currentCharge;
+    private double currentFuel;
+
+    public HybridCar(string brand, int year, int batteryCapacity, double fuelCapacity)
+    {
+        Brand = brand;
+        Year = year;
+        BatteryCapacity = batteryCapacity;
+        FuelTankCapacity = fuelCapacity;
+        currentCharge = batteryCapacity;
+        currentFuel = fuelCapacity;
+    }
+
+    public void Start()
+    {
+        Console.WriteLine($&quot;Hybrid {Brand} started (using battery first)&quot;);
+    }
+
+    public void Stop()
+    {
+        Console.WriteLine(&quot;Hybrid car stopped&quot;);
+    }
+
+    public double CalculateFuelEfficiency()
+    {
+        return 50.0; // High efficiency due to hybrid nature
+    }
+
+    public void Charge()
+    {
+        currentCharge = BatteryCapacity;
+        Console.WriteLine(&quot;Battery fully charged&quot;);
+    }
+
+    public double GetRemainingCharge()
+    {
+        return currentCharge;
+    }
+
+    public void Refuel()
+    {
+        currentFuel = FuelTankCapacity;
+        Console.WriteLine(&quot;Fuel tank refilled&quot;);
+    }
+
+    public double GetRemainingFuel()
+    {
+        return currentFuel;
+    }
+}
+</code></pre>
+<h3 id="comparison-table-1">Comparison Table</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Abstract Class</th>
+<th>Interface</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Instantiation</strong></td>
+<td>Cannot be instantiated</td>
+<td>Cannot be instantiated</td>
+</tr>
+<tr>
+<td><strong>Implementation</strong></td>
+<td>Can have both abstract and concrete methods</td>
+<td>Only method signatures (except default methods)</td>
+</tr>
+<tr>
+<td><strong>Fields</strong></td>
+<td>Can have fields</td>
+<td>Cannot have fields</td>
+</tr>
+<tr>
+<td><strong>Constructors</strong></td>
+<td>Can have constructors</td>
+<td>Cannot have constructors</td>
+</tr>
+<tr>
+<td><strong>Access Modifiers</strong></td>
+<td>Can use various access modifiers</td>
+<td>Members are implicitly public</td>
+</tr>
+<tr>
+<td><strong>Inheritance</strong></td>
+<td>Single inheritance</td>
+<td>Multiple inheritance</td>
+</tr>
+<tr>
+<td><strong>When to Use</strong></td>
+<td>When classes share common implementation</td>
+<td>When classes share common behavior contract</td>
+</tr>
+</tbody>
+</table>
+<h3 id="when-to-use-which">When to Use Which?</h3>
+<h4 id="use-abstract-class-when">Use Abstract Class When:</h4>
+<ul>
+<li>You want to share code among several closely related classes</li>
+<li>You expect classes that extend your abstract class to have many common methods or fields</li>
+<li>You want to declare non-public members</li>
+<li>You need to provide a common constructor</li>
+</ul>
+<h4 id="use-interface-when">Use Interface When:</h4>
+<ul>
+<li>You expect unrelated classes to implement your interface</li>
+<li>You want to specify the behavior of a particular data type, but not concerned about who implements it</li>
+<li>You want to support multiple inheritance of type</li>
+<li>You want to provide a contract for classes to follow</li>
+</ul>
+<pre><code class="language-csharp">// Example: When to use both
+public abstract class DatabaseConnection
+{
+    protected string connectionString;
+
+    protected DatabaseConnection(string connectionString)
+    {
+        this.connectionString = connectionString;
+    }
+
+    public abstract void Connect();
+    public abstract void Disconnect();
+
+    // Common implementation
+    public void LogOperation(string operation)
+    {
+        Console.WriteLine($&quot;[{DateTime.Now}] {operation}&quot;);
+    }
+}
+
+public interface IQueryable
+{
+    IEnumerable&lt;T&gt; Query&lt;T&gt;(string sql);
+    void Execute(string sql);
+}
+
+public class SqlServerConnection : DatabaseConnection, IQueryable
+{
+    public SqlServerConnection(string connectionString)
+        : base(connectionString) { }
+
+    public override void Connect()
+    {
+        LogOperation(&quot;Connecting to SQL Server&quot;);
+    }
+
+    public override void Disconnect()
+    {
+        LogOperation(&quot;Disconnecting from SQL Server&quot;);
+    }
+
+    public IEnumerable&lt;T&gt; Query&lt;T&gt;(string sql)
+    {
+        LogOperation($&quot;Executing query: {sql}&quot;);
+        // Implementation here
+        return new List&lt;T&gt;();
+    }
+
+    public void Execute(string sql)
+    {
+        LogOperation($&quot;Executing command: {sql}&quot;);
+        // Implementation here
+    }
+}
+</code></pre>
+<hr />
+<h2 id="inheritance-and-encapsulation">Inheritance and Encapsulation</h2>
+<h3 id="inheritance">Inheritance</h3>
+<h4 id="definition-8">Definition</h4>
+<p>Inheritance allows a class to inherit properties and methods from another class, promoting code reuse and establishing an &quot;is-a&quot; relationship.</p>
+<h4 id="types-of-inheritance-in-c">Types of Inheritance in C#</h4>
+<pre><code class="language-csharp">// Base class (Parent)
+public class Person
+{
+    protected string name;
+    protected int age;
+
+    public Person(string name, int age)
+    {
+        this.name = name;
+        this.age = age;
+    }
+
+    public virtual void Introduce()
+    {
+        Console.WriteLine($&quot;Hi, I'm {name} and I'm {age} years old.&quot;);
+    }
+
+    public void Sleep()
+    {
+        Console.WriteLine($&quot;{name} is sleeping.&quot;);
+    }
+}
+
+// Derived class (Child)
+public class Student : Person
+{
+    private string studentId;
+    private List&lt;string&gt; courses;
+
+    public Student(string name, int age, string studentId)
+        : base(name, age) // Call parent constructor
+    {
+        this.studentId = studentId;
+        this.courses = new List&lt;string&gt;();
+    }
+
+    // Override parent method
+    public override void Introduce()
+    {
+        Console.WriteLine($&quot;Hi, I'm {name}, a student with ID {studentId}.&quot;);
+    }
+
+    // New method specific to Student
+    public void EnrollInCourse(string course)
+    {
+        courses.Add(course);
+        Console.WriteLine($&quot;{name} enrolled in {course}&quot;);
+    }
+
+    public void Study()
+    {
+        Console.WriteLine($&quot;{name} is studying.&quot;);
+    }
+}
+
+// Further inheritance
+public class GraduateStudent : Student
+{
+    private string researchTopic;
+
+    public GraduateStudent(string name, int age, string studentId, string researchTopic)
+        : base(name, age, studentId)
+    {
+        this.researchTopic = researchTopic;
+    }
+
+    public override void Introduce()
+    {
+        Console.WriteLine($&quot;Hi, I'm {name}, a graduate student researching {researchTopic}.&quot;);
+    }
+
+    public void Conduct_Research()
+    {
+        Console.WriteLine($&quot;{name} is conducting research on {researchTopic}.&quot;);
+    }
+}
+</code></pre>
+<h4 id="method-hiding-vs-overriding">Method Hiding vs Overriding</h4>
+<pre><code class="language-csharp">public class BaseClass
+{
+    public virtual void VirtualMethod()
+    {
+        Console.WriteLine(&quot;Base virtual method&quot;);
+    }
+
+    public void RegularMethod()
+    {
+        Console.WriteLine(&quot;Base regular method&quot;);
+    }
+}
+
+public class DerivedClass : BaseClass
+{
+    // Method overriding (runtime polymorphism)
+    public override void VirtualMethod()
+    {
+        Console.WriteLine(&quot;Derived overridden method&quot;);
+    }
+
+    // Method hiding (compile-time)
+    public new void RegularMethod()
+    {
+        Console.WriteLine(&quot;Derived hidden method&quot;);
+    }
+}
+
+// Usage demonstration
+BaseClass baseRef = new DerivedClass();
+baseRef.VirtualMethod();  // &quot;Derived overridden method&quot; (polymorphism)
+baseRef.RegularMethod();  // &quot;Base regular method&quot; (no polymorphism)
+
+DerivedClass derivedRef = new DerivedClass();
+derivedRef.VirtualMethod(); // &quot;Derived overridden method&quot;
+derivedRef.RegularMethod(); // &quot;Derived hidden method&quot;
+</code></pre>
+<h3 id="encapsulation">Encapsulation</h3>
+<h4 id="definition-9">Definition</h4>
+<p>Encapsulation is the bundling of data and methods that operate on that data within a single unit, while restricting access to some components.</p>
+<h4 id="access-modifiers">Access Modifiers</h4>
+<pre><code class="language-csharp">public class BankAccount
+{
+    // Private fields (encapsulated data)
+    private string accountNumber;
+    private decimal balance;
+    private string ownerName;
+
+    // Public constructor
+    public BankAccount(string accountNumber, string ownerName, decimal initialBalance = 0)
+    {
+        this.accountNumber = accountNumber;
+        this.ownerName = ownerName;
+        this.balance = initialBalance &gt;= 0 ? initialBalance : 0;
+    }
+
+    // Public properties (controlled access)
+    public string AccountNumber
+    {
+        get { return accountNumber; }
+        // No setter - read-only
+    }
+
+    public string OwnerName
+    {
+        get { return ownerName; }
+        set
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+                ownerName = value;
+        }
+    }
+
+    public decimal Balance
+    {
+        get { return balance; }
+        // No public setter - controlled through methods
+    }
+
+    // Public methods (controlled operations)
+    public bool Deposit(decimal amount)
+    {
+        if (amount &gt; 0)
+        {
+            balance += amount;
+            LogTransaction($&quot;Deposited {amount:C}&quot;);
+            return true;
+        }
+        return false;
+    }
+
+    public bool Withdraw(decimal amount)
+    {
+        if (amount &gt; 0 &amp;&amp; amount &lt;= balance)
+        {
+            balance -= amount;
+            LogTransaction($&quot;Withdrew {amount:C}&quot;);
+            return true;
+        }
+        return false;
+    }
+
+    // Private helper method (internal implementation)
+    private void LogTransaction(string transaction)
+    {
+        Console.WriteLine($&quot;[{DateTime.Now}] {AccountNumber}: {transaction}. Balance: {balance:C}&quot;);
+    }
+
+    // Protected method (accessible to derived classes)
+    protected virtual bool ValidateTransaction(decimal amount)
+    {
+        return amount &gt; 0 &amp;&amp; amount &lt;= balance;
+    }
+}
+
+// Inheritance with encapsulation
+public class SavingsAccount : BankAccount
+{
+    private decimal interestRate;
+    private DateTime lastInterestDate;
+
+    public SavingsAccount(string accountNumber, string ownerName, decimal interestRate, decimal initialBalance = 0)
+        : base(accountNumber, ownerName, initialBalance)
+    {
+        this.interestRate = interestRate;
+        this.lastInterestDate = DateTime.Now;
+    }
+
+    public decimal InterestRate
+    {
+        get { return interestRate; }
+        set { interestRate = value &gt; 0 ? value : interestRate; }
+    }
+
+    public void ApplyInterest()
+    {
+        if (DateTime.Now.Month != lastInterestDate.Month)
+        {
+            decimal interest = Balance * (interestRate / 100 / 12);
+            Deposit(interest); // Using inherited method
+            lastInterestDate = DateTime.Now;
+        }
+    }
+
+    // Override inherited behavior
+    protected override bool ValidateTransaction(decimal amount)
+    {
+        // Savings account might have different validation rules
+        return base.ValidateTransaction(amount) &amp;&amp; amount &lt;= 1000; // Daily limit
+    }
+}
+</code></pre>
+<h4 id="properties-and-auto-properties">Properties and Auto-Properties</h4>
+<pre><code class="language-csharp">public class Product
+{
+    // Full property with backing field
+    private decimal price;
+    public decimal Price
+    {
+        get { return price; }
+        set
+        {
+            if (value &gt;= 0)
+                price = value;
+            else
+                throw new ArgumentException(&quot;Price cannot be negative&quot;);
+        }
+    }
+
+    // Auto-property (compiler generates backing field)
+    public string Name { get; set; }
+
+    // Auto-property with private setter
+    public DateTime CreatedDate { get; private set; }
+
+    // Auto-property with default value
+    public bool IsActive { get; set; } = true;
+
+    // Read-only auto-property
+    public int Id { get; }
+
+    // Constructor
+    public Product(int id, string name, decimal price)
+    {
+        Id = id; // Can only be set in constructor
+        Name = name;
+        Price = price;
+        CreatedDate = DateTime.Now;
+    }
+
+    // Computed property
+    public string DisplayName =&gt; $&quot;{Name} (${Price:F2})&quot;;
+}
+</code></pre>
+<hr />
+<h2 id="exception-handling">Exception Handling</h2>
+<h3 id="definition-10">Definition</h3>
+<p>Exception handling is a programming construct that allows programs to respond to exceptional circumstances during execution.</p>
+<h3 id="try-catch-finally-structure">Try-Catch-Finally Structure</h3>
+<pre><code class="language-csharp">public class ExceptionHandlingExamples
+{
+    public static void BasicExceptionHandling()
+    {
+        try
+        {
+            // Code that might throw an exception
+            Console.Write(&quot;Enter a number: &quot;);
+            string input = Console.ReadLine();
+            int number = int.Parse(input);
+            int result = 100 / number;
+            Console.WriteLine($&quot;Result: {result}&quot;);
+        }
+        catch (FormatException ex)
+        {
+            // Handle specific exception type
+            Console.WriteLine($&quot;Invalid format: {ex.Message}&quot;);
+        }
+        catch (DivideByZeroException ex)
+        {
+            // Handle specific exception type
+            Console.WriteLine($&quot;Division by zero: {ex.Message}&quot;);
+        }
+        catch (Exception ex)
+        {
+            // Handle any other exception
+            Console.WriteLine($&quot;An error occurred: {ex.Message}&quot;);
+        }
+        finally
+        {
+            // Always executes (cleanup code)
+            Console.WriteLine(&quot;Operation completed.&quot;);
+        }
+    }
+}
+</code></pre>
+<h3 id="multiple-catch-blocks">Multiple Catch Blocks</h3>
+<pre><code class="language-csharp">public class FileProcessor
+{
+    public void ProcessFile(string filePath)
+    {
+        FileStream fileStream = null;
+        StreamReader reader = null;
+
+        try
+        {
+            fileStream = new FileStream(filePath, FileMode.Open);
+            reader = new StreamReader(fileStream);
+
+            string content = reader.ReadToEnd();
+            int lineCount = content.Split('\n').Length;
+
+            Console.WriteLine($&quot;File processed. Line count: {lineCount}&quot;);
+        }
+        catch (FileNotFoundException ex)
+        {
+            Console.WriteLine($&quot;File not found: {ex.FileName}&quot;);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            Console.WriteLine($&quot;Access denied: {ex.Message}&quot;);
+        }
+        catch (IOException ex)
+        {
+            Console.WriteLine($&quot;I/O error: {ex.Message}&quot;);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($&quot;Unexpected error: {ex.Message}&quot;);
+            // Log the full exception for debugging
+            Console.WriteLine($&quot;Stack trace: {ex.StackTrace}&quot;);
+        }
+        finally
+        {
+            // Cleanup resources
+            reader?.Dispose();
+            fileStream?.Dispose();
+            Console.WriteLine(&quot;Resources cleaned up.&quot;);
+        }
+    }
+}
+</code></pre>
+<h3 id="custom-exceptions">Custom Exceptions</h3>
+<pre><code class="language-csharp">// Custom exception class
+public class InsufficientFundsException : Exception
+{
+    public decimal RequiredAmount { get; }
+    public decimal AvailableAmount { get; }
+
+    public InsufficientFundsException() : base() { }
+
+    public InsufficientFundsException(string message) : base(message) { }
+
+    public InsufficientFundsException(string message, Exception innerException)
+        : base(message, innerException) { }
+
+    public InsufficientFundsException(decimal required, decimal available)
+        : base($&quot;Insufficient funds. Required: {required:C}, Available: {available:C}&quot;)
+    {
+        RequiredAmount = required;
+        AvailableAmount = available;
+    }
+}
+
+// Usage of custom exception
+public class BankAccountWithExceptions
+{
+    private decimal balance;
+
+    public decimal Balance =&gt; balance;
+
+    public void Withdraw(decimal amount)
+    {
+        if (amount &lt;= 0)
+            throw new ArgumentException(&quot;Amount must be positive&quot;, nameof(amount));
+
+        if (amount &gt; balance)
+            throw new InsufficientFundsException(amount, balance);
+
+        balance -= amount;
+    }
+
+    public void ProcessWithdrawal(decimal amount)
+    {
+        try
+        {
+            Withdraw(amount);
+            Console.WriteLine($&quot;Withdrawal successful. New balance: {balance:C}&quot;);
+        }
+        catch (InsufficientFundsException ex)
+        {
+            Console.WriteLine($&quot;Withdrawal failed: {ex.Message}&quot;);
+            Console.WriteLine($&quot;You need {ex.RequiredAmount - ex.AvailableAmount:C} more.&quot;);
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine($&quot;Invalid amount: {ex.Message}&quot;);
+        }
+    }
+}
+</code></pre>
+<h3 id="exception-propagation-and-rethrowing">Exception Propagation and Rethrowing</h3>
+<pre><code class="language-csharp">public class ExceptionPropagation
+{
+    public void MethodA()
+    {
+        try
+        {
+            MethodB();
+        }
+        catch (InvalidOperationException ex)
+        {
+            Console.WriteLine($&quot;Caught in MethodA: {ex.Message}&quot;);
+            // Log and rethrow
+            throw; // Preserves original stack trace
+        }
+    }
+
+    public void MethodB()
+    {
+        try
+        {
+            MethodC();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($&quot;Caught in MethodB: {ex.Message}&quot;);
+            // Wrap and throw new exception
+            throw new InvalidOperationException(&quot;Error in MethodB&quot;, ex);
+        }
+    }
+
+    public void MethodC()
+    {
+        throw new ArgumentException(&quot;Something went wrong in MethodC&quot;);
+    }
+}
+</code></pre>
+<h3 id="using-statement-for-resource-management">Using Statement for Resource Management</h3>
+<pre><code class="language-csharp">public class ResourceManagement
+{
+    // Using statement automatically calls Dispose()
+    public void ReadFileWithUsing(string filePath)
+    {
+        try
+        {
+            using (var fileStream = new FileStream(filePath, FileMode.Open))
+            using (var reader = new StreamReader(fileStream))
+            {
+                string content = reader.ReadToEnd();
+                Console.WriteLine($&quot;File content length: {content.Length}&quot;);
+                // fileStream and reader are automatically disposed
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($&quot;Error reading file: {ex.Message}&quot;);
+        }
+    }
+
+    // Multiple using statements (C# 8+ syntax)
+    public void ReadFileWithMultipleUsing(string filePath)
+    {
+        try
+        {
+            using var fileStream = new FileStream(filePath, FileMode.Open);
+            using var reader = new StreamReader(fileStream);
+
+            string content = reader.ReadToEnd();
+            Console.WriteLine($&quot;File content length: {content.Length}&quot;);
+            // Automatic disposal at end of method
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($&quot;Error reading file: {ex.Message}&quot;);
+        }
+    }
+}
+</code></pre>
+<h3 id="best-practices">Best Practices</h3>
+<pre><code class="language-csharp">public class ExceptionBestPractices
+{
+    // DON'T: Catch and ignore exceptions
+    public void BadExample1()
+    {
+        try
+        {
+            // Some operation
+            int result = int.Parse(&quot;abc&quot;);
+        }
+        catch
+        {
+            // Silently ignoring exception - BAD!
+        }
+    }
+
+    // DON'T: Catch Exception when you should catch specific types
+    public void BadExample2()
+    {
+        try
+        {
+            // Some operation
+        }
+        catch (Exception ex)
+        {
+            // Too broad - might catch unexpected exceptions
+            Console.WriteLine(&quot;Something went wrong&quot;);
+        }
+    }
+
+    // DO: Catch specific exceptions and handle appropriately
+    public bool TryParseNumber(string input, out int result)
+    {
+        result = 0;
+        try
+        {
+            result = int.Parse(input);
+            return true;
+        }
+        catch (FormatException)
+        {
+            return false;
+        }
+        catch (OverflowException)
+        {
+            return false;
+        }
+    }
+
+    // DO: Use Try* methods when available
+    public bool SafeParseNumber(string input, out int result)
+    {
+        return int.TryParse(input, out result); // No exception throwing
+    }
+
+    // DO: Provide meaningful error messages
+    public void ValidateAge(int age)
+    {
+        if (age &lt; 0)
+            throw new ArgumentOutOfRangeException(nameof(age), age, &quot;Age cannot be negative&quot;);
+
+        if (age &gt; 150)
+            throw new ArgumentOutOfRangeException(nameof(age), age, &quot;Age cannot exceed 150 years&quot;);
+    }
+}
+</code></pre>
+<hr />
+<h2 id="parallel-programming">Parallel Programming</h2>
+<h3 id="definition-11">Definition</h3>
+<p>Parallel programming involves executing multiple computations simultaneously to improve performance on multi-core processors.</p>
+<h3 id="task-parallel-library-tpl">Task Parallel Library (TPL)</h3>
+<h4 id="basic-task-usage">Basic Task Usage</h4>
+<pre><code class="language-csharp">using System.Threading.Tasks;
+
+public class TaskExamples
+{
+    public static async Task BasicTaskExample()
+    {
+        // Creating and starting a task
+        Task task1 = Task.Run(() =&gt;
+        {
+            Console.WriteLine($&quot;Task 1 running on thread {Thread.CurrentThread.ManagedThreadId}&quot;);
+            Thread.Sleep(2000);
+            Console.WriteLine(&quot;Task 1 completed&quot;);
+        });
+
+        // Task with return value
+        Task&lt;int&gt; task2 = Task.Run(() =&gt;
+        {
+            Console.WriteLine($&quot;Task 2 running on thread {Thread.CurrentThread.ManagedThreadId}&quot;);
+            Thread.Sleep(1000);
+            return 42;
+        });
+
+        // Wait for tasks to complete
+        await task1;
+        int result = await task2;
+        Console.WriteLine($&quot;Task 2 result: {result}&quot;);
+
+        // Alternative: Wait for all tasks
+        await Task.WhenAll(task1, task2);
+    }
+
+    public static void TaskWithContinuation()
+    {
+        Task&lt;string&gt; downloadTask = Task.Run(() =&gt;
+        {
+            Thread.Sleep(2000);
+            return &quot;Downloaded data&quot;;
+        });
+
+        // Continuation task
+        Task processTask = downloadTask.ContinueWith(antecedent =&gt;
+        {
+            string data = antecedent.Result;
+            Console.WriteLine($&quot;Processing: {data}&quot;);
+        });
+
+        processTask.Wait();
+    }
+}
+</code></pre>
+<h4 id="parallel-loops">Parallel Loops</h4>
+<pre><code class="language-csharp">public class ParallelLoopExamples
+{
+    public static void ParallelForExample()
+    {
+        // Sequential version
+        Console.WriteLine(&quot;Sequential processing:&quot;);
+        var stopwatch = Stopwatch.StartNew();
+        for (int i = 0; i &lt; 10; i++)
+        {
+            ProcessNumber(i);
+        }
+        stopwatch.Stop();
+        Console.WriteLine($&quot;Sequential time: {stopwatch.ElapsedMilliseconds}ms&quot;);
+
+        // Parallel version
+        Console.WriteLine(&quot;\nParallel processing:&quot;);
+        stopwatch.Restart();
+        Parallel.For(0, 10, i =&gt;
+        {
+            ProcessNumber(i);
+        });
+        stopwatch.Stop();
+        Console.WriteLine($&quot;Parallel time: {stopwatch.ElapsedMilliseconds}ms&quot;);
+    }
+
+    public static void ParallelForEachExample()
+    {
+        var numbers = Enumerable.Range(1, 1000).ToList();
+        var results = new ConcurrentBag&lt;int&gt;();
+
+        Parallel.ForEach(numbers, number =&gt;
+        {
+            int result = ExpensiveCalculation(number);
+            results.Add(result);
+        });
+
+        Console.WriteLine($&quot;Processed {results.Count} numbers&quot;);
+    }
+
+    private static void ProcessNumber(int number)
+    {
+        Thread.Sleep(100); // Simulate work
+        Console.WriteLine($&quot;Processed {number} on thread {Thread.CurrentThread.ManagedThreadId}&quot;);
+    }
+
+    private static int ExpensiveCalculation(int number)
+    {
+        // Simulate expensive calculation
+        Thread.Sleep(10);
+        return number * number;
+    }
+}
+</code></pre>
+<h4 id="plinq-parallel-linq">PLINQ (Parallel LINQ)</h4>
+<pre><code class="language-csharp">public class PLinqExamples
+{
+    public static void BasicPLinqExample()
+    {
+        var numbers = Enumerable.Range(1, 1000000).ToArray();
+
+        // Sequential LINQ
+        var sequentialStopwatch = Stopwatch.StartNew();
+        var sequentialResult = numbers
+            .Where(n =&gt; n % 2 == 0)
+            .Select(n =&gt; n * n)
+            .Sum();
+        sequentialStopwatch.Stop();
+
+        // Parallel LINQ
+        var parallelStopwatch = Stopwatch.StartNew();
+        var parallelResult = numbers
+            .AsParallel()
+            .Where(n =&gt; n % 2 == 0)
+            .Select(n =&gt; n * n)
+            .Sum();
+        parallelStopwatch.Stop();
+
+        Console.WriteLine($&quot;Sequential result: {sequentialResult}, Time: {sequentialStopwatch.ElapsedMilliseconds}ms&quot;);
+        Console.WriteLine($&quot;Parallel result: {parallelResult}, Time: {parallelStopwatch.ElapsedMilliseconds}ms&quot;);
+    }
+
+    public static void PLinqWithOptions()
+    {
+        var data = Enumerable.Range(1, 1000).ToArray();
+
+        var result = data
+            .AsParallel()
+            .WithDegreeOfParallelism(4) // Limit to 4 threads
+            .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
+            .Where(n =&gt; ExpensiveFilter(n))
+            .Select(n =&gt; ExpensiveTransform(n))
+            .OrderBy(n =&gt; n) // This forces sequential execution
+            .ToArray();
+
+        Console.WriteLine($&quot;Processed {result.Length} items&quot;);
+    }
+
+    private static bool ExpensiveFilter(int number)
+    {
+        Thread.Sleep(1); // Simulate work
+        return number % 3 == 0;
+    }
+
+    private static int ExpensiveTransform(int number)
+    {
+        Thread.Sleep(1); // Simulate work
+        return number * 2;
+    }
+}
+</code></pre>
+<h3 id="thread-safe-collections">Thread-Safe Collections</h3>
+<pre><code class="language-csharp">public class ThreadSafeCollectionsExample
+{
+    public static void ConcurrentCollectionsExample()
+    {
+        // ConcurrentBag - Thread-safe collection of objects
+        var bag = new ConcurrentBag&lt;int&gt;();
+
+        Parallel.For(0, 100, i =&gt;
+        {
+            bag.Add(i);
+        });
+
+        Console.WriteLine($&quot;Bag contains {bag.Count} items&quot;);
+
+        // ConcurrentDictionary - Thread-safe dictionary
+        var dictionary = new ConcurrentDictionary&lt;string, int&gt;();
+
+        Parallel.For(0, 100, i =&gt;
+        {
+            dictionary.TryAdd($&quot;key{i}&quot;, i);
+        });
+
+        // Safe operations
+        dictionary.AddOrUpdate(&quot;key1&quot;, 1, (key, oldValue) =&gt; oldValue + 1);
+        int value = dictionary.GetOrAdd(&quot;newKey&quot;, 999);
+
+        Console.WriteLine($&quot;Dictionary contains {dictionary.Count} items&quot;);
+
+        // ConcurrentQueue - Thread-safe FIFO collection
+        var queue = new ConcurrentQueue&lt;string&gt;();
+
+        Task producer = Task.Run(() =&gt;
+        {
+            for (int i = 0; i &lt; 10; i++)
+            {
+                queue.Enqueue($&quot;Item {i}&quot;);
+                Thread.Sleep(100);
+            }
+        });
+
+        Task consumer = Task.Run(() =&gt;
+        {
+            while (!producer.IsCompleted || !queue.IsEmpty)
+            {
+                if (queue.TryDequeue(out string item))
+                {
+                    Console.WriteLine($&quot;Consumed: {item}&quot;);
+                }
+                Thread.Sleep(50);
+            }
+        });
+
+        Task.WaitAll(producer, consumer);
+    }
+}
+</code></pre>
+<h3 id="asyncawait-pattern">Async/Await Pattern</h3>
+<pre><code class="language-csharp">public class AsyncAwaitExamples
+{
+    public static async Task AsyncMethodExample()
+    {
+        Console.WriteLine(&quot;Starting async operations...&quot;);
+
+        // Start multiple async operations
+        Task&lt;string&gt; download1 = DownloadDataAsync(&quot;https://api1.example.com&quot;);
+        Task&lt;string&gt; download2 = DownloadDataAsync(&quot;https://api2.example.com&quot;);
+        Task&lt;string&gt; download3 = DownloadDataAsync(&quot;https://api3.example.com&quot;);
+
+        // Wait for all to complete
+        string[] results = await Task.WhenAll(download1, download2, download3);
+
+        foreach (string result in results)
+        {
+            Console.WriteLine($&quot;Downloaded: {result}&quot;);
+        }
+    }
+
+    private static async Task&lt;string&gt; DownloadDataAsync(string url)
+    {
+        using (var client = new HttpClient())
+        {
+            // Simulate network delay
+            await Task.Delay(Random.Shared.Next(1000, 3000));
+            return $&quot;Data from {url}&quot;;
+        }
+    }
+
+    public static async Task CancellationExample()
+    {
+        using var cts = new CancellationTokenSource();
+
+        // Cancel after 5 seconds
+        cts.CancelAfter(TimeSpan.FromSeconds(5));
+
+        try
+        {
+            await LongRunningOperationAsync(cts.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            Console.WriteLine(&quot;Operation was cancelled&quot;);
+        }
+    }
+
+    private static async Task LongRunningOperationAsync(CancellationToken cancellationToken)
+    {
+        for (int i = 0; i &lt; 100; i++)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            // Simulate work
+            await Task.Delay(100, cancellationToken);
+            Console.WriteLine($&quot;Step {i + 1}/100&quot;);
+        }
+    }
+}
+</code></pre>
+<h3 id="synchronization-primitives">Synchronization Primitives</h3>
+<pre><code class="language-csharp">public class SynchronizationExamples
+{
+    private static readonly object lockObject = new object();
+    private static int sharedCounter = 0;
+
+    public static void LockExample()
+    {
+        Task[] tasks = new Task[10];
+
+        for (int i = 0; i &lt; 10; i++)
+        {
+            tasks[i] = Task.Run(() =&gt;
+            {
+                for (int j = 0; j &lt; 1000; j++)
+                {
+                    lock (lockObject)
+                    {
+                        sharedCounter++;
+                    }
+                }
+            });
+        }
+
+        Task.WaitAll(tasks);
+        Console.WriteLine($&quot;Final counter value: {sharedCounter}&quot;); // Should be 10000
+    }
+
+    private static readonly SemaphoreSlim semaphore = new SemaphoreSlim(3); // Allow 3 concurrent operations
+
+    public static async Task SemaphoreExample()
+    {
+        Task[] tasks = new Task[10];
+
+        for (int i = 0; i &lt; 10; i++)
+        {
+            int taskId = i;
+            tasks[i] = AccessResourceAsync(taskId);
+        }
+
+        await Task.WhenAll(tasks);
+    }
+
+    private static async Task AccessResourceAsync(int id)
+    {
+        await semaphore.WaitAsync();
+        try
+        {
+            Console.WriteLine($&quot;Task {id} accessing resource at {DateTime.Now:HH:mm:ss.fff}&quot;);
+            await Task.Delay(2000); // Simulate work
+            Console.WriteLine($&quot;Task {id} finished at {DateTime.Now:HH:mm:ss.fff}&quot;);
+        }
+        finally
+        {
+            semaphore.Release();
+        }
+    }
+}
+</code></pre>
+<hr />
+<h2 id="ado.net">ADO.NET</h2>
+<h3 id="definition-12">Definition</h3>
+<p>ADO.NET is a set of classes that expose data access services for .NET Framework programmers, providing access to relational databases, XML, and application data.</p>
+<h3 id="ado.net-architecture">ADO.NET Architecture</h3>
+<h4 id="core-components">Core Components</h4>
+<ol>
+<li><strong>Data Provider</strong> - Connects to database</li>
+<li><strong>DataSet</strong> - In-memory representation of data</li>
+<li><strong>DataAdapter</strong> - Bridge between DataSet and data source</li>
+<li><strong>DataReader</strong> - Forward-only, read-only data stream</li>
+</ol>
+<pre><code>â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚   Application   â”‚â†â”€â”€â†’â”‚    DataSet       â”‚â†â”€â”€â†’â”‚  DataAdapter    â”‚
+â”‚                 â”‚    â”‚  (Disconnected)  â”‚    â”‚                 â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                                                        â”‚
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”           â”‚
+â”‚   Application   â”‚â†â”€â”€â†’â”‚   DataReader     â”‚â†â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+â”‚                 â”‚    â”‚   (Connected)    â”‚           â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜           â”‚
+                                                       â–¼
+                                              â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                                              â”‚   Data Source   â”‚
+                                              â”‚   (Database)    â”‚
+                                              â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+</code></pre>
+<h3 id="datareader-vs-dataset">DataReader vs DataSet</h3>
+<h4 id="datareader-connected-architecture">DataReader (Connected Architecture)</h4>
+<pre><code class="language-csharp">public class DataReaderExample
+{
+    private string connectionString = &quot;Server=localhost;Database=TestDB;Integrated Security=true;&quot;;
+
+    public void ReadDataWithDataReader()
+    {
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string sql = &quot;SELECT EmployeeId, FirstName, LastName, Salary FROM Employees&quot;;
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                Console.WriteLine(&quot;Employee Data:&quot;);
+                Console.WriteLine(&quot;ID\tFirst Name\tLast Name\tSalary&quot;);
+                Console.WriteLine(&quot;&quot;.PadRight(50, '-'));
+
+                while (reader.Read())
+                {
+                    int id = reader.GetInt32(&quot;EmployeeId&quot;);
+                    string firstName = reader.GetString(&quot;FirstName&quot;);
+                    string lastName = reader.GetString(&quot;LastName&quot;);
+                    decimal salary = reader.GetDecimal(&quot;Salary&quot;);
+
+                    Console.WriteLine($&quot;{id}\t{firstName}\t\t{lastName}\t\t{salary:C}&quot;);
+                }
+            }
+            // Connection automatically closed due to using statement
+        }
+    }
+
+    public async Task ReadDataAsync()
+    {
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            await connection.OpenAsync();
+
+            string sql = &quot;SELECT * FROM Products WHERE CategoryId = @categoryId&quot;;
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue(&quot;@categoryId&quot;, 1);
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        string productName = reader[&quot;ProductName&quot;].ToString();
+                        decimal price = Convert.ToDecimal(reader[&quot;Price&quot;]);
+                        Console.WriteLine($&quot;{productName}: {price:C}&quot;);
+                    }
+                }
+            }
+        }
+    }
+}
+</code></pre>
+<h4 id="dataset-disconnected-architecture">DataSet (Disconnected Architecture)</h4>
+<pre><code class="language-csharp">public class DataSetExample
+{
+    private string connectionString = &quot;Server=localhost;Database=TestDB;Integrated Security=true;&quot;;
+
+    public void WorkWithDataSet()
+    {
+        // Create DataSet and DataAdapter
+        DataSet dataSet = new DataSet(&quot;EmployeeDataSet&quot;);
+
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            // Create DataAdapter
+            string sql = &quot;SELECT EmployeeId, FirstName, LastName, DepartmentId FROM Employees&quot;;
+            SqlDataAdapter adapter = new SqlDataAdapter(sql, connection);
+
+            // Fill DataSet (connection opened and closed automatically)
+            adapter.Fill(dataSet, &quot;Employees&quot;);
+
+            // Work with data offline
+            DataTable employeeTable = dataSet.Tables[&quot;Employees&quot;];
+
+            // Display data
+            foreach (DataRow row in employeeTable.Rows)
+            {
+                Console.WriteLine($&quot;{row[&quot;EmployeeId&quot;]}: {row[&quot;FirstName&quot;]} {row[&quot;LastName&quot;]}&quot;);
+            }
+
+            // Modify data
+            DataRow newRow = employeeTable.NewRow();
+            newRow[&quot;FirstName&quot;] = &quot;John&quot;;
+            newRow[&quot;LastName&quot;] = &quot;Doe&quot;;
+            newRow[&quot;DepartmentId&quot;] = 1;
+            employeeTable.Rows.Add(newRow);
+
+            // Update database
+            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(adapter);
+            adapter.Update(dataSet, &quot;Employees&quot;);
+        }
+    }
+
+    public void DataSetWithRelations()
+    {
+        DataSet dataSet = new DataSet();
+
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            // Fill Departments table
+            SqlDataAdapter deptAdapter = new SqlDataAdapter(&quot;SELECT * FROM Departments&quot;, connection);
+            deptAdapter.Fill(dataSet, &quot;Departments&quot;);
+
+            // Fill Employees table
+            SqlDataAdapter empAdapter = new SqlDataAdapter(&quot;SELECT * FROM Employees&quot;, connection);
+            empAdapter.Fill(dataSet, &quot;Employees&quot;);
+
+            // Create relationship
+            DataRelation relation = new DataRelation(&quot;DeptEmployees&quot;,
+                dataSet.Tables[&quot;Departments&quot;].Columns[&quot;DepartmentId&quot;],
+                dataSet.Tables[&quot;Employees&quot;].Columns[&quot;DepartmentId&quot;]);
+            dataSet.Relations.Add(relation);
+
+            // Navigate relationship
+            foreach (DataRow deptRow in dataSet.Tables[&quot;Departments&quot;].Rows)
+            {
+                Console.WriteLine($&quot;Department: {deptRow[&quot;DepartmentName&quot;]}&quot;);
+
+                DataRow[] employees = deptRow.GetChildRows(relation);
+                foreach (DataRow empRow in employees)
+                {
+                    Console.WriteLine($&quot;  Employee: {empRow[&quot;FirstName&quot;]} {empRow[&quot;LastName&quot;]}&quot;);
+                }
+            }
+        }
+    }
+}
+</code></pre>
+<h3 id="steps-to-connect-to-sql-database">Steps to Connect to SQL Database</h3>
+<pre><code class="language-csharp">public class DatabaseConnection
+{
+    // Step 1: Define connection string
+    private readonly string connectionString =
+        &quot;Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;&quot;;
+
+    // Alternative with integrated security
+    private readonly string integratedConnectionString =
+        &quot;Server=myServerAddress;Database=myDataBase;Integrated Security=true;&quot;;
+
+    public void ConnectToDatabase()
+    {
+        // Step 2: Create SqlConnection object
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            try
+            {
+                // Step 3: Open the connection
+                connection.Open();
+                Console.WriteLine(&quot;Connection opened successfully!&quot;);
+                Console.WriteLine($&quot;Database: {connection.Database}&quot;);
+                Console.WriteLine($&quot;Server Version: {connection.ServerVersion}&quot;);
+
+                // Step 4: Create and execute command
+                string sql = &quot;SELECT COUNT(*) FROM Employees&quot;;
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    // Step 5: Execute command and get result
+                    int employeeCount = (int)command.ExecuteScalar();
+                    Console.WriteLine($&quot;Total employees: {employeeCount}&quot;);
+                }
+
+                // Step 6: Connection automatically closed by using statement
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine($&quot;SQL Error: {ex.Message}&quot;);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($&quot;General Error: {ex.Message}&quot;);
+            }
+        }
+    }
+
+    // CRUD Operations Example
+    public class EmployeeCRUD
+    {
+        private readonly string connectionString;
+
+        public EmployeeCRUD(string connectionString)
+        {
+            this.connectionString = connectionString;
+        }
+
+        // CREATE
+        public int CreateEmployee(string firstName, string lastName, decimal salary, int departmentId)
+        {
+            string sql = @&quot;INSERT INTO Employees (FirstName, LastName, Salary, DepartmentId)
+                          VALUES (@firstName, @lastName, @salary, @departmentId);
+                          SELECT SCOPE_IDENTITY();&quot;;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue(&quot;@firstName&quot;, firstName);
+                    command.Parameters.AddWithValue(&quot;@lastName&quot;, lastName);
+                    command.Parameters.AddWithValue(&quot;@salary&quot;, salary);
+                    command.Parameters.AddWithValue(&quot;@departmentId&quot;, departmentId);
+
+                    return Convert.ToInt32(command.ExecuteScalar());
+                }
+            }
+        }
+
+        // READ
+        public Employee GetEmployee(int employeeId)
+        {
+            string sql = &quot;SELECT * FROM Employees WHERE EmployeeId = @employeeId&quot;;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue(&quot;@employeeId&quot;, employeeId);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new Employee
+                            {
+                                EmployeeId = reader.GetInt32(&quot;EmployeeId&quot;),
+                                FirstName = reader.GetString(&quot;FirstName&quot;),
+                                LastName = reader.GetString(&quot;LastName&quot;),
+                                Salary = reader.GetDecimal(&quot;Salary&quot;),
+                                DepartmentId = reader.GetInt32(&quot;DepartmentId&quot;)
+                            };
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        // UPDATE
+        public bool UpdateEmployee(Employee employee)
+        {
+            string sql = @&quot;UPDATE Employees
+                          SET FirstName = @firstName, LastName = @lastName,
+                              Salary = @salary, DepartmentId = @departmentId
+                          WHERE EmployeeId = @employeeId&quot;;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue(&quot;@firstName&quot;, employee.FirstName);
+                    command.Parameters.AddWithValue(&quot;@lastName&quot;, employee.LastName);
+                    command.Parameters.AddWithValue(&quot;@salary&quot;, employee.Salary);
+                    command.Parameters.AddWithValue(&quot;@departmentId&quot;, employee.DepartmentId);
+                    command.Parameters.AddWithValue(&quot;@employeeId&quot;, employee.EmployeeId);
+
+                    return command.ExecuteNonQuery() &gt; 0;
+                }
+            }
+        }
+
+        // DELETE
+        public bool DeleteEmployee(int employeeId)
+        {
+            string sql = &quot;DELETE FROM Employees WHERE EmployeeId = @employeeId&quot;;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue(&quot;@employeeId&quot;, employeeId);
+                    return command.ExecuteNonQuery() &gt; 0;
+                }
+            }
+        }
+    }
+
+    public class Employee
+    {
+        public int EmployeeId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public decimal Salary { get; set; }
+        public int DepartmentId { get; set; }
+    }
+}
+</code></pre>
+<h3 id="linq-to-sql">LINQ to SQL</h3>
+<pre><code class="language-csharp">// Entity classes
+[Table(Name = &quot;Employees&quot;)]
+public class Employee
+{
+    [Column(IsPrimaryKey = true, IsDbGenerated = true)]
+    public int EmployeeId { get; set; }
+
+    [Column]
+    public string FirstName { get; set; }
+
+    [Column]
+    public string LastName { get; set; }
+
+    [Column]
+    public decimal Salary { get; set; }
+
+    [Column]
+    public int DepartmentId { get; set; }
+}
+
+// DataContext
+public class CompanyDataContext : DataContext
+{
+    public CompanyDataContext(string connectionString) : base(connectionString) { }
+
+    public Table&lt;Employee&gt; Employees =&gt; GetTable&lt;Employee&gt;();
+}
+
+// Usage
+public class LinqToSqlExample
+{
+    private string connectionString = &quot;Server=localhost;Database=Company;Integrated Security=true;&quot;;
+
+    public void QueryWithLinqToSql()
+    {
+        using (var context = new CompanyDataContext(connectionString))
+        {
+            // Query syntax
+            var highEarners = from emp in context.Employees
+                             where emp.Salary &gt; 50000
+                             orderby emp.Salary descending
+                             select emp;
+
+            Console.WriteLine(&quot;High earners:&quot;);
+            foreach (var employee in highEarners)
+            {
+                Console.WriteLine($&quot;{employee.FirstName} {employee.LastName}: {employee.Salary:C}&quot;);
+            }
+
+            // Method syntax
+            var topPerformers = context.Employees
+                .Where(e =&gt; e.Salary &gt; 75000)
+                .OrderByDescending(e =&gt; e.Salary)
+                .Take(5)
+                .ToList();
+
+            // Insert new employee
+            var newEmployee = new Employee
+            {
+                FirstName = &quot;Jane&quot;,
+                LastName = &quot;Smith&quot;,
+                Salary = 60000,
+                DepartmentId = 1
+            };
+
+            context.Employees.InsertOnSubmit(newEmployee);
+            context.SubmitChanges();
+        }
+    }
+}
+</code></pre>
+<hr />
+<h2 id="wpf">WPF</h2>
+<h3 id="definition-13">Definition</h3>
+<p>Windows Presentation Foundation (WPF) is Microsoft's latest approach to a GUI framework, used with the .NET Framework and .NET Core/5+.</p>
+<h3 id="xaml-basics">XAML Basics</h3>
+<h4 id="basic-window-structure">Basic Window Structure</h4>
+<pre><code class="language-xml">&lt;!-- MainWindow.xaml --&gt;
+&lt;Window x:Class=&quot;WpfApp.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        Title=&quot;My WPF Application&quot;
+        Height=&quot;450&quot;
+        Width=&quot;800&quot;
+        WindowStartupLocation=&quot;CenterScreen&quot;&gt;
+
+    &lt;Grid&gt;
+        &lt;Grid.RowDefinitions&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+            &lt;RowDefinition Height=&quot;*&quot;/&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+        &lt;/Grid.RowDefinitions&gt;
+
+        &lt;!-- Header --&gt;
+        &lt;TextBlock Grid.Row=&quot;0&quot;
+                   Text=&quot;Welcome to WPF&quot;
+                   FontSize=&quot;24&quot;
+                   FontWeight=&quot;Bold&quot;
+                   HorizontalAlignment=&quot;Center&quot;
+                   Margin=&quot;10&quot;/&gt;
+
+        &lt;!-- Content Area --&gt;
+        &lt;StackPanel Grid.Row=&quot;1&quot;
+                    Orientation=&quot;Vertical&quot;
+                    Margin=&quot;20&quot;&gt;
+
+            &lt;Label Content=&quot;Enter your name:&quot;
+                   FontWeight=&quot;Bold&quot;/&gt;
+
+            &lt;TextBox x:Name=&quot;NameTextBox&quot;
+                     Width=&quot;200&quot;
+                     HorizontalAlignment=&quot;Left&quot;
+                     Margin=&quot;0,5,0,10&quot;/&gt;
+
+            &lt;Button x:Name=&quot;GreetButton&quot;
+                    Content=&quot;Greet Me&quot;
+                    Width=&quot;100&quot;
+                    HorizontalAlignment=&quot;Left&quot;
+                    Click=&quot;GreetButton_Click&quot;/&gt;
+
+            &lt;TextBlock x:Name=&quot;ResultTextBlock&quot;
+                       FontSize=&quot;16&quot;
+                       Margin=&quot;0,10,0,0&quot;
+                       Foreground=&quot;Blue&quot;/&gt;
+
+        &lt;/StackPanel&gt;
+
+        &lt;!-- Status Bar --&gt;
+        &lt;StatusBar Grid.Row=&quot;2&quot;&gt;
+            &lt;StatusBarItem Content=&quot;Ready&quot;/&gt;
+        &lt;/StatusBar&gt;
+
+    &lt;/Grid&gt;
+&lt;/Window&gt;
+</code></pre>
+<h4 id="code-behind">Code-Behind</h4>
+<pre><code class="language-csharp">// MainWindow.xaml.cs
+using System.Windows;
+
+namespace WpfApp
+{
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        private void GreetButton_Click(object sender, RoutedEventArgs e)
+        {
+            string name = NameTextBox.Text;
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                MessageBox.Show(&quot;Please enter your name!&quot;, &quot;Warning&quot;,
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            ResultTextBlock.Text = $&quot;Hello, {name}! Welcome to WPF.&quot;;
+        }
+    }
+}
+</code></pre>
+<h3 id="wpf-data-binding">WPF Data Binding</h3>
+<h4 id="simple-data-binding">Simple Data Binding</h4>
+<pre><code class="language-csharp">// Person model
+public class Person : INotifyPropertyChanged
+{
+    private string firstName;
+    private string lastName;
+    private int age;
+
+    public string FirstName
+    {
+        get { return firstName; }
+        set
+        {
+            firstName = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(FullName)); // Update computed property
+        }
+    }
+
+    public string LastName
+    {
+        get { return lastName; }
+        set
+        {
+            lastName = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(FullName));
+        }
+    }
+
+    public int Age
+    {
+        get { return age; }
+        set
+        {
+            age = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string FullName =&gt; $&quot;{FirstName} {LastName}&quot;;
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+}
+</code></pre>
+<pre><code class="language-xml">&lt;!-- Data Binding XAML --&gt;
+&lt;Window x:Class=&quot;WpfApp.DataBindingWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+
+    &lt;StackPanel Margin=&quot;20&quot;&gt;
+
+        &lt;!-- Two-way binding --&gt;
+        &lt;Label Content=&quot;First Name:&quot;/&gt;
+        &lt;TextBox Text=&quot;{Binding FirstName, UpdateSourceTrigger=PropertyChanged}&quot;
+                 Margin=&quot;0,0,0,10&quot;/&gt;
+
+        &lt;Label Content=&quot;Last Name:&quot;/&gt;
+        &lt;TextBox Text=&quot;{Binding LastName, UpdateSourceTrigger=PropertyChanged}&quot;
+                 Margin=&quot;0,0,0,10&quot;/&gt;
+
+        &lt;Label Content=&quot;Age:&quot;/&gt;
+        &lt;TextBox Text=&quot;{Binding Age, UpdateSourceTrigger=PropertyChanged}&quot;
+                 Margin=&quot;0,0,0,10&quot;/&gt;
+
+        &lt;!-- One-way binding (computed property) --&gt;
+        &lt;Label Content=&quot;Full Name:&quot;/&gt;
+        &lt;TextBlock Text=&quot;{Binding FullName}&quot;
+                   FontWeight=&quot;Bold&quot;
+                   FontSize=&quot;16&quot;
+                   Margin=&quot;0,0,0,10&quot;/&gt;
+
+        &lt;!-- Binding with conversion --&gt;
+        &lt;TextBlock Margin=&quot;0,10,0,0&quot;&gt;
+            &lt;TextBlock.Text&gt;
+                &lt;MultiBinding StringFormat=&quot;Person: {0}, Age: {1}&quot;&gt;
+                    &lt;Binding Path=&quot;FullName&quot;/&gt;
+                    &lt;Binding Path=&quot;Age&quot;/&gt;
+                &lt;/MultiBinding&gt;
+            &lt;/TextBlock.Text&gt;
+        &lt;/TextBlock&gt;
+
+    &lt;/StackPanel&gt;
+&lt;/Window&gt;
+</code></pre>
+<pre><code class="language-csharp">// Code-behind for data binding
+public partial class DataBindingWindow : Window
+{
+    public DataBindingWindow()
+    {
+        InitializeComponent();
+
+        // Set DataContext
+        DataContext = new Person
+        {
+            FirstName = &quot;John&quot;,
+            LastName = &quot;Doe&quot;,
+            Age = 30
+        };
+    }
+}
+</code></pre>
+<h4 id="collection-binding-with-listbox">Collection Binding with ListBox</h4>
+<pre><code class="language-xml">&lt;Window x:Class=&quot;WpfApp.EmployeeListWindow&quot;&gt;
+    &lt;Grid&gt;
+        &lt;Grid.ColumnDefinitions&gt;
+            &lt;ColumnDefinition Width=&quot;300&quot;/&gt;
+            &lt;ColumnDefinition Width=&quot;*&quot;/&gt;
+        &lt;/Grid.ColumnDefinitions&gt;
+
+        &lt;!-- Employee List --&gt;
+        &lt;ListBox Grid.Column=&quot;0&quot;
+                 ItemsSource=&quot;{Binding Employees}&quot;
+                 SelectedItem=&quot;{Binding SelectedEmployee}&quot;
+                 DisplayMemberPath=&quot;FullName&quot;
+                 Margin=&quot;10&quot;/&gt;
+
+        &lt;!-- Employee Details --&gt;
+        &lt;StackPanel Grid.Column=&quot;1&quot;
+                    DataContext=&quot;{Binding SelectedEmployee}&quot;
+                    Margin=&quot;10&quot;&gt;
+
+            &lt;Label Content=&quot;Employee Details&quot;
+                   FontWeight=&quot;Bold&quot;
+                   FontSize=&quot;16&quot;/&gt;
+
+            &lt;Label Content=&quot;First Name:&quot;/&gt;
+            &lt;TextBox Text=&quot;{Binding FirstName, UpdateSourceTrigger=PropertyChanged}&quot;/&gt;
+
+            &lt;Label Content=&quot;Last Name:&quot;/&gt;
+            &lt;TextBox Text=&quot;{Binding LastName, UpdateSourceTrigger=PropertyChanged}&quot;/&gt;
+
+            &lt;Label Content=&quot;Department:&quot;/&gt;
+            &lt;ComboBox ItemsSource=&quot;{Binding DataContext.Departments,
+                                   RelativeSource={RelativeSource AncestorType=Window}}&quot;
+                      SelectedItem=&quot;{Binding Department}&quot;
+                      DisplayMemberPath=&quot;Name&quot;/&gt;
+
+            &lt;Label Content=&quot;Salary:&quot;/&gt;
+            &lt;TextBox Text=&quot;{Binding Salary, StringFormat=C, UpdateSourceTrigger=PropertyChanged}&quot;/&gt;
+
+        &lt;/StackPanel&gt;
+    &lt;/Grid&gt;
+&lt;/Window&gt;
+</code></pre>
+<h3 id="commands-and-mvvm-pattern">Commands and MVVM Pattern</h3>
+<h4 id="relaycommand-implementation">RelayCommand Implementation</h4>
+<pre><code class="language-csharp">public class RelayCommand : ICommand
+{
+    private readonly Action&lt;object&gt; execute;
+    private readonly Func&lt;object, bool&gt; canExecute;
+
+    public RelayCommand(Action&lt;object&gt; execute, Func&lt;object, bool&gt; canExecute = null)
+    {
+        this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
+        this.canExecute = canExecute;
+    }
+
+    public event EventHandler CanExecuteChanged
+    {
+        add { CommandManager.RequerySuggested += value; }
+        remove { CommandManager.RequerySuggested -= value; }
+    }
+
+    public bool CanExecute(object parameter)
+    {
+        return canExecute == null || canExecute(parameter);
+    }
+
+    public void Execute(object parameter)
+    {
+        execute(parameter);
+    }
+}
+</code></pre>
+<h4 id="viewmodel-example">ViewModel Example</h4>
+<pre><code class="language-csharp">public class MainViewModel : INotifyPropertyChanged
+{
+    private ObservableCollection&lt;Employee&gt; employees;
+    private Employee selectedEmployee;
+    private string searchText;
+
+    public MainViewModel()
+    {
+        Employees = new ObservableCollection&lt;Employee&gt;();
+        LoadEmployees();
+
+        // Initialize commands
+        AddEmployeeCommand = new RelayCommand(AddEmployee);
+        DeleteEmployeeCommand = new RelayCommand(DeleteEmployee, CanDeleteEmployee);
+        SearchCommand = new RelayCommand(Search);
+    }
+
+    public ObservableCollection&lt;Employee&gt; Employees
+    {
+        get { return employees; }
+        set
+        {
+            employees = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public Employee SelectedEmployee
+    {
+        get { return selectedEmployee; }
+        set
+        {
+            selectedEmployee = value;
+            OnPropertyChanged();
+            CommandManager.InvalidateRequerySuggested(); // Update command states
+        }
+    }
+
+    public string SearchText
+    {
+        get { return searchText; }
+        set
+        {
+            searchText = value;
+            OnPropertyChanged();
+        }
+    }
+
+    // Commands
+    public ICommand AddEmployeeCommand { get; }
+    public ICommand DeleteEmployeeCommand { get; }
+    public ICommand SearchCommand { get; }
+
+    private void AddEmployee(object parameter)
+    {
+        var newEmployee = new Employee
+        {
+            FirstName = &quot;New&quot;,
+            LastName = &quot;Employee&quot;,
+            Salary = 50000
+        };
+        Employees.Add(newEmployee);
+        SelectedEmployee = newEmployee;
+    }
+
+    private void DeleteEmployee(object parameter)
+    {
+        if (SelectedEmployee != null)
+        {
+            Employees.Remove(SelectedEmployee);
+            SelectedEmployee = null;
+        }
+    }
+
+    private bool CanDeleteEmployee(object parameter)
+    {
+        return SelectedEmployee != null;
+    }
+
+    private void Search(object parameter)
+    {
+        // Implement search logic
+        if (string.IsNullOrWhiteSpace(SearchText))
+        {
+            LoadEmployees(); // Show all
+        }
+        else
+        {
+            var filtered = employees.Where(e =&gt;
+                e.FirstName.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                e.LastName.Contains(SearchText, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            Employees.Clear();
+            foreach (var emp in filtered)
+            {
+                Employees.Add(emp);
+            }
+        }
+    }
+
+    private void LoadEmployees()
+    {
+        // Load from database or service
+        Employees.Clear();
+        // Add sample data
+        Employees.Add(new Employee { FirstName = &quot;John&quot;, LastName = &quot;Doe&quot;, Salary = 60000 });
+        Employees.Add(new Employee { FirstName = &quot;Jane&quot;, LastName = &quot;Smith&quot;, Salary = 65000 });
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+}
+</code></pre>
+<hr />
+<h2 id="asp.net-asp.net-core">ASP.NET &amp; ASP.NET Core</h2>
+<h3 id="asp.net-core-mvc-architecture">ASP.NET Core MVC Architecture</h3>
+<h4 id="model-view-controller-pattern">Model-View-Controller Pattern</h4>
+<pre><code>â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚   Browser   â”‚â”€â”€â”€â–¶â”‚ Controller  â”‚â”€â”€â”€â–¶â”‚    Model    â”‚
+â”‚             â”‚    â”‚             â”‚    â”‚             â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+       â–²                   â”‚                  â”‚
+       â”‚                   â–¼                  â”‚
+       â”‚            â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”           â”‚
+       â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”‚    View     â”‚â—€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                    â”‚             â”‚
+                    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+</code></pre>
+<h4 id="model-example">Model Example</h4>
+<pre><code class="language-csharp">public class Product
+{
+    public int Id { get; set; }
+
+    [Required(ErrorMessage = &quot;Product name is required&quot;)]
+    [StringLength(100, ErrorMessage = &quot;Product name cannot exceed 100 characters&quot;)]
+    public string Name { get; set; }
+
+    [Required(ErrorMessage = &quot;Description is required&quot;)]
+    public string Description { get; set; }
+
+    [Required(ErrorMessage = &quot;Price is required&quot;)]
+    [Range(0.01, double.MaxValue, ErrorMessage = &quot;Price must be greater than 0&quot;)]
+    [DataType(DataType.Currency)]
+    public decimal Price { get; set; }
+
+    [Required(ErrorMessage = &quot;Category is required&quot;)]
+    public int CategoryId { get; set; }
+
+    public Category Category { get; set; }
+
+    [DataType(DataType.Date)]
+    public DateTime CreatedDate { get; set; } = DateTime.Now;
+
+    public bool IsActive { get; set; } = true;
+}
+
+public class Category
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public List&lt;Product&gt; Products { get; set; } = new List&lt;Product&gt;();
+}
+</code></pre>
+<h4 id="controller-example">Controller Example</h4>
+<pre><code class="language-csharp">[Route(&quot;api/[controller]&quot;)]
+[ApiController]
+public class ProductsController : ControllerBase
+{
+    private readonly IProductService productService;
+    private readonly ILogger&lt;ProductsController&gt; logger;
+
+    public ProductsController(IProductService productService, ILogger&lt;ProductsController&gt; logger)
+    {
+        this.productService = productService;
+        this.logger = logger;
+    }
+
+    // GET: api/products
+    [HttpGet]
+    public async Task&lt;ActionResult&lt;IEnumerable&lt;Product&gt;&gt;&gt; GetProducts()
+    {
+        try
+        {
+            var products = await productService.GetAllProductsAsync();
+            return Ok(products);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, &quot;Error retrieving products&quot;);
+            return StatusCode(500, &quot;Internal server error&quot;);
+        }
+    }
+
+    // GET: api/products/5
+    [HttpGet(&quot;{id}&quot;)]
+    public async Task&lt;ActionResult&lt;Product&gt;&gt; GetProduct(int id)
+    {
+        var product = await productService.GetProductByIdAsync(id);
+
+        if (product == null)
+        {
+            return NotFound($&quot;Product with ID {id} not found&quot;);
+        }
+
+        return Ok(product);
+    }
+
+    // POST: api/products
+    [HttpPost]
+    public async Task&lt;ActionResult&lt;Product&gt;&gt; CreateProduct(Product product)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            var createdProduct = await productService.CreateProductAsync(product);
+            return CreatedAtAction(nameof(GetProduct),
+                new { id = createdProduct.Id }, createdProduct);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, &quot;Error creating product&quot;);
+            return StatusCode(500, &quot;Internal server error&quot;);
+        }
+    }
+
+    // PUT: api/products/5
+    [HttpPut(&quot;{id}&quot;)]
+    public async Task&lt;IActionResult&gt; UpdateProduct(int id, Product product)
+    {
+        if (id != product.Id)
+        {
+            return BadRequest(&quot;Product ID mismatch&quot;);
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            await productService.UpdateProductAsync(product);
+            return NoContent();
+        }
+        catch (NotFoundException)
+        {
+            return NotFound($&quot;Product with ID {id} not found&quot;);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, &quot;Error updating product&quot;);
+            return StatusCode(500, &quot;Internal server error&quot;);
+        }
+    }
+
+    // DELETE: api/products/5
+    [HttpDelete(&quot;{id}&quot;)]
+    public async Task&lt;IActionResult&gt; DeleteProduct(int id)
+    {
+        try
+        {
+            await productService.DeleteProductAsync(id);
+            return NoContent();
+        }
+        catch (NotFoundException)
+        {
+            return NotFound($&quot;Product with ID {id} not found&quot;);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, &quot;Error deleting product&quot;);
+            return StatusCode(500, &quot;Internal server error&quot;);
+        }
+    }
+}
+</code></pre>
+<h3 id="middleware-in-asp.net-core">Middleware in ASP.NET Core</h3>
+<h4 id="definition-14">Definition</h4>
+<p>Middleware is software that's assembled into an app pipeline to handle requests and responses.</p>
+<h4 id="custom-middleware">Custom Middleware</h4>
+<pre><code class="language-csharp">// Custom middleware class
+public class RequestLoggingMiddleware
+{
+    private readonly RequestDelegate next;
+    private readonly ILogger&lt;RequestLoggingMiddleware&gt; logger;
+
+    public RequestLoggingMiddleware(RequestDelegate next, ILogger&lt;RequestLoggingMiddleware&gt; logger)
+    {
+        this.next = next;
+        this.logger = logger;
+    }
+
+    public async Task InvokeAsync(HttpContext context)
+    {
+        var startTime = DateTime.UtcNow;
+        var requestId = Guid.NewGuid().ToString();
+
+        // Log request
+        logger.LogInformation($&quot;[{requestId}] Request started: {context.Request.Method} {context.Request.Path}&quot;);
+
+        try
+        {
+            // Call the next middleware in the pipeline
+            await next(context);
+        }
+        finally
+        {
+            var duration = DateTime.UtcNow - startTime;
+            logger.LogInformation($&quot;[{requestId}] Request completed: {context.Response.StatusCode} in {duration.TotalMilliseconds:F2}ms&quot;);
+        }
+    }
+}
+
+// Extension method for easier registration
+public static class RequestLoggingMiddlewareExtensions
+{
+    public static IApplicationBuilder UseRequestLogging(this IApplicationBuilder builder)
+    {
+        return builder.UseMiddleware&lt;RequestLoggingMiddleware&gt;();
+    }
+}
+</code></pre>
+<h4 id="startupprogram-configuration">Startup/Program Configuration</h4>
+<pre><code class="language-csharp">// Program.cs (ASP.NET Core 6+)
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container
+builder.Services.AddControllers();
+builder.Services.AddDbContext&lt;ApplicationDbContext&gt;(options =&gt;
+    options.UseSqlServer(builder.Configuration.GetConnectionString(&quot;DefaultConnection&quot;)));
+
+// Add custom services
+builder.Services.AddScoped&lt;IProductService, ProductService&gt;();
+
+// Add authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =&gt;
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration[&quot;Jwt:Issuer&quot;],
+            ValidAudience = builder.Configuration[&quot;Jwt:Audience&quot;],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration[&quot;Jwt:Key&quot;]))
+        };
+    });
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+else
+{
+    app.UseExceptionHandler(&quot;/Error&quot;);
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+// Custom middleware
+app.UseRequestLogging();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
+</code></pre>
+<h3 id="crud-operations-using-razor-pages">CRUD Operations using Razor Pages</h3>
+<h4 id="page-model">Page Model</h4>
+<pre><code class="language-csharp">// Pages/Products/Index.cshtml.cs
+public class IndexModel : PageModel
+{
+    private readonly IProductService productService;
+
+    public IndexModel(IProductService productService)
+    {
+        this.productService = productService;
+    }
+
+    public IList&lt;Product&gt; Products { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public string SearchString { get; set; }
+
+    public async Task OnGetAsync()
+    {
+        Products = await productService.GetProductsAsync(SearchString);
+    }
+}
+</code></pre>
+<pre><code class="language-html">&lt;!-- Pages/Products/Index.cshtml --&gt;
+@page
+@model IndexModel
+@{
+    ViewData[&quot;Title&quot;] = &quot;Products&quot;;
+}
+
+&lt;h1&gt;Products&lt;/h1&gt;
+
+&lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;col-md-6&quot;&gt;
+        &lt;a asp-page=&quot;Create&quot; class=&quot;btn btn-primary&quot;&gt;Create New Product&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col-md-6&quot;&gt;
+        &lt;form method=&quot;get&quot;&gt;
+            &lt;div class=&quot;input-group&quot;&gt;
+                &lt;input asp-for=&quot;SearchString&quot; class=&quot;form-control&quot; placeholder=&quot;Search products...&quot;/&gt;
+                &lt;div class=&quot;input-group-append&quot;&gt;
+                    &lt;button class=&quot;btn btn-outline-secondary&quot; type=&quot;submit&quot;&gt;Search&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/form&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;table class=&quot;table table-striped mt-3&quot;&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Name&lt;/th&gt;
+            &lt;th&gt;Description&lt;/th&gt;
+            &lt;th&gt;Price&lt;/th&gt;
+            &lt;th&gt;Category&lt;/th&gt;
+            &lt;th&gt;Actions&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        @foreach (var product in Model.Products)
+        {
+            &lt;tr&gt;
+                &lt;td&gt;@product.Name&lt;/td&gt;
+                &lt;td&gt;@product.Description&lt;/td&gt;
+                &lt;td&gt;@product.Price.ToString(&quot;C&quot;)&lt;/td&gt;
+                &lt;td&gt;@product.Category?.Name&lt;/td&gt;
+                &lt;td&gt;
+                    &lt;a asp-page=&quot;Details&quot; asp-route-id=&quot;@product.Id&quot; class=&quot;btn btn-sm btn-info&quot;&gt;Details&lt;/a&gt;
+                    &lt;a asp-page=&quot;Edit&quot; asp-route-id=&quot;@product.Id&quot; class=&quot;btn btn-sm btn-warning&quot;&gt;Edit&lt;/a&gt;
+                    &lt;a asp-page=&quot;Delete&quot; asp-route-id=&quot;@product.Id&quot; class=&quot;btn btn-sm btn-danger&quot;&gt;Delete&lt;/a&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+        }
+    &lt;/tbody&gt;
+&lt;/table&gt;
+</code></pre>
+<h4 id="create-page">Create Page</h4>
+<pre><code class="language-csharp">// Pages/Products/Create.cshtml.cs
+public class CreateModel : PageModel
+{
+    private readonly IProductService productService;
+
+    public CreateModel(IProductService productService)
+    {
+        this.productService = productService;
+    }
+
+    [BindProperty]
+    public Product Product { get; set; }
+
+    public SelectList Categories { get; set; }
+
+    public async Task&lt;IActionResult&gt; OnGetAsync()
+    {
+        await LoadCategoriesAsync();
+        return Page();
+    }
+
+    public async Task&lt;IActionResult&gt; OnPostAsync()
+    {
+        if (!ModelState.IsValid)
+        {
+            await LoadCategoriesAsync();
+            return Page();
+        }
+
+        await productService.CreateProductAsync(Product);
+
+        TempData[&quot;SuccessMessage&quot;] = &quot;Product created successfully!&quot;;
+        return RedirectToPage(&quot;./Index&quot;);
+    }
+
+    private async Task LoadCategoriesAsync()
+    {
+        var categories = await productService.GetCategoriesAsync();
+        Categories = new SelectList(categories, &quot;Id&quot;, &quot;Name&quot;);
+    }
+}
+</code></pre>
+<h3 id="authentication-and-authorization">Authentication and Authorization</h3>
+<h4 id="jwt-authentication">JWT Authentication</h4>
+<pre><code class="language-csharp">// Services/AuthService.cs
+public class AuthService : IAuthService
+{
+    private readonly IConfiguration configuration;
+    private readonly IUserService userService;
+
+    public AuthService(IConfiguration configuration, IUserService userService)
+    {
+        this.configuration = configuration;
+        this.userService = userService;
+    }
+
+    public async Task&lt;AuthResult&gt; LoginAsync(LoginModel model)
+    {
+        var user = await userService.ValidateUserAsync(model.Email, model.Password);
+        if (user == null)
+        {
+            return new AuthResult { Success = false, Message = &quot;Invalid credentials&quot; };
+        }
+
+        var token = GenerateJwtToken(user);
+        return new AuthResult
+        {
+            Success = true,
+            Token = token,
+            User = user
+        };
+    }
+
+    private string GenerateJwtToken(User user)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(configuration[&quot;Jwt:Key&quot;]);
+
+        var claims = new List&lt;Claim&gt;
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.Email),
+            new Claim(ClaimTypes.Email, user.Email)
+        };
+
+        // Add role claims
+        foreach (var role in user.Roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
+
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(claims),
+            Expires = DateTime.UtcNow.AddHours(24),
+            Issuer = configuration[&quot;Jwt:Issuer&quot;],
+            Audience = configuration[&quot;Jwt:Audience&quot;],
+            SigningCredentials = new SigningCredentials(
+                new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha256Signature)
+        };
+
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
+    }
+}
+</code></pre>
+<h4 id="authorization-policies">Authorization Policies</h4>
+<pre><code class="language-csharp">// Program.cs - Authorization setup
+builder.Services.AddAuthorization(options =&gt;
+{
+    options.AddPolicy(&quot;AdminOnly&quot;, policy =&gt;
+        policy.RequireRole(&quot;Admin&quot;));
+
+    options.AddPolicy(&quot;ManageProducts&quot;, policy =&gt;
+        policy.RequireClaim(&quot;Permission&quot;, &quot;ManageProducts&quot;));
+
+    options.AddPolicy(&quot;MinimumAge&quot;, policy =&gt;
+        policy.Requirements.Add(new MinimumAgeRequirement(18)));
+});
+
+// Custom authorization requirement
+public class MinimumAgeRequirement : IAuthorizationRequirement
+{
+    public int MinimumAge { get; }
+
+    public MinimumAgeRequirement(int minimumAge)
+    {
+        MinimumAge = minimumAge;
+    }
+}
+
+public class MinimumAgeHandler : AuthorizationHandler&lt;MinimumAgeRequirement&gt;
+{
+    protected override Task HandleRequirementAsync(
+        AuthorizationHandlerContext context,
+        MinimumAgeRequirement requirement)
+    {
+        var birthDate = context.User.FindFirst(ClaimTypes.DateOfBirth)?.Value;
+
+        if (DateTime.TryParse(birthDate, out DateTime dateOfBirth))
+        {
+            var age = DateTime.Today.Year - dateOfBirth.Year;
+            if (dateOfBirth.Date &gt; DateTime.Today.AddYears(-age))
+                age--;
+
+            if (age &gt;= requirement.MinimumAge)
+            {
+                context.Succeed(requirement);
+            }
+        }
+
+        return Task.CompletedTask;
+    }
+}
+</code></pre>
+<h3 id="deployment-methods">Deployment Methods</h3>
+<h4 id="docker-deployment">Docker Deployment</h4>
+<pre><code class="language-dockerfile"># Dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+COPY [&quot;MyApp/MyApp.csproj&quot;, &quot;MyApp/&quot;]
+RUN dotnet restore &quot;MyApp/MyApp.csproj&quot;
+COPY . .
+WORKDIR &quot;/src/MyApp&quot;
+RUN dotnet build &quot;MyApp.csproj&quot; -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish &quot;MyApp.csproj&quot; -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT [&quot;dotnet&quot;, &quot;MyApp.dll&quot;]
+</code></pre>
+<pre><code class="language-yaml"># docker-compose.yml
+version: '3.8'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - &quot;8080:80&quot;
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=MyAppDb;User=sa;Password=YourPassword123;
+      - ASPNETCORE_ENVIRONMENT=Production
+    depends_on:
+      - db
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourPassword123
+    ports:
+      - &quot;1433:1433&quot;
+    volumes:
+      - sqldata:/var/opt/mssql
+
+volumes:
+  sqldata:
+</code></pre>
+<hr />
+<h2 id="blazor">Blazor</h2>
+<h3 id="definition-15">Definition</h3>
+<p>Blazor is a free and open-source web framework that enables developers to create web apps using C# and HTML, running either on the server or in the browser via WebAssembly.</p>
+<h3 id="server-side-vs-client-side-blazor">Server-side vs Client-side Blazor</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Blazor Server</th>
+<th>Blazor WebAssembly</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Execution</strong></td>
+<td>Runs on server</td>
+<td>Runs in browser</td>
+</tr>
+<tr>
+<td><strong>Connection</strong></td>
+<td>Requires SignalR connection</td>
+<td>Works offline</td>
+</tr>
+<tr>
+<td><strong>Performance</strong></td>
+<td>Fast startup, server processing</td>
+<td>Slow startup, client processing</td>
+</tr>
+<tr>
+<td><strong>Scalability</strong></td>
+<td>Limited by server resources</td>
+<td>Scales with client devices</td>
+</tr>
+<tr>
+<td><strong>Security</strong></td>
+<td>Code stays on server</td>
+<td>Code downloaded to client</td>
+</tr>
+<tr>
+<td><strong>Network</strong></td>
+<td>Requires constant connection</td>
+<td>Works with intermittent connection</td>
+</tr>
+</tbody>
+</table>
+<h3 id="blazor-components">Blazor Components</h3>
+<h4 id="basic-component-structure">Basic Component Structure</h4>
+<pre><code class="language-csharp">@* Components/Counter.razor *@
+@page &quot;/counter&quot;
+
+&lt;PageTitle&gt;Counter&lt;/PageTitle&gt;
+
+&lt;h1&gt;Counter&lt;/h1&gt;
+
+&lt;p role=&quot;status&quot;&gt;Current count: @currentCount&lt;/p&gt;
+
+&lt;button class=&quot;btn btn-primary&quot; @onclick=&quot;IncrementCount&quot;&gt;Click me&lt;/button&gt;
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}
+</code></pre>
+<h4 id="component-with-parameters">Component with Parameters</h4>
+<pre><code class="language-csharp">@* Components/ProductCard.razor *@
+&lt;div class=&quot;card&quot; style=&quot;width: 18rem;&quot;&gt;
+    &lt;div class=&quot;card-body&quot;&gt;
+        &lt;h5 class=&quot;card-title&quot;&gt;@Product.Name&lt;/h5&gt;
+        &lt;p class=&quot;card-text&quot;&gt;@Product.Description&lt;/p&gt;
+        &lt;p class=&quot;card-text&quot;&gt;
+            &lt;strong&gt;Price: @Product.Price.ToString(&quot;C&quot;)&lt;/strong&gt;
+        &lt;/p&gt;
+        &lt;button class=&quot;btn btn-primary&quot; @onclick=&quot;OnPurchaseClick&quot;&gt;
+            Buy Now
+        &lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+@code {
+    [Parameter] public Product Product { get; set; }
+    [Parameter] public EventCallback&lt;Product&gt; OnPurchase { get; set; }
+
+    private async Task OnPurchaseClick()
+    {
+        await OnPurchase.InvokeAsync(Product);
+    }
+}
+</code></pre>
+<h4 id="component-creating-process">Component Creating Process</h4>
+<pre><code class="language-csharp">// 1. Define the component class
+@inherits ComponentBase
+@implements IDisposable
+
+// 2. Add parameters and properties
+@code {
+    [Parameter] public string Title { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public EventCallback&lt;string&gt; OnValueChanged { get; set; }
+
+    [Inject] public IJSRuntime JSRuntime { get; set; }
+    [Inject] public IProductService ProductService { get; set; }
+
+    private string inputValue = &quot;&quot;;
+    private List&lt;Product&gt; products = new();
+    private Timer timer;
+
+    // 3. Lifecycle methods
+    protected override async Task OnInitializedAsync()
+    {
+        products = await ProductService.GetProductsAsync();
+        timer = new Timer(UpdateTime, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        // Called when parameters change
+        if (!string.IsNullOrEmpty(Title))
+        {
+            await JSRuntime.InvokeVoidAsync(&quot;console.log&quot;, $&quot;Title changed to: {Title}&quot;);
+        }
+    }
+
+    protected override bool ShouldRender()
+    {
+        // Control when component re-renders
+        return !string.IsNullOrEmpty(Title);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync(&quot;initializeComponent&quot;);
+        }
+    }
+
+    // 4. Event handlers
+    private async Task OnInputChange(ChangeEventArgs e)
+    {
+        inputValue = e.Value?.ToString() ?? &quot;&quot;;
+        await OnValueChanged.InvokeAsync(inputValue);
+    }
+
+    private void UpdateTime(object state)
+    {
+        InvokeAsync(StateHasChanged); // Re-render component
+    }
+
+    // 5. Cleanup
+    public void Dispose()
+    {
+        timer?.Dispose();
+    }
+}
+</code></pre>
+<h3 id="data-binding-in-blazor">Data Binding in Blazor</h3>
+<h4 id="one-way-and-two-way-binding">One-way and Two-way Binding</h4>
+<pre><code class="language-csharp">@* Pages/DataBindingDemo.razor *@
+@page &quot;/databinding&quot;
+
+&lt;h3&gt;Data Binding Demo&lt;/h3&gt;
+
+&lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;col-md-6&quot;&gt;
+        &lt;!-- One-way binding --&gt;
+        &lt;h4&gt;One-way Binding&lt;/h4&gt;
+        &lt;p&gt;Current time: @DateTime.Now.ToString(&quot;HH:mm:ss&quot;)&lt;/p&gt;
+        &lt;p&gt;User name: @user.Name&lt;/p&gt;
+        &lt;p&gt;Is active: @user.IsActive&lt;/p&gt;
+
+        &lt;!-- Two-way binding --&gt;
+        &lt;h4&gt;Two-way Binding&lt;/h4&gt;
+        &lt;div class=&quot;form-group&quot;&gt;
+            &lt;label&gt;Name:&lt;/label&gt;
+            &lt;input @bind=&quot;user.Name&quot; class=&quot;form-control&quot; /&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;form-group&quot;&gt;
+            &lt;label&gt;Email:&lt;/label&gt;
+            &lt;input @bind=&quot;user.Email&quot; @bind:event=&quot;oninput&quot; class=&quot;form-control&quot; /&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;form-group&quot;&gt;
+            &lt;label&gt;Age:&lt;/label&gt;
+            &lt;input @bind=&quot;user.Age&quot; type=&quot;number&quot; class=&quot;form-control&quot; /&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;form-group&quot;&gt;
+            &lt;label&gt;
+                &lt;input type=&quot;checkbox&quot; @bind=&quot;user.IsActive&quot; /&gt;
+                Is Active
+            &lt;/label&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;form-group&quot;&gt;
+            &lt;label&gt;Country:&lt;/label&gt;
+            &lt;select @bind=&quot;user.Country&quot; class=&quot;form-control&quot;&gt;
+                &lt;option value=&quot;&quot;&gt;Select Country&lt;/option&gt;
+                &lt;option value=&quot;US&quot;&gt;United States&lt;/option&gt;
+                &lt;option value=&quot;CA&quot;&gt;Canada&lt;/option&gt;
+                &lt;option value=&quot;UK&quot;&gt;United Kingdom&lt;/option&gt;
+            &lt;/select&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;col-md-6&quot;&gt;
+        &lt;h4&gt;Live Preview&lt;/h4&gt;
+        &lt;div class=&quot;card&quot;&gt;
+            &lt;div class=&quot;card-body&quot;&gt;
+                &lt;h5&gt;@user.Name&lt;/h5&gt;
+                &lt;p&gt;Email: @user.Email&lt;/p&gt;
+                &lt;p&gt;Age: @user.Age&lt;/p&gt;
+                &lt;p&gt;Country: @user.Country&lt;/p&gt;
+                &lt;p&gt;Status: @(user.IsActive ? &quot;Active&quot; : &quot;Inactive&quot;)&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+@code {
+    private User user = new User { Name = &quot;John Doe&quot;, Age = 30, IsActive = true };
+
+    public class User
+    {
+        public string Name { get; set; } = &quot;&quot;;
+        public string Email { get; set; } = &quot;&quot;;
+        public int Age { get; set; }
+        public bool IsActive { get; set; }
+        public string Country { get; set; } = &quot;&quot;;
+    }
+}
+</code></pre>
+<h4 id="form-validation">Form Validation</h4>
+<pre><code class="language-csharp">@* Pages/UserForm.razor *@
+@page &quot;/userform&quot;
+@using System.ComponentModel.DataAnnotations
+
+&lt;EditForm Model=&quot;user&quot; OnValidSubmit=&quot;HandleValidSubmit&quot; OnInvalidSubmit=&quot;HandleInvalidSubmit&quot;&gt;
+    &lt;DataAnnotationsValidator /&gt;
+    &lt;ValidationSummary /&gt;
+
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;First Name:&lt;/label&gt;
+        &lt;InputText @bind-Value=&quot;user.FirstName&quot; class=&quot;form-control&quot; /&gt;
+        &lt;ValidationMessage For=&quot;@(() =&gt; user.FirstName)&quot; /&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;Email:&lt;/label&gt;
+        &lt;InputText @bind-Value=&quot;user.Email&quot; class=&quot;form-control&quot; /&gt;
+        &lt;ValidationMessage For=&quot;@(() =&gt; user.Email)&quot; /&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;Birth Date:&lt;/label&gt;
+        &lt;InputDate @bind-Value=&quot;user.BirthDate&quot; class=&quot;form-control&quot; /&gt;
+        &lt;ValidationMessage For=&quot;@(() =&gt; user.BirthDate)&quot; /&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;Salary:&lt;/label&gt;
+        &lt;InputNumber @bind-Value=&quot;user.Salary&quot; class=&quot;form-control&quot; /&gt;
+        &lt;ValidationMessage For=&quot;@(() =&gt; user.Salary)&quot; /&gt;
+    &lt;/div&gt;
+
+    &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot;&gt;Submit&lt;/button&gt;
+&lt;/EditForm&gt;
+
+@if (isSubmitted)
+{
+    &lt;div class=&quot;alert alert-success mt-3&quot;&gt;
+        Form submitted successfully!
+    &lt;/div&gt;
+}
+
+@code {
+    private UserModel user = new UserModel();
+    private bool isSubmitted = false;
+
+    private void HandleValidSubmit()
+    {
+        isSubmitted = true;
+        // Process valid form
+    }
+
+    private void HandleInvalidSubmit()
+    {
+        isSubmitted = false;
+        // Handle invalid form
+    }
+
+    public class UserModel
+    {
+        [Required(ErrorMessage = &quot;First name is required&quot;)]
+        [StringLength(50, ErrorMessage = &quot;First name cannot exceed 50 characters&quot;)]
+        public string FirstName { get; set; } = &quot;&quot;;
+
+        [Required(ErrorMessage = &quot;Email is required&quot;)]
+        [EmailAddress(ErrorMessage = &quot;Invalid email format&quot;)]
+        public string Email { get; set; } = &quot;&quot;;
+
+        [Required(ErrorMessage = &quot;Birth date is required&quot;)]
+        [DataType(DataType.Date)]
+        public DateTime BirthDate { get; set; } = DateTime.Today.AddYears(-18);
+
+        [Range(0, double.MaxValue, ErrorMessage = &quot;Salary must be positive&quot;)]
+        public decimal Salary { get; set; }
+    }
+}
+</code></pre>
+<h3 id="javascript-interop">JavaScript Interop</h3>
+<pre><code class="language-csharp">@* Components/JSInteropDemo.razor *@
+@inject IJSRuntime JSRuntime
+
+&lt;h3&gt;JavaScript Interop Demo&lt;/h3&gt;
+
+&lt;button @onclick=&quot;ShowAlert&quot;&gt;Show Alert&lt;/button&gt;
+&lt;button @onclick=&quot;CallJSFunction&quot;&gt;Call JS Function&lt;/button&gt;
+&lt;button @onclick=&quot;GetUserLocation&quot;&gt;Get Location&lt;/button&gt;
+
+&lt;div id=&quot;map&quot; style=&quot;height: 300px; width: 100%; margin-top: 20px;&quot;&gt;&lt;/div&gt;
+
+@code {
+    private async Task ShowAlert()
+    {
+        await JSRuntime.InvokeVoidAsync(&quot;alert&quot;, &quot;Hello from Blazor!&quot;);
+    }
+
+    private async Task CallJSFunction()
+    {
+        var result = await JSRuntime.InvokeAsync&lt;string&gt;(&quot;prompt&quot;, &quot;Enter your name:&quot;);
+        if (!string.IsNullOrEmpty(result))
+        {
+            await JSRuntime.InvokeVoidAsync(&quot;console.log&quot;, $&quot;User entered: {result}&quot;);
+        }
+    }
+
+    private async Task GetUserLocation()
+    {
+        try
+        {
+            var location = await JSRuntime.InvokeAsync&lt;LocationData&gt;(&quot;getUserLocation&quot;);
+            await JSRuntime.InvokeVoidAsync(&quot;initializeMap&quot;, location.Latitude, location.Longitude);
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync(&quot;console.error&quot;, $&quot;Error getting location: {ex.Message}&quot;);
+        }
+    }
+
+    public class LocationData
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+    }
+}
+</code></pre>
+<pre><code class="language-javascript">// wwwroot/js/site.js
+window.getUserLocation = () =&gt; {
+    return new Promise((resolve, reject) =&gt; {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                position =&gt; {
+                    resolve({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    });
+                },
+                error =&gt; reject(error)
+            );
+        } else {
+            reject(new Error(&quot;Geolocation is not supported&quot;));
+        }
+    });
+};
+
+window.initializeMap = (lat, lng) =&gt; {
+    // Initialize map with given coordinates
+    console.log(`Initializing map at ${lat}, ${lng}`);
+};
+</code></pre>
+<h3 id="razor-class-library">Razor Class Library</h3>
+<h4 id="creating-a-razor-class-library">Creating a Razor Class Library</h4>
+<pre><code class="language-xml">&lt;!-- MyBlazorLibrary.csproj --&gt;
+&lt;Project Sdk=&quot;Microsoft.NET.Sdk.Razor&quot;&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;net6.0&lt;/TargetFramework&gt;
+    &lt;Nullable&gt;enable&lt;/Nullable&gt;
+    &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;SupportedPlatform Include=&quot;browser&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;Microsoft.AspNetCore.Components.Web&quot; Version=&quot;6.0.0&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+&lt;/Project&gt;
+</code></pre>
+<h4 id="shared-components-in-library">Shared Components in Library</h4>
+<pre><code class="language-csharp">@* Components/SharedButton.razor *@
+@namespace MyBlazorLibrary.Components
+
+&lt;button class=&quot;btn @CssClass&quot; @onclick=&quot;OnClick&quot;&gt;
+    @if (!string.IsNullOrEmpty(Icon))
+    {
+        &lt;i class=&quot;@Icon&quot;&gt;&lt;/i&gt;
+    }
+    @Text
+&lt;/button&gt;
+
+@code {
+    [Parameter] public string Text { get; set; } = &quot;Button&quot;;
+    [Parameter] public string Icon { get; set; } = &quot;&quot;;
+    [Parameter] public string CssClass { get; set; } = &quot;btn-primary&quot;;
+    [Parameter] public EventCallback OnClick { get; set; }
+}
+</code></pre>
+<h4 id="using-library-in-main-project">Using Library in Main Project</h4>
+<pre><code class="language-csharp">@* Add to _Imports.razor *@
+@using MyBlazorLibrary.Components
+
+@* Use in components *@
+&lt;SharedButton Text=&quot;Save&quot;
+              Icon=&quot;fas fa-save&quot;
+              CssClass=&quot;btn-success&quot;
+              OnClick=&quot;SaveData&quot; /&gt;
+</code></pre>
+<h3 id="state-management">State Management</h3>
+<pre><code class="language-csharp">// Services/AppStateService.cs
+public class AppStateService
+{
+    private string currentUser = &quot;&quot;;
+    private Dictionary&lt;string, object&gt; state = new();
+
+    public event Action OnChange;
+
+    public string CurrentUser
+    {
+        get =&gt; currentUser;
+        set
+        {
+            currentUser = value;
+            NotifyStateChanged();
+        }
+    }
+
+    public T GetState&lt;T&gt;(string key, T defaultValue = default)
+    {
+        if (state.TryGetValue(key, out var value) &amp;&amp; value is T)
+        {
+            return (T)value;
+        }
+        return defaultValue;
+    }
+
+    public void SetState&lt;T&gt;(string key, T value)
+    {
+        state[key] = value;
+        NotifyStateChanged();
+    }
+
+    private void NotifyStateChanged() =&gt; OnChange?.Invoke();
+}
+
+// Program.cs
+builder.Services.AddScoped&lt;AppStateService&gt;();
+
+// Component usage
+@inject AppStateService AppState
+@implements IDisposable
+
+@code {
+    protected override void OnInitialized()
+    {
+        AppState.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        AppState.OnChange -= StateHasChanged;
+    }
+}
+</code></pre>
+<hr />
+<h2 id="xamarin">Xamarin</h2>
+<h3 id="xamarin-vs-xamarin.forms">Xamarin vs Xamarin.Forms</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Xamarin.iOS/Android</th>
+<th>Xamarin.Forms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>UI</strong></td>
+<td>Platform-specific UI</td>
+<td>Shared UI across platforms</td>
+</tr>
+<tr>
+<td><strong>Performance</strong></td>
+<td>Native performance</td>
+<td>Near-native performance</td>
+</tr>
+<tr>
+<td><strong>Code Sharing</strong></td>
+<td>Business logic only</td>
+<td>UI + Business logic</td>
+</tr>
+<tr>
+<td><strong>Learning Curve</strong></td>
+<td>Requires platform knowledge</td>
+<td>Easier for beginners</td>
+</tr>
+<tr>
+<td><strong>Customization</strong></td>
+<td>Full platform control</td>
+<td>Limited to Forms controls</td>
+</tr>
+<tr>
+<td><strong>Use Case</strong></td>
+<td>Complex, platform-specific apps</td>
+<td>Cross-platform business apps</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mvc-and-mvvm-design-patterns">MVC and MVVM Design Patterns</h3>
+<h4 id="mvc-pattern-in-xamarin">MVC Pattern in Xamarin</h4>
+<pre><code class="language-csharp">// Model
+public class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public decimal Price { get; set; }
+    public string Description { get; set; }
+}
+
+// Controller (in Xamarin, this is often the Page code-behind)
+public partial class ProductListPage : ContentPage
+{
+    private readonly ProductService productService;
+    private List&lt;Product&gt; products;
+
+    public ProductListPage()
+    {
+        InitializeComponent();
+        productService = new ProductService();
+        LoadProducts();
+    }
+
+    private async void LoadProducts()
+    {
+        try
+        {
+            products = await productService.GetProductsAsync();
+            ProductListView.ItemsSource = products;
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert(&quot;Error&quot;, $&quot;Failed to load products: {ex.Message}&quot;, &quot;OK&quot;);
+        }
+    }
+
+    private async void OnProductSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+        if (e.SelectedItem is Product product)
+        {
+            await Navigation.PushAsync(new ProductDetailPage(product));
+        }
+    }
+}
+</code></pre>
+<h4 id="mvvm-pattern-in-xamarin.forms">MVVM Pattern in Xamarin.Forms</h4>
+<pre><code class="language-csharp">// ViewModel
+public class ProductListViewModel : INotifyPropertyChanged
+{
+    private readonly ProductService productService;
+    private ObservableCollection&lt;Product&gt; products;
+    private Product selectedProduct;
+    private bool isLoading;
+    private string searchText;
+
+    public ProductListViewModel()
+    {
+        productService = DependencyService.Get&lt;ProductService&gt;();
+        Products = new ObservableCollection&lt;Product&gt;();
+
+        LoadProductsCommand = new Command(async () =&gt; await LoadProducts());
+        SearchCommand = new Command&lt;string&gt;(async (searchText) =&gt; await SearchProducts(searchText));
+        SelectProductCommand = new Command&lt;Product&gt;(async (product) =&gt; await SelectProduct(product));
+
+        LoadProductsCommand.Execute(null);
+    }
+
+    public ObservableCollection&lt;Product&gt; Products
+    {
+        get =&gt; products;
+        set
+        {
+            products = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public Product SelectedProduct
+    {
+        get =&gt; selectedProduct;
+        set
+        {
+            selectedProduct = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool IsLoading
+    {
+        get =&gt; isLoading;
+        set
+        {
+            isLoading = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string SearchText
+    {
+        get =&gt; searchText;
+        set
+        {
+            searchText = value;
+            OnPropertyChanged();
+            SearchCommand.Execute(value);
+        }
+    }
+
+    public ICommand LoadProductsCommand { get; }
+    public ICommand SearchCommand { get; }
+    public ICommand SelectProductCommand { get; }
+
+    private async Task LoadProducts()
+    {
+        IsLoading = true;
+        try
+        {
+            var productList = await productService.GetProductsAsync();
+            Products.Clear();
+            foreach (var product in productList)
+            {
+                Products.Add(product);
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle error
+            await Application.Current.MainPage.DisplayAlert(&quot;Error&quot;, ex.Message, &quot;OK&quot;);
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    private async Task SearchProducts(string searchText)
+    {
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            await LoadProducts();
+            return;
+        }
+
+        var filtered = await productService.SearchProductsAsync(searchText);
+        Products.Clear();
+        foreach (var product in filtered)
+        {
+            Products.Add(product);
+        }
+    }
+
+    private async Task SelectProduct(Product product)
+    {
+        if (product != null)
+        {
+            await Shell.Current.GoToAsync($&quot;productdetail?productId={product.Id}&quot;);
+        }
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+}
+</code></pre>
+<h3 id="xaml-and-key-elements">XAML and Key Elements</h3>
+<h4 id="basic-xaml-structure">Basic XAML Structure</h4>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;ContentPage xmlns=&quot;http://xamarin.com/schemas/2014/forms&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2009/xaml&quot;
+             x:Class=&quot;MyApp.Views.ProductListPage&quot;
+             Title=&quot;Products&quot;&gt;
+
+    &lt;ContentPage.BindingContext&gt;
+        &lt;vm:ProductListViewModel /&gt;
+    &lt;/ContentPage.BindingContext&gt;
+
+    &lt;ContentPage.ToolbarItems&gt;
+        &lt;ToolbarItem Text=&quot;Add&quot;
+                     IconImageSource=&quot;add_icon.png&quot;
+                     Command=&quot;{Binding AddProductCommand}&quot; /&gt;
+    &lt;/ContentPage.ToolbarItems&gt;
+
+    &lt;Grid&gt;
+        &lt;Grid.RowDefinitions&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot; /&gt;
+            &lt;RowDefinition Height=&quot;*&quot; /&gt;
+        &lt;/Grid.RowDefinitions&gt;
+
+        &lt;!-- Search Bar --&gt;
+        &lt;SearchBar Grid.Row=&quot;0&quot;
+                   Placeholder=&quot;Search products...&quot;
+                   Text=&quot;{Binding SearchText}&quot;
+                   SearchCommand=&quot;{Binding SearchCommand}&quot;
+                   Margin=&quot;10&quot; /&gt;
+
+        &lt;!-- Product List --&gt;
+        &lt;CollectionView Grid.Row=&quot;1&quot;
+                        ItemsSource=&quot;{Binding Products}&quot;
+                        SelectedItem=&quot;{Binding SelectedProduct}&quot;
+                        SelectionMode=&quot;Single&quot;&gt;
+
+            &lt;CollectionView.ItemTemplate&gt;
+                &lt;DataTemplate&gt;
+                    &lt;Grid Padding=&quot;15&quot;&gt;
+                        &lt;Grid.ColumnDefinitions&gt;
+                            &lt;ColumnDefinition Width=&quot;80&quot; /&gt;
+                            &lt;ColumnDefinition Width=&quot;*&quot; /&gt;
+                            &lt;ColumnDefinition Width=&quot;Auto&quot; /&gt;
+                        &lt;/Grid.ColumnDefinitions&gt;
+
+                        &lt;Image Grid.Column=&quot;0&quot;
+                               Source=&quot;{Binding ImageUrl}&quot;
+                               Aspect=&quot;AspectFill&quot;
+                               HeightRequest=&quot;60&quot;
+                               WidthRequest=&quot;60&quot; /&gt;
+
+                        &lt;StackLayout Grid.Column=&quot;1&quot;
+                                     Spacing=&quot;5&quot;
+                                     Margin=&quot;10,0&quot;&gt;
+                            &lt;Label Text=&quot;{Binding Name}&quot;
+                                   FontSize=&quot;16&quot;
+                                   FontAttributes=&quot;Bold&quot; /&gt;
+                            &lt;Label Text=&quot;{Binding Description}&quot;
+                                   FontSize=&quot;14&quot;
+                                   TextColor=&quot;Gray&quot; /&gt;
+                        &lt;/StackLayout&gt;
+
+                        &lt;Label Grid.Column=&quot;2&quot;
+                               Text=&quot;{Binding Price, StringFormat='{0:C}'}&quot;
+                               FontSize=&quot;16&quot;
+                               FontAttributes=&quot;Bold&quot;
+                               VerticalOptions=&quot;Center&quot; /&gt;
+                    &lt;/Grid&gt;
+                &lt;/DataTemplate&gt;
+            &lt;/CollectionView.ItemTemplate&gt;
+        &lt;/CollectionView&gt;
+
+        &lt;!-- Loading Indicator --&gt;
+        &lt;ActivityIndicator Grid.RowSpan=&quot;2&quot;
+                          IsVisible=&quot;{Binding IsLoading}&quot;
+                          IsRunning=&quot;{Binding IsLoading}&quot;
+                          Color=&quot;Blue&quot;
+                          HorizontalOptions=&quot;Center&quot;
+                          VerticalOptions=&quot;Center&quot; /&gt;
+    &lt;/Grid&gt;
+&lt;/ContentPage&gt;
+</code></pre>
+<h3 id="sqlite.net-in-xamarin-apps">SQLite.NET in Xamarin Apps</h3>
+<h4 id="database-model">Database Model</h4>
+<pre><code class="language-csharp">[Table(&quot;Products&quot;)]
+public class Product
+{
+    [PrimaryKey, AutoIncrement]
+    public int Id { get; set; }
+
+    [MaxLength(100), NotNull]
+    public string Name { get; set; }
+
+    public string Description { get; set; }
+
+    [NotNull]
+    public decimal Price { get; set; }
+
+    [MaxLength(50)]
+    public string Category { get; set; }
+
+    public DateTime CreatedDate { get; set; } = DateTime.Now;
+
+    public bool IsActive { get; set; } = true;
+
+    // Foreign key
+    public int CategoryId { get; set; }
+}
+
+[Table(&quot;Categories&quot;)]
+public class Category
+{
+    [PrimaryKey, AutoIncrement]
+    public int Id { get; set; }
+
+    [MaxLength(50), NotNull]
+    public string Name { get; set; }
+
+    public string Description { get; set; }
+}
+</code></pre>
+<h4 id="database-service">Database Service</h4>
+<pre><code class="language-csharp">public class DatabaseService
+{
+    private SQLiteAsyncConnection database;
+    private readonly string databasePath;
+
+    public DatabaseService()
+    {
+        databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), &quot;Products.db3&quot;);
+    }
+
+    private async Task InitializeDatabaseAsync()
+    {
+        if (database is not null)
+            return;
+
+        database = new SQLiteAsyncConnection(databasePath);
+
+        await database.CreateTableAsync&lt;Product&gt;();
+        await database.CreateTableAsync&lt;Category&gt;();
+
+        // Seed data if needed
+        await SeedDataAsync();
+    }
+
+    // CRUD Operations for Products
+    public async Task&lt;List&lt;Product&gt;&gt; GetProductsAsync()
+    {
+        await InitializeDatabaseAsync();
+        return await database.Table&lt;Product&gt;()
+            .Where(p =&gt; p.IsActive)
+            .OrderBy(p =&gt; p.Name)
+            .ToListAsync();
+    }
+
+    public async Task&lt;Product&gt; GetProductByIdAsync(int id)
+    {
+        await InitializeDatabaseAsync();
+        return await database.Table&lt;Product&gt;()
+            .Where(p =&gt; p.Id == id)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task&lt;int&gt; SaveProductAsync(Product product)
+    {
+        await InitializeDatabaseAsync();
+
+        if (product.Id != 0)
+        {
+            return await database.UpdateAsync(product);
+        }
+        else
+        {
+            return await database.InsertAsync(product);
+        }
+    }
+
+    public async Task&lt;int&gt; DeleteProductAsync(Product product)
+    {
+        await InitializeDatabaseAsync();
+        return await database.DeleteAsync(product);
+    }
+
+    public async Task&lt;List&lt;Product&gt;&gt; SearchProductsAsync(string searchText)
+    {
+        await InitializeDatabaseAsync();
+        return await database.Table&lt;Product&gt;()
+            .Where(p =&gt; p.IsActive &amp;&amp;
+                   (p.Name.Contains(searchText) || p.Description.Contains(searchText)))
+            .ToListAsync();
+    }
+
+    // Category operations
+    public async Task&lt;List&lt;Category&gt;&gt; GetCategoriesAsync()
+    {
+        await InitializeDatabaseAsync();
+        return await database.Table&lt;Category&gt;().ToListAsync();
+    }
+
+    private async Task SeedDataAsync()
+    {
+        var categoryCount = await database.Table&lt;Category&gt;().CountAsync();
+        if (categoryCount == 0)
+        {
+            var categories = new List&lt;Category&gt;
+            {
+                new Category { Name = &quot;Electronics&quot;, Description = &quot;Electronic devices&quot; },
+                new Category { Name = &quot;Clothing&quot;, Description = &quot;Apparel and accessories&quot; },
+                new Category { Name = &quot;Books&quot;, Description = &quot;Books and literature&quot; }
+            };
+
+            await database.InsertAllAsync(categories);
+        }
+    }
+}
+</code></pre>
+<h3 id="navigation-patterns-in-xamarin.forms">Navigation Patterns in Xamarin.Forms</h3>
+<h4 id="shell-navigation">Shell Navigation</h4>
+<pre><code class="language-csharp">// AppShell.xaml
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;Shell xmlns=&quot;http://xamarin.com/schemas/2014/forms&quot;
+       xmlns:x=&quot;http://schemas.microsoft.com/winfx/2009/xaml&quot;
+       xmlns:views=&quot;clr-namespace:MyApp.Views&quot;
+       x:Class=&quot;MyApp.AppShell&quot;&gt;
+
+    &lt;TabBar&gt;
+        &lt;ShellContent Title=&quot;Products&quot;
+                      Icon=&quot;products_icon.png&quot;
+                      ContentTemplate=&quot;{DataTemplate views:ProductListPage}&quot; /&gt;
+
+        &lt;ShellContent Title=&quot;Categories&quot;
+                      Icon=&quot;categories_icon.png&quot;
+                      ContentTemplate=&quot;{DataTemplate views:CategoriesPage}&quot; /&gt;
+
+        &lt;ShellContent Title=&quot;Profile&quot;
+                      Icon=&quot;profile_icon.png&quot;
+                      ContentTemplate=&quot;{DataTemplate views:ProfilePage}&quot; /&gt;
+    &lt;/TabBar&gt;
+
+&lt;/Shell&gt;
+</code></pre>
+<pre><code class="language-csharp">// Registering routes
+public partial class AppShell : Shell
+{
+    public AppShell()
+    {
+        InitializeComponent();
+
+        // Register routes for navigation
+        Routing.RegisterRoute(&quot;productdetail&quot;, typeof(ProductDetailPage));
+        Routing.RegisterRoute(&quot;editproduct&quot;, typeof(EditProductPage));
+        Routing.RegisterRoute(&quot;addproduct&quot;, typeof(AddProductPage));
+    }
+}
+
+// Navigation in ViewModels
+public class ProductListViewModel : BaseViewModel
+{
+    private async Task NavigateToProductDetail(Product product)
+    {
+        var route = $&quot;productdetail?productId={product.Id}&quot;;
+        await Shell.Current.GoToAsync(route);
+    }
+
+    private async Task NavigateToAddProduct()
+    {
+        await Shell.Current.GoToAsync(&quot;addproduct&quot;);
+    }
+
+    private async Task NavigateBack()
+    {
+        await Shell.Current.GoToAsync(&quot;..&quot;);
+    }
+}
+
+// Receiving parameters
+[QueryProperty(nameof(ProductId), &quot;productId&quot;)]
+public partial class ProductDetailPage : ContentPage
+{
+    public string ProductId
+    {
+        set
+        {
+            if (int.TryParse(value, out int id))
+            {
+                ((ProductDetailViewModel)BindingContext).LoadProduct(id);
+            }
+        }
+    }
+}
+</code></pre>
+<h4 id="traditional-navigation">Traditional Navigation</h4>
+<pre><code class="language-csharp">public class NavigationService : INavigationService
+{
+    public async Task NavigateToAsync(string pageName, object parameter = null)
+    {
+        Page page = pageName switch
+        {
+            &quot;ProductDetail&quot; =&gt; new ProductDetailPage(),
+            &quot;EditProduct&quot; =&gt; new EditProductPage(),
+            &quot;AddProduct&quot; =&gt; new AddProductPage(),
+            _ =&gt; throw new ArgumentException($&quot;Unknown page: {pageName}&quot;)
+        };
+
+        if (page.BindingContext is BaseViewModel viewModel &amp;&amp; parameter != null)
+        {
+            await viewModel.InitializeAsync(parameter);
+        }
+
+        await Application.Current.MainPage.Navigation.PushAsync(page);
+    }
+
+    public async Task NavigateBackAsync()
+    {
+        await Application.Current.MainPage.Navigation.PopAsync();
+    }
+
+    public async Task NavigateToModalAsync(string pageName, object parameter = null)
+    {
+        Page page = CreatePage(pageName);
+
+        if (page.BindingContext is BaseViewModel viewModel &amp;&amp; parameter != null)
+        {
+            await viewModel.InitializeAsync(parameter);
+        }
+
+        await Application.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(page));
+    }
+}
+</code></pre>
+<hr />
+<h2 id="summary-and-quick-reference">Summary and Quick Reference</h2>
+<h3 id="key-concepts-checklist">Key Concepts Checklist</h3>
+<h4 id="programming-fundamentals">Programming Fundamentals</h4>
+<ul>
+<li>âœ… <strong>Visual vs Text Programming</strong>: Visual uses drag-drop; Text uses code</li>
+<li>âœ… <strong>Event-Driven Programming</strong>: Program flow controlled by events (clicks, input)</li>
+<li>âœ… <strong>.NET Architecture</strong>: CLR + BCL + Your App</li>
+<li>âœ… <strong>RAD Tools</strong>: Visual Studio, IntelliSense, designers for rapid development</li>
+</ul>
+<h4 id="c-language-features">C# Language Features</h4>
+<ul>
+<li>âœ… <strong>Type Conversion</strong>: Implicit (safe), Explicit (cast), Boxing/Unboxing</li>
+<li>âœ… <strong>Structures</strong>: Value types, immutable, no inheritance</li>
+<li>âœ… <strong>Enumerations</strong>: Named constants, type-safe, can use flags</li>
+<li>âœ… <strong>Collections</strong>: Generic (List<T>, Dictionary&lt;K,V&gt;) vs Non-generic (ArrayList)</li>
+<li>âœ… <strong>Regex</strong>: Pattern matching with <code>Regex</code> class</li>
+</ul>
+<h4 id="oop-principles">OOP Principles</h4>
+<ul>
+<li>âœ… <strong>Polymorphism</strong>: Overloading (compile-time) vs Overriding (runtime)</li>
+<li>âœ… <strong>Abstract vs Interface</strong>: Abstract has implementation; Interface is contract</li>
+<li>âœ… <strong>Inheritance</strong>: IS-A relationship, virtual/override for polymorphism</li>
+<li>âœ… <strong>Encapsulation</strong>: Private fields, public properties, controlled access</li>
+</ul>
+<h4 id="advanced-topics">Advanced Topics</h4>
+<ul>
+<li>âœ… <strong>Exception Handling</strong>: try-catch-finally, custom exceptions, proper cleanup</li>
+<li>âœ… <strong>Parallel Programming</strong>: Tasks, Parallel.For, PLINQ, async/await</li>
+<li>âœ… <strong>ADO.NET</strong>: DataReader (connected) vs DataSet (disconnected)</li>
+<li>âœ… <strong>LINQ to SQL</strong>: Object-relational mapping with strongly-typed queries</li>
+</ul>
+<h4 id="ui-technologies">UI Technologies</h4>
+<ul>
+<li>âœ… <strong>WPF</strong>: XAML + C#, data binding, MVVM pattern, rich desktop apps</li>
+<li>âœ… <strong>ASP.NET Core</strong>: MVC pattern, middleware pipeline, Razor Pages</li>
+<li>âœ… <strong>Blazor</strong>: C# in browser, Server vs WebAssembly, component-based</li>
+<li>âœ… <strong>Xamarin</strong>: Cross-platform mobile, XAML UI, SQLite data, Shell navigation</li>
+</ul>
+<h3 id="exam-tips">Exam Tips</h3>
+<ol>
+<li><strong>Practice Code Examples</strong>: Type out the examples yourself</li>
+<li><strong>Understand Patterns</strong>: Know when to use abstract vs interface, DataReader vs DataSet</li>
+<li><strong>Remember Architecture</strong>: Know the layers and how they interact</li>
+<li><strong>Security</strong>: Understand authentication vs authorization</li>
+<li><strong>Performance</strong>: Know when to use async, parallel processing, proper data access</li>
+</ol>
+<p>Your comprehensive exam preparation notes are now complete! This document covers all the topics your teacher specified with practical examples, comparisons, and detailed explanations. You can now compile this into a PDF for printing and study.</p>
+
+</body>
+</html>
