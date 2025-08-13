@@ -6,16 +6,19 @@ const achievements = [];
 async function loadAchievements() {
     const response = await fetch('data/achievements.json');
     const data = await response.json();
-    achievements.push(...data);
+    if (data && Array.isArray(data.achievements)) {
+        achievements.push(...data.achievements);
+    }
 }
 
 // Display achievements on the achievements page
 function displayAchievements() {
-    const achievementsList = document.getElementById('achievements-list');
+    const achievementsList = document.getElementById('achievements');
+    achievementsList.innerHTML = '';
     achievements.forEach(achievement => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${achievement.name}: ${achievement.description}`;
-        achievementsList.appendChild(listItem);
+        const li = document.createElement('li');
+        li.textContent = `${achievement.title}: ${achievement.description} (+${achievement.points} XP)`;
+        achievementsList.appendChild(li);
     });
 }
 

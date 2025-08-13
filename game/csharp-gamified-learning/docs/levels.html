@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Achievements - C# Gamified Learning</title>
+    <title>Levels - C# Gamified Learning</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="theme-color" content="#007acc" />
 </head>
 <body>
     <header>
-        <h1>Achievements</h1>
+        <h1>Levels</h1>
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
@@ -19,17 +19,31 @@
             </ul>
         </nav>
     </header>
-    <main>
-        <section class="container card">
-            <h2>Your Achievements</h2>
-            <ul id="achievements"></ul>
+    <main class="container">
+        <section class="card">
+            <h2>Progress</h2>
+            <p id="progress-text">Loading…</p>
+        </section>
+
+        <section class="card">
+            <h2>All Levels</h2>
+            <div id="levels-list"></div>
+        </section>
+
+        <section class="card" id="level-detail" style="display:none">
+            <h2 id="level-title"></h2>
+            <p id="level-description"></p>
+            <h3>Requirements</h3>
+            <ul id="level-requirements"></ul>
+            <button id="complete-level" class="button">Mark as completed</button>
         </section>
     </main>
     <footer>
-        <p>&copy; 2023 C# Gamified Learning Project</p>
+        <p>&copy; 2025 C# Gamified Learning Project</p>
     </footer>
     <script src="assets/js/app.js"></script>
-    <script src="assets/js/achievements.js"></script>
+    <script src="assets/js/storage.js"></script>
+    <script src="assets/js/levels.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -37,5 +51,5 @@
             });
         }
     </script>
-</body>
-</html>
+    </body>
+    </html>
