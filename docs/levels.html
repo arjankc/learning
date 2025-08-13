@@ -53,6 +53,26 @@
             <button id="toggle-weaknesses" class="button" style="margin-top: 1rem;">📊 Show/Hide Analysis</button>
         </section>
 
+        <section class="card" id="practice-section" style="display: none;">
+            <h2>🔄 Practice Again</h2>
+            <p style="color: #666; margin-bottom: 1rem;">Review and practice questions you've previously answered incorrectly:</p>
+            <div id="practice-stats" style="margin-bottom: 1rem;"></div>
+            <div id="practice-questions-container" style="display: none;">
+                <div id="practice-question" class="quiz-question"></div>
+                <div id="practice-options" class="quiz-options"></div>
+                <div id="practice-result" style="margin-top: 1rem;"></div>
+                <div id="practice-controls" style="margin-top: 1rem; text-align: center;">
+                    <button id="submit-practice" class="btn btn-success" style="display: none;">Check Answer</button>
+                    <button id="next-practice" class="btn btn-warning" style="display: none;">Next Question</button>
+                    <button id="finish-practice" class="btn btn-secondary" style="display: none;">Finish Practice</button>
+                </div>
+            </div>
+            <div id="practice-buttons" style="text-align: center; margin-top: 1rem;">
+                <button id="start-practice" class="btn btn-success">🎯 Start Practice Session</button>
+                <button id="toggle-practice" class="button">📚 Show/Hide Practice Section</button>
+            </div>
+        </section>
+
         <section class="card">
             <h2>All Levels</h2>
             <div id="levels-list"></div>

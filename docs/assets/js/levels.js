@@ -718,6 +718,9 @@ async function initLevelsPage() {
         // Add responsive enhancements
         addResponsiveEnhancements();
         
+        // Initialize practice section
+        initializePracticeSection();
+        
         // Set up weakness detection toggle
         const toggleWeaknessBtn = document.getElementById('toggle-weaknesses');
         if (toggleWeaknessBtn) {
@@ -936,6 +939,18 @@ function renderQuiz(level){
                 concept, 
                 difficulty
             );
+            
+            // Record missed questions for practice mode
+            if (!isCorrect) {
+                window.LearningStorage?.recordMissedQuestion(
+                    window.USER_ID,
+                    level.id,
+                    qi,
+                    q,
+                    chosen,
+                    expected
+                );
+            }
             
             // Visual feedback for each option
             const questionOptions = document.querySelectorAll(`input[name="q_${qi}"]`);
@@ -1208,6 +1223,243 @@ function maybeAwardAchievements(level){
             }
         });
       });
+}
+
+// Practice Again Functionality
+let currentPracticeQuestions = [];
+let currentPracticeIndex = 0;
+let practiceStats = { total: 0, correct: 0 };
+
+function initializePracticeSection() {
+    const practiceSection = document.getElementById('practice-section');
+    const startButton = document.getElementById('start-practice');
+    const toggleButton = document.getElementById('toggle-practice');
+    
+    // Load practice stats
+    updatePracticeStats();
+    
+    // Event listeners
+    startButton?.addEventListener('click', startPracticeSession);
+    toggleButton?.addEventListener('click', togglePracticeSection);
+    
+    document.getElementById('submit-practice')?.addEventListener('click', submitPracticeAnswer);
+    document.getElementById('next-practice')?.addEventListener('click', nextPracticeQuestion);
+    document.getElementById('finish-practice')?.addEventListener('click', finishPracticeSession);
+}
+
+function updatePracticeStats() {
+    const missedQuestions = window.LearningStorage?.getMissedQuestions(window.USER_ID) || [];
+    const practiceStatsEl = document.getElementById('practice-stats');
+    const startButton = document.getElementById('start-practice');
+    
+    if (missedQuestions.length === 0) {
+        practiceStatsEl.innerHTML = `
+            <div style="background: #e8f5e8; padding: 1rem; border-radius: 8px; border-left: 4px solid #4CAF50;">
+                <strong>🎉 Great job!</strong> You have no questions to practice. Keep up the excellent work!
+            </div>
+        `;
+        startButton.disabled = true;
+        startButton.textContent = '✅ No Questions to Practice';
+        startButton.style.opacity = '0.6';
+    } else {
+        practiceStatsEl.innerHTML = `
+            <div style="background: #fff3e0; padding: 1rem; border-radius: 8px; border-left: 4px solid #FF9800;">
+                <strong>📚 Practice Available:</strong> ${missedQuestions.length} questions from previous quizzes<br>
+                <small style="opacity: 0.8;">These are questions you've answered incorrectly or need more practice with.</small>
+            </div>
+        `;
+        startButton.disabled = false;
+        startButton.textContent = '🎯 Start Practice Session';
+        startButton.style.opacity = '1';
+    }
+}
+
+function togglePracticeSection() {
+    const practiceSection = document.getElementById('practice-section');
+    if (practiceSection.style.display === 'none') {
+        practiceSection.style.display = 'block';
+        updatePracticeStats();
+    } else {
+        practiceSection.style.display = 'none';
+    }
+}
+
+function startPracticeSession() {
+    currentPracticeQuestions = window.LearningStorage?.getMissedQuestions(window.USER_ID, 10) || [];
+    
+    if (currentPracticeQuestions.length === 0) {
+        showNotification('No questions available for practice!', 'info');
+        return;
+    }
+    
+    currentPracticeIndex = 0;
+    practiceStats = { total: 0, correct: 0 };
+    
+    // Show practice container and hide start button
+    document.getElementById('practice-questions-container').style.display = 'block';
+    document.getElementById('practice-buttons').style.display = 'none';
+    
+    showPracticeQuestion();
+    showNotification(`🎯 Practice session started! ${currentPracticeQuestions.length} questions to review`, 'success');
+}
+
+function showPracticeQuestion() {
+    if (currentPracticeIndex >= currentPracticeQuestions.length) {
+        finishPracticeSession();
+        return;
+    }
+    
+    const question = currentPracticeQuestions[currentPracticeIndex];
+    const questionEl = document.getElementById('practice-question');
+    const optionsEl = document.getElementById('practice-options');
+    const resultEl = document.getElementById('practice-result');
+    
+    // Clear previous results
+    resultEl.innerHTML = '';
+    
+    // Find the original level to get full question context
+    const level = LevelsData.find(l => l.id === question.levelId);
+    const levelTitle = level ? level.title : `Level ${question.levelId}`;
+    
+    // Display question
+    questionEl.innerHTML = `
+        <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            <div style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">
+                📚 From ${levelTitle} • Question ${currentPracticeIndex + 1} of ${currentPracticeQuestions.length}
+            </div>
+            <h4 style="margin: 0; color: #333;">${question.question}</h4>
+        </div>
+    `;
+    
+    // Display options
+    const isMultiChoice = Array.isArray(question.correctAnswer) && question.correctAnswer.length > 1;
+    const inputType = isMultiChoice ? 'checkbox' : 'radio';
+    
+    let optionsHTML = '<div class="quiz-options">';
+    question.options.forEach((option, index) => {
+        optionsHTML += `
+            <div class="quiz-option practice-option" style="margin: 0.5rem 0; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; cursor: pointer;">
+                <label style="cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
+                    <input type="${inputType}" name="practice_q" value="${index}" style="margin-right: 0.5rem;">
+                    ${option}
+                </label>
+            </div>
+        `;
+    });
+    optionsHTML += '</div>';
+    
+    optionsEl.innerHTML = optionsHTML;
+    
+    // Show submit button, hide others
+    document.getElementById('submit-practice').style.display = 'inline-block';
+    document.getElementById('next-practice').style.display = 'none';
+    document.getElementById('finish-practice').style.display = 'none';
+    
+    // Add click handlers for options
+    document.querySelectorAll('.practice-option').forEach(option => {
+        option.addEventListener('click', () => {
+            const input = option.querySelector('input');
+            if (inputType === 'radio') {
+                document.querySelectorAll('input[name="practice_q"]').forEach(i => i.checked = false);
+            }
+            input.checked = !input.checked;
+        });
+    });
+}
+
+function submitPracticeAnswer() {
+    const question = currentPracticeQuestions[currentPracticeIndex];
+    const selectedOptions = Array.from(document.querySelectorAll('input[name="practice_q"]:checked')).map(i => parseInt(i.value));
+    const correctAnswer = Array.isArray(question.correctAnswer) ? question.correctAnswer : [question.correctAnswer];
+    
+    selectedOptions.sort();
+    const sortedCorrect = [...correctAnswer].sort();
+    
+    const isCorrect = JSON.stringify(selectedOptions) === JSON.stringify(sortedCorrect);
+    practiceStats.total++;
+    if (isCorrect) practiceStats.correct++;
+    
+    // Mark as practiced
+    window.LearningStorage?.markQuestionPracticed(
+        window.USER_ID,
+        question.levelId,
+        question.questionIndex,
+        isCorrect
+    );
+    
+    // Show visual feedback
+    document.querySelectorAll('.practice-option').forEach((option, index) => {
+        const isSelected = selectedOptions.includes(index);
+        const isExpected = correctAnswer.includes(index);
+        
+        if (isExpected) {
+            option.style.background = '#e8f5e8';
+            option.style.borderColor = '#4caf50';
+        } else if (isSelected && !isExpected) {
+            option.style.background = '#ffebee';
+            option.style.borderColor = '#f44336';
+        }
+    });
+    
+    // Show result
+    const resultEl = document.getElementById('practice-result');
+    if (isCorrect) {
+        resultEl.innerHTML = `
+            <div style="background: #e8f5e8; padding: 1rem; border-radius: 8px; border-left: 4px solid #4CAF50;">
+                <strong>✅ Correct!</strong> Great job! You've mastered this question.
+            </div>
+        `;
+    } else {
+        const correctOptionsText = correctAnswer.map(i => question.options[i]).join(', ');
+        resultEl.innerHTML = `
+            <div style="background: #ffebee; padding: 1rem; border-radius: 8px; border-left: 4px solid #f44336;">
+                <strong>❌ Incorrect.</strong> The correct answer${correctAnswer.length > 1 ? 's are' : ' is'}: <strong>${correctOptionsText}</strong><br>
+                <small style="opacity: 0.8;">Don't worry! Keep practicing and you'll get it next time.</small>
+            </div>
+        `;
+    }
+    
+    // Update button visibility
+    document.getElementById('submit-practice').style.display = 'none';
+    if (currentPracticeIndex < currentPracticeQuestions.length - 1) {
+        document.getElementById('next-practice').style.display = 'inline-block';
+    } else {
+        document.getElementById('finish-practice').style.display = 'inline-block';
+    }
+}
+
+function nextPracticeQuestion() {
+    currentPracticeIndex++;
+    showPracticeQuestion();
+}
+
+function finishPracticeSession() {
+    const accuracy = practiceStats.total > 0 ? Math.round((practiceStats.correct / practiceStats.total) * 100) : 0;
+    
+    document.getElementById('practice-questions-container').style.display = 'none';
+    document.getElementById('practice-buttons').style.display = 'block';
+    
+    // Show completion message
+    let message = '';
+    if (accuracy >= 80) {
+        message = `🎉 Excellent! ${accuracy}% (${practiceStats.correct}/${practiceStats.total})`;
+    } else if (accuracy >= 60) {
+        message = `👍 Good progress! ${accuracy}% (${practiceStats.correct}/${practiceStats.total})`;
+    } else {
+        message = `📚 Keep practicing! ${accuracy}% (${practiceStats.correct}/${practiceStats.total})`;
+    }
+    
+    showNotification(`Practice session complete! ${message}`, 'success');
+    
+    // Update stats
+    updatePracticeStats();
+    
+    // Award some XP for practice
+    if (practiceStats.total > 0) {
+        const xpAwarded = Math.max(1, Math.floor(practiceStats.total * 0.5)); // 0.5 XP per question
+        window.LearningStorage?.addXp(window.USER_ID, xpAwarded);
+        showNotification(`+${xpAwarded} XP earned for practice!`, 'info');
+    }
 }
 
 function maybeAwardQuizAchievements(level, score){

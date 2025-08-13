@@ -69,6 +69,71 @@ function recordQuizAttempt(userId, levelId, questionIndex, isCorrect, concept, d
     saveProgress(userId, { quizAttempts: attempts });
 }
 
+function recordMissedQuestion(userId, levelId, questionIndex, question, userAnswer, correctAnswer) {
+    const progress = getUserProgress(userId);
+    const missedQuestions = progress.missedQuestions || [];
+    
+    const missedQuestion = {
+        levelId,
+        questionIndex,
+        question: question.q,
+        options: question.options,
+        userAnswer,
+        correctAnswer,
+        timestamp: Date.now(),
+        practiced: false,
+        practicedCorrectly: false
+    };
+    
+    // Check if this question is already in missed questions
+    const existingIndex = missedQuestions.findIndex(mq => 
+        mq.levelId === levelId && mq.questionIndex === questionIndex
+    );
+    
+    if (existingIndex >= 0) {
+        // Update existing entry
+        missedQuestions[existingIndex] = { ...missedQuestions[existingIndex], ...missedQuestion };
+    } else {
+        // Add new missed question
+        missedQuestions.push(missedQuestion);
+    }
+    
+    // Keep only last 200 missed questions to prevent storage bloat
+    if (missedQuestions.length > 200) {
+        missedQuestions.splice(0, missedQuestions.length - 200);
+    }
+    
+    saveProgress(userId, { missedQuestions });
+}
+
+function getMissedQuestions(userId, limit = 20) {
+    const progress = getUserProgress(userId);
+    const missedQuestions = progress.missedQuestions || [];
+    
+    // Return unpracticed or incorrectly practiced questions, most recent first
+    return missedQuestions
+        .filter(mq => !mq.practiced || !mq.practicedCorrectly)
+        .sort((a, b) => b.timestamp - a.timestamp)
+        .slice(0, limit);
+}
+
+function markQuestionPracticed(userId, levelId, questionIndex, practicedCorrectly) {
+    const progress = getUserProgress(userId);
+    const missedQuestions = progress.missedQuestions || [];
+    
+    const questionIndex_found = missedQuestions.findIndex(mq => 
+        mq.levelId === levelId && mq.questionIndex === questionIndex
+    );
+    
+    if (questionIndex_found >= 0) {
+        missedQuestions[questionIndex_found].practiced = true;
+        missedQuestions[questionIndex_found].practicedCorrectly = practicedCorrectly;
+        missedQuestions[questionIndex_found].lastPracticed = Date.now();
+        
+        saveProgress(userId, { missedQuestions });
+    }
+}
+
 function getWeaknesses(userId) {
     const progress = getUserProgress(userId);
     const attempts = progress.quizAttempts || [];
@@ -188,7 +253,10 @@ window.LearningStorage = {
     getUnlockedAchievements: function(userId){
         const progress = getUserProgress(userId);
         return new Set(progress.unlockedAchievements || []);
-    }
+    },
+    recordMissedQuestion,
+    getMissedQuestions,
+    markQuestionPracticed
 };
 
 // Example usage
