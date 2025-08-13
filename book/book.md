@@ -538,21 +538,45 @@ async IAsyncEnumerable<int> Tick(int intervalMs, [EnumeratorCancellation] Cancel
 
 # Common Language Runtime (CLR)
 
+The CLR is the virtual machine that runs .NET code. It loads assemblies, verifies IL, JIT-compiles methods to native code, and manages memory and execution.
+
 ## Role of CLR
-- Executes .NET code (IL -> native) via Just-In-Time (JIT) compilation.
-- Provides memory management (GC), type safety, security, and exceptions.
+- IL → native via Just-In-Time (JIT) compilation with tiered compilation (fast Tier0 → optimized Tier1).
+- Memory management with a generational, concurrent, compacting Garbage Collector.
+- Type safety, verification, security boundaries, exception handling.
 
 ## Key Services
-- Garbage Collection (automatic memory reclamation)
-- JIT Compilation and Tiered JIT
-- Type System and Metadata
-- Assemblies and AppDomains (historical) / AssemblyLoadContext (modern)
+- Garbage Collection: Generations (0/1/2), Large Object Heap (LOH), Server vs Workstation GC, Background GC.
+- JIT: Tiered JIT, ReadyToRun (AOT-like precompiled IL), PGO (profile-guided optimization).
+- Type System & Metadata: reflection, attributes, runtime type info (RTTI).
+- Loading & Isolation: Assemblies, AssemblyLoadContext (plugin isolation), single-file publish.
 
-## Why It Matters
-Performance, safety, interoperability, and deployment behavior all depend on CLR services.
+## Practical effects
+- Startup vs throughput: tiered JIT improves startup with later optimizations.
+- Allocation patterns matter: short-lived objects die young (Gen0) → cheap; avoid LOH fragmentation.
+- Exceptions are expensive when thrown; using them for control flow hurts performance.
+
+## Interop (brief)
+- P/Invoke to call native functions; `DllImport` attribute defines the boundary.
+```csharp
+using System.Runtime.InteropServices;
+
+static class Native
+{
+	[DllImport("kernel32.dll")]
+	public static extern void Sleep(uint dwMilliseconds);
+}
+
+Native.Sleep(100);
+```
+
+## Diagnostics hooks
+- ETW/EventPipe (dotnet-trace), dotnet-counters, dotnet-gcdump, PerfView.
+- In-process: `GC.GetTotalMemory`, `GC.TryStartNoGCRegion`, `Activity` for tracing.
 
 ## Read More
 - https://learn.microsoft.com/dotnet/standard/clr
+- https://learn.microsoft.com/dotnet/standard/garbage-collection/
 
 
 <div class="page-break"></div>
@@ -564,16 +588,42 @@ Performance, safety, interoperability, and deployment behavior all depend on CLR
 
 # .NET Framework Class Library (BCL/FCL)
 
-## What It Is
-The foundational library of types for collections, IO, networking, threading, etc.
+The BCL/FCL is the standard library for .NET: collections, IO, networking, threading, numerics, etc. Learn its surface area to avoid reinventing wheels.
 
-## Common Namespaces
-- System, System.Collections.Generic
-- System.IO, System.Net.Http
-- System.Threading, System.Threading.Tasks
+## Common namespaces and anchors
+- System, System.Collections.Generic (List<T>, Dictionary<TKey,TValue>, HashSet<T>)
+- System.Linq (operators for querying in-memory collections)
+- System.IO (File, Directory, streams)
+- System.Net.Http (HttpClient)
+- System.Text.Json (JSON serialization)
+- System.Threading / Tasks (Task, CancellationToken)
+
+## Handy examples
+```csharp
+// Collections
+var counts = new Dictionary<string,int>(StringComparer.OrdinalIgnoreCase);
+foreach (var w in new[] { "a", "b", "A" }) counts[w] = counts.GetValueOrDefault(w) + 1;
+
+// IO
+File.WriteAllText("demo.txt", "hello");
+var text = File.ReadAllText("demo.txt");
+
+// LINQ
+var evens = Enumerable.Range(1, 10).Where(n => n % 2 == 0).ToArray();
+
+// JSON
+var json = System.Text.Json.JsonSerializer.Serialize(new { Name = "Ada" });
+var obj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string,string>>(json);
+
+// Tasks & cancellation
+using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
+try { await Task.Delay(5000, cts.Token); }
+catch (TaskCanceledException) { /* expected */ }
+```
 
 ## Tips
-Prefer BCL types before third-party libraries; they’re well-tested and supported.
+- Prefer BCL types first; they’re well-tested and supported across runtimes.
+- Check for `TryXxx` methods to avoid exceptions for common failure paths.
 
 ## Read More
 - https://learn.microsoft.com/dotnet/standard/class-library-overview
@@ -589,15 +639,23 @@ Prefer BCL types before third-party libraries; they’re well-tested and support
 # IDE Setup (Visual Studio / VS Code)
 
 ## VS Code
-- Install C# Dev Kit extension (and dependencies).
-- Use dotnet SDK (https://dotnet.microsoft.com/download).
+- Install C# Dev Kit and .NET Runtime extension pack.
+- Ensure .NET SDK installed: `dotnet --info`.
+- Create a project: `dotnet new console -n Hello` → build/run: `dotnet run`.
 
 ## Visual Studio
-- Install the ".NET desktop development" and ".NET Web" workloads as needed.
+- Workloads: “.NET desktop development”, “ASP.NET and web development”.
+- Use Solution Explorer, launch profiles, integrated test runner, and code analyzers.
 
-## Tips
-- Enable nullable reference types in projects for safer code.
-- Use formatters and analyzers (EditorConfig, Roslyn analyzers).
+## Project configuration tips
+- Nullable references: `<Nullable>enable</Nullable>` for safer APIs.
+- Implicit usings: `<ImplicitUsings>enable</ImplicitUsings>` reduces boilerplate.
+- Treat warnings as errors in CI: `<TreatWarningsAsErrors>true</TreatWarningsAsErrors>`.
+- Add analyzers: StyleCop/IDEs, or enable Microsoft.CodeAnalysis.NetAnalyzers.
+
+## CLI essentials
+- `dotnet new`, `dotnet add package`, `dotnet build`, `dotnet test`, `dotnet publish`.
+- `dotnet watch run` for hot reload during development.
 
 ## Read More
 - https://learn.microsoft.com/dotnet/core/tutorials/with-visual-studio
@@ -887,13 +945,58 @@ Console.WriteLine(a == b); // true (value-based)
 
 # Built-in Collections
 
-## Core Types
-- Arrays, List<T>, Dictionary<TKey,TValue>
-- HashSet<T>, Queue<T>, Stack<T>
-- Concurrent collections for multi-threading scenarios
+Choose the right structure for performance and clarity. Know the complexity and common pitfalls.
 
-## Selection Tips
-- List for ordered lists; Dictionary for key lookups; HashSet for uniqueness.
+## Core types and when to use
+- Array (T[]): fixed size, contiguous memory, fastest indexing.
+- List<T>: dynamic array, amortized O(1) append, O(1) index.
+- Dictionary<TKey,TValue>: hash map, O(1) average lookup/insert.
+- HashSet<T>: uniqueness set, O(1) average contains/add.
+- Queue<T>, Stack<T>: FIFO/LIFO with O(1) enqueue/dequeue/push/pop.
+- LinkedList<T>: O(1) insert/remove with node, O(n) indexing; niche use.
+- Concurrent collections: thread-safe data structures for multi-producer/consumer.
+
+## Idiomatic examples
+```csharp
+// List
+var nums = new List<int> { 1, 2, 3 };
+nums.Add(4);
+nums.RemoveAll(n => n % 2 == 0); // 1,3
+
+// Dictionary
+var counts = new Dictionary<string,int>(StringComparer.OrdinalIgnoreCase);
+foreach (var w in new[] { "A", "b", "a" })
+	counts[w] = counts.GetValueOrDefault(w) + 1;
+
+// HashSet
+var unique = new HashSet<int> { 1, 2, 2, 3 }; // 1,2,3
+
+// Queue/Stack
+var q = new Queue<string>(); q.Enqueue("first"); q.Enqueue("second"); var head = q.Dequeue();
+var s = new Stack<string>(); s.Push("x"); s.Push("y"); var top = s.Pop();
+```
+
+## Concurrent collections
+```csharp
+var bag = new System.Collections.Concurrent.ConcurrentBag<int>();
+Parallel.For(0, 1000, bag.Add);
+int count = bag.Count; // thread-safe aggregation pattern differs
+
+var queue = new System.Collections.Concurrent.BlockingCollection<int>();
+var prod = Task.Run(() => { for (int i = 0; i < 10; i++) queue.Add(i); queue.CompleteAdding(); });
+var cons = Task.Run(() => { foreach (var item in queue.GetConsumingEnumerable()) Console.WriteLine(item); });
+await Task.WhenAll(prod, cons);
+```
+
+## Complexity cheatsheet (typical)
+- List<T>: index O(1), append amortized O(1), remove by value O(n).
+- Dictionary/HashSet: add/contains O(1) average; O(n) worst-case.
+- Queue/Stack: O(1) enqueue/dequeue/push/pop.
+
+## Tips
+- Prefer `TryGetValue`/`GetValueOrDefault` to avoid exceptions on missing keys.
+- Use `StringComparer.OrdinalIgnoreCase` when keys are case-insensitive.
+- Avoid repeated `List<T>.Remove(item)` in a loop; filter with `Where`/`RemoveAll`.
 
 ## Read More
 - https://learn.microsoft.com/dotnet/standard/collections/
@@ -908,11 +1011,46 @@ Console.WriteLine(a == b); // true (value-based)
 
 # Custom Collections
 
-## Implementing IEnumerable
-Expose sequences safely; favor yield for lazy iteration.
+Implementing custom collections lets you enforce invariants and expose efficient operations. Prefer composition and interfaces.
 
-## Implementing IList<T>
-Provide indexable, mutable collections when needed—consider complexity and invariants.
+## Implementing IEnumerable<T>
+```csharp
+public sealed class EvenNumbers : IEnumerable<int>
+{
+	private readonly int _limit;
+	public EvenNumbers(int limit) => _limit = limit;
+	public IEnumerator<int> GetEnumerator() => Iterator();
+	System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
+	private IEnumerator<int> Iterator()
+	{
+		for (int i = 0; i <= _limit; i += 2)
+			yield return i;
+	}
+}
+```
+
+## Implementing IList<T> (sketch)
+```csharp
+public class BoundedList<T> : IList<T>
+{
+	private readonly List<T> _inner = new();
+	public int Capacity { get; }
+	public BoundedList(int capacity) => Capacity = capacity;
+	public T this[int index] { get => _inner[index]; set => _inner[index] = value; }
+	public int Count => _inner.Count;
+	public bool IsReadOnly => false;
+	public void Add(T item) { if (Count >= Capacity) throw new InvalidOperationException("Full"); _inner.Add(item); }
+	public void Clear() => _inner.Clear();
+	public bool Contains(T item) => _inner.Contains(item);
+	public void CopyTo(T[] array, int arrayIndex) => _inner.CopyTo(array, arrayIndex);
+	public IEnumerator<T> GetEnumerator() => _inner.GetEnumerator();
+	public int IndexOf(T item) => _inner.IndexOf(item);
+	public void Insert(int index, T item) { if (Count >= Capacity) throw new InvalidOperationException("Full"); _inner.Insert(index, item); }
+	public bool Remove(T item) => _inner.Remove(item);
+	public void RemoveAt(int index) => _inner.RemoveAt(index);
+	System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => _inner.GetEnumerator();
+}
+```
 
 ## Read More
 - https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
@@ -928,13 +1066,51 @@ Provide indexable, mutable collections when needed—consider complexity and inv
 
 # Exception Handling
 
-## Principles
-- Use exceptions for exceptional conditions, not flow control.
-- try/catch/finally for handling and cleanup.
+Exceptions represent exceptional, non-expected paths. Use them to signal failure, not for normal branching.
 
-## Guidance
-- Catch only what you can handle.
-- Preserve stack traces; include context in messages.
+## Basics: try/catch/finally
+```csharp
+try
+{
+	using var stream = File.OpenRead("config.json");
+	// work with stream
+}
+catch (FileNotFoundException ex)
+{
+	Console.Error.WriteLine($"Missing config: {ex.FileName}");
+}
+catch (IOException ex) when (ex.HResult == -2147024864) // example of filter (file in use)
+{
+	Console.Error.WriteLine("File is locked.");
+}
+catch (Exception ex)
+{
+	Console.Error.WriteLine($"Unexpected: {ex}");
+	throw; // rethrow preserving stack trace
+}
+finally
+{
+	// cleanup that must always run
+}
+```
+
+## Best practices
+- Catch narrowly; let higher layers handle what they own.
+- Use exception filters (`catch (X ex) when (...)`) to avoid partial state changes.
+- Don’t swallow exceptions silently; log with context.
+- Prefer `TryXxx` patterns (e.g., `int.TryParse`) when failure is expected.
+
+## Creating error context
+```csharp
+try
+{
+	ProcessOrder(orderId);
+}
+catch (OrderStorageException ex)
+{
+	throw new OrderProcessingException($"Could not process order {orderId}", ex);
+}
+```
 
 ## Read More
 - https://learn.microsoft.com/dotnet/csharp/fundamentals/exceptions/
@@ -949,12 +1125,28 @@ Provide indexable, mutable collections when needed—consider complexity and inv
 
 # Custom Exceptions
 
-## When to Create One
-- To represent domain-specific error conditions.
+Define custom exceptions to convey domain-specific failures and enable precise handling.
 
-## Best Practices
-- Derive from Exception (or a relevant subclass).
-- Be serializable; include useful constructors.
+## Template
+```csharp
+[Serializable]
+public class OrderProcessingException : Exception
+{
+	public string? OrderId { get; }
+	public OrderProcessingException() { }
+	public OrderProcessingException(string message) : base(message) { }
+	public OrderProcessingException(string message, Exception inner) : base(message, inner) { }
+	public OrderProcessingException(string message, string orderId) : base(message) => OrderId = orderId;
+	protected OrderProcessingException(System.Runtime.Serialization.SerializationInfo info,
+									   System.Runtime.Serialization.StreamingContext context)
+		: base(info, context) { }
+}
+```
+
+## Tips
+- Name them clearly; include meaningful properties (like identifiers).
+- Preserve inner exceptions; they’re essential for root-cause analysis.
+- Avoid throwing exceptions for control flow; use `TryXxx` when failure is common.
 
 ## Read More
 - https://learn.microsoft.com/dotnet/standard/exceptions/how-to-create-user-defined-exceptions
@@ -969,12 +1161,28 @@ Provide indexable, mutable collections when needed—consider complexity and inv
 
 # Debugging Techniques
 
-## Tools
-- Breakpoints, Watches, Locals, Call Stack, Immediate Window.
-- Logging for post-mortem analysis.
+Debugging is about fast feedback and narrowing hypotheses.
 
-## Tips
-- Reproduce reliably; binary search the fault; isolate changes.
+## Core tools
+- Breakpoints (conditions, hit counts), data tips, watch/locals, call stack, step-into/out/over.
+- Edit and Continue, exception settings (break on thrown/unhandled).
+
+## Logging
+```csharp
+using Microsoft.Extensions.Logging;
+
+using var loggerFactory = LoggerFactory.Create(b => b.AddSimpleConsole().SetMinimumLevel(LogLevel.Debug));
+var logger = loggerFactory.CreateLogger("Demo");
+logger.LogInformation("Starting module {Module}", "X");
+```
+
+## Tactics
+- Reproduce deterministically; reduce the surface (disable concurrency, mock IO).
+- Bisect changes (git); add asserts for invariants.
+- Capture context: inputs, environment, timing, correlation IDs.
+
+## Performance debugging
+- dotnet-trace/dotnet-counters; sampling profilers; memory dumps (dotnet-gcdump).
 
 ## Read More
 - https://learn.microsoft.com/visualstudio/debugger/debugger-feature-tour

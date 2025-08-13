@@ -484,38 +484,90 @@ var firstFiveSquares = Squares(Range(1, 5)); // 1, 4, 9, 16, 25
 <hr />
 <h1 id="common-language-runtime-clr">Common Language Runtime (CLR)</h1>
 <h1 id="common-language-runtime-clr-1">Common Language Runtime (CLR)</h1>
+<p>The CLR is the virtual machine that runs .NET code. It loads assemblies, verifies IL, JIT-compiles methods to native code, and manages memory and execution.</p>
 <h2 id="role-of-clr">Role of CLR</h2>
 <ul>
-<li>Executes .NET code (IL -&gt; native) via Just-In-Time (JIT) compilation.</li>
-<li>Provides memory management (GC), type safety, security, and exceptions.</li>
+<li>IL → native via Just-In-Time (JIT) compilation with tiered compilation (fast Tier0 → optimized Tier1).</li>
+<li>Memory management with a generational, concurrent, compacting Garbage Collector.</li>
+<li>Type safety, verification, security boundaries, exception handling.</li>
 </ul>
 <h2 id="key-services">Key Services</h2>
 <ul>
-<li>Garbage Collection (automatic memory reclamation)</li>
-<li>JIT Compilation and Tiered JIT</li>
-<li>Type System and Metadata</li>
-<li>Assemblies and AppDomains (historical) / AssemblyLoadContext (modern)</li>
+<li>Garbage Collection: Generations (0/1/2), Large Object Heap (LOH), Server vs Workstation GC, Background GC.</li>
+<li>JIT: Tiered JIT, ReadyToRun (AOT-like precompiled IL), PGO (profile-guided optimization).</li>
+<li>Type System &amp; Metadata: reflection, attributes, runtime type info (RTTI).</li>
+<li>Loading &amp; Isolation: Assemblies, AssemblyLoadContext (plugin isolation), single-file publish.</li>
 </ul>
-<h2 id="why-it-matters">Why It Matters</h2>
-<p>Performance, safety, interoperability, and deployment behavior all depend on CLR services.</p>
+<h2 id="practical-effects">Practical effects</h2>
+<ul>
+<li>Startup vs throughput: tiered JIT improves startup with later optimizations.</li>
+<li>Allocation patterns matter: short-lived objects die young (Gen0) → cheap; avoid LOH fragmentation.</li>
+<li>Exceptions are expensive when thrown; using them for control flow hurts performance.</li>
+</ul>
+<h2 id="interop-brief">Interop (brief)</h2>
+<ul>
+<li>P/Invoke to call native functions; <code>DllImport</code> attribute defines the boundary.</li>
+</ul>
+<pre><code class="language-csharp">using System.Runtime.InteropServices;
+
+static class Native
+{
+	[DllImport(&quot;kernel32.dll&quot;)]
+	public static extern void Sleep(uint dwMilliseconds);
+}
+
+Native.Sleep(100);
+</code></pre>
+<h2 id="diagnostics-hooks">Diagnostics hooks</h2>
+<ul>
+<li>ETW/EventPipe (dotnet-trace), dotnet-counters, dotnet-gcdump, PerfView.</li>
+<li>In-process: <code>GC.GetTotalMemory</code>, <code>GC.TryStartNoGCRegion</code>, <code>Activity</code> for tracing.</li>
+</ul>
 <h2 id="read-more-4">Read More</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/dotnet/standard/clr">https://learn.microsoft.com/dotnet/standard/clr</a></li>
+<li><a href="https://learn.microsoft.com/dotnet/standard/garbage-collection/">https://learn.microsoft.com/dotnet/standard/garbage-collection/</a></li>
 </ul>
 <div class="page-break"></div>
 <hr />
 <h1 id="net-framework-class-library-bclfcl">.NET Framework Class Library (BCL/FCL)</h1>
 <h1 id="net-framework-class-library-bclfcl-1">.NET Framework Class Library (BCL/FCL)</h1>
-<h2 id="what-it-is">What It Is</h2>
-<p>The foundational library of types for collections, IO, networking, threading, etc.</p>
-<h2 id="common-namespaces">Common Namespaces</h2>
+<p>The BCL/FCL is the standard library for .NET: collections, IO, networking, threading, numerics, etc. Learn its surface area to avoid reinventing wheels.</p>
+<h2 id="common-namespaces-and-anchors">Common namespaces and anchors</h2>
 <ul>
-<li>System, System.Collections.Generic</li>
-<li>System.IO, System.Net.Http</li>
-<li>System.Threading, System.Threading.Tasks</li>
+<li>System, System.Collections.Generic (List<T>, Dictionary&lt;TKey,TValue&gt;, HashSet<T>)</li>
+<li>System.Linq (operators for querying in-memory collections)</li>
+<li>System.IO (File, Directory, streams)</li>
+<li>System.Net.Http (HttpClient)</li>
+<li>System.Text.Json (JSON serialization)</li>
+<li>System.Threading / Tasks (Task, CancellationToken)</li>
 </ul>
+<h2 id="handy-examples">Handy examples</h2>
+<pre><code class="language-csharp">// Collections
+var counts = new Dictionary&lt;string,int&gt;(StringComparer.OrdinalIgnoreCase);
+foreach (var w in new[] { &quot;a&quot;, &quot;b&quot;, &quot;A&quot; }) counts[w] = counts.GetValueOrDefault(w) + 1;
+
+// IO
+File.WriteAllText(&quot;demo.txt&quot;, &quot;hello&quot;);
+var text = File.ReadAllText(&quot;demo.txt&quot;);
+
+// LINQ
+var evens = Enumerable.Range(1, 10).Where(n =&gt; n % 2 == 0).ToArray();
+
+// JSON
+var json = System.Text.Json.JsonSerializer.Serialize(new { Name = &quot;Ada&quot; });
+var obj = System.Text.Json.JsonSerializer.Deserialize&lt;Dictionary&lt;string,string&gt;&gt;(json);
+
+// Tasks &amp; cancellation
+using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
+try { await Task.Delay(5000, cts.Token); }
+catch (TaskCanceledException) { /* expected */ }
+</code></pre>
 <h2 id="tips">Tips</h2>
-<p>Prefer BCL types before third-party libraries; they’re well-tested and supported.</p>
+<ul>
+<li>Prefer BCL types first; they’re well-tested and supported across runtimes.</li>
+<li>Check for <code>TryXxx</code> methods to avoid exceptions for common failure paths.</li>
+</ul>
 <h2 id="read-more-5">Read More</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/dotnet/standard/class-library-overview">https://learn.microsoft.com/dotnet/standard/class-library-overview</a></li>
@@ -526,17 +578,26 @@ var firstFiveSquares = Squares(Range(1, 5)); // 1, 4, 9, 16, 25
 <h1 id="ide-setup-visual-studio-vs-code-1">IDE Setup (Visual Studio / VS Code)</h1>
 <h2 id="vs-code">VS Code</h2>
 <ul>
-<li>Install C# Dev Kit extension (and dependencies).</li>
-<li>Use dotnet SDK (<a href="https://dotnet.microsoft.com/download">https://dotnet.microsoft.com/download</a>).</li>
+<li>Install C# Dev Kit and .NET Runtime extension pack.</li>
+<li>Ensure .NET SDK installed: <code>dotnet --info</code>.</li>
+<li>Create a project: <code>dotnet new console -n Hello</code> → build/run: <code>dotnet run</code>.</li>
 </ul>
 <h2 id="visual-studio">Visual Studio</h2>
 <ul>
-<li>Install the &quot;.NET desktop development&quot; and &quot;.NET Web&quot; workloads as needed.</li>
+<li>Workloads: “.NET desktop development”, “ASP.NET and web development”.</li>
+<li>Use Solution Explorer, launch profiles, integrated test runner, and code analyzers.</li>
 </ul>
-<h2 id="tips-1">Tips</h2>
+<h2 id="project-configuration-tips">Project configuration tips</h2>
 <ul>
-<li>Enable nullable reference types in projects for safer code.</li>
-<li>Use formatters and analyzers (EditorConfig, Roslyn analyzers).</li>
+<li>Nullable references: <code>&lt;Nullable&gt;enable&lt;/Nullable&gt;</code> for safer APIs.</li>
+<li>Implicit usings: <code>&lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;</code> reduces boilerplate.</li>
+<li>Treat warnings as errors in CI: <code>&lt;TreatWarningsAsErrors&gt;true&lt;/TreatWarningsAsErrors&gt;</code>.</li>
+<li>Add analyzers: StyleCop/IDEs, or enable Microsoft.CodeAnalysis.NetAnalyzers.</li>
+</ul>
+<h2 id="cli-essentials">CLI essentials</h2>
+<ul>
+<li><code>dotnet new</code>, <code>dotnet add package</code>, <code>dotnet build</code>, <code>dotnet test</code>, <code>dotnet publish</code>.</li>
+<li><code>dotnet watch run</code> for hot reload during development.</li>
 </ul>
 <h2 id="read-more-6">Read More</h2>
 <ul>
@@ -777,15 +838,56 @@ Console.WriteLine(a == b); // true (value-based)
 <hr />
 <h1 id="built-in-collections">Built-in Collections</h1>
 <h1 id="built-in-collections-1">Built-in Collections</h1>
-<h2 id="core-types">Core Types</h2>
+<p>Choose the right structure for performance and clarity. Know the complexity and common pitfalls.</p>
+<h2 id="core-types-and-when-to-use">Core types and when to use</h2>
 <ul>
-<li>Arrays, List<T>, Dictionary&lt;TKey,TValue&gt;</li>
-<li>HashSet<T>, Queue<T>, Stack<T></li>
-<li>Concurrent collections for multi-threading scenarios</li>
+<li>Array (T[]): fixed size, contiguous memory, fastest indexing.</li>
+<li>List<T>: dynamic array, amortized O(1) append, O(1) index.</li>
+<li>Dictionary&lt;TKey,TValue&gt;: hash map, O(1) average lookup/insert.</li>
+<li>HashSet<T>: uniqueness set, O(1) average contains/add.</li>
+<li>Queue<T>, Stack<T>: FIFO/LIFO with O(1) enqueue/dequeue/push/pop.</li>
+<li>LinkedList<T>: O(1) insert/remove with node, O(n) indexing; niche use.</li>
+<li>Concurrent collections: thread-safe data structures for multi-producer/consumer.</li>
 </ul>
-<h2 id="selection-tips">Selection Tips</h2>
+<h2 id="idiomatic-examples">Idiomatic examples</h2>
+<pre><code class="language-csharp">// List
+var nums = new List&lt;int&gt; { 1, 2, 3 };
+nums.Add(4);
+nums.RemoveAll(n =&gt; n % 2 == 0); // 1,3
+
+// Dictionary
+var counts = new Dictionary&lt;string,int&gt;(StringComparer.OrdinalIgnoreCase);
+foreach (var w in new[] { &quot;A&quot;, &quot;b&quot;, &quot;a&quot; })
+	counts[w] = counts.GetValueOrDefault(w) + 1;
+
+// HashSet
+var unique = new HashSet&lt;int&gt; { 1, 2, 2, 3 }; // 1,2,3
+
+// Queue/Stack
+var q = new Queue&lt;string&gt;(); q.Enqueue(&quot;first&quot;); q.Enqueue(&quot;second&quot;); var head = q.Dequeue();
+var s = new Stack&lt;string&gt;(); s.Push(&quot;x&quot;); s.Push(&quot;y&quot;); var top = s.Pop();
+</code></pre>
+<h2 id="concurrent-collections">Concurrent collections</h2>
+<pre><code class="language-csharp">var bag = new System.Collections.Concurrent.ConcurrentBag&lt;int&gt;();
+Parallel.For(0, 1000, bag.Add);
+int count = bag.Count; // thread-safe aggregation pattern differs
+
+var queue = new System.Collections.Concurrent.BlockingCollection&lt;int&gt;();
+var prod = Task.Run(() =&gt; { for (int i = 0; i &lt; 10; i++) queue.Add(i); queue.CompleteAdding(); });
+var cons = Task.Run(() =&gt; { foreach (var item in queue.GetConsumingEnumerable()) Console.WriteLine(item); });
+await Task.WhenAll(prod, cons);
+</code></pre>
+<h2 id="complexity-cheatsheet-typical">Complexity cheatsheet (typical)</h2>
 <ul>
-<li>List for ordered lists; Dictionary for key lookups; HashSet for uniqueness.</li>
+<li>List<T>: index O(1), append amortized O(1), remove by value O(n).</li>
+<li>Dictionary/HashSet: add/contains O(1) average; O(n) worst-case.</li>
+<li>Queue/Stack: O(1) enqueue/dequeue/push/pop.</li>
+</ul>
+<h2 id="tips-1">Tips</h2>
+<ul>
+<li>Prefer <code>TryGetValue</code>/<code>GetValueOrDefault</code> to avoid exceptions on missing keys.</li>
+<li>Use <code>StringComparer.OrdinalIgnoreCase</code> when keys are case-insensitive.</li>
+<li>Avoid repeated <code>List&lt;T&gt;.Remove(item)</code> in a loop; filter with <code>Where</code>/<code>RemoveAll</code>.</li>
 </ul>
 <h2 id="read-more-10">Read More</h2>
 <ul>
@@ -795,10 +897,42 @@ Console.WriteLine(a == b); // true (value-based)
 <hr />
 <h1 id="custom-collections">Custom Collections</h1>
 <h1 id="custom-collections-1">Custom Collections</h1>
-<h2 id="implementing-ienumerable">Implementing IEnumerable</h2>
-<p>Expose sequences safely; favor yield for lazy iteration.</p>
-<h2 id="implementing-ilist">Implementing IList<T></h2>
-<p>Provide indexable, mutable collections when needed—consider complexity and invariants.</p>
+<p>Implementing custom collections lets you enforce invariants and expose efficient operations. Prefer composition and interfaces.</p>
+<h2 id="implementing-ienumerable">Implementing IEnumerable<T></h2>
+<pre><code class="language-csharp">public sealed class EvenNumbers : IEnumerable&lt;int&gt;
+{
+	private readonly int _limit;
+	public EvenNumbers(int limit) =&gt; _limit = limit;
+	public IEnumerator&lt;int&gt; GetEnumerator() =&gt; Iterator();
+	System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() =&gt; GetEnumerator();
+	private IEnumerator&lt;int&gt; Iterator()
+	{
+		for (int i = 0; i &lt;= _limit; i += 2)
+			yield return i;
+	}
+}
+</code></pre>
+<h2 id="implementing-ilist-sketch">Implementing IList<T> (sketch)</h2>
+<pre><code class="language-csharp">public class BoundedList&lt;T&gt; : IList&lt;T&gt;
+{
+	private readonly List&lt;T&gt; _inner = new();
+	public int Capacity { get; }
+	public BoundedList(int capacity) =&gt; Capacity = capacity;
+	public T this[int index] { get =&gt; _inner[index]; set =&gt; _inner[index] = value; }
+	public int Count =&gt; _inner.Count;
+	public bool IsReadOnly =&gt; false;
+	public void Add(T item) { if (Count &gt;= Capacity) throw new InvalidOperationException(&quot;Full&quot;); _inner.Add(item); }
+	public void Clear() =&gt; _inner.Clear();
+	public bool Contains(T item) =&gt; _inner.Contains(item);
+	public void CopyTo(T[] array, int arrayIndex) =&gt; _inner.CopyTo(array, arrayIndex);
+	public IEnumerator&lt;T&gt; GetEnumerator() =&gt; _inner.GetEnumerator();
+	public int IndexOf(T item) =&gt; _inner.IndexOf(item);
+	public void Insert(int index, T item) { if (Count &gt;= Capacity) throw new InvalidOperationException(&quot;Full&quot;); _inner.Insert(index, item); }
+	public bool Remove(T item) =&gt; _inner.Remove(item);
+	public void RemoveAt(int index) =&gt; _inner.RemoveAt(index);
+	System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() =&gt; _inner.GetEnumerator();
+}
+</code></pre>
 <h2 id="read-more-11">Read More</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1</a></li>
@@ -808,16 +942,48 @@ Console.WriteLine(a == b); // true (value-based)
 <hr />
 <h1 id="exception-handling">Exception Handling</h1>
 <h1 id="exception-handling-1">Exception Handling</h1>
-<h2 id="principles">Principles</h2>
+<p>Exceptions represent exceptional, non-expected paths. Use them to signal failure, not for normal branching.</p>
+<h2 id="basics-trycatchfinally">Basics: try/catch/finally</h2>
+<pre><code class="language-csharp">try
+{
+	using var stream = File.OpenRead(&quot;config.json&quot;);
+	// work with stream
+}
+catch (FileNotFoundException ex)
+{
+	Console.Error.WriteLine($&quot;Missing config: {ex.FileName}&quot;);
+}
+catch (IOException ex) when (ex.HResult == -2147024864) // example of filter (file in use)
+{
+	Console.Error.WriteLine(&quot;File is locked.&quot;);
+}
+catch (Exception ex)
+{
+	Console.Error.WriteLine($&quot;Unexpected: {ex}&quot;);
+	throw; // rethrow preserving stack trace
+}
+finally
+{
+	// cleanup that must always run
+}
+</code></pre>
+<h2 id="best-practices-4">Best practices</h2>
 <ul>
-<li>Use exceptions for exceptional conditions, not flow control.</li>
-<li>try/catch/finally for handling and cleanup.</li>
+<li>Catch narrowly; let higher layers handle what they own.</li>
+<li>Use exception filters (<code>catch (X ex) when (...)</code>) to avoid partial state changes.</li>
+<li>Don’t swallow exceptions silently; log with context.</li>
+<li>Prefer <code>TryXxx</code> patterns (e.g., <code>int.TryParse</code>) when failure is expected.</li>
 </ul>
-<h2 id="guidance">Guidance</h2>
-<ul>
-<li>Catch only what you can handle.</li>
-<li>Preserve stack traces; include context in messages.</li>
-</ul>
+<h2 id="creating-error-context">Creating error context</h2>
+<pre><code class="language-csharp">try
+{
+	ProcessOrder(orderId);
+}
+catch (OrderStorageException ex)
+{
+	throw new OrderProcessingException($&quot;Could not process order {orderId}&quot;, ex);
+}
+</code></pre>
 <h2 id="read-more-12">Read More</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/dotnet/csharp/fundamentals/exceptions/">https://learn.microsoft.com/dotnet/csharp/fundamentals/exceptions/</a></li>
@@ -826,14 +992,26 @@ Console.WriteLine(a == b); // true (value-based)
 <hr />
 <h1 id="custom-exceptions">Custom Exceptions</h1>
 <h1 id="custom-exceptions-1">Custom Exceptions</h1>
-<h2 id="when-to-create-one">When to Create One</h2>
+<p>Define custom exceptions to convey domain-specific failures and enable precise handling.</p>
+<h2 id="template">Template</h2>
+<pre><code class="language-csharp">[Serializable]
+public class OrderProcessingException : Exception
+{
+	public string? OrderId { get; }
+	public OrderProcessingException() { }
+	public OrderProcessingException(string message) : base(message) { }
+	public OrderProcessingException(string message, Exception inner) : base(message, inner) { }
+	public OrderProcessingException(string message, string orderId) : base(message) =&gt; OrderId = orderId;
+	protected OrderProcessingException(System.Runtime.Serialization.SerializationInfo info,
+									   System.Runtime.Serialization.StreamingContext context)
+		: base(info, context) { }
+}
+</code></pre>
+<h2 id="tips-2">Tips</h2>
 <ul>
-<li>To represent domain-specific error conditions.</li>
-</ul>
-<h2 id="best-practices-4">Best Practices</h2>
-<ul>
-<li>Derive from Exception (or a relevant subclass).</li>
-<li>Be serializable; include useful constructors.</li>
+<li>Name them clearly; include meaningful properties (like identifiers).</li>
+<li>Preserve inner exceptions; they’re essential for root-cause analysis.</li>
+<li>Avoid throwing exceptions for control flow; use <code>TryXxx</code> when failure is common.</li>
 </ul>
 <h2 id="read-more-13">Read More</h2>
 <ul>
@@ -843,14 +1021,28 @@ Console.WriteLine(a == b); // true (value-based)
 <hr />
 <h1 id="debugging-techniques">Debugging Techniques</h1>
 <h1 id="debugging-techniques-1">Debugging Techniques</h1>
-<h2 id="tools">Tools</h2>
+<p>Debugging is about fast feedback and narrowing hypotheses.</p>
+<h2 id="core-tools">Core tools</h2>
 <ul>
-<li>Breakpoints, Watches, Locals, Call Stack, Immediate Window.</li>
-<li>Logging for post-mortem analysis.</li>
+<li>Breakpoints (conditions, hit counts), data tips, watch/locals, call stack, step-into/out/over.</li>
+<li>Edit and Continue, exception settings (break on thrown/unhandled).</li>
 </ul>
-<h2 id="tips-2">Tips</h2>
+<h2 id="logging">Logging</h2>
+<pre><code class="language-csharp">using Microsoft.Extensions.Logging;
+
+using var loggerFactory = LoggerFactory.Create(b =&gt; b.AddSimpleConsole().SetMinimumLevel(LogLevel.Debug));
+var logger = loggerFactory.CreateLogger(&quot;Demo&quot;);
+logger.LogInformation(&quot;Starting module {Module}&quot;, &quot;X&quot;);
+</code></pre>
+<h2 id="tactics">Tactics</h2>
 <ul>
-<li>Reproduce reliably; binary search the fault; isolate changes.</li>
+<li>Reproduce deterministically; reduce the surface (disable concurrency, mock IO).</li>
+<li>Bisect changes (git); add asserts for invariants.</li>
+<li>Capture context: inputs, environment, timing, correlation IDs.</li>
+</ul>
+<h2 id="performance-debugging">Performance debugging</h2>
+<ul>
+<li>dotnet-trace/dotnet-counters; sampling profilers; memory dumps (dotnet-gcdump).</li>
 </ul>
 <h2 id="read-more-14">Read More</h2>
 <ul>
@@ -1117,7 +1309,7 @@ Console.WriteLine(a == b); // true (value-based)
 <hr />
 <h1 id="cicd-pipelines">CI/CD Pipelines</h1>
 <h1 id="cicd-pipelines-1">CI/CD Pipelines</h1>
-<h2 id="tools-1">Tools</h2>
+<h2 id="tools">Tools</h2>
 <ul>
 <li>GitHub Actions, Azure DevOps Pipelines.</li>
 </ul>
