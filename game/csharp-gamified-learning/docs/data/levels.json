@@ -1,0 +1,37 @@
+{
+  "levels": [
+    {
+      "id": 1,
+      "title": "Hello World",
+      "description": "Learn the basics of C# by creating a simple 'Hello, World!' application.",
+      "requirements": [
+        "Understand the structure of a C# program",
+        "Write and execute your first C# program"
+      ],
+      "completionCriteria": "Successfully run the program and display 'Hello, World!' in the console.",
+      "nextLevel": 2
+    },
+    {
+      "id": 2,
+      "title": "Variables",
+      "description": "Explore variables and data types in C#.",
+      "requirements": [
+        "Learn about different data types",
+        "Declare and initialize variables"
+      ],
+      "completionCriteria": "Create a program that uses variables to store and display user information.",
+      "nextLevel": 3
+    },
+    {
+      "id": 3,
+      "title": "Control Flow",
+      "description": "Understand control flow statements in C#.",
+      "requirements": [
+        "Learn about if statements, loops, and switch cases",
+        "Implement control flow in your programs"
+      ],
+      "completionCriteria": "Write a program that uses control flow to make decisions based on user input.",
+      "nextLevel": null
+    }
+  ]
+}
