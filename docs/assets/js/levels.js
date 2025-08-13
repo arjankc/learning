@@ -142,6 +142,132 @@ function renderProgress() {
     if (xpDisplay) {
         xpDisplay.innerHTML = `⭐ ${xp} XP earned | 🏆 Level ${Math.floor(xp / 100) + 1}`;
     }
+    
+    // Update weakness detection
+    renderWeaknessDetection();
+}
+
+function renderWeaknessDetection() {
+    const weaknessSection = document.getElementById('weakness-section');
+    const weaknessList = document.getElementById('weaknesses-list');
+    
+    if (!weaknessSection || !weaknessList) return;
+    
+    const analysis = window.LearningStorage?.getWeaknesses(window.USER_ID);
+    
+    if (!analysis || analysis.needsMoreData) {
+        weaknessSection.style.display = 'none';
+        return;
+    }
+    
+    const { weaknesses } = analysis;
+    
+    if (weaknesses.length === 0) {
+        weaknessList.innerHTML = `
+            <div style="text-align: center; padding: 2rem; color: #4CAF50;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🎉</div>
+                <h3>Excellent Performance!</h3>
+                <p>No significant weaknesses detected. Keep up the great work!</p>
+            </div>
+        `;
+        weaknessSection.style.display = 'block';
+        return;
+    }
+    
+    let html = '<div class="weaknesses-grid">';
+    
+    weaknesses.forEach(weakness => {
+        const severityColor = weakness.weaknessScore > 70 ? '#f44336' : 
+                             weakness.weaknessScore > 50 ? '#ff9800' : '#ffc107';
+        
+        const improvementTip = getImprovementTip(weakness.concept);
+        
+        html += `
+            <div class="weakness-card" style="
+                border: 2px solid ${severityColor};
+                border-radius: 10px;
+                padding: 1rem;
+                margin: 0.5rem 0;
+                background: linear-gradient(135deg, ${severityColor}15, ${severityColor}05);
+            ">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <h4 style="margin: 0; color: ${severityColor};">📚 ${weakness.concept}</h4>
+                    <span style="
+                        background: ${severityColor};
+                        color: white;
+                        padding: 0.3rem 0.6rem;
+                        border-radius: 15px;
+                        font-size: 0.8rem;
+                        font-weight: bold;
+                    ">${weakness.weaknessScore}% needs work</span>
+                </div>
+                <div style="margin: 0.5rem 0;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                        <span>Accuracy: ${weakness.accuracy}%</span>
+                        <span>Recent: ${weakness.recentAccuracy}%</span>
+                        <span>Attempts: ${weakness.totalAttempts}</span>
+                    </div>
+                    <div style="background: #e0e0e0; border-radius: 10px; height: 6px; margin: 0.5rem 0;">
+                        <div style="
+                            background: ${severityColor};
+                            height: 100%;
+                            width: ${weakness.accuracy}%;
+                            border-radius: 10px;
+                            transition: width 0.5s ease;
+                        "></div>
+                    </div>
+                </div>
+                <div style="font-size: 0.9rem; color: #666;">
+                    💡 <strong>Tip:</strong> ${improvementTip}
+                </div>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    weaknessList.innerHTML = html;
+    weaknessSection.style.display = 'block';
+}
+
+function getImprovementTip(concept) {
+    const tips = {
+        'Basic Syntax': 'Review C# syntax fundamentals and practice writing simple programs.',
+        'Data Types': 'Focus on understanding value vs reference types and their memory behavior.',
+        'Type Conversion': 'Practice explicit and implicit conversions between different data types.',
+        'Namespaces': 'Learn about organizing code with namespaces and using directives.',
+        'Conditional Logic': 'Practice if-else statements and boolean logic expressions.',
+        'Switch Statements': 'Master switch statements and pattern matching syntax.',
+        'For Loops': 'Practice loop control, initialization, conditions, and incrementors.',
+        'While Loops': 'Focus on loop conditions and preventing infinite loops.',
+        'Foreach Loops': 'Practice iterating over collections and arrays.',
+        'Iterators': 'Learn about IEnumerable and yield return statements.',
+        'CLR Fundamentals': 'Study the Common Language Runtime and compilation process.',
+        'Framework Class Library': 'Explore built-in .NET classes and their usage.',
+        'IDE Usage': 'Practice using Visual Studio or VS Code efficiently.',
+        'Classes and Objects': 'Master object-oriented programming fundamentals.',
+        'OOP Principles': 'Focus on inheritance, polymorphism, encapsulation, and abstraction.',
+        'Advanced OOP': 'Study interfaces, abstract classes, and design patterns.',
+        'Built-in Collections': 'Practice with List, Dictionary, Array, and other collections.',
+        'Custom Collections': 'Learn to implement IEnumerable and custom collection types.',
+        'Exception Handling': 'Master try-catch-finally blocks and exception types.',
+        'Custom Exceptions': 'Practice creating and throwing custom exception classes.',
+        'Debugging': 'Learn debugging techniques and tools in your IDE.',
+        'Delegates and Events': 'Study functional programming concepts and event handling.',
+        'LINQ': 'Practice querying data with Language Integrated Query.',
+        'Async Programming': 'Master async/await patterns and Task-based programming.',
+        'ADO.NET': 'Learn database connectivity and data access patterns.',
+        'Entity Framework': 'Practice ORM concepts and database-first/code-first approaches.',
+        'File I/O': 'Study file operations, streams, and serialization.',
+        'XAML Basics': 'Learn markup syntax for WPF and UWP applications.',
+        'Advanced WPF': 'Master data binding, MVVM pattern, and custom controls.',
+        'ASP.NET Core': 'Practice web development with controllers and middleware.',
+        'Blazor': 'Learn component-based web development with C#.',
+        'Security': 'Study authentication, authorization, and security best practices.',
+        'Razor Pages vs MVC': 'Compare different web development patterns in ASP.NET.',
+        'Cross-Platform Development': 'Learn about .NET Core and deployment strategies.'
+    };
+    
+    return tips[concept] || 'Review the theory and practice more exercises in this area.';
 }
 
 function isLevelUnlocked(levelId, completedLevels) {
@@ -169,20 +295,15 @@ function renderLevelsList() {
     console.log(`Rendering ${LevelsData.length} levels`);
     const progress = window.LearningStorage?.getUserProgress(window.USER_ID) || {};
     const done = new Set(progress.completedLevels || []);
-    const tierFilter = document.getElementById('tier-filter');
-    const tierValue = tierFilter ? tierFilter.value : 'all';
     list.innerHTML = '';
     
     const filteredLevels = LevelsData.filter(l => {
-        // First filter by tier
-        const tierMatch = tierValue === 'all' || String(l.tier) === String(tierValue);
-        
-        // Then filter by unlock status - only show unlocked levels
+        // Filter by unlock status - only show unlocked levels
         const isUnlocked = isLevelUnlocked(l.id, done);
         
-        return tierMatch && isUnlocked;
+        return isUnlocked;
     });
-    console.log(`Filtered to ${filteredLevels.length} levels for tier ${tierValue} (unlocked only)`);
+    console.log(`Showing ${filteredLevels.length} unlocked levels`);
     
     if (filteredLevels.length === 0) {
         list.innerHTML = '<p>No levels available. Please check if the data loaded correctly.</p>';
@@ -583,13 +704,25 @@ async function initLevelsPage() {
         
         updateLoadingProgress(95, 'Finalizing setup...');
         
-        const tierFilter = document.getElementById('tier-filter');
-        if (tierFilter) {
-            tierFilter.addEventListener('change', () => renderLevelsList());
-        }
-        
         renderProgress();
         renderLevelsList();
+        
+        // Set up weakness detection toggle
+        const toggleWeaknessBtn = document.getElementById('toggle-weaknesses');
+        if (toggleWeaknessBtn) {
+            toggleWeaknessBtn.addEventListener('click', () => {
+                const weaknessSection = document.getElementById('weakness-section');
+                const weaknessList = document.getElementById('weaknesses-list');
+                
+                if (weaknessList.style.display === 'none') {
+                    weaknessList.style.display = 'block';
+                    toggleWeaknessBtn.textContent = '📊 Hide Analysis';
+                } else {
+                    weaknessList.style.display = 'none';
+                    toggleWeaknessBtn.textContent = '📊 Show Analysis';
+                }
+            });
+        }
         
         updateLoadingProgress(100, 'Ready to learn!');
         console.log('Levels page initialized successfully');
@@ -634,6 +767,54 @@ function showErrorMessage(message) {
 }
 
 document.addEventListener('DOMContentLoaded', initLevelsPage);
+
+// Concept mapping for weakness detection
+function getConceptForLevel(levelId, questionIndex) {
+    const conceptMap = {
+        1: 'Basic Syntax',
+        2: 'Data Types',
+        3: 'Type Conversion',
+        4: 'Namespaces',
+        5: 'Conditional Logic',
+        6: 'Switch Statements',
+        7: 'For Loops',
+        8: 'While Loops',
+        9: 'Foreach Loops',
+        10: 'Iterators',
+        11: 'CLR Fundamentals',
+        12: 'Framework Class Library',
+        13: 'IDE Usage',
+        14: 'Classes and Objects',
+        15: 'OOP Principles',
+        16: 'Advanced OOP',
+        17: 'Built-in Collections',
+        18: 'Custom Collections',
+        19: 'Exception Handling',
+        20: 'Custom Exceptions',
+        21: 'Debugging',
+        22: 'Delegates and Events',
+        23: 'LINQ',
+        24: 'Async Programming',
+        25: 'ADO.NET',
+        26: 'Entity Framework',
+        27: 'File I/O',
+        28: 'XAML Basics',
+        29: 'Advanced WPF',
+        30: 'ASP.NET Core',
+        31: 'Blazor',
+        32: 'Security',
+        33: 'Razor Pages vs MVC',
+        34: 'Cross-Platform Development'
+    };
+    
+    return conceptMap[levelId] || `Level ${levelId}`;
+}
+
+function getDifficultyForLevel(levelId) {
+    if (levelId <= 10) return 'Beginner';
+    if (levelId <= 25) return 'Intermediate';
+    return 'Advanced';
+}
 
 // Quiz rendering and scoring
 function renderQuiz(level){
@@ -682,6 +863,8 @@ function renderQuiz(level){
     submitBtn.onclick = () => {
         let correct = 0;
         let totalQuestions = level.quiz.length;
+        const concept = getConceptForLevel(level.id);
+        const difficulty = getDifficultyForLevel(level.id);
         
         // Check answers and provide visual feedback
         level.quiz.forEach((q, qi) => {
@@ -692,6 +875,16 @@ function renderQuiz(level){
             
             const isCorrect = JSON.stringify(chosen) === JSON.stringify(expected);
             if (isCorrect) correct++;
+            
+            // Record this question attempt for weakness detection
+            window.LearningStorage?.recordQuizAttempt(
+                window.USER_ID, 
+                level.id, 
+                qi, 
+                isCorrect, 
+                concept, 
+                difficulty
+            );
             
             // Visual feedback for each option
             const questionOptions = document.querySelectorAll(`input[name="q_${qi}"]`);

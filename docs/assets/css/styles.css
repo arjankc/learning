@@ -174,6 +174,46 @@ code {
     }
 }
 
+/* Weakness Detection Styles */
+.weaknesses-grid {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.weakness-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.weakness-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+#weakness-section {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+#weakness-section.hidden {
+    display: none !important;
+}
+
+/* Weakness severity indicators */
+.weakness-severe {
+    border-color: #f44336 !important;
+    background: linear-gradient(135deg, #f4433615, #f4433605) !important;
+}
+
+.weakness-moderate {
+    border-color: #ff9800 !important;
+    background: linear-gradient(135deg, #ff980015, #ff980005) !important;
+}
+
+.weakness-mild {
+    border-color: #ffc107 !important;
+    background: linear-gradient(135deg, #ffc10715, #ffc10705) !important;
+}
+
 /* Progress Bar Styles */
 .progress-bar-container {
     background: #e0e0e0;

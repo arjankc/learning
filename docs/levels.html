@@ -44,16 +44,13 @@
                 <div class="progress-bar" id="progress-bar" style="width: 0%; height: 20px; background: linear-gradient(90deg, #4CAF50, #8BC34A); border-radius: 10px; transition: width 0.5s ease;"></div>
             </div>
             <div id="xp-display" style="text-align: center; margin: 10px 0; font-weight: bold; color: #007acc;"></div>
-            
-            <div style="margin: 20px 0;">
-                <label for="tier-filter"><strong>🔍 Filter by Tier:</strong></label>
-                <select id="tier-filter" style="margin-left: 10px; padding: 5px;">
-                    <option value="all">All Levels</option>
-                    <option value="1">🟢 Tier 1 (Essential)</option>
-                    <option value="2">🟡 Tier 2 (Intermediate)</option>
-                    <option value="3">🔴 Tier 3 (Advanced)</option>
-                </select>
-            </div>
+        </section>
+
+        <section class="card" id="weakness-section" style="display: none;">
+            <h2>🧠 Areas for Improvement</h2>
+            <p style="color: #666; margin-bottom: 1rem;">Based on your quiz performance, here are concepts that might need more practice:</p>
+            <div id="weaknesses-list"></div>
+            <button id="toggle-weaknesses" class="button" style="margin-top: 1rem;">📊 Show/Hide Analysis</button>
         </section>
 
         <section class="card">
