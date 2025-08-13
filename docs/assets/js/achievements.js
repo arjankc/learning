@@ -1,6 +1,7 @@
 // achievements.js
 
 const achievements = [];
+const USER_ID = 'local-user';
 
 // Load achievements from JSON file
 async function loadAchievements() {
@@ -15,9 +16,11 @@ async function loadAchievements() {
 function displayAchievements() {
     const achievementsList = document.getElementById('achievements');
     achievementsList.innerHTML = '';
+    const unlocked = window.LearningStorage?.getUnlockedAchievements(USER_ID) || new Set();
     achievements.forEach(achievement => {
         const li = document.createElement('li');
-        li.textContent = `${achievement.title}: ${achievement.description} (+${achievement.points} XP)`;
+        const isUnlocked = unlocked.has ? unlocked.has(achievement.id) : unlocked.has(achievement.id);
+        li.textContent = `${isUnlocked ? '🏆' : '🔒'} ${achievement.title}: ${achievement.description} (+${achievement.points} XP)`;
         achievementsList.appendChild(li);
     });
 }
