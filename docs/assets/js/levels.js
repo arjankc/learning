@@ -4,9 +4,28 @@ let LevelsData = [];
 const USER_ID = 'local-user';
 
 async function fetchLevels() {
-    const res = await fetch('data/levels.json');
-    const json = await res.json();
-    LevelsData = Array.isArray(json.levels) ? json.levels : [];
+    try {
+        console.log('Fetching levels from data/levels.json...');
+        const res = await fetch('data/levels.json');
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const json = await res.json();
+        LevelsData = Array.isArray(json.levels) ? json.levels : [];
+        console.log(`Loaded ${LevelsData.length} levels`);
+    } catch (error) {
+        console.error('Error fetching levels:', error);
+        // Show error message to user
+        const progressEl = document.getElementById('progress-text');
+        if (progressEl) {
+            progressEl.textContent = 'Error loading levels. Please refresh the page.';
+            progressEl.style.color = 'red';
+        }
+        const list = document.getElementById('levels-list');
+        if (list) {
+            list.innerHTML = '<p style="color: red;">Failed to load levels. Please check your internet connection and refresh the page.</p>';
+        }
+    }
 }
 
 function renderProgress() {
@@ -17,13 +36,29 @@ function renderProgress() {
 }
 
 function renderLevelsList() {
+    console.log('Rendering levels list...');
     const list = document.getElementById('levels-list');
+    if (!list) {
+        console.error('levels-list element not found');
+        return;
+    }
+    
+    console.log(`Rendering ${LevelsData.length} levels`);
     const progress = window.LearningStorage?.getUserProgress(USER_ID) || {};
     const done = new Set(progress.completedLevels || []);
     const tierFilter = document.getElementById('tier-filter');
     const tierValue = tierFilter ? tierFilter.value : 'all';
     list.innerHTML = '';
-    LevelsData.filter(l => tierValue === 'all' || String(l.tier) === String(tierValue)).forEach(l => {
+    
+    const filteredLevels = LevelsData.filter(l => tierValue === 'all' || String(l.tier) === String(tierValue));
+    console.log(`Filtered to ${filteredLevels.length} levels for tier ${tierValue}`);
+    
+    if (filteredLevels.length === 0) {
+        list.innerHTML = '<p>No levels available. Please check if the data loaded correctly.</p>';
+        return;
+    }
+    
+    filteredLevels.forEach(l => {
         const div = document.createElement('div');
         div.className = 'card';
         const status = done.has(l.id) ? '✅ Completed' : '⏳ Not completed';
@@ -37,6 +72,8 @@ function renderLevelsList() {
         list.appendChild(div);
     });
 
+    console.log(`Added ${filteredLevels.length} level cards to the list`);
+
     list.querySelectorAll('a[data-level-id]').forEach(a => {
         a.addEventListener('click', (e) => {
             e.preventDefault();
@@ -44,6 +81,8 @@ function renderLevelsList() {
             showLevelDetail(id);
         });
     });
+    
+    console.log('Level list rendering complete');
 }
 
 function showLevelDetail(levelId) {
@@ -87,13 +126,22 @@ function completeCurrentLevel(level) {
 }
 
 async function initLevelsPage() {
-    await fetchLevels();
-    const tierFilter = document.getElementById('tier-filter');
-    if (tierFilter) {
-        tierFilter.addEventListener('change', () => renderLevelsList());
+    console.log('Initializing levels page...');
+    try {
+        await fetchLevels();
+        console.log('Levels fetched successfully, setting up UI...');
+        
+        const tierFilter = document.getElementById('tier-filter');
+        if (tierFilter) {
+            tierFilter.addEventListener('change', () => renderLevelsList());
+        }
+        
+        renderProgress();
+        renderLevelsList();
+        console.log('Levels page initialized successfully');
+    } catch (error) {
+        console.error('Error initializing levels page:', error);
     }
-    renderProgress();
-    renderLevelsList();
 }
 
 document.addEventListener('DOMContentLoaded', initLevelsPage);
