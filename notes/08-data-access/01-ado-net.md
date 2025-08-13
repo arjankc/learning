@@ -46,4 +46,3 @@ catch
 ```
 
 ## Further reading
-- https://learn.microsoft.com/dotnet/framework/data/adonet/ado-net-overview

@@ -18,6 +18,3 @@ public interface IDeviceInfo { string GetModel(); }
 ## OAuth 2.0 / OIDC
 - Use the system browser; follow the authorization code flow with PKCE.
 - Store tokens securely (Keychain/Keystore); refresh tokens carefully.
-
-## Read More
-- https://learn.microsoft.com/xamarin/

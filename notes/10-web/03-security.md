@@ -27,6 +27,3 @@ app.MapGet("/secure", [Authorize(Policy="AdultOnly")] () => "ok");
 app.UseHttpsRedirection();
 app.UseCors(p => p.WithOrigins("https://example.com").AllowAnyHeader().AllowAnyMethod());
 ```
-
-## Read More
-- https://learn.microsoft.com/aspnet/core/security/

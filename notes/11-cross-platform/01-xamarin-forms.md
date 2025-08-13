@@ -22,6 +22,3 @@ await Navigation.PushAsync(new DetailsPage());
 
 ## MVVM
 - Bind View to ViewModel properties/commands via INotifyPropertyChanged and ICommand.
-
-## Read More
-- https://learn.microsoft.com/xamarin/xamarin-forms/

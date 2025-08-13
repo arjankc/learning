@@ -1,5 +1,14 @@
 # Advanced OOP
 
+Dive deeper into design choices and trade-offs.
+
+## SOLID (at a glance)
+- Single Responsibility: one reason to change per module.
+- Open/Closed: extend via composition/abstractions, avoid modifying stable code.
+- Liskov Substitution: derived types must honor base contracts/invariants.
+- Interface Segregation: prefer small, focused interfaces.
+- Dependency Inversion: depend on abstractions, not concretions.
+
 ## Structs vs Classes
 - Structs are value types; copied by value, allocated inline when possible.
 - Prefer for small, immutable data (e.g., 2–3 fields). Avoid large or mutable structs.
@@ -59,6 +68,11 @@ Console.WriteLine(a == b); // true (value-based)
 - Keep constructors simple; use factories/builders if setup is complex.
 - Keep inheritance shallow; prefer interfaces + composition.
 
-## Read More
-- https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/struct
-- https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/enum
+## Virtual dispatch and performance
+- Virtual/interface calls can inhibit inlining; sealing methods/types enables devirtualization.
+- Measure before optimizing; prefer clarity, optimize verified hot paths only.
+
+## Domain modeling tips
+- Keep entities small and cohesive; make invariants explicit.
+- Use aggregate roots to guard invariants; expose behavior, not settable state.
+- Persistence-ignorant domain: no data access in entities; use repositories/services for IO.

@@ -22,6 +22,3 @@ logger.LogInformation("Starting module {Module}", "X");
 
 ## Performance debugging
 - dotnet-trace/dotnet-counters; sampling profilers; memory dumps (dotnet-gcdump).
-
-## Read More
-- https://learn.microsoft.com/visualstudio/debugger/debugger-feature-tour

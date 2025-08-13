@@ -30,5 +30,15 @@
 - Server: thin client, low download, requires persistent connection.
 - WebAssembly: runs in browser, offline capable, larger download.
 
-## Read More
-- https://learn.microsoft.com/aspnet/core/blazor/
+## Theory
+### Rendering model
+- Blazor uses a diffing renderer; components re-render when parameters or state change via `StateHasChanged`.
+- Server model sends UI diffs over SignalR; WebAssembly renders in the browser.
+
+### Component lifecycle
+- Hooks: `OnInitialized[Async]`, `OnParametersSet[Async]`, `OnAfterRender[Async]` (and Async variants) control setup and post-render work.
+- Implement `IDisposable` to clean up timers/subscriptions.
+
+### JS interop
+- Use `IJSRuntime` and JS modules for interop; keep DOM-specific tasks in JS.
+- Prefer strongly-typed wrappers for maintainability.

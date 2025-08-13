@@ -40,5 +40,20 @@ var blogs = await db.Blogs.AsNoTracking().Where(b => b.Title.Contains("H")).ToLi
 - Demonstrate tracking vs AsNoTracking and explain memory/perf impact in a list view.
 - Implement a one-to-many with cascade delete and write a test to verify.
 
-## Read More
-- https://learn.microsoft.com/ef/core/
+## Theory
+### Change tracking and state
+- DbContext tracks entity instances with states: Added, Modified, Deleted, Unchanged.
+- `DetectChanges` scans tracked entities; disable or minimize tracking for large read scenarios.
+- Use `AsNoTracking` for queries that don’t modify data; reattach entities with explicit states when updating detached graphs.
+
+### LINQ translation
+- Most query operators translate to SQL; some methods are client-evaluated—verify using `ToQueryString()`.
+- Prevent N+1 by using `Include`/`ThenInclude` or composing joins intentionally.
+
+### Transactions and concurrency
+- `SaveChanges` runs in a transaction by default; use explicit transactions for multiple SaveChanges or cross-context operations.
+- Implement optimistic concurrency with a rowversion/timestamp column; handle `DbUpdateConcurrencyException` by reloading/merging.
+
+### Migrations practices
+- Keep migrations small, named, and reviewed; include data migrations when needed.
+- For destructive schema changes, back up and apply in maintenance windows.

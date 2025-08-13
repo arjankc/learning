@@ -52,6 +52,3 @@ catch (OverflowException)
 object boxed = small;         // boxing
 int unboxed = (int)boxed;     // unboxing
 ```
-## Read More
-- Microsoft Docs: Conversions in C#: https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/numeric-conversions
-- Microsoft Docs: Boxing and Unboxing: https://learn.microsoft.com/dotnet/csharp/programming-guide/types/boxing-and-unboxing

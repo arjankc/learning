@@ -61,6 +61,3 @@ var arr = seq.ToArray(); // 10, 20, 30
 - Given orders with a CustomerId, output the top 3 orders by total per customer.
 - Inner join vs group join: produce both and explain the shape differences.
 - Flatten nested collections (customers -> orders -> lines) and compute totals with SelectMany.
-
-## Read More
-- https://learn.microsoft.com/dotnet/csharp/programming-guide/concepts/linq/

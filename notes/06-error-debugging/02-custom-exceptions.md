@@ -22,6 +22,3 @@ public class OrderProcessingException : Exception
 - Name them clearly; include meaningful properties (like identifiers).
 - Preserve inner exceptions; they’re essential for root-cause analysis.
 - Avoid throwing exceptions for control flow; use `TryXxx` when failure is common.
-
-## Read More
-- https://learn.microsoft.com/dotnet/standard/exceptions/how-to-create-user-defined-exceptions

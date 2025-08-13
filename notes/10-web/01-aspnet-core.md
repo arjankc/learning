@@ -21,5 +21,18 @@ app.MapPost("/sum", (int a, int b) => Results.Ok(new { sum = a + b }));
 ## Web API essentials
 - Model binding, validation attributes, filters, content negotiation (JSON by default).
 
-## Read More
-- https://learn.microsoft.com/aspnet/core/
+## Theory
+### Dependency Injection
+- Built-in DI supports Singleton, Scoped (per-request), and Transient lifetimes.
+- Prefer constructor injection; avoid static/service locator patterns.
+
+### Model Binding & Validation
+- Binds from route, query, headers, and body. Use `[FromBody]`, `[FromQuery]` etc. to be explicit.
+- Validate with data annotations; check `ModelState.IsValid` or rely on automatic 400 with ApiController.
+
+### Configuration & Options
+- Combine appsettings.json, environment variables, and secrets. Bind strongly-typed settings via `IOptions<T>`.
+
+### Logging & Observability
+- Use `ILogger<T>` for structured logs. Add correlation IDs and health checks.
+- Consider OpenTelemetry for traces/metrics, and Serilog/Sinks for log shipping.

@@ -73,6 +73,3 @@ public class CachedRepository<T> : IRepository<T>
 	public void Add(T entity) => _inner.Add(entity);
 }
 ```
-
-## Read More
-- https://learn.microsoft.com/dotnet/csharp/fundamentals/object-oriented/

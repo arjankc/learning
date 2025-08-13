@@ -36,6 +36,21 @@ Native.Sleep(100);
 - ETW/EventPipe (dotnet-trace), dotnet-counters, dotnet-gcdump, PerfView.
 - In-process: `GC.GetTotalMemory`, `GC.TryStartNoGCRegion`, `Activity` for tracing.
 
-## Read More
-- https://learn.microsoft.com/dotnet/standard/clr
-- https://learn.microsoft.com/dotnet/standard/garbage-collection/
+## Additional theory
+### Execution model
+- IL and metadata describe types/methods; JIT compiles methods on first execution.
+- Tiered compilation starts with fast code (Tier0) then re-JITs hot paths with optimizations (Tier1).
+- ReadyToRun (R2R) publishes precompiled native stubs to reduce startup JIT work.
+
+### GC internals
+- Generational GC with ephemeral segments for Gen0/Gen1 and a separate Gen2; LOH holds large objects (~85k+).
+- Finalizers run on a dedicated thread; objects with finalizers survive at least one extra collection.
+- Use `IDisposable` and `using` to release unmanaged resources deterministically.
+
+### Type safety and verification
+- The CLR verifies IL for type safety unless running fully trusted/unsafe code.
+- Unsafe code and stackalloc/pointers are available but opt-in and should be minimized.
+
+### Loading and isolation
+- AssemblyLoadContext enables custom probing and dynamic plugin loading in .NET 5+.
+- Single-file publish bundles dependencies; trimming reduces unused IL where possible.

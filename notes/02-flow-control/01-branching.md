@@ -61,7 +61,3 @@ string Describe(object o) => o switch
 - Extract complex conditions into well-named helpers for readability and reuse.
 - Avoid duplication: compute a value once and reuse it.
 - Use guard clauses to fail fast when inputs are invalid.
-
-## Read More
-- Microsoft Docs: if-else: https://learn.microsoft.com/dotnet/csharp/language-reference/statements/selection-statements
-- Microsoft Docs: switch and pattern matching: https://learn.microsoft.com/dotnet/csharp/language-reference/operators/switch-expression

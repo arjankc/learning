@@ -100,6 +100,3 @@ public class Point
 var pt = new Point { X = 3, Y = 4 };
 var (x, y) = pt; // x=3, y=4
 ```
-
-## Read more
-- https://learn.microsoft.com/dotnet/csharp/fundamentals/types/classes

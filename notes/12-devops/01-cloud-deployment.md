@@ -26,7 +26,3 @@ ENTRYPOINT ["dotnet", "WebApi.dll"]
 
 ## Scaling & health
 - Health checks endpoint; autoscaling rules; rolling deployments/slots.
-
-## Read More
-- https://learn.microsoft.com/azure/app-service/
-- https://docs.docker.com/get-started/

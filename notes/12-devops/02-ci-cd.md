@@ -24,6 +24,9 @@ jobs:
 - Version artifacts and publish build outputs (e.g., to GitHub Releases).
 - Use environments and approvals for production.
 
-## Read More
-- https://learn.microsoft.com/azure/devops/pipelines/
-- https://docs.github.com/actions
+## Theory
+- CI validates each change quickly; CD automates deployments with safety checks.
+- Use separate environments (dev/test/stage/prod) with required reviewers for protected deployments.
+- Store secrets in platform stores (GitHub Secrets, Azure Key Vault); never commit secrets.
+- Cache package restores and toolchains to speed up builds; pin versions for reproducibility.
+- Treat build outputs as artifacts for traceability; sign and checksum where appropriate.

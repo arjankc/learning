@@ -30,6 +30,3 @@ xmlSer.Serialize(xfs, new Person("Ada", 28));
 ## Tips
 - Prefer async IO for scalability in servers; sync is often fine for small local work.
 - Use File.ReadLines (lazy) over ReadAllLines (eager) for large files.
-
-## Read More
-- https://learn.microsoft.com/dotnet/standard/io/

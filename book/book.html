@@ -535,6 +535,29 @@ Native.Sleep(100);
 <li>ETW/EventPipe (dotnet-trace), dotnet-counters, dotnet-gcdump, PerfView.</li>
 <li>In-process: <code>GC.GetTotalMemory</code>, <code>GC.TryStartNoGCRegion</code>, <code>Activity</code> for tracing.</li>
 </ul>
+<h2 id="additional-theory">Additional theory</h2>
+<h3 id="execution-model">Execution model</h3>
+<ul>
+<li>IL and metadata describe types/methods; JIT compiles methods on first execution.</li>
+<li>Tiered compilation starts with fast code (Tier0) then re-JITs hot paths with optimizations (Tier1).</li>
+<li>ReadyToRun (R2R) publishes precompiled native stubs to reduce startup JIT work.</li>
+</ul>
+<h3 id="gc-internals">GC internals</h3>
+<ul>
+<li>Generational GC with ephemeral segments for Gen0/Gen1 and a separate Gen2; LOH holds large objects (~85k+).</li>
+<li>Finalizers run on a dedicated thread; objects with finalizers survive at least one extra collection.</li>
+<li>Use <code>IDisposable</code> and <code>using</code> to release unmanaged resources deterministically.</li>
+</ul>
+<h3 id="type-safety-and-verification">Type safety and verification</h3>
+<ul>
+<li>The CLR verifies IL for type safety unless running fully trusted/unsafe code.</li>
+<li>Unsafe code and stackalloc/pointers are available but opt-in and should be minimized.</li>
+</ul>
+<h3 id="loading-and-isolation">Loading and isolation</h3>
+<ul>
+<li>AssemblyLoadContext enables custom probing and dynamic plugin loading in .NET 5+.</li>
+<li>Single-file publish bundles dependencies; trimming reduces unused IL where possible.</li>
+</ul>
 <hr />
 <h1 id="net-framework-class-library-bclfcl">.NET Framework Class Library (BCL/FCL)</h1>
 <p>The BCL/FCL is the standard library for .NET: collections, IO, networking, threading, numerics, etc. Learn its surface area to avoid reinventing wheels.</p>
@@ -757,6 +780,15 @@ void Notify(IPrinter printer) =&gt; printer.Print(&quot;Hello&quot;);
 </code></pre>
 <hr />
 <h1 id="advanced-oop">Advanced OOP</h1>
+<p>Dive deeper into design choices and trade-offs.</p>
+<h2 id="solid-at-a-glance">SOLID (at a glance)</h2>
+<ul>
+<li>Single Responsibility: one reason to change per module.</li>
+<li>Open/Closed: extend via composition/abstractions, avoid modifying stable code.</li>
+<li>Liskov Substitution: derived types must honor base contracts/invariants.</li>
+<li>Interface Segregation: prefer small, focused interfaces.</li>
+<li>Dependency Inversion: depend on abstractions, not concretions.</li>
+</ul>
 <h2 id="structs-vs-classes">Structs vs Classes</h2>
 <ul>
 <li>Structs are value types; copied by value, allocated inline when possible.</li>
@@ -808,6 +840,17 @@ Console.WriteLine(a == b); // true (value-based)
 <li>Favor immutability where practical.</li>
 <li>Keep constructors simple; use factories/builders if setup is complex.</li>
 <li>Keep inheritance shallow; prefer interfaces + composition.</li>
+</ul>
+<h2 id="virtual-dispatch-and-performance">Virtual dispatch and performance</h2>
+<ul>
+<li>Virtual/interface calls can inhibit inlining; sealing methods/types enables devirtualization.</li>
+<li>Measure before optimizing; prefer clarity, optimize verified hot paths only.</li>
+</ul>
+<h2 id="domain-modeling-tips">Domain modeling tips</h2>
+<ul>
+<li>Keep entities small and cohesive; make invariants explicit.</li>
+<li>Use aggregate roots to guard invariants; expose behavior, not settable state.</li>
+<li>Persistence-ignorant domain: no data access in entities; use repositories/services for IO.</li>
 </ul>
 <hr />
 <h1 id="built-in-collections">Built-in Collections</h1>
@@ -869,9 +912,6 @@ await Task.WhenAll(prod, cons);
 <li>Avoid repeated <code>List&lt;T&gt;.Remove(item)</code> in a loop; filter with <code>Where</code>/<code>RemoveAll</code>.</li>
 </ul>
 <h2 id="further-reading-2">Further reading</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/dotnet/standard/collections/">https://learn.microsoft.com/dotnet/standard/collections/</a></li>
-</ul>
 <hr />
 <h1 id="custom-collections">Custom Collections</h1>
 <p>Implementing custom collections lets you enforce invariants and expose efficient operations. Prefer composition and interfaces.</p>
@@ -954,6 +994,14 @@ catch (OrderStorageException ex)
 	throw new OrderProcessingException($&quot;Could not process order {orderId}&quot;, ex);
 }
 </code></pre>
+<h2 id="theory-reliability-and-observability">Theory: reliability and observability</h2>
+<ul>
+<li>Throwing is expensive; design for the happy path and throw only for truly exceptional cases.</li>
+<li>Rethrow with <code>throw;</code> to preserve the original stack.</li>
+<li>Avoid leaking secrets in messages; include useful IDs/correlation tokens.</li>
+<li>Add global exception handling appropriate to the app type (ASP.NET Core middleware, WPF DispatcherUnhandledException).</li>
+<li>Use first-chance exception settings when debugging to catch issues close to the source.</li>
+</ul>
 <hr />
 <h1 id="custom-exceptions">Custom Exceptions</h1>
 <p>Define custom exceptions to convey domain-specific failures and enable precise handling.</p>
@@ -1018,6 +1066,12 @@ Func&lt;int,int,int&gt; mul = (a,b) =&gt; a * b;     // returns int
 Predicate&lt;int&gt; isEven = n =&gt; n % 2 == 0;    // bool-returning Func&lt;T,bool&gt;
 </code></pre>
 <h2 id="lambdas-and-closures">Lambdas and closures</h2>
+<h3 id="theory-variance-and-closures">Theory: variance and closures</h3>
+<ul>
+<li>Delegates are type-safe function pointers that can be multicast (invocation list).</li>
+<li>Variance: input parameters are contravariant, return types are covariant when compatible.</li>
+<li>Closures capture variables by reference; modifying the captured variable affects all lambdas.</li>
+</ul>
 <pre><code class="language-csharp">int factor = 10;                  // captured variable
 Func&lt;int,int&gt; times = n =&gt; n * factor;
 factor = 20;                      // closure observes latest value
@@ -1029,6 +1083,12 @@ pipeline += () =&gt; Console.Write(&quot;B&quot;);
 pipeline(); // prints AB
 </code></pre>
 <h2 id="events-eventhandler-pattern">Events (EventHandler pattern)</h2>
+<h3 id="event-patterns">Event patterns</h3>
+<ul>
+<li>Prefer EventHandler/EventHandler<TEventArgs> for consistency.</li>
+<li>Expose a protected virtual OnXyz method to allow derived classes to customize raising.</li>
+<li>Consider weak references or explicit unsubscribe in long-lived publishers to prevent leaks.</li>
+</ul>
 <pre><code class="language-csharp">public class Counter
 {
 	public event EventHandler&lt;int&gt;? ThresholdReached; // payload via generic arg
@@ -1211,9 +1271,6 @@ catch
 }
 </code></pre>
 <h2 id="further-reading-3">Further reading</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/dotnet/framework/data/adonet/ado-net-overview">https://learn.microsoft.com/dotnet/framework/data/adonet/ado-net-overview</a></li>
-</ul>
 <hr />
 <h1 id="entity-framework-core">Entity Framework Core</h1>
 <p>ORM for .NET with LINQ queries and change tracking.</p>
@@ -1253,6 +1310,28 @@ var blogs = await db.Blogs.AsNoTracking().Where(b =&gt; b.Title.Contains(&quot;H
 <li>Add a unique index to Blog.Title using Fluent API and verify the constraint.</li>
 <li>Demonstrate tracking vs AsNoTracking and explain memory/perf impact in a list view.</li>
 <li>Implement a one-to-many with cascade delete and write a test to verify.</li>
+</ul>
+<h2 id="theory">Theory</h2>
+<h3 id="change-tracking-and-state">Change tracking and state</h3>
+<ul>
+<li>DbContext tracks entity instances with states: Added, Modified, Deleted, Unchanged.</li>
+<li><code>DetectChanges</code> scans tracked entities; disable or minimize tracking for large read scenarios.</li>
+<li>Use <code>AsNoTracking</code> for queries that don’t modify data; reattach entities with explicit states when updating detached graphs.</li>
+</ul>
+<h3 id="linq-translation">LINQ translation</h3>
+<ul>
+<li>Most query operators translate to SQL; some methods are client-evaluated—verify using <code>ToQueryString()</code>.</li>
+<li>Prevent N+1 by using <code>Include</code>/<code>ThenInclude</code> or composing joins intentionally.</li>
+</ul>
+<h3 id="transactions-and-concurrency">Transactions and concurrency</h3>
+<ul>
+<li><code>SaveChanges</code> runs in a transaction by default; use explicit transactions for multiple SaveChanges or cross-context operations.</li>
+<li>Implement optimistic concurrency with a rowversion/timestamp column; handle <code>DbUpdateConcurrencyException</code> by reloading/merging.</li>
+</ul>
+<h3 id="migrations-practices">Migrations practices</h3>
+<ul>
+<li>Keep migrations small, named, and reviewed; include data migrations when needed.</li>
+<li>For destructive schema changes, back up and apply in maintenance windows.</li>
 </ul>
 <hr />
 <h1 id="file-io">File I/O</h1>
@@ -1355,6 +1434,27 @@ xmlSer.Serialize(xfs, new Person(&quot;Ada&quot;, 28));
 <li>Use PresentationTraceSources for binding debug.</li>
 <li>Enable exceptions on binding failures in dev.</li>
 </ul>
+<h2 id="theory-1">Theory</h2>
+<h3 id="visual-vs-logical-tree">Visual vs Logical Tree</h3>
+<ul>
+<li>Logical tree is used by resources and data binding; visual tree shows rendered element composition.</li>
+<li>Inspect with Live Visual Tree or tools like Snoop.</li>
+</ul>
+<h3 id="dependency-properties">Dependency Properties</h3>
+<ul>
+<li>Provide WPF-level property system: default values, change callbacks, styling/animation, value precedence.</li>
+<li>Register via <code>DependencyProperty.Register</code> and expose CLR wrappers.</li>
+</ul>
+<h3 id="data-templates-virtualization">Data Templates &amp; Virtualization</h3>
+<ul>
+<li>Use DataTemplate to define item visuals; prefer virtualization for large item sources.</li>
+<li>Enable <code>VirtualizingStackPanel.IsVirtualizing=&quot;True&quot;</code> and recycling mode for performance.</li>
+</ul>
+<h3 id="performance-tips">Performance tips</h3>
+<ul>
+<li>Freeze Freezables (Brush, Transform) when immutable.</li>
+<li>Reduce layout complexity; flatten hierarchies; avoid heavy triggers.</li>
+</ul>
 <hr />
 <h1 id="asp.net-core-fundamentals">ASP.NET Core Fundamentals</h1>
 <h2 id="middleware-pipeline">Middleware pipeline</h2>
@@ -1376,6 +1476,26 @@ app.Run();
 <ul>
 <li>Model binding, validation attributes, filters, content negotiation (JSON by default).</li>
 </ul>
+<h2 id="theory-2">Theory</h2>
+<h3 id="dependency-injection">Dependency Injection</h3>
+<ul>
+<li>Built-in DI supports Singleton, Scoped (per-request), and Transient lifetimes.</li>
+<li>Prefer constructor injection; avoid static/service locator patterns.</li>
+</ul>
+<h3 id="model-binding-validation">Model Binding &amp; Validation</h3>
+<ul>
+<li>Binds from route, query, headers, and body. Use <code>[FromBody]</code>, <code>[FromQuery]</code> etc. to be explicit.</li>
+<li>Validate with data annotations; check <code>ModelState.IsValid</code> or rely on automatic 400 with ApiController.</li>
+</ul>
+<h3 id="configuration-options">Configuration &amp; Options</h3>
+<ul>
+<li>Combine appsettings.json, environment variables, and secrets. Bind strongly-typed settings via <code>IOptions&lt;T&gt;</code>.</li>
+</ul>
+<h3 id="logging-observability">Logging &amp; Observability</h3>
+<ul>
+<li>Use <code>ILogger&lt;T&gt;</code> for structured logs. Add correlation IDs and health checks.</li>
+<li>Consider OpenTelemetry for traces/metrics, and Serilog/Sinks for log shipping.</li>
+</ul>
 <hr />
 <h1 id="blazor">Blazor</h1>
 <h2 id="component-basics">Component basics</h2>
@@ -1392,7 +1512,7 @@ app.Run();
 	[Parameter] public string Title { get; set; } = string.Empty;
 }
 </code></pre>
-<h2 id="dependency-injection">Dependency injection</h2>
+<h2 id="dependency-injection-1">Dependency injection</h2>
 <pre><code class="language-razor">@inject HttpClient Http
 @code {
 	protected override async Task OnInitializedAsync() { var data = await Http.GetStringAsync(&quot;/api&quot;); }
@@ -1402,6 +1522,22 @@ app.Run();
 <ul>
 <li>Server: thin client, low download, requires persistent connection.</li>
 <li>WebAssembly: runs in browser, offline capable, larger download.</li>
+</ul>
+<h2 id="theory-3">Theory</h2>
+<h3 id="rendering-model">Rendering model</h3>
+<ul>
+<li>Blazor uses a diffing renderer; components re-render when parameters or state change via <code>StateHasChanged</code>.</li>
+<li>Server model sends UI diffs over SignalR; WebAssembly renders in the browser.</li>
+</ul>
+<h3 id="component-lifecycle">Component lifecycle</h3>
+<ul>
+<li>Hooks: <code>OnInitialized[Async]</code>, <code>OnParametersSet[Async]</code>, <code>OnAfterRender[Async]</code> (and Async variants) control setup and post-render work.</li>
+<li>Implement <code>IDisposable</code> to clean up timers/subscriptions.</li>
+</ul>
+<h3 id="js-interop">JS interop</h3>
+<ul>
+<li>Use <code>IJSRuntime</code> and JS modules for interop; keep DOM-specific tasks in JS.</li>
+<li>Prefer strongly-typed wrappers for maintainability.</li>
 </ul>
 <hr />
 <h1 id="web-security">Web Security</h1>
@@ -1570,6 +1706,14 @@ jobs:
 <li>Version artifacts and publish build outputs (e.g., to GitHub Releases).</li>
 <li>Use environments and approvals for production.</li>
 </ul>
+<h2 id="theory-4">Theory</h2>
+<ul>
+<li>CI validates each change quickly; CD automates deployments with safety checks.</li>
+<li>Use separate environments (dev/test/stage/prod) with required reviewers for protected deployments.</li>
+<li>Store secrets in platform stores (GitHub Secrets, Azure Key Vault); never commit secrets.</li>
+<li>Cache package restores and toolchains to speed up builds; pin versions for reproducibility.</li>
+<li>Treat build outputs as artifacts for traceability; sign and checksum where appropriate.</li>
+</ul>
 <hr />
 <h1 id="docker-containers-for.net-apps">Docker Containers for .NET Apps</h1>
 <p>This guide shows how to containerize your .NET applications and run them locally. It pairs with the <code>examples/WebApi</code> project.</p>
@@ -1589,18 +1733,18 @@ jobs:
 </ul>
 <h2 id="build-and-run">Build and run</h2>
 <ol>
-<li>Build image
+<li>Build image</li>
+</ol>
 <ul>
 <li>Image name: <code>learning-webapi:dev</code></li>
 </ul>
-</li>
-<li>Run container
+<ol start="2">
+<li>Run container</li>
+</ol>
 <ul>
 <li>Map host port 8080 to container 8080</li>
 <li>Hit http://localhost:8080/swagger</li>
 </ul>
-</li>
-</ol>
 <p>Troubleshooting:</p>
 <ul>
 <li>If the port is in use, change host mapping <code>-p 8081:8080</code> and browse 8081.</li>

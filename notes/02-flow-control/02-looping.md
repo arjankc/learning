@@ -49,6 +49,3 @@ foreach (var word in words)
 	Console.WriteLine(word);
 }
 ```
-
-## Read More
-- Microsoft Docs: Iteration statements: https://learn.microsoft.com/dotnet/csharp/language-reference/statements/iteration-statements

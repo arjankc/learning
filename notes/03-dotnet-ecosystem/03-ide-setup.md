@@ -18,7 +18,3 @@
 ## CLI essentials
 - `dotnet new`, `dotnet add package`, `dotnet build`, `dotnet test`, `dotnet publish`.
 - `dotnet watch run` for hot reload during development.
-
-## Read More
-- https://learn.microsoft.com/dotnet/core/tutorials/with-visual-studio
-- https://learn.microsoft.com/dotnet/core/tutorials/with-visual-studio-code

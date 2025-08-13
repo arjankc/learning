@@ -58,4 +58,3 @@ When to use which:
 - Avoid repeated `List<T>.Remove(item)` in a loop; filter with `Where`/`RemoveAll`.
 
 ## Further reading
-- https://learn.microsoft.com/dotnet/standard/collections/

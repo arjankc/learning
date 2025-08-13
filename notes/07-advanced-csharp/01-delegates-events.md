@@ -17,6 +17,10 @@ Predicate<int> isEven = n => n % 2 == 0;    // bool-returning Func<T,bool>
 ```
 
 ## Lambdas and closures
+### Theory: variance and closures
+- Delegates are type-safe function pointers that can be multicast (invocation list).
+- Variance: input parameters are contravariant, return types are covariant when compatible.
+- Closures capture variables by reference; modifying the captured variable affects all lambdas.
 ```csharp
 int factor = 10;                  // captured variable
 Func<int,int> times = n => n * factor;
@@ -32,6 +36,10 @@ pipeline(); // prints AB
 ```
 
 ## Events (EventHandler pattern)
+### Event patterns
+- Prefer EventHandler/EventHandler<TEventArgs> for consistency.
+- Expose a protected virtual OnXyz method to allow derived classes to customize raising.
+- Consider weak references or explicit unsubscribe in long-lived publishers to prevent leaks.
 ```csharp
 public class Counter
 {
@@ -64,7 +72,3 @@ public event EventHandler Something
 - Prefer Action/Func over custom delegate types unless naming adds clarity.
 - Be careful with closures in loops; capture the loop variable into a local.
 - Unsubscribe from long-lived events to avoid memory leaks.
-
-## Read More
-- https://learn.microsoft.com/dotnet/csharp/programming-guide/delegates/
-- https://learn.microsoft.com/dotnet/csharp/programming-guide/events/

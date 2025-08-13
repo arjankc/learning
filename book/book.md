@@ -563,6 +563,25 @@ Native.Sleep(100);
 - ETW/EventPipe (dotnet-trace), dotnet-counters, dotnet-gcdump, PerfView.
 - In-process: `GC.GetTotalMemory`, `GC.TryStartNoGCRegion`, `Activity` for tracing.
 
+## Additional theory
+### Execution model
+- IL and metadata describe types/methods; JIT compiles methods on first execution.
+- Tiered compilation starts with fast code (Tier0) then re-JITs hot paths with optimizations (Tier1).
+- ReadyToRun (R2R) publishes precompiled native stubs to reduce startup JIT work.
+
+### GC internals
+- Generational GC with ephemeral segments for Gen0/Gen1 and a separate Gen2; LOH holds large objects (~85k+).
+- Finalizers run on a dedicated thread; objects with finalizers survive at least one extra collection.
+- Use `IDisposable` and `using` to release unmanaged resources deterministically.
+
+### Type safety and verification
+- The CLR verifies IL for type safety unless running fully trusted/unsafe code.
+- Unsafe code and stackalloc/pointers are available but opt-in and should be minimized.
+
+### Loading and isolation
+- AssemblyLoadContext enables custom probing and dynamic plugin loading in .NET 5+.
+- Single-file publish bundles dependencies; trimming reduces unused IL where possible.
+
 
 
 ---
@@ -824,6 +843,15 @@ public class CachedRepository<T> : IRepository<T>
 
 # Advanced OOP
 
+Dive deeper into design choices and trade-offs.
+
+## SOLID (at a glance)
+- Single Responsibility: one reason to change per module.
+- Open/Closed: extend via composition/abstractions, avoid modifying stable code.
+- Liskov Substitution: derived types must honor base contracts/invariants.
+- Interface Segregation: prefer small, focused interfaces.
+- Dependency Inversion: depend on abstractions, not concretions.
+
 ## Structs vs Classes
 - Structs are value types; copied by value, allocated inline when possible.
 - Prefer for small, immutable data (e.g., 2–3 fields). Avoid large or mutable structs.
@@ -882,6 +910,15 @@ Console.WriteLine(a == b); // true (value-based)
 - Favor immutability where practical.
 - Keep constructors simple; use factories/builders if setup is complex.
 - Keep inheritance shallow; prefer interfaces + composition.
+
+## Virtual dispatch and performance
+- Virtual/interface calls can inhibit inlining; sealing methods/types enables devirtualization.
+- Measure before optimizing; prefer clarity, optimize verified hot paths only.
+
+## Domain modeling tips
+- Keep entities small and cohesive; make invariants explicit.
+- Use aggregate roots to guard invariants; expose behavior, not settable state.
+- Persistence-ignorant domain: no data access in entities; use repositories/services for IO.
 
 
 
@@ -947,7 +984,6 @@ When to use which:
 - Avoid repeated `List<T>.Remove(item)` in a loop; filter with `Where`/`RemoveAll`.
 
 ## Further reading
-- https://learn.microsoft.com/dotnet/standard/collections/
 
 
 
@@ -1048,6 +1084,13 @@ catch (OrderStorageException ex)
 }
 ```
 
+## Theory: reliability and observability
+- Throwing is expensive; design for the happy path and throw only for truly exceptional cases.
+- Rethrow with `throw;` to preserve the original stack.
+- Avoid leaking secrets in messages; include useful IDs/correlation tokens.
+- Add global exception handling appropriate to the app type (ASP.NET Core middleware, WPF DispatcherUnhandledException).
+- Use first-chance exception settings when debugging to catch issues close to the source.
+
 
 
 ---
@@ -1129,6 +1172,10 @@ Predicate<int> isEven = n => n % 2 == 0;    // bool-returning Func<T,bool>
 ```
 
 ## Lambdas and closures
+### Theory: variance and closures
+- Delegates are type-safe function pointers that can be multicast (invocation list).
+- Variance: input parameters are contravariant, return types are covariant when compatible.
+- Closures capture variables by reference; modifying the captured variable affects all lambdas.
 ```csharp
 int factor = 10;                  // captured variable
 Func<int,int> times = n => n * factor;
@@ -1144,6 +1191,10 @@ pipeline(); // prints AB
 ```
 
 ## Events (EventHandler pattern)
+### Event patterns
+- Prefer EventHandler/EventHandler<TEventArgs> for consistency.
+- Expose a protected virtual OnXyz method to allow derived classes to customize raising.
+- Consider weak references or explicit unsubscribe in long-lived publishers to prevent leaks.
 ```csharp
 public class Counter
 {
@@ -1356,7 +1407,6 @@ catch
 ```
 
 ## Further reading
-- https://learn.microsoft.com/dotnet/framework/data/adonet/ado-net-overview
 
 
 
@@ -1403,6 +1453,24 @@ var blogs = await db.Blogs.AsNoTracking().Where(b => b.Title.Contains("H")).ToLi
 - Add a unique index to Blog.Title using Fluent API and verify the constraint.
 - Demonstrate tracking vs AsNoTracking and explain memory/perf impact in a list view.
 - Implement a one-to-many with cascade delete and write a test to verify.
+
+## Theory
+### Change tracking and state
+- DbContext tracks entity instances with states: Added, Modified, Deleted, Unchanged.
+- `DetectChanges` scans tracked entities; disable or minimize tracking for large read scenarios.
+- Use `AsNoTracking` for queries that don’t modify data; reattach entities with explicit states when updating detached graphs.
+
+### LINQ translation
+- Most query operators translate to SQL; some methods are client-evaluated—verify using `ToQueryString()`.
+- Prevent N+1 by using `Include`/`ThenInclude` or composing joins intentionally.
+
+### Transactions and concurrency
+- `SaveChanges` runs in a transaction by default; use explicit transactions for multiple SaveChanges or cross-context operations.
+- Implement optimistic concurrency with a rowversion/timestamp column; handle `DbUpdateConcurrencyException` by reloading/merging.
+
+### Migrations practices
+- Keep migrations small, named, and reviewed; include data migrations when needed.
+- For destructive schema changes, back up and apply in maintenance windows.
 
 
 
@@ -1531,6 +1599,23 @@ public class MainViewModel
 - Use PresentationTraceSources for binding debug.
 - Enable exceptions on binding failures in dev.
 
+## Theory
+### Visual vs Logical Tree
+- Logical tree is used by resources and data binding; visual tree shows rendered element composition.
+- Inspect with Live Visual Tree or tools like Snoop.
+
+### Dependency Properties
+- Provide WPF-level property system: default values, change callbacks, styling/animation, value precedence.
+- Register via `DependencyProperty.Register` and expose CLR wrappers.
+
+### Data Templates & Virtualization
+- Use DataTemplate to define item visuals; prefer virtualization for large item sources.
+- Enable `VirtualizingStackPanel.IsVirtualizing="True"` and recycling mode for performance.
+
+### Performance tips
+- Freeze Freezables (Brush, Transform) when immutable.
+- Reduce layout complexity; flatten hierarchies; avoid heavy triggers.
+
 
 
 ---
@@ -1557,6 +1642,22 @@ app.MapPost("/sum", (int a, int b) => Results.Ok(new { sum = a + b }));
 
 ## Web API essentials
 - Model binding, validation attributes, filters, content negotiation (JSON by default).
+
+## Theory
+### Dependency Injection
+- Built-in DI supports Singleton, Scoped (per-request), and Transient lifetimes.
+- Prefer constructor injection; avoid static/service locator patterns.
+
+### Model Binding & Validation
+- Binds from route, query, headers, and body. Use `[FromBody]`, `[FromQuery]` etc. to be explicit.
+- Validate with data annotations; check `ModelState.IsValid` or rely on automatic 400 with ApiController.
+
+### Configuration & Options
+- Combine appsettings.json, environment variables, and secrets. Bind strongly-typed settings via `IOptions<T>`.
+
+### Logging & Observability
+- Use `ILogger<T>` for structured logs. Add correlation IDs and health checks.
+- Consider OpenTelemetry for traces/metrics, and Serilog/Sinks for log shipping.
 
 
 
@@ -1593,6 +1694,19 @@ app.MapPost("/sum", (int a, int b) => Results.Ok(new { sum = a + b }));
 ## Hosting models
 - Server: thin client, low download, requires persistent connection.
 - WebAssembly: runs in browser, offline capable, larger download.
+
+## Theory
+### Rendering model
+- Blazor uses a diffing renderer; components re-render when parameters or state change via `StateHasChanged`.
+- Server model sends UI diffs over SignalR; WebAssembly renders in the browser.
+
+### Component lifecycle
+- Hooks: `OnInitialized[Async]`, `OnParametersSet[Async]`, `OnAfterRender[Async]` (and Async variants) control setup and post-render work.
+- Implement `IDisposable` to clean up timers/subscriptions.
+
+### JS interop
+- Use `IJSRuntime` and JS modules for interop; keep DOM-specific tasks in JS.
+- Prefer strongly-typed wrappers for maintainability.
 
 
 
@@ -1795,6 +1909,13 @@ jobs:
 - Version artifacts and publish build outputs (e.g., to GitHub Releases).
 - Use environments and approvals for production.
 
+## Theory
+- CI validates each change quickly; CD automates deployments with safety checks.
+- Use separate environments (dev/test/stage/prod) with required reviewers for protected deployments.
+- Store secrets in platform stores (GitHub Secrets, Azure Key Vault); never commit secrets.
+- Cache package restores and toolchains to speed up builds; pin versions for reproducibility.
+- Treat build outputs as artifacts for traceability; sign and checksum where appropriate.
+
 
 
 ---
@@ -1818,10 +1939,10 @@ Key points:
 
 ## Build and run
 1) Build image
-   - Image name: `learning-webapi:dev`
+ - Image name: `learning-webapi:dev`
 2) Run container
-   - Map host port 8080 to container 8080
-   - Hit http://localhost:8080/swagger
+ - Map host port 8080 to container 8080
+ - Hit http://localhost:8080/swagger
 
 Troubleshooting:
 - If the port is in use, change host mapping `-p 8081:8080` and browse 8081.

@@ -52,6 +52,3 @@ var pages = await Task.WhenAll(tasks);
 - Wrap an external API call with timeout and cancellation, surfacing a custom exception on failure.
 - Convert a synchronous file processing loop to async and ensure max 4 concurrent operations.
 - Explain ConfigureAwait(false) and where it’s appropriate; demonstrate a context-deadlock caused by .Result.
-
-## Read More
-- https://learn.microsoft.com/dotnet/csharp/asynchronous-programming/

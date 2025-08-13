@@ -36,6 +36,3 @@ Disambiguation with fully-qualified names:
 // If two types have the same name in different namespaces
 global::System.Uri uri = new("https://example.com");
 ```
-
-## Read More
-- Microsoft Docs: Namespaces: https://learn.microsoft.com/dotnet/csharp/fundamentals/types/namespaces

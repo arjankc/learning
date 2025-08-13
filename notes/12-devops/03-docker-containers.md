@@ -17,10 +17,10 @@ Key points:
 
 ## Build and run
 1) Build image
-   - Image name: `learning-webapi:dev`
+ - Image name: `learning-webapi:dev`
 2) Run container
-   - Map host port 8080 to container 8080
-   - Hit http://localhost:8080/swagger
+ - Map host port 8080 to container 8080
+ - Hit http://localhost:8080/swagger
 
 Troubleshooting:
 - If the port is in use, change host mapping `-p 8081:8080` and browse 8081.

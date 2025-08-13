@@ -46,5 +46,9 @@ catch (OrderStorageException ex)
 }
 ```
 
-## Read More
-- https://learn.microsoft.com/dotnet/csharp/fundamentals/exceptions/
+## Theory: reliability and observability
+- Throwing is expensive; design for the happy path and throw only for truly exceptional cases.
+- Rethrow with `throw;` to preserve the original stack.
+- Avoid leaking secrets in messages; include useful IDs/correlation tokens.
+- Add global exception handling appropriate to the app type (ASP.NET Core middleware, WPF DispatcherUnhandledException).
+- Use first-chance exception settings when debugging to catch issues close to the source.

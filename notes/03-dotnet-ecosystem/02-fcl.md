@@ -36,6 +36,3 @@ catch (TaskCanceledException) { /* expected */ }
 ## Tips
 - Prefer BCL types first; they’re well-tested and supported across runtimes.
 - Check for `TryXxx` methods to avoid exceptions for common failure paths.
-
-## Read More
-- https://learn.microsoft.com/dotnet/standard/class-library-overview

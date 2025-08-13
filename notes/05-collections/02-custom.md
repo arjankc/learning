@@ -40,7 +40,3 @@ public class BoundedList<T> : IList<T>
 	System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => _inner.GetEnumerator();
 }
 ```
-
-## Read More
-- https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
-- https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1

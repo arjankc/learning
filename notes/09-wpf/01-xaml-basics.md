@@ -47,6 +47,3 @@ public class RelayCommand : ICommand
 ## Practice
 - Bind a Slider to a numeric property (TwoWay) and display its value.
 - Add validation to disallow empty names and show a red adornment.
-
-## Read More
-- https://learn.microsoft.com/dotnet/desktop/wpf/xaml-services/?view=netdesktop-8.0
