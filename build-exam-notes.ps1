@@ -229,11 +229,32 @@ if ($useBasicConversion) {
             text-decoration: underline;
         }
         
+        /* Print styles for better PDF generation */
+        
         @media print {
+            @page {
+                margin: 15mm;
+                size: A4;
+                margin-top: 15mm;
+                margin-bottom: 15mm;
+                margin-left: 15mm;
+                margin-right: 15mm;
+            }
+            
+            @page :first {
+                margin-top: 15mm;
+                margin-bottom: 15mm;
+            }
+            
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            
             body {
                 max-width: none;
                 margin: 0;
-                padding: 15mm;
+                padding: 0;
             }
             
             h1 {
@@ -381,24 +402,54 @@ if ($null -eq $browser) {
     Write-Host "3. Choose 'Save as PDF'"
     Start-Process $htmlPath
 } else {
-    Write-Host "Generating PDF..."
-    $uri = [System.Uri]::new($htmlPath).AbsoluteUri
-    
-    # Use Chrome/Edge headless mode to generate PDF
+Write-Host "Generating PDF..."
+$uri = [System.Uri]::new($htmlPath).AbsoluteUri
+
+# Create temporary Chrome user data directory
+$tempUserData = Join-Path -Path $env:TEMP -ChildPath "chrome_pdf_temp_$(Get-Random)"
+New-Item -ItemType Directory -Path $tempUserData -Force | Out-Null
+
+try {
+    # Use Chrome/Edge headless mode to generate PDF with custom user data
     $pdfArgs = @(
         '--headless',
         '--disable-gpu', 
         '--disable-software-rasterizer',
         '--disable-dev-shm-usage',
         '--no-sandbox',
-        '--print-to-pdf-no-header',
-        "--print-to-pdf=`"$pdfPath`"",
-        '--virtual-time-budget=10000',
+        '--display-header-footer',
+        '--print-to-pdf',
+        '--disable-extensions',
+        '--disable-plugins',
+        '--disable-background-timer-throttling',
+        '--disable-backgrounding-occluded-windows',
+        '--disable-renderer-backgrounding',
+        '--disable-default-apps',
+        '--no-first-run',
+        '--no-default-browser-check',
+        "--user-data-dir=`"$tempUserData`"",
         '--run-all-compositor-stages-before-draw',
+        '--virtual-time-budget=15000',
+        '--disable-background-networking',
+        '--disable-sync',
+        '--disable-translate',
+        '--hide-scrollbars',
+        '--mute-audio',
+        '--no-restore-session-state',
+        '--disable-logging',
+        '--disable-gl-drawing-for-tests',
+        "--print-to-pdf=`"$pdfPath`"",
         "`"$uri`""
     )
     
     Start-Process -FilePath $browser -ArgumentList $pdfArgs -Wait -NoNewWindow
+}
+finally {
+    # Clean up temporary directory
+    if (Test-Path -Path $tempUserData) {
+        Remove-Item -Path $tempUserData -Recurse -Force -ErrorAction SilentlyContinue
+    }
+}
     
     if (Test-Path -Path $pdfPath) {
         Write-Host "PDF created successfully: $pdfPath" -ForegroundColor Green

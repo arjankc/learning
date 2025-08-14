@@ -1,4 +1,4 @@
-# C#/.NET Exam Preparation Notes
+﻿# C#/.NET Exam Preparation Notes
 
 ## Table of Contents
 1. [Visual Programming](#visual-programming)
@@ -20,7 +20,7 @@
 17. [Blazor](#blazor)
 18. [Xamarin](#xamarin)
 
----
+
 
 ## Visual Programming
 
@@ -39,9 +39,9 @@ Visual programming is a programming paradigm that uses graphical elements rather
 | **Examples** | Visual Studio Designer, Scratch | C#, Java, Python |
 
 ### Examples in .NET
-- **Visual Studio Designer**: For WPF, WinForms
-- **XAML Designer**: For WPF and UWP applications
-- **Blazor Visual Designer**: For web components
+- [COVERED]**Visual Studio Designer**: For WPF, WinForms
+- [COVERED]**XAML Designer**: For WPF and UWP applications
+- [COVERED]**Blazor Visual Designer**: For web components
 
 ```csharp
 // Text-based approach
@@ -55,7 +55,7 @@ myButton.Click += MyButton_Click;
 // Designer generates similar code but through visual manipulation
 ```
 
----
+
 
 ## Event-Driven Programming
 
@@ -115,24 +115,24 @@ public class Subscriber
 }
 ```
 
----
+
 
 ## .NET Framework Architecture
 
 ### Key Components
 
 #### 1. Common Language Runtime (CLR)
-- **Memory Management**: Automatic garbage collection
-- **Type Safety**: Ensures type safety at runtime
-- **Exception Handling**: Unified exception handling
-- **Thread Management**: Manages application threads
-- **Security**: Code access security
+- [COVERED]**Memory Management**: Automatic garbage collection
+- [COVERED]**Type Safety**: Ensures type safety at runtime
+- [COVERED]**Exception Handling**: Unified exception handling
+- [COVERED]**Thread Management**: Manages application threads
+- [COVERED]**Security**: Code access security
 
 #### 2. Base Class Library (BCL)
-- **System.Object**: Root of all .NET types
-- **Collections**: Generic and non-generic collections
-- **I/O**: File and stream operations
-- **Networking**: Network communication classes
+- [COVERED]**System.Object**: Root of all .NET types
+- [COVERED]**Collections**: Generic and non-generic collections
+- [COVERED]**I/O**: File and stream operations
+- [COVERED]**Networking**: Network communication classes
 
 #### 3. .NET Framework vs .NET Core vs .NET 5+
 
@@ -145,18 +145,24 @@ public class Subscriber
 
 ### Architecture Diagram
 ```
-┌─────────────────────────────────────┐
-│        Your Application            │
-├─────────────────────────────────────┤
-│    Base Class Library (BCL)        │
-├─────────────────────────────────────┤
-│  Common Language Runtime (CLR)     │
-├─────────────────────────────────────┤
-│       Operating System             │
-└─────────────────────────────────────┘
++-------------------------------------+
+|        Your Application            |
++-------------------------------------+
+|    Base Class Library (BCL)        |
++-------------------------------------+
+|  Common Language Runtime (CLR)     |
++-------------------------------------+
+|       Operating System             |
++-------------------------------------+
 ```
 
----
+**Layer Description:**
+- [COVERED]**Your Application**: C# code you write (WPF, Console, Web, etc.)
+- [COVERED]**Base Class Library**: Built-in .NET classes (System.*, Collections, etc.)
+- [COVERED]**Common Language Runtime**: Memory management, type safety, execution
+- [COVERED]**Operating System**: Windows, Linux, macOS platform services
+
+
 
 ## RAD Tools
 
@@ -166,20 +172,20 @@ RAD is a software development methodology that prioritizes rapid prototyping and
 ### RAD Tools in .NET Ecosystem
 
 #### 1. Visual Studio
-- **IntelliSense**: Code completion and suggestions
-- **Debugging Tools**: Breakpoints, watch windows
-- **Designer Support**: Visual designers for UI
-- **Project Templates**: Pre-built project structures
+- [COVERED]**IntelliSense**: Code completion and suggestions
+- [COVERED]**Debugging Tools**: Breakpoints, watch windows
+- [COVERED]**Designer Support**: Visual designers for UI
+- [COVERED]**Project Templates**: Pre-built project structures
 
 #### 2. Visual Studio Code
-- **Extensions**: Rich ecosystem of extensions
-- **Integrated Terminal**: Built-in command line
-- **Git Integration**: Version control support
+- [COVERED]**Extensions**: Rich ecosystem of extensions
+- [COVERED]**Integrated Terminal**: Built-in command line
+- [COVERED]**Git Integration**: Version control support
 
 #### 3. JetBrains Rider
-- **Advanced Refactoring**: Powerful code transformation tools
-- **Unit Testing**: Integrated test runner
-- **Database Tools**: Built-in database support
+- [COVERED]**Advanced Refactoring**: Powerful code transformation tools
+- [COVERED]**Unit Testing**: Integrated test runner
+- [COVERED]**Database Tools**: Built-in database support
 
 ### Example: Quick WPF Application
 ```csharp
@@ -226,7 +232,7 @@ public partial class MainWindow : Window
 }
 ```
 
----
+
 
 ## Type Conversion
 
@@ -303,7 +309,7 @@ if (DateTime.TryParse(dateString, out DateTime parsedDate))
 }
 ```
 
----
+
 
 ## Structures vs Enumerations
 
@@ -313,10 +319,10 @@ if (DateTime.TryParse(dateString, out DateTime parsedDate))
 Structures are value types that can contain data members and function members.
 
 #### Key Characteristics
-- **Value Type**: Stored on stack
-- **No Inheritance**: Cannot inherit from other types
-- **Immutable Recommended**: Should be immutable for best practices
-- **Default Constructor**: Always available
+- [COVERED]**Value Type**: Stored on stack
+- [COVERED]**No Inheritance**: Cannot inherit from other types
+- [COVERED]**Immutable Recommended**: Should be immutable for best practices
+- [COVERED]**Default Constructor**: Always available
 
 ```csharp
 public struct Point
@@ -353,10 +359,10 @@ Console.WriteLine(p1.DistanceFromOrigin()); // 5
 Enumerations define a set of named constants of the underlying integral numeric type.
 
 #### Key Characteristics
-- **Named Constants**: Improve code readability
-- **Type Safe**: Prevents invalid values
-- **Underlying Type**: Default is int, can be changed
-- **Flags Support**: Can be combined using bitwise operations
+- [COVERED]**Named Constants**: Improve code readability
+- [COVERED]**Type Safe**: Prevents invalid values
+- [COVERED]**Underlying Type**: Default is int, can be changed
+- [COVERED]**Flags Support**: Can be combined using bitwise operations
 
 ```csharp
 // Basic enumeration
@@ -415,7 +421,7 @@ bool canExecute = permissions.HasFlag(FilePermissions.Execute); // false
 | **Methods** | Can have methods | Only predefined methods |
 | **Mutability** | Should be immutable | Immutable |
 
----
+
 
 ## Collections
 
@@ -528,7 +534,7 @@ string value = (string)table["key1"];
 ### Collection Interfaces
 
 ```csharp
-// IEnumerable<T> - Basic iteration
+// IEnumerable<T> - [COVERED]Basic iteration
 public void ProcessItems(IEnumerable<string> items)
 {
     foreach (string item in items)
@@ -537,7 +543,7 @@ public void ProcessItems(IEnumerable<string> items)
     }
 }
 
-// ICollection<T> - Add/Remove operations
+// ICollection<T> - [COVERED]Add/Remove operations
 public void ModifyCollection(ICollection<string> items)
 {
     items.Add("New Item");
@@ -545,7 +551,7 @@ public void ModifyCollection(ICollection<string> items)
     Console.WriteLine($"Count: {items.Count}");
 }
 
-// IList<T> - Indexed access
+// IList<T> - [COVERED]Indexed access
 public void AccessByIndex(IList<string> items)
 {
     items[0] = "First Item";
@@ -553,7 +559,7 @@ public void AccessByIndex(IList<string> items)
 }
 ```
 
----
+
 
 ## Regular Expressions
 
@@ -563,15 +569,15 @@ Regular expressions (regex) are patterns used to match character combinations in
 ### Basic Syntax
 
 #### Metacharacters
-- `.` - Any character except newline
-- `*` - Zero or more occurrences
-- `+` - One or more occurrences
-- `?` - Zero or one occurrence
-- `^` - Start of string
-- `$` - End of string
-- `|` - OR operator
-- `[]` - Character class
-- `()` - Grouping
+- [COVERED]`.` - [COVERED]Any character except newline
+- [COVERED]`*` - [COVERED]Zero or more occurrences
+- [COVERED]`+` - [COVERED]One or more occurrences
+- [COVERED]`?` - [COVERED]Zero or one occurrence
+- [COVERED]`^` - [COVERED]Start of string
+- [COVERED]`$` - [COVERED]End of string
+- [COVERED]`|` - [COVERED]OR operator
+- [COVERED]`[]` - [COVERED]Character class
+- [COVERED]`()` - [COVERED]Grouping
 
 ### C# Regex Implementation
 
@@ -668,7 +674,7 @@ if (match.Success)
 }
 ```
 
----
+
 
 ## Polymorphism
 
@@ -767,16 +773,16 @@ foreach (Animal animal in animals)
 ```csharp
 public abstract class Shape
 {
-    // Abstract method - must be implemented by derived classes
+    // Abstract method - [COVERED]must be implemented by derived classes
     public abstract double CalculateArea();
     
-    // Virtual method - can be overridden
+    // Virtual method - [COVERED]can be overridden
     public virtual void Display()
     {
         Console.WriteLine($"Area: {CalculateArea():F2}");
     }
     
-    // Regular method - inherited as-is
+    // Regular method - [COVERED]inherited as-is
     public void PrintInfo()
     {
         Console.WriteLine("This is a shape");
@@ -866,7 +872,7 @@ foreach (IDrawable drawable in drawables)
 }
 ```
 
----
+
 
 ## Abstract Classes vs Interfaces
 
@@ -876,12 +882,12 @@ foreach (IDrawable drawable in drawables)
 An abstract class is a class that cannot be instantiated and may contain both abstract and concrete members.
 
 #### Key Characteristics
-- Cannot be instantiated directly
-- Can contain both abstract and concrete methods
-- Can have constructors
-- Can have fields and properties
-- Supports single inheritance only
-- Can have access modifiers for members
+- [COVERED]Cannot be instantiated directly
+- [COVERED]Can contain both abstract and concrete methods
+- [COVERED]Can have constructors
+- [COVERED]Can have fields and properties
+- [COVERED]Supports single inheritance only
+- [COVERED]Can have access modifiers for members
 
 ```csharp
 public abstract class Vehicle
@@ -897,17 +903,17 @@ public abstract class Vehicle
         this.year = year;
     }
     
-    // Abstract method - must be implemented
+    // Abstract method - [COVERED]must be implemented
     public abstract void Start();
     public abstract double CalculateFuelEfficiency();
     
-    // Concrete method - inherited as-is
+    // Concrete method - [COVERED]inherited as-is
     public void DisplayInfo()
     {
         Console.WriteLine($"{brand} {year}");
     }
     
-    // Virtual method - can be overridden
+    // Virtual method - [COVERED]can be overridden
     public virtual void Stop()
     {
         Console.WriteLine("Vehicle stopped");
@@ -951,12 +957,12 @@ public class Car : Vehicle
 An interface defines a contract that implementing classes must follow. It contains only declarations.
 
 #### Key Characteristics
-- Cannot be instantiated
-- Contains only method signatures, properties, events, indexers
-- No implementation (except default interface methods in C# 8+)
-- No fields or constructors
-- Supports multiple inheritance
-- All members are implicitly public
+- [COVERED]Cannot be instantiated
+- [COVERED]Contains only method signatures, properties, events, indexers
+- [COVERED]No implementation (except default interface methods in C# 8+)
+- [COVERED]No fields or constructors
+- [COVERED]Supports multiple inheritance
+- [COVERED]All members are implicitly public
 
 ```csharp
 public interface IVehicle
@@ -1060,16 +1066,16 @@ public class HybridCar : IVehicle, IElectric, IGasoline
 ### When to Use Which?
 
 #### Use Abstract Class When:
-- You want to share code among several closely related classes
-- You expect classes that extend your abstract class to have many common methods or fields
-- You want to declare non-public members
-- You need to provide a common constructor
+- [COVERED]You want to share code among several closely related classes
+- [COVERED]You expect classes that extend your abstract class to have many common methods or fields
+- [COVERED]You want to declare non-public members
+- [COVERED]You need to provide a common constructor
 
 #### Use Interface When:
-- You expect unrelated classes to implement your interface
-- You want to specify the behavior of a particular data type, but not concerned about who implements it
-- You want to support multiple inheritance of type
-- You want to provide a contract for classes to follow
+- [COVERED]You expect unrelated classes to implement your interface
+- [COVERED]You want to specify the behavior of a particular data type, but not concerned about who implements it
+- [COVERED]You want to support multiple inheritance of type
+- [COVERED]You want to provide a contract for classes to follow
 
 ```csharp
 // Example: When to use both
@@ -1128,7 +1134,7 @@ public class SqlServerConnection : DatabaseConnection, IQueryable
 }
 ```
 
----
+
 
 ## Inheritance and Encapsulation
 
@@ -1285,7 +1291,7 @@ public class BankAccount
     public string AccountNumber 
     { 
         get { return accountNumber; } 
-        // No setter - read-only
+        // No setter - [COVERED]read-only
     }
     
     public string OwnerName
@@ -1301,7 +1307,7 @@ public class BankAccount
     public decimal Balance 
     { 
         get { return balance; } 
-        // No public setter - controlled through methods
+        // No public setter - [COVERED]controlled through methods
     }
     
     // Public methods (controlled operations)
@@ -1422,7 +1428,7 @@ public class Product
 }
 ```
 
----
+
 
 ## Exception Handling
 
@@ -1674,7 +1680,7 @@ public class ExceptionBestPractices
         }
         catch
         {
-            // Silently ignoring exception - BAD!
+            // Silently ignoring exception - [COVERED]BAD!
         }
     }
     
@@ -1687,7 +1693,7 @@ public class ExceptionBestPractices
         }
         catch (Exception ex)
         {
-            // Too broad - might catch unexpected exceptions
+            // Too broad - [COVERED]might catch unexpected exceptions
             Console.WriteLine("Something went wrong");
         }
     }
@@ -1729,7 +1735,7 @@ public class ExceptionBestPractices
 }
 ```
 
----
+
 
 ## Parallel Programming
 
@@ -1912,7 +1918,7 @@ public class ThreadSafeCollectionsExample
 {
     public static void ConcurrentCollectionsExample()
     {
-        // ConcurrentBag - Thread-safe collection of objects
+        // ConcurrentBag - [COVERED]Thread-safe collection of objects
         var bag = new ConcurrentBag<int>();
         
         Parallel.For(0, 100, i =>
@@ -1922,7 +1928,7 @@ public class ThreadSafeCollectionsExample
         
         Console.WriteLine($"Bag contains {bag.Count} items");
         
-        // ConcurrentDictionary - Thread-safe dictionary
+        // ConcurrentDictionary - [COVERED]Thread-safe dictionary
         var dictionary = new ConcurrentDictionary<string, int>();
         
         Parallel.For(0, 100, i =>
@@ -1936,7 +1942,7 @@ public class ThreadSafeCollectionsExample
         
         Console.WriteLine($"Dictionary contains {dictionary.Count} items");
         
-        // ConcurrentQueue - Thread-safe FIFO collection
+        // ConcurrentQueue - [COVERED]Thread-safe FIFO collection
         var queue = new ConcurrentQueue<string>();
         
         Task producer = Task.Run(() =>
@@ -2089,7 +2095,7 @@ public class SynchronizationExamples
 }
 ```
 
----
+
 
 ## ADO.NET
 
@@ -2099,27 +2105,31 @@ ADO.NET is a set of classes that expose data access services for .NET Framework 
 ### ADO.NET Architecture
 
 #### Core Components
-1. **Data Provider** - Connects to database
-2. **DataSet** - In-memory representation of data
-3. **DataAdapter** - Bridge between DataSet and data source
-4. **DataReader** - Forward-only, read-only data stream
+1. **Data Provider** - [COVERED]Connects to database
+2. **DataSet** - [COVERED]In-memory representation of data
+3. **DataAdapter** - [COVERED]Bridge between DataSet and data source
+4. **DataReader** - [COVERED]Forward-only, read-only data stream
 
 ```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Application   │←──→│    DataSet       │←──→│  DataAdapter    │
-│                 │    │  (Disconnected)  │    │                 │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-                                                        │
-┌─────────────────┐    ┌──────────────────┐           │
-│   Application   │←──→│   DataReader     │←──────────┤
-│                 │    │   (Connected)    │           │
-└─────────────────┘    └──────────────────┘           │
-                                                       ▼
-                                              ┌─────────────────┐
-                                              │   Data Source   │
-                                              │   (Database)    │
-                                              └─────────────────┘
++----------------+    +------------------+    +----------------+
+|   Application  |<-->|    DataSet       |<-->|  DataAdapter   |
+|                |    |  (Disconnected)  |    |                |
++----------------+    +------------------+    +----------------+
+                                                       |
++----------------+    +------------------+            |
+|   Application  |<-->|   DataReader     |<-----------+
+|                |    |   (Connected)    |            |
++----------------+    +------------------+            |
+                                                      V
+                                             +----------------+
+                                             |   Data Source  |
+                                             |   (Database)   |
+                                             +----------------+
 ```
+
+**Connection Types:**
+- [COVERED]**DataSet**: Disconnected - [COVERED]loads data into memory, works offline
+- [COVERED]**DataReader**: Connected - [COVERED]requires active connection, reads forward-only
 
 ### DataReader vs DataSet
 
@@ -2499,7 +2509,7 @@ public class LinqToSqlExample
 }
 ```
 
----
+
 
 ## WPF
 
@@ -2526,7 +2536,7 @@ Windows Presentation Foundation (WPF) is Microsoft's latest approach to a GUI fr
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
-        <!-- Header -->
+        <!-- [COVERED]Header -->
         <TextBlock Grid.Row="0" 
                    Text="Welcome to WPF" 
                    FontSize="24" 
@@ -2534,7 +2544,7 @@ Windows Presentation Foundation (WPF) is Microsoft's latest approach to a GUI fr
                    HorizontalAlignment="Center"
                    Margin="10"/>
         
-        <!-- Content Area -->
+        <!-- [COVERED]Content Area -->
         <StackPanel Grid.Row="1" 
                     Orientation="Vertical" 
                     Margin="20">
@@ -2560,7 +2570,7 @@ Windows Presentation Foundation (WPF) is Microsoft's latest approach to a GUI fr
             
         </StackPanel>
         
-        <!-- Status Bar -->
+        <!-- [COVERED]Status Bar -->
         <StatusBar Grid.Row="2">
             <StatusBarItem Content="Ready"/>
         </StatusBar>
@@ -2654,14 +2664,14 @@ public class Person : INotifyPropertyChanged
 ```
 
 ```xml
-<!-- Data Binding XAML -->
+<!-- [COVERED]Data Binding XAML -->
 <Window x:Class="WpfApp.DataBindingWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <StackPanel Margin="20">
         
-        <!-- Two-way binding -->
+        <!-- [COVERED]Two-way binding -->
         <Label Content="First Name:"/>
         <TextBox Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" 
                  Margin="0,0,0,10"/>
@@ -2681,7 +2691,7 @@ public class Person : INotifyPropertyChanged
                    FontSize="16"
                    Margin="0,0,0,10"/>
         
-        <!-- Binding with conversion -->
+        <!-- [COVERED]Binding with conversion -->
         <TextBlock Margin="0,10,0,0">
             <TextBlock.Text>
                 <MultiBinding StringFormat="Person: {0}, Age: {1}">
@@ -2723,14 +2733,14 @@ public partial class DataBindingWindow : Window
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
-        <!-- Employee List -->
+        <!-- [COVERED]Employee List -->
         <ListBox Grid.Column="0" 
                  ItemsSource="{Binding Employees}"
                  SelectedItem="{Binding SelectedEmployee}"
                  DisplayMemberPath="FullName"
                  Margin="10"/>
         
-        <!-- Employee Details -->
+        <!-- [COVERED]Employee Details -->
         <StackPanel Grid.Column="1" 
                     DataContext="{Binding SelectedEmployee}"
                     Margin="10">
@@ -2912,7 +2922,7 @@ public class MainViewModel : INotifyPropertyChanged
 }
 ```
 
----
+
 
 ## ASP.NET & ASP.NET Core
 
@@ -2920,17 +2930,24 @@ public class MainViewModel : INotifyPropertyChanged
 
 #### Model-View-Controller Pattern
 ```
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│   Browser   │───▶│ Controller  │───▶│    Model    │
-│             │    │             │    │             │
-└─────────────┘    └─────────────┘    └─────────────┘
-       ▲                   │                  │
-       │                   ▼                  │
-       │            ┌─────────────┐           │
-       └────────────│    View     │◀──────────┘
-                    │             │
-                    └─────────────┘
++-------------+    +-------------+    +-------------+
+|   Browser   |--->| Controller  |--->|    Model    |
+|             |    |             |    |             |
++-------------+    +-------------+    +-------------+
+       ^                   |                  |
+       |                   V                  |
+       |            +-------------+           |
+       +------------+    View     +<----------+
+                    |             |
+                    +-------------+
 ```
+
+**MVC Flow:**
+1. **Browser** sends request to **Controller**
+2. **Controller** processes request, interacts with **Model**
+3. **Model** returns data to **Controller**
+4. **Controller** passes data to **View** for rendering
+5. **View** sends rendered HTML back to **Browser**
 
 #### Model Example
 ```csharp
@@ -3395,7 +3412,7 @@ public class AuthService : IAuthService
 
 #### Authorization Policies
 ```csharp
-// Program.cs - Authorization setup
+// Program.cs - [COVERED]Authorization setup
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOnly", policy => 
@@ -3480,28 +3497,28 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:80"
+      - [COVERED]"8080:80"
     environment:
       - ConnectionStrings__DefaultConnection=Server=db;Database=MyAppDb;User=sa;Password=YourPassword123;
-      - ASPNETCORE_ENVIRONMENT=Production
+      - [COVERED]ASPNETCORE_ENVIRONMENT=Production
     depends_on:
-      - db
+      - [COVERED]db
   
   db:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=YourPassword123
+      - [COVERED]ACCEPT_EULA=Y
+      - [COVERED]SA_PASSWORD=YourPassword123
     ports:
-      - "1433:1433"
+      - [COVERED]"1433:1433"
     volumes:
-      - sqldata:/var/opt/mssql
+      - [COVERED]sqldata:/var/opt/mssql
 
 volumes:
   sqldata:
 ```
 
----
+
 
 ## Blazor
 
@@ -3651,13 +3668,13 @@ Blazor is a free and open-source web framework that enables developers to create
 
 <div class="row">
     <div class="col-md-6">
-        <!-- One-way binding -->
+        <!-- [COVERED]One-way binding -->
         <h4>One-way Binding</h4>
         <p>Current time: @DateTime.Now.ToString("HH:mm:ss")</p>
         <p>User name: @user.Name</p>
         <p>Is active: @user.IsActive</p>
         
-        <!-- Two-way binding -->
+        <!-- [COVERED]Two-way binding -->
         <h4>Two-way Binding</h4>
         <div class="form-group">
             <label>Name:</label>
@@ -3990,7 +4007,7 @@ builder.Services.AddScoped<AppStateService>();
 }
 ```
 
----
+
 
 ## Xamarin
 
@@ -4204,14 +4221,14 @@ public class ProductListViewModel : INotifyPropertyChanged
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         
-        <!-- Search Bar -->
+        <!-- [COVERED]Search Bar -->
         <SearchBar Grid.Row="0"
                    Placeholder="Search products..."
                    Text="{Binding SearchText}"
                    SearchCommand="{Binding SearchCommand}"
                    Margin="10" />
         
-        <!-- Product List -->
+        <!-- [COVERED]Product List -->
         <CollectionView Grid.Row="1"
                         ItemsSource="{Binding Products}"
                         SelectedItem="{Binding SelectedProduct}"
@@ -4253,7 +4270,7 @@ public class ProductListViewModel : INotifyPropertyChanged
             </CollectionView.ItemTemplate>
         </CollectionView>
         
-        <!-- Loading Indicator -->
+        <!-- [COVERED]Loading Indicator -->
         <ActivityIndicator Grid.RowSpan="2"
                           IsVisible="{Binding IsLoading}"
                           IsRunning="{Binding IsLoading}"
@@ -4525,42 +4542,1485 @@ public class NavigationService : INavigationService
 }
 ```
 
----
+
 
 ## Summary and Quick Reference
 
 ### Key Concepts Checklist
 
 #### Programming Fundamentals
-- ✅ **Visual vs Text Programming**: Visual uses drag-drop; Text uses code
-- ✅ **Event-Driven Programming**: Program flow controlled by events (clicks, input)
-- ✅ **.NET Architecture**: CLR + BCL + Your App
-- ✅ **RAD Tools**: Visual Studio, IntelliSense, designers for rapid development
+- [COVERED]… **Visual vs Text Programming**: Visual uses drag-drop; Text uses code
+- [COVERED]… **Event-Driven Programming**: Program flow controlled by events (clicks, input)
+- [COVERED]… **.NET Architecture**: CLR + BCL + Your App
+- [COVERED]… **RAD Tools**: Visual Studio, IntelliSense, designers for rapid development
 
 #### C# Language Features
-- ✅ **Type Conversion**: Implicit (safe), Explicit (cast), Boxing/Unboxing
-- ✅ **Structures**: Value types, immutable, no inheritance
-- ✅ **Enumerations**: Named constants, type-safe, can use flags
-- ✅ **Collections**: Generic (List<T>, Dictionary<K,V>) vs Non-generic (ArrayList)
-- ✅ **Regex**: Pattern matching with `Regex` class
+- [COVERED]… **Type Conversion**: Implicit (safe), Explicit (cast), Boxing/Unboxing
+- [COVERED]… **Structures**: Value types, immutable, no inheritance
+- [COVERED]… **Enumerations**: Named constants, type-safe, can use flags
+- [COVERED]… **Collections**: Generic (List<T>, Dictionary<K,V>) vs Non-generic (ArrayList)
+- [COVERED]… **Regex**: Pattern matching with `Regex` class
 
 #### OOP Principles
-- ✅ **Polymorphism**: Overloading (compile-time) vs Overriding (runtime)
-- ✅ **Abstract vs Interface**: Abstract has implementation; Interface is contract
-- ✅ **Inheritance**: IS-A relationship, virtual/override for polymorphism
-- ✅ **Encapsulation**: Private fields, public properties, controlled access
+- [COVERED]… **Polymorphism**: Overloading (compile-time) vs Overriding (runtime)
+- [COVERED]… **Abstract vs Interface**: Abstract has implementation; Interface is contract
+- [COVERED]… **Inheritance**: IS-A relationship, virtual/override for polymorphism
+- [COVERED]… **Encapsulation**: Private fields, public properties, controlled access
 
 #### Advanced Topics
-- ✅ **Exception Handling**: try-catch-finally, custom exceptions, proper cleanup
-- ✅ **Parallel Programming**: Tasks, Parallel.For, PLINQ, async/await
-- ✅ **ADO.NET**: DataReader (connected) vs DataSet (disconnected)
-- ✅ **LINQ to SQL**: Object-relational mapping with strongly-typed queries
+- [COVERED]… **Exception Handling**: try-catch-finally, custom exceptions, proper cleanup
+- [COVERED]… **Parallel Programming**: Tasks, Parallel.For, PLINQ, async/await
+- [COVERED]… **ADO.NET**: DataReader (connected) vs DataSet (disconnected)
+- [COVERED]… **LINQ to SQL**: Object-relational mapping with strongly-typed queries
 
 #### UI Technologies
-- ✅ **WPF**: XAML + C#, data binding, MVVM pattern, rich desktop apps
-- ✅ **ASP.NET Core**: MVC pattern, middleware pipeline, Razor Pages
-- ✅ **Blazor**: C# in browser, Server vs WebAssembly, component-based
-- ✅ **Xamarin**: Cross-platform mobile, XAML UI, SQLite data, Shell navigation
+- [COVERED]… **WPF**: XAML + C#, data binding, MVVM pattern, rich desktop apps
+- [COVERED]… **ASP.NET Core**: MVC pattern, middleware pipeline, Razor Pages
+- [COVERED]… **Blazor**: C# in browser, Server vs WebAssembly, component-based
+- [COVERED]… **Xamarin**: Cross-platform mobile, XAML UI, SQLite data, Shell navigation
+
+## Exam Questions and Answers
+
+### Question 1: Explain the value type and reference type in C# with example.
+
+#### Value Types
+Value types store data directly in memory (usually on the stack). When you assign a value type to another variable, a copy of the data is created.
+
+**Characteristics:**
+- Stored on stack (for local variables)
+- Direct memory allocation
+- Assignment creates a copy
+- Cannot be null (except nullable types)
+- Examples: int, float, double, bool, char, struct, enum
+
+**Example:**
+```csharp
+// Value type example
+int a = 10;
+int b = a;    // Copy of 'a' is created
+a = 20;       // Only 'a' changes, 'b' remains 10
+
+Console.WriteLine($"a = {a}"); // Output: a = 20
+Console.WriteLine($"b = {b}"); // Output: b = 10
+
+// Struct example (value type)
+public struct Point
+{
+    public int X, Y;
+    public Point(int x, int y) { X = x; Y = y; }
+}
+
+Point p1 = new Point(5, 10);
+Point p2 = p1;    // Copy created
+p1.X = 15;        // Only p1 changes
+Console.WriteLine($"p1.X = {p1.X}, p2.X = {p2.X}"); // Output: p1.X = 15, p2.X = 5
+```
+
+#### Reference Types
+Reference types store a reference (address) to the actual data location in memory (heap). When you assign a reference type, both variables point to the same memory location.
+
+**Characteristics:**
+- Stored on heap
+- Assignment copies the reference, not the data
+- Multiple variables can reference the same object
+- Can be null
+- Examples: string, object, class, interface, delegate, array
+
+**Example:**
+```csharp
+// Reference type example
+class Person
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+}
+
+Person person1 = new Person { Name = "John", Age = 25 };
+Person person2 = person1;    // Both variables reference same object
+
+person1.Age = 30;            // Changes affect both references
+Console.WriteLine($"person1.Age = {person1.Age}"); // Output: person1.Age = 30
+Console.WriteLine($"person2.Age = {person2.Age}"); // Output: person2.Age = 30
+
+// Array example (reference type)
+int[] array1 = { 1, 2, 3 };
+int[] array2 = array1;       // Both reference same array
+array1[0] = 10;              // Changes affect both
+Console.WriteLine($"array2[0] = {array2[0]}"); // Output: array2[0] = 10
+```
+
+#### Memory Allocation Comparison
+```csharp
+public void CompareTypes()
+{
+    // Value type - stored on stack
+    int valueType = 42;
+    
+    // Reference type - reference on stack, object on heap
+    string referenceType = "Hello";
+    
+    // Nullable value type
+    int? nullableInt = null;  // Can be null
+    
+    // Boxing: value type → reference type
+    object boxed = valueType;  // valueType copied to heap
+    
+    // Unboxing: reference type → value type
+    int unboxed = (int)boxed;  // Copy from heap to stack
+}
+```
+
+### Question 2: What is an event in C#? Explain how to implement event using delegate in C#.NET?
+
+#### What is an Event?
+An event in C# is a special kind of multicast delegate that provides notifications when something of interest happens. Events enable a class to notify other classes when something occurs, following the publisher-subscriber pattern.
+
+**Key Characteristics:**
+- Based on delegates
+- Encapsulated (cannot be directly invoked from outside the class)
+- Supports multiple subscribers
+- Provides loose coupling between publisher and subscriber
+
+#### Event Implementation Using Delegates
+
+**Step 1: Define Delegate and Event**
+```csharp
+// Define delegate for event handler
+public delegate void NotificationEventHandler(string message);
+
+public class Publisher
+{
+    // Declare event based on delegate
+    public event NotificationEventHandler OnNotification;
+    
+    // Method to raise the event
+    protected virtual void RaiseNotification(string message)
+    {
+        // Check if there are subscribers before raising event
+        OnNotification?.Invoke(message);
+    }
+    
+    // Method that triggers the event
+    public void DoSomething()
+    {
+        Console.WriteLine("Publisher: Doing some work...");
+        
+        // Trigger the event
+        RaiseNotification("Work completed successfully!");
+    }
+}
+```
+
+**Step 2: Create Subscribers**
+```csharp
+public class Subscriber1
+{
+    public void Subscribe(Publisher pub)
+    {
+        // Subscribe to the event
+        pub.OnNotification += HandleNotification;
+    }
+    
+    public void Unsubscribe(Publisher pub)
+    {
+        // Unsubscribe from the event
+        pub.OnNotification -= HandleNotification;
+    }
+    
+    private void HandleNotification(string message)
+    {
+        Console.WriteLine($"Subscriber1 received: {message}");
+    }
+}
+
+public class Subscriber2
+{
+    public void Subscribe(Publisher pub)
+    {
+        pub.OnNotification += HandleNotification;
+    }
+    
+    private void HandleNotification(string message)
+    {
+        Console.WriteLine($"Subscriber2 received: {message}");
+    }
+}
+```
+
+**Step 3: Usage Example**
+```csharp
+public class EventDemo
+{
+    public static void Main()
+    {
+        // Create publisher and subscribers
+        Publisher publisher = new Publisher();
+        Subscriber1 sub1 = new Subscriber1();
+        Subscriber2 sub2 = new Subscriber2();
+        
+        // Subscribe to events
+        sub1.Subscribe(publisher);
+        sub2.Subscribe(publisher);
+        
+        // Trigger event
+        publisher.DoSomething();
+        
+        // Output:
+        // Publisher: Doing some work...
+        // Subscriber1 received: Work completed successfully!
+        // Subscriber2 received: Work completed successfully!
+        
+        // Unsubscribe one subscriber
+        sub1.Unsubscribe(publisher);
+        
+        // Trigger event again
+        publisher.DoSomething();
+        
+        // Output:
+        // Publisher: Doing some work...
+        // Subscriber2 received: Work completed successfully!
+    }
+}
+```
+
+#### Advanced Event Example with EventArgs
+```csharp
+// Custom EventArgs class
+public class OrderEventArgs : EventArgs
+{
+    public string OrderId { get; set; }
+    public decimal Amount { get; set; }
+    public DateTime OrderDate { get; set; }
+}
+
+// Publisher class
+public class OrderProcessor
+{
+    // Event using EventHandler<T> generic delegate
+    public event EventHandler<OrderEventArgs> OrderProcessed;
+    
+    public void ProcessOrder(string orderId, decimal amount)
+    {
+        Console.WriteLine($"Processing order {orderId}...");
+        
+        // Simulate processing
+        Thread.Sleep(1000);
+        
+        // Raise event with custom data
+        OnOrderProcessed(new OrderEventArgs
+        {
+            OrderId = orderId,
+            Amount = amount,
+            OrderDate = DateTime.Now
+        });
+    }
+    
+    protected virtual void OnOrderProcessed(OrderEventArgs e)
+    {
+        OrderProcessed?.Invoke(this, e);
+    }
+}
+
+// Subscriber classes
+public class EmailNotificationService
+{
+    public void Subscribe(OrderProcessor processor)
+    {
+        processor.OrderProcessed += OnOrderProcessed;
+    }
+    
+    private void OnOrderProcessed(object sender, OrderEventArgs e)
+    {
+        Console.WriteLine($"Email: Order {e.OrderId} for ${e.Amount} processed at {e.OrderDate}");
+    }
+}
+
+public class InventoryService
+{
+    public void Subscribe(OrderProcessor processor)
+    {
+        processor.OrderProcessed += OnOrderProcessed;
+    }
+    
+    private void OnOrderProcessed(object sender, OrderEventArgs e)
+    {
+        Console.WriteLine($"Inventory: Updating stock for order {e.OrderId}");
+    }
+}
+```
+
+### Question 3: What is deferred evaluation? Discuss different standard LINQ operators.
+
+#### Deferred Evaluation
+Deferred evaluation (also called lazy evaluation) means that the execution of a LINQ query is delayed until the results are actually needed. The query is not executed when it's defined, but when it's enumerated.
+
+**Key Points:**
+- Query execution is postponed until results are accessed
+- Allows for query optimization
+- Enables composition of multiple queries
+- Results reflect current data state when enumerated
+
+**Example:**
+```csharp
+public void DeferredEvaluationExample()
+{
+    List<int> numbers = new List<int> { 1, 2, 3, 4, 5 };
+    
+    // Query is defined but NOT executed yet
+    var evenNumbers = numbers.Where(n => n % 2 == 0);
+    
+    Console.WriteLine("Before adding new numbers:");
+    foreach (int num in evenNumbers)  // Query executes HERE
+    {
+        Console.WriteLine(num);  // Output: 2, 4
+    }
+    
+    // Add more numbers
+    numbers.AddRange(new[] { 6, 7, 8 });
+    
+    Console.WriteLine("After adding new numbers:");
+    foreach (int num in evenNumbers)  // Query executes AGAIN with new data
+    {
+        Console.WriteLine(num);  // Output: 2, 4, 6, 8
+    }
+}
+```
+
+#### Standard LINQ Operators
+
+**1. Filtering Operators**
+```csharp
+var numbers = Enumerable.Range(1, 20);
+
+// Where - filters based on predicate
+var evenNumbers = numbers.Where(n => n % 2 == 0);
+
+// OfType - filters by type
+object[] mixed = { 1, "hello", 3.14, "world", 42 };
+var strings = mixed.OfType<string>();
+```
+
+**2. Projection Operators**
+```csharp
+var people = new[]
+{
+    new { Name = "John", Age = 25 },
+    new { Name = "Jane", Age = 30 },
+    new { Name = "Bob", Age = 35 }
+};
+
+// Select - transforms each element
+var names = people.Select(p => p.Name);
+var upperNames = people.Select(p => p.Name.ToUpper());
+
+// SelectMany - flattens nested collections
+var sentences = new[] { "Hello world", "LINQ is powerful" };
+var words = sentences.SelectMany(s => s.Split(' '));
+```
+
+**3. Ordering Operators**
+```csharp
+var products = new[]
+{
+    new { Name = "Laptop", Price = 1200 },
+    new { Name = "Mouse", Price = 25 },
+    new { Name = "Keyboard", Price = 80 }
+};
+
+// OrderBy - ascending order
+var byPrice = products.OrderBy(p => p.Price);
+
+// OrderByDescending - descending order
+var byPriceDesc = products.OrderByDescending(p => p.Price);
+
+// ThenBy - secondary sorting
+var sorted = products.OrderBy(p => p.Name).ThenBy(p => p.Price);
+
+// Reverse - reverses order
+var reversed = products.Reverse();
+```
+
+**4. Grouping Operators**
+```csharp
+var students = new[]
+{
+    new { Name = "John", Grade = "A", Subject = "Math" },
+    new { Name = "Jane", Grade = "B", Subject = "Math" },
+    new { Name = "Bob", Grade = "A", Subject = "Science" }
+};
+
+// GroupBy - groups elements by key
+var byGrade = students.GroupBy(s => s.Grade);
+foreach (var group in byGrade)
+{
+    Console.WriteLine($"Grade {group.Key}:");
+    foreach (var student in group)
+    {
+        Console.WriteLine($"  {student.Name}");
+    }
+}
+```
+
+**5. Aggregation Operators**
+```csharp
+var scores = new[] { 85, 92, 78, 96, 88 };
+
+// Count - number of elements
+int totalCount = scores.Count();
+int highScores = scores.Count(s => s > 90);
+
+// Sum, Average, Min, Max
+int total = scores.Sum();
+double average = scores.Average();
+int minimum = scores.Min();
+int maximum = scores.Max();
+
+// Aggregate - custom aggregation
+int product = scores.Aggregate((a, b) => a * b);
+```
+
+**6. Set Operators**
+```csharp
+var list1 = new[] { 1, 2, 3, 4, 5 };
+var list2 = new[] { 4, 5, 6, 7, 8 };
+
+// Distinct - removes duplicates
+var duplicates = new[] { 1, 2, 2, 3, 3, 4 };
+var unique = duplicates.Distinct();
+
+// Union - combines and removes duplicates
+var union = list1.Union(list2);
+
+// Intersect - common elements
+var common = list1.Intersect(list2);
+
+// Except - elements in first but not in second
+var difference = list1.Except(list2);
+```
+
+**7. Element Operators**
+```csharp
+var numbers = new[] { 1, 2, 3, 4, 5 };
+
+// First, FirstOrDefault
+int first = numbers.First();
+int firstEven = numbers.First(n => n % 2 == 0);
+int firstOrDefault = numbers.FirstOrDefault(n => n > 10); // returns 0
+
+// Last, LastOrDefault
+int last = numbers.Last();
+
+// Single, SingleOrDefault - exactly one element
+var singleNumbers = new[] { 42 };
+int single = singleNumbers.Single();
+
+// ElementAt
+int thirdElement = numbers.ElementAt(2); // zero-based index
+```
+
+**8. Quantifier Operators**
+```csharp
+var numbers = new[] { 2, 4, 6, 8, 10 };
+
+// All - checks if all elements satisfy condition
+bool allEven = numbers.All(n => n % 2 == 0); // true
+
+// Any - checks if any element satisfies condition
+bool hasLarge = numbers.Any(n => n > 5); // true
+
+// Contains - checks if collection contains element
+bool containsFive = numbers.Contains(5); // false
+```
+
+**9. Join Operators**
+```csharp
+var customers = new[]
+{
+    new { Id = 1, Name = "John" },
+    new { Id = 2, Name = "Jane" }
+};
+
+var orders = new[]
+{
+    new { CustomerId = 1, Product = "Laptop" },
+    new { CustomerId = 1, Product = "Mouse" },
+    new { CustomerId = 2, Product = "Keyboard" }
+};
+
+// Join - inner join
+var customerOrders = customers.Join(
+    orders,
+    customer => customer.Id,
+    order => order.CustomerId,
+    (customer, order) => new { customer.Name, order.Product }
+);
+
+// GroupJoin - left outer join
+var customerOrderGroups = customers.GroupJoin(
+    orders,
+    customer => customer.Id,
+    order => order.CustomerId,
+    (customer, orderGroup) => new { customer.Name, Orders = orderGroup }
+);
+```
+
+### Question 4: Why serialization is required? Write a program to write user input into file and display file content using stream.
+
+#### Why Serialization is Required
+
+**Serialization** is the process of converting an object into a format that can be stored or transmitted, and later reconstructed. It's required for:
+
+1. **Data Persistence**: Store object state to disk, database, or other storage
+2. **Network Communication**: Send objects between applications over network
+3. **Caching**: Store objects in memory or external cache systems
+4. **Deep Copying**: Create exact copies of complex objects
+5. **Interoperability**: Exchange data between different platforms/languages
+6. **State Management**: Save and restore application state
+
+**Types of Serialization:**
+- **Binary Serialization**: Compact, fast, .NET specific
+- **XML Serialization**: Human-readable, cross-platform
+- **JSON Serialization**: Lightweight, web-friendly, cross-platform
+
+#### File I/O Program with Streams
+
+```csharp
+using System;
+using System.IO;
+using System.Text;
+using System.Text.Json;
+
+// Class to demonstrate serialization
+[Serializable]
+public class Employee
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Department { get; set; }
+    public decimal Salary { get; set; }
+    public DateTime JoiningDate { get; set; }
+
+    public override string ToString()
+    {
+        return $"ID: {Id}, Name: {Name}, Department: {Department}, Salary: {Salary:C}, Joining: {JoiningDate:yyyy-MM-dd}";
+    }
+}
+
+public class FileOperationsProgram
+{
+    private const string TextFileName = "employee_data.txt";
+    private const string JsonFileName = "employee_data.json";
+    
+    public static void Main()
+    {
+        Console.WriteLine("=== File Operations with Streams Demo ===\n");
+        
+        // Get user input
+        Employee employee = GetEmployeeFromUser();
+        
+        // Demonstrate different file operations
+        WriteToTextFile(employee);
+        ReadFromTextFile();
+        
+        WriteToJsonFile(employee);
+        ReadFromJsonFile();
+        
+        // Stream operations demonstration
+        DemonstrateStreamOperations();
+        
+        Console.WriteLine("\nPress any key to exit...");
+        Console.ReadKey();
+    }
+    
+    // Get employee data from user input
+    private static Employee GetEmployeeFromUser()
+    {
+        Console.WriteLine("Enter Employee Details:");
+        
+        Console.Write("ID: ");
+        int id = int.Parse(Console.ReadLine());
+        
+        Console.Write("Name: ");
+        string name = Console.ReadLine();
+        
+        Console.Write("Department: ");
+        string department = Console.ReadLine();
+        
+        Console.Write("Salary: ");
+        decimal salary = decimal.Parse(Console.ReadLine());
+        
+        Console.Write("Joining Date (yyyy-mm-dd): ");
+        DateTime joiningDate = DateTime.Parse(Console.ReadLine());
+        
+        return new Employee
+        {
+            Id = id,
+            Name = name,
+            Department = department,
+            Salary = salary,
+            JoiningDate = joiningDate
+        };
+    }
+    
+    // Write to text file using StreamWriter
+    private static void WriteToTextFile(Employee employee)
+    {
+        try
+        {
+            using (FileStream fileStream = new FileStream(TextFileName, FileMode.Create))
+            using (StreamWriter writer = new StreamWriter(fileStream, Encoding.UTF8))
+            {
+                writer.WriteLine("=== Employee Information ===");
+                writer.WriteLine($"ID: {employee.Id}");
+                writer.WriteLine($"Name: {employee.Name}");
+                writer.WriteLine($"Department: {employee.Department}");
+                writer.WriteLine($"Salary: {employee.Salary:C}");
+                writer.WriteLine($"Joining Date: {employee.JoiningDate:yyyy-MM-dd}");
+                writer.WriteLine($"File Created: {DateTime.Now}");
+            }
+            
+            Console.WriteLine($"\n✓ Employee data written to {TextFileName}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error writing to file: {ex.Message}");
+        }
+    }
+    
+    // Read from text file using StreamReader
+    private static void ReadFromTextFile()
+    {
+        try
+        {
+            using (FileStream fileStream = new FileStream(TextFileName, FileMode.Open))
+            using (StreamReader reader = new StreamReader(fileStream, Encoding.UTF8))
+            {
+                Console.WriteLine($"\n=== Contents of {TextFileName} ===");
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    Console.WriteLine(line);
+                }
+            }
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine($"File {TextFileName} not found.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error reading file: {ex.Message}");
+        }
+    }
+    
+    // Write to JSON file (serialization)
+    private static void WriteToJsonFile(Employee employee)
+    {
+        try
+        {
+            using (FileStream fileStream = new FileStream(JsonFileName, FileMode.Create))
+            {
+                JsonSerializer.Serialize(fileStream, employee, new JsonSerializerOptions
+                {
+                    WriteIndented = true // Pretty formatting
+                });
+            }
+            
+            Console.WriteLine($"\n✓ Employee data serialized to {JsonFileName}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error serializing to JSON: {ex.Message}");
+        }
+    }
+    
+    // Read from JSON file (deserialization)
+    private static void ReadFromJsonFile()
+    {
+        try
+        {
+            using (FileStream fileStream = new FileStream(JsonFileName, FileMode.Open))
+            {
+                Employee deserializedEmployee = JsonSerializer.Deserialize<Employee>(fileStream);
+                
+                Console.WriteLine($"\n=== Deserialized from {JsonFileName} ===");
+                Console.WriteLine(deserializedEmployee.ToString());
+            }
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine($"File {JsonFileName} not found.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error deserializing JSON: {ex.Message}");
+        }
+    }
+    
+    // Demonstrate various stream operations
+    private static void DemonstrateStreamOperations()
+    {
+        Console.WriteLine("\n=== Stream Operations Demo ===");
+        
+        string demoFileName = "stream_demo.txt";
+        
+        try
+        {
+            // Write using different methods
+            using (FileStream fs = new FileStream(demoFileName, FileMode.Create))
+            {
+                // Write bytes directly
+                byte[] data = Encoding.UTF8.GetBytes("Hello from FileStream!\n");
+                fs.Write(data, 0, data.Length);
+                
+                // Write using StreamWriter
+                using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8, 1024, true))
+                {
+                    sw.WriteLine("Hello from StreamWriter!");
+                    sw.WriteLine($"Current time: {DateTime.Now}");
+                    sw.Flush(); // Ensure data is written
+                }
+            }
+            
+            // Read using different methods
+            using (FileStream fs = new FileStream(demoFileName, FileMode.Open))
+            {
+                Console.WriteLine("File size: " + fs.Length + " bytes");
+                
+                // Read all bytes
+                byte[] buffer = new byte[fs.Length];
+                fs.Read(buffer, 0, buffer.Length);
+                string content = Encoding.UTF8.GetString(buffer);
+                
+                Console.WriteLine("File contents:");
+                Console.WriteLine(content);
+            }
+            
+            // Memory stream example
+            using (MemoryStream ms = new MemoryStream())
+            {
+                string text = "Hello Memory Stream!";
+                byte[] bytes = Encoding.UTF8.GetBytes(text);
+                ms.Write(bytes, 0, bytes.Length);
+                
+                ms.Position = 0; // Reset position to beginning
+                
+                using (StreamReader sr = new StreamReader(ms))
+                {
+                    string result = sr.ReadToEnd();
+                    Console.WriteLine($"From MemoryStream: {result}");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Stream operation error: {ex.Message}");
+        }
+        finally
+        {
+            // Cleanup
+            if (File.Exists(demoFileName))
+                File.Delete(demoFileName);
+        }
+    }
+}
+```
+
+#### Advanced Stream Example with Custom Serialization
+```csharp
+public class CustomSerializationExample
+{
+    public static void BinarySerializationDemo()
+    {
+        var employees = new List<Employee>
+        {
+            new Employee { Id = 1, Name = "John Doe", Department = "IT", Salary = 50000, JoiningDate = DateTime.Now.AddYears(-2) },
+            new Employee { Id = 2, Name = "Jane Smith", Department = "HR", Salary = 45000, JoiningDate = DateTime.Now.AddYears(-1) }
+        };
+        
+        string fileName = "employees.dat";
+        
+        // Write binary data
+        using (FileStream fs = new FileStream(fileName, FileMode.Create))
+        using (BinaryWriter writer = new BinaryWriter(fs))
+        {
+            writer.Write(employees.Count);
+            
+            foreach (var emp in employees)
+            {
+                writer.Write(emp.Id);
+                writer.Write(emp.Name);
+                writer.Write(emp.Department);
+                writer.Write(emp.Salary);
+                writer.Write(emp.JoiningDate.ToBinary());
+            }
+        }
+        
+        // Read binary data
+        using (FileStream fs = new FileStream(fileName, FileMode.Open))
+        using (BinaryReader reader = new BinaryReader(fs))
+        {
+            int count = reader.ReadInt32();
+            
+            for (int i = 0; i < count; i++)
+            {
+                var emp = new Employee
+                {
+                    Id = reader.ReadInt32(),
+                    Name = reader.ReadString(),
+                    Department = reader.ReadString(),
+                    Salary = reader.ReadDecimal(),
+                    JoiningDate = DateTime.FromBinary(reader.ReadInt64())
+                };
+                
+                Console.WriteLine(emp.ToString());
+            }
+        }
+    }
+}
+```
+
+### Question 5: Differentiate connected architecture of ADO.NET from disconnected architecture of ADO.NET. Write a C# program to connect to database and insert five employee records and delete employee records whose salary is less than Rs 10000.
+
+#### Connected vs Disconnected Architecture
+
+| Aspect | Connected Architecture | Disconnected Architecture |
+|--------|----------------------|---------------------------|
+| **Connection** | Maintains active connection | Works with disconnected data |
+| **Performance** | Faster for single operations | Better for multiple operations |
+| **Memory Usage** | Less memory usage | More memory usage |
+| **Concurrency** | Limited concurrent users | Supports many concurrent users |
+| **Network Traffic** | Continuous network usage | Minimal network usage |
+| **Offline Support** | No offline capability | Full offline support |
+| **Data Modification** | Direct database updates | Batch updates possible |
+| **Primary Classes** | SqlConnection, SqlCommand, SqlDataReader | DataSet, DataTable, SqlDataAdapter |
+| **Use Case** | Simple read operations, real-time data | Complex operations, data manipulation |
+
+#### Database Program Implementation
+
+```csharp
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+
+public class Employee
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string JobTitle { get; set; }
+    public string Address { get; set; }
+    public float Salary { get; set; }
+    public DateTime JoiningDate { get; set; }
+}
+
+public class EmployeeDataAccess
+{
+    // Connection string - update with your SQL Server details
+    private string connectionString = @"Server=localhost;Database=Empinfo;Integrated Security=true;TrustServerCertificate=true;";
+    
+    // Alternative connection string for SQL Server Authentication
+    // private string connectionString = @"Server=localhost;Database=Empinfo;User Id=sa;Password=yourpassword;TrustServerCertificate=true;";
+    
+    public static void Main()
+    {
+        var dataAccess = new EmployeeDataAccess();
+        
+        try
+        {
+            // Create database and table if they don't exist
+            dataAccess.CreateDatabaseAndTable();
+            
+            // Insert five employee records
+            dataAccess.InsertEmployeeRecords();
+            
+            // Display all employees before deletion
+            Console.WriteLine("=== All Employees Before Deletion ===");
+            dataAccess.DisplayAllEmployees();
+            
+            // Delete employees with salary less than 10000
+            int deletedCount = dataAccess.DeleteLowSalaryEmployees();
+            Console.WriteLine($"\n{deletedCount} employee(s) deleted with salary less than Rs. 10000");
+            
+            // Display remaining employees
+            Console.WriteLine("\n=== Remaining Employees After Deletion ===");
+            dataAccess.DisplayAllEmployees();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+        
+        Console.WriteLine("\nPress any key to exit...");
+        Console.ReadKey();
+    }
+    
+    // Create database and table
+    private void CreateDatabaseAndTable()
+    {
+        string masterConnectionString = connectionString.Replace("Database=Empinfo", "Database=master");
+        
+        // Create database
+        using (SqlConnection connection = new SqlConnection(masterConnectionString))
+        {
+            connection.Open();
+            
+            string createDbQuery = @"
+                IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'Empinfo')
+                CREATE DATABASE Empinfo";
+            
+            using (SqlCommand command = new SqlCommand(createDbQuery, connection))
+            {
+                command.ExecuteNonQuery();
+                Console.WriteLine("Database 'Empinfo' created or already exists.");
+            }
+        }
+        
+        // Create table
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+            
+            string createTableQuery = @"
+                IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Employee]') AND type in (N'U'))
+                CREATE TABLE Employee (
+                    Id INT PRIMARY KEY IDENTITY(1,1),
+                    Name NVARCHAR(50) NOT NULL,
+                    JobTitle NVARCHAR(50) NOT NULL,
+                    Address NVARCHAR(50) NOT NULL,
+                    Salary FLOAT NOT NULL,
+                    JoiningDate DATETIME NOT NULL
+                )";
+            
+            using (SqlCommand command = new SqlCommand(createTableQuery, connection))
+            {
+                command.ExecuteNonQuery();
+                Console.WriteLine("Table 'Employee' created or already exists.");
+            }
+        }
+    }
+    
+    // Connected Architecture - Insert Employee Records
+    private void InsertEmployeeRecords()
+    {
+        var employees = new[]
+        {
+            new Employee { Name = "John Doe", JobTitle = "Software Developer", Address = "123 Main St, City A", Salary = 55000, JoiningDate = DateTime.Now.AddYears(-2) },
+            new Employee { Name = "Jane Smith", JobTitle = "Project Manager", Address = "456 Oak Ave, City B", Salary = 75000, JoiningDate = DateTime.Now.AddYears(-3) },
+            new Employee { Name = "Mike Johnson", JobTitle = "Junior Developer", Address = "789 Pine Rd, City C", Salary = 8000, JoiningDate = DateTime.Now.AddMonths(-6) },
+            new Employee { Name = "Sarah Wilson", JobTitle = "Senior Developer", Address = "321 Elm St, City D", Salary = 85000, JoiningDate = DateTime.Now.AddYears(-4) },
+            new Employee { Name = "Tom Brown", JobTitle = "Intern", Address = "654 Maple Dr, City E", Salary = 5000, JoiningDate = DateTime.Now.AddMonths(-3) }
+        };
+        
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+            
+            // Clear existing data for demo
+            string clearQuery = "DELETE FROM Employee";
+            using (SqlCommand clearCommand = new SqlCommand(clearQuery, connection))
+            {
+                clearCommand.ExecuteNonQuery();
+            }
+            
+            // Insert new records
+            string insertQuery = @"
+                INSERT INTO Employee (Name, JobTitle, Address, Salary, JoiningDate)
+                VALUES (@Name, @JobTitle, @Address, @Salary, @JoiningDate)";
+            
+            foreach (var employee in employees)
+            {
+                using (SqlCommand command = new SqlCommand(insertQuery, connection))
+                {
+                    // Using parameters to prevent SQL injection
+                    command.Parameters.AddWithValue("@Name", employee.Name);
+                    command.Parameters.AddWithValue("@JobTitle", employee.JobTitle);
+                    command.Parameters.AddWithValue("@Address", employee.Address);
+                    command.Parameters.AddWithValue("@Salary", employee.Salary);
+                    command.Parameters.AddWithValue("@JoiningDate", employee.JoiningDate);
+                    
+                    int rowsAffected = command.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        Console.WriteLine($"Inserted: {employee.Name}");
+                    }
+                }
+            }
+            
+            Console.WriteLine("\nAll employee records inserted successfully!");
+        }
+    }
+    
+    // Connected Architecture - Display All Employees using DataReader
+    private void DisplayAllEmployees()
+    {
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+            
+            string selectQuery = "SELECT Id, Name, JobTitle, Address, Salary, JoiningDate FROM Employee ORDER BY Id";
+            
+            using (SqlCommand command = new SqlCommand(selectQuery, connection))
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                Console.WriteLine($"{"ID",-5} {"Name",-15} {"Job Title",-20} {"Address",-25} {"Salary",-10} {"Joining Date",-12}");
+                Console.WriteLine(new string('-', 95));
+                
+                while (reader.Read())
+                {
+                    Console.WriteLine($"{reader["Id"],-5} " +
+                                    $"{reader["Name"],-15} " +
+                                    $"{reader["JobTitle"],-20} " +
+                                    $"{reader["Address"],-25} " +
+                                    $"{reader["Salary"],-10:F0} " +
+                                    $"{((DateTime)reader["JoiningDate"]).ToString("yyyy-MM-dd"),-12}");
+                }
+            }
+        }
+    }
+    
+    // Connected Architecture - Delete Low Salary Employees
+    private int DeleteLowSalaryEmployees()
+    {
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+            
+            string deleteQuery = "DELETE FROM Employee WHERE Salary < @MinSalary";
+            
+            using (SqlCommand command = new SqlCommand(deleteQuery, connection))
+            {
+                command.Parameters.AddWithValue("@MinSalary", 10000);
+                
+                int rowsDeleted = command.ExecuteNonQuery();
+                return rowsDeleted;
+            }
+        }
+    }
+}
+
+// Disconnected Architecture Example
+public class DisconnectedEmployeeDataAccess
+{
+    private string connectionString = @"Server=localhost;Database=Empinfo;Integrated Security=true;TrustServerCertificate=true;";
+    
+    // Disconnected Architecture - Using DataSet and DataAdapter
+    public void DisconnectedOperationsDemo()
+    {
+        DataSet employeeDataSet = new DataSet("EmployeeData");
+        
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            // Create DataAdapter
+            string selectQuery = "SELECT Id, Name, JobTitle, Address, Salary, JoiningDate FROM Employee";
+            SqlDataAdapter adapter = new SqlDataAdapter(selectQuery, connection);
+            
+            // Configure command builders for automatic INSERT, UPDATE, DELETE commands
+            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(adapter);
+            
+            // Fill DataSet (connection opens and closes automatically)
+            adapter.Fill(employeeDataSet, "Employees");
+            
+            // Work with data offline
+            DataTable employeeTable = employeeDataSet.Tables["Employees"];
+            
+            Console.WriteLine("=== Working with Disconnected Data ===");
+            Console.WriteLine($"Loaded {employeeTable.Rows.Count} employees into DataSet");
+            
+            // Modify data in memory
+            foreach (DataRow row in employeeTable.Rows)
+            {
+                if ((double)row["Salary"] < 50000)
+                {
+                    row["Salary"] = (double)row["Salary"] * 1.1; // 10% raise
+                    Console.WriteLine($"Increased salary for {row["Name"]}");
+                }
+            }
+            
+            // Add new employee
+            DataRow newRow = employeeTable.NewRow();
+            newRow["Name"] = "Alice Cooper";
+            newRow["JobTitle"] = "Data Analyst";
+            newRow["Address"] = "999 Data St, City F";
+            newRow["Salary"] = 60000;
+            newRow["JoiningDate"] = DateTime.Now;
+            employeeTable.Rows.Add(newRow);
+            
+            // Update database with all changes in one batch
+            try
+            {
+                int updatedRows = adapter.Update(employeeDataSet, "Employees");
+                Console.WriteLine($"Updated {updatedRows} rows in database");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Update failed: {ex.Message}");
+            }
+        }
+    }
+}
+```
+
+### Question 6: Write a short note on the following
+
+#### a. Sealed Class and Sealed Method
+
+**Sealed Class:**
+A sealed class is a class that cannot be inherited by other classes. It prevents further derivation and is used when you want to restrict the inheritance hierarchy.
+
+**Characteristics:**
+- Cannot be used as a base class
+- All members are implicitly sealed
+- Can inherit from other classes but cannot be inherited
+- Provides performance benefits (no virtual method lookups)
+
+**Example:**
+```csharp
+// Sealed class example
+public sealed class MathUtility
+{
+    public static double CalculateCircleArea(double radius)
+    {
+        return Math.PI * radius * radius;
+    }
+    
+    public static double CalculateRectangleArea(double length, double width)
+    {
+        return length * width;
+    }
+}
+
+// This would cause compilation error:
+// public class ExtendedMath : MathUtility { } // Error: Cannot inherit from sealed class
+
+// Real-world example: String class is sealed
+public void StringExample()
+{
+    string text = "Hello"; // String is sealed, cannot be inherited
+}
+```
+
+**Sealed Method:**
+A sealed method is used in derived classes to prevent further overriding of a virtual method in subsequent derived classes.
+
+**Characteristics:**
+- Must be used with override keyword
+- Prevents further overriding in derived classes
+- Can only be applied to virtual or abstract methods
+- Maintains the inheritance chain but stops further overriding
+
+**Example:**
+```csharp
+// Base class with virtual method
+public class Vehicle
+{
+    public virtual void Start()
+    {
+        Console.WriteLine("Vehicle starting...");
+    }
+}
+
+// Derived class that seals the method
+public class Car : Vehicle
+{
+    public sealed override void Start()
+    {
+        Console.WriteLine("Car engine starting...");
+    }
+}
+
+// Further derived class cannot override the sealed method
+public class SportsCar : Car
+{
+    // This would cause compilation error:
+    // public override void Start() { } // Error: Cannot override sealed method
+    
+    // But can create new method with same name (method hiding)
+    public new void Start()
+    {
+        Console.WriteLine("Sports car turbo engine starting...");
+    }
+}
+
+// Usage example
+public void SealedMethodDemo()
+{
+    Vehicle vehicle = new SportsCar();
+    vehicle.Start(); // Calls Car's sealed Start method
+    
+    SportsCar sports = new SportsCar();
+    sports.Start(); // Calls SportsCar's new Start method (hiding)
+}
+```
+
+**Practical Use Cases:**
+```csharp
+// Security-sensitive class
+public sealed class CryptoHelper
+{
+    public static string EncryptPassword(string password)
+    {
+        // Secure encryption logic
+        return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(password));
+    }
+}
+
+// Performance-critical class
+public sealed class FastCalculator
+{
+    public double Calculate(double x, double y)
+    {
+        // No virtual method overhead
+        return x * y + Math.Sin(x);
+    }
+}
+```
+
+#### b. AJAX (Asynchronous JavaScript and XML)
+
+**AJAX** is a web development technique that allows web pages to update content dynamically without requiring a full page reload. It enables asynchronous communication between the client and server.
+
+**Key Characteristics:**
+- **Asynchronous**: Operations don't block the user interface
+- **Partial Updates**: Only specific parts of the page are updated
+- **Better User Experience**: Faster, more responsive web applications
+- **Reduced Server Load**: Less data transfer and processing
+
+**Core Technologies:**
+1. **JavaScript**: Controls the AJAX behavior
+2. **XMLHttpRequest**: Browser API for making HTTP requests
+3. **DOM**: Manipulates page content dynamically
+4. **CSS**: Styles the dynamic content
+5. **Server-side**: Processes requests and returns data (often JSON)
+
+**AJAX in ASP.NET Core Example:**
+
+**Controller (C#):**
+```csharp
+[ApiController]
+[Route("api/[controller]")]
+public class EmployeeController : ControllerBase
+{
+    [HttpGet]
+    public IActionResult GetEmployees()
+    {
+        var employees = new[]
+        {
+            new { Id = 1, Name = "John Doe", Department = "IT" },
+            new { Id = 2, Name = "Jane Smith", Department = "HR" },
+            new { Id = 3, Name = "Mike Johnson", Department = "Finance" }
+        };
+        
+        return Ok(employees);
+    }
+    
+    [HttpPost]
+    public IActionResult AddEmployee([FromBody] Employee employee)
+    {
+        // Add employee logic here
+        return Ok(new { Message = "Employee added successfully", Id = employee.Id });
+    }
+    
+    [HttpDelete("{id}")]
+    public IActionResult DeleteEmployee(int id)
+    {
+        // Delete employee logic here
+        return Ok(new { Message = $"Employee {id} deleted successfully" });
+    }
+}
+```
+
+**JavaScript (Client-side):**
+```javascript
+// Fetch employees using AJAX
+function loadEmployees() {
+    fetch('/api/employee')
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById('employeeTableBody');
+            tableBody.innerHTML = '';
+            
+            data.forEach(employee => {
+                const row = `
+                    <tr>
+                        <td>${employee.id}</td>
+                        <td>${employee.name}</td>
+                        <td>${employee.department}</td>
+                        <td>
+                            <button onclick="deleteEmployee(${employee.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        })
+        .catch(error => {
+            console.error('Error loading employees:', error);
+            alert('Failed to load employees');
+        });
+}
+
+// Add employee using AJAX
+function addEmployee() {
+    const employeeData = {
+        name: document.getElementById('employeeName').value,
+        department: document.getElementById('employeeDepartment').value
+    };
+    
+    fetch('/api/employee', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(employeeData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        loadEmployees(); // Refresh the list
+        clearForm();
+    })
+    .catch(error => {
+        console.error('Error adding employee:', error);
+        alert('Failed to add employee');
+    });
+}
+
+// Delete employee using AJAX
+function deleteEmployee(id) {
+    if (confirm('Are you sure you want to delete this employee?')) {
+        fetch(`/api/employee/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            loadEmployees(); // Refresh the list
+        })
+        .catch(error => {
+            console.error('Error deleting employee:', error);
+            alert('Failed to delete employee');
+        });
+    }
+}
+
+// Load employees when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    loadEmployees();
+});
+```
+
+**HTML:**
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AJAX Employee Management</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .form-container { margin-bottom: 20px; }
+        .form-container input, .form-container button { margin: 5px; padding: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Employee Management with AJAX</h1>
+    
+    <div class="form-container">
+        <h3>Add New Employee</h3>
+        <input type="text" id="employeeName" placeholder="Employee Name" />
+        <input type="text" id="employeeDepartment" placeholder="Department" />
+        <button onclick="addEmployee()">Add Employee</button>
+    </div>
+    
+    <h3>Employee List</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="employeeTableBody">
+            <!-- Employee data will be loaded here via AJAX -->
+        </tbody>
+    </table>
+    
+    <script src="employee-ajax.js"></script>
+</body>
+</html>
+```
+
+**jQuery AJAX Alternative:**
+```javascript
+// Using jQuery for AJAX operations
+$(document).ready(function() {
+    loadEmployees();
+});
+
+function loadEmployees() {
+    $.ajax({
+        url: '/api/employee',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            var html = '';
+            $.each(data, function(index, employee) {
+                html += '<tr>';
+                html += '<td>' + employee.id + '</td>';
+                html += '<td>' + employee.name + '</td>';
+                html += '<td>' + employee.department + '</td>';
+                html += '<td><button onclick="deleteEmployee(' + employee.id + ')">Delete</button></td>';
+                html += '</tr>';
+            });
+            $('#employeeTableBody').html(html);
+        },
+        error: function() {
+            alert('Failed to load employees');
+        }
+    });
+}
+
+function addEmployee() {
+    var employeeData = {
+        name: $('#employeeName').val(),
+        department: $('#employeeDepartment').val()
+    };
+    
+    $.ajax({
+        url: '/api/employee',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(employeeData),
+        success: function(data) {
+            alert(data.message);
+            loadEmployees();
+            $('#employeeName').val('');
+            $('#employeeDepartment').val('');
+        },
+        error: function() {
+            alert('Failed to add employee');
+        }
+    });
+}
+```
+
+**Benefits of AJAX:**
+- **Improved User Experience**: No page reloads, faster interactions
+- **Reduced Bandwidth**: Only necessary data is transferred
+- **Better Performance**: Less server processing and faster response
+- **Dynamic Content**: Real-time updates without page refresh
+- **Asynchronous Processing**: Non-blocking operations
+
+**Common Use Cases:**
+- Form validation and submission
+- Auto-complete and search suggestions
+- Loading data dynamically (infinite scroll)
+- Real-time notifications and updates
+- Single Page Applications (SPAs)
 
 ### Exam Tips
 1. **Practice Code Examples**: Type out the examples yourself
