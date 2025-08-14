@@ -122,17 +122,17 @@ public class Subscriber
 ### Key Components
 
 #### 1. Common Language Runtime (CLR)
-- [COVERED]**Memory Management**: Automatic garbage collection
-- [COVERED]**Type Safety**: Ensures type safety at runtime
-- [COVERED]**Exception Handling**: Unified exception handling
-- [COVERED]**Thread Management**: Manages application threads
-- [COVERED]**Security**: Code access security
+- **Memory Management**: Automatic garbage collection
+- **Type Safety**: Ensures type safety at runtime
+- **Exception Handling**: Unified exception handling
+- **Thread Management**: Manages application threads
+- **Security**: Code access security
 
 #### 2. Base Class Library (BCL)
-- [COVERED]**System.Object**: Root of all .NET types
-- [COVERED]**Collections**: Generic and non-generic collections
-- [COVERED]**I/O**: File and stream operations
-- [COVERED]**Networking**: Network communication classes
+- **System.Object**: Root of all .NET types
+- **Collections**: Generic and non-generic collections
+- **I/O**: File and stream operations
+- **Networking**: Network communication classes
 
 #### 3. .NET Framework vs .NET Core vs .NET 5+
 
@@ -157,10 +157,10 @@ public class Subscriber
 ```
 
 **Layer Description:**
-- [COVERED]**Your Application**: C# code you write (WPF, Console, Web, etc.)
-- [COVERED]**Base Class Library**: Built-in .NET classes (System.*, Collections, etc.)
-- [COVERED]**Common Language Runtime**: Memory management, type safety, execution
-- [COVERED]**Operating System**: Windows, Linux, macOS platform services
+- **Your Application**: C# code you write (WPF, Console, Web, etc.)
+- **Base Class Library**: Built-in .NET classes (System.*, Collections, etc.)
+- **Common Language Runtime**: Memory management, type safety, execution
+- **Operating System**: Windows, Linux, macOS platform services
 
 
 
@@ -172,20 +172,20 @@ RAD is a software development methodology that prioritizes rapid prototyping and
 ### RAD Tools in .NET Ecosystem
 
 #### 1. Visual Studio
-- [COVERED]**IntelliSense**: Code completion and suggestions
-- [COVERED]**Debugging Tools**: Breakpoints, watch windows
-- [COVERED]**Designer Support**: Visual designers for UI
-- [COVERED]**Project Templates**: Pre-built project structures
+- **IntelliSense**: Code completion and suggestions
+- **Debugging Tools**: Breakpoints, watch windows
+- **Designer Support**: Visual designers for UI
+- **Project Templates**: Pre-built project structures
 
 #### 2. Visual Studio Code
-- [COVERED]**Extensions**: Rich ecosystem of extensions
-- [COVERED]**Integrated Terminal**: Built-in command line
-- [COVERED]**Git Integration**: Version control support
+- **Extensions**: Rich ecosystem of extensions
+- **Integrated Terminal**: Built-in command line
+- **Git Integration**: Version control support
 
 #### 3. JetBrains Rider
-- [COVERED]**Advanced Refactoring**: Powerful code transformation tools
-- [COVERED]**Unit Testing**: Integrated test runner
-- [COVERED]**Database Tools**: Built-in database support
+- **Advanced Refactoring**: Powerful code transformation tools
+- **Unit Testing**: Integrated test runner
+- **Database Tools**: Built-in database support
 
 ### Example: Quick WPF Application
 ```csharp
@@ -319,10 +319,10 @@ if (DateTime.TryParse(dateString, out DateTime parsedDate))
 Structures are value types that can contain data members and function members.
 
 #### Key Characteristics
-- [COVERED]**Value Type**: Stored on stack
-- [COVERED]**No Inheritance**: Cannot inherit from other types
-- [COVERED]**Immutable Recommended**: Should be immutable for best practices
-- [COVERED]**Default Constructor**: Always available
+- **Value Type**: Stored on stack
+- **No Inheritance**: Cannot inherit from other types
+- **Immutable Recommended**: Should be immutable for best practices
+- **Default Constructor**: Always available
 
 ```csharp
 public struct Point
@@ -359,10 +359,10 @@ Console.WriteLine(p1.DistanceFromOrigin()); // 5
 Enumerations define a set of named constants of the underlying integral numeric type.
 
 #### Key Characteristics
-- [COVERED]**Named Constants**: Improve code readability
-- [COVERED]**Type Safe**: Prevents invalid values
-- [COVERED]**Underlying Type**: Default is int, can be changed
-- [COVERED]**Flags Support**: Can be combined using bitwise operations
+- **Named Constants**: Improve code readability
+- **Type Safe**: Prevents invalid values
+- **Underlying Type**: Default is int, can be changed
+- **Flags Support**: Can be combined using bitwise operations
 
 ```csharp
 // Basic enumeration
@@ -534,7 +534,7 @@ string value = (string)table["key1"];
 ### Collection Interfaces
 
 ```csharp
-// IEnumerable<T> - [COVERED]Basic iteration
+// IEnumerable<T> - Basic iteration
 public void ProcessItems(IEnumerable<string> items)
 {
     foreach (string item in items)
@@ -543,7 +543,7 @@ public void ProcessItems(IEnumerable<string> items)
     }
 }
 
-// ICollection<T> - [COVERED]Add/Remove operations
+// ICollection<T> - Add/Remove operations
 public void ModifyCollection(ICollection<string> items)
 {
     items.Add("New Item");
@@ -551,7 +551,7 @@ public void ModifyCollection(ICollection<string> items)
     Console.WriteLine($"Count: {items.Count}");
 }
 
-// IList<T> - [COVERED]Indexed access
+// IList<T> - Indexed access
 public void AccessByIndex(IList<string> items)
 {
     items[0] = "First Item";
@@ -569,15 +569,15 @@ Regular expressions (regex) are patterns used to match character combinations in
 ### Basic Syntax
 
 #### Metacharacters
-- [COVERED]`.` - [COVERED]Any character except newline
-- [COVERED]`*` - [COVERED]Zero or more occurrences
-- [COVERED]`+` - [COVERED]One or more occurrences
-- [COVERED]`?` - [COVERED]Zero or one occurrence
-- [COVERED]`^` - [COVERED]Start of string
-- [COVERED]`$` - [COVERED]End of string
-- [COVERED]`|` - [COVERED]OR operator
-- [COVERED]`[]` - [COVERED]Character class
-- [COVERED]`()` - [COVERED]Grouping
+- `.` - Any character except newline
+- `*` - Zero or more occurrences
+- `+` - One or more occurrences
+- `?` - Zero or one occurrence
+- `^` - Start of string
+- `$` - End of string
+- `|` - OR operator
+- `[]` - Character class
+- `()` - Grouping
 
 ### C# Regex Implementation
 
@@ -773,16 +773,16 @@ foreach (Animal animal in animals)
 ```csharp
 public abstract class Shape
 {
-    // Abstract method - [COVERED]must be implemented by derived classes
+    // Abstract method - must be implemented by derived classes
     public abstract double CalculateArea();
     
-    // Virtual method - [COVERED]can be overridden
+    // Virtual method - can be overridden
     public virtual void Display()
     {
         Console.WriteLine($"Area: {CalculateArea():F2}");
     }
     
-    // Regular method - [COVERED]inherited as-is
+    // Regular method - inherited as-is
     public void PrintInfo()
     {
         Console.WriteLine("This is a shape");
@@ -882,12 +882,12 @@ foreach (IDrawable drawable in drawables)
 An abstract class is a class that cannot be instantiated and may contain both abstract and concrete members.
 
 #### Key Characteristics
-- [COVERED]Cannot be instantiated directly
-- [COVERED]Can contain both abstract and concrete methods
-- [COVERED]Can have constructors
-- [COVERED]Can have fields and properties
-- [COVERED]Supports single inheritance only
-- [COVERED]Can have access modifiers for members
+- Cannot be instantiated directly
+- Can contain both abstract and concrete methods
+- Can have constructors
+- Can have fields and properties
+- Supports single inheritance only
+- Can have access modifiers for members
 
 ```csharp
 public abstract class Vehicle
@@ -903,17 +903,17 @@ public abstract class Vehicle
         this.year = year;
     }
     
-    // Abstract method - [COVERED]must be implemented
+    // Abstract method - must be implemented
     public abstract void Start();
     public abstract double CalculateFuelEfficiency();
     
-    // Concrete method - [COVERED]inherited as-is
+    // Concrete method - inherited as-is
     public void DisplayInfo()
     {
         Console.WriteLine($"{brand} {year}");
     }
     
-    // Virtual method - [COVERED]can be overridden
+    // Virtual method - can be overridden
     public virtual void Stop()
     {
         Console.WriteLine("Vehicle stopped");
@@ -957,12 +957,12 @@ public class Car : Vehicle
 An interface defines a contract that implementing classes must follow. It contains only declarations.
 
 #### Key Characteristics
-- [COVERED]Cannot be instantiated
-- [COVERED]Contains only method signatures, properties, events, indexers
-- [COVERED]No implementation (except default interface methods in C# 8+)
-- [COVERED]No fields or constructors
-- [COVERED]Supports multiple inheritance
-- [COVERED]All members are implicitly public
+- Cannot be instantiated
+- Contains only method signatures, properties, events, indexers
+- No implementation (except default interface methods in C# 8+)
+- No fields or constructors
+- Supports multiple inheritance
+- All members are implicitly public
 
 ```csharp
 public interface IVehicle
@@ -1066,16 +1066,16 @@ public class HybridCar : IVehicle, IElectric, IGasoline
 ### When to Use Which?
 
 #### Use Abstract Class When:
-- [COVERED]You want to share code among several closely related classes
-- [COVERED]You expect classes that extend your abstract class to have many common methods or fields
-- [COVERED]You want to declare non-public members
-- [COVERED]You need to provide a common constructor
+- You want to share code among several closely related classes
+- You expect classes that extend your abstract class to have many common methods or fields
+- You want to declare non-public members
+- You need to provide a common constructor
 
 #### Use Interface When:
-- [COVERED]You expect unrelated classes to implement your interface
-- [COVERED]You want to specify the behavior of a particular data type, but not concerned about who implements it
-- [COVERED]You want to support multiple inheritance of type
-- [COVERED]You want to provide a contract for classes to follow
+- You expect unrelated classes to implement your interface
+- You want to specify the behavior of a particular data type, but not concerned about who implements it
+- You want to support multiple inheritance of type
+- You want to provide a contract for classes to follow
 
 ```csharp
 // Example: When to use both
@@ -1291,7 +1291,7 @@ public class BankAccount
     public string AccountNumber 
     { 
         get { return accountNumber; } 
-        // No setter - [COVERED]read-only
+        // No setter - read-only
     }
     
     public string OwnerName
@@ -1307,7 +1307,7 @@ public class BankAccount
     public decimal Balance 
     { 
         get { return balance; } 
-        // No public setter - [COVERED]controlled through methods
+        // No public setter - controlled through methods
     }
     
     // Public methods (controlled operations)
@@ -1680,7 +1680,7 @@ public class ExceptionBestPractices
         }
         catch
         {
-            // Silently ignoring exception - [COVERED]BAD!
+            // Silently ignoring exception - BAD!
         }
     }
     
@@ -1693,7 +1693,7 @@ public class ExceptionBestPractices
         }
         catch (Exception ex)
         {
-            // Too broad - [COVERED]might catch unexpected exceptions
+            // Too broad - might catch unexpected exceptions
             Console.WriteLine("Something went wrong");
         }
     }
@@ -1918,7 +1918,7 @@ public class ThreadSafeCollectionsExample
 {
     public static void ConcurrentCollectionsExample()
     {
-        // ConcurrentBag - [COVERED]Thread-safe collection of objects
+        // ConcurrentBag - Thread-safe collection of objects
         var bag = new ConcurrentBag<int>();
         
         Parallel.For(0, 100, i =>
@@ -1928,7 +1928,7 @@ public class ThreadSafeCollectionsExample
         
         Console.WriteLine($"Bag contains {bag.Count} items");
         
-        // ConcurrentDictionary - [COVERED]Thread-safe dictionary
+        // ConcurrentDictionary - Thread-safe dictionary
         var dictionary = new ConcurrentDictionary<string, int>();
         
         Parallel.For(0, 100, i =>
@@ -1942,7 +1942,7 @@ public class ThreadSafeCollectionsExample
         
         Console.WriteLine($"Dictionary contains {dictionary.Count} items");
         
-        // ConcurrentQueue - [COVERED]Thread-safe FIFO collection
+        // ConcurrentQueue - Thread-safe FIFO collection
         var queue = new ConcurrentQueue<string>();
         
         Task producer = Task.Run(() =>
@@ -2105,10 +2105,10 @@ ADO.NET is a set of classes that expose data access services for .NET Framework 
 ### ADO.NET Architecture
 
 #### Core Components
-1. **Data Provider** - [COVERED]Connects to database
-2. **DataSet** - [COVERED]In-memory representation of data
-3. **DataAdapter** - [COVERED]Bridge between DataSet and data source
-4. **DataReader** - [COVERED]Forward-only, read-only data stream
+1. **Data Provider** - Connects to database
+2. **DataSet** - In-memory representation of data
+3. **DataAdapter** - Bridge between DataSet and data source
+4. **DataReader** - Forward-only, read-only data stream
 
 ```
 +----------------+    +------------------+    +----------------+
@@ -2128,8 +2128,8 @@ ADO.NET is a set of classes that expose data access services for .NET Framework 
 ```
 
 **Connection Types:**
-- [COVERED]**DataSet**: Disconnected - [COVERED]loads data into memory, works offline
-- [COVERED]**DataReader**: Connected - [COVERED]requires active connection, reads forward-only
+- **DataSet**: Disconnected - loads data into memory, works offline
+- **DataReader**: Connected - requires active connection, reads forward-only
 
 ### DataReader vs DataSet
 
@@ -2536,7 +2536,7 @@ Windows Presentation Foundation (WPF) is Microsoft's latest approach to a GUI fr
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
-        <!-- [COVERED]Header -->
+        <!-- Header -->
         <TextBlock Grid.Row="0" 
                    Text="Welcome to WPF" 
                    FontSize="24" 
@@ -2544,7 +2544,7 @@ Windows Presentation Foundation (WPF) is Microsoft's latest approach to a GUI fr
                    HorizontalAlignment="Center"
                    Margin="10"/>
         
-        <!-- [COVERED]Content Area -->
+        <!-- Content Area -->
         <StackPanel Grid.Row="1" 
                     Orientation="Vertical" 
                     Margin="20">
@@ -2570,7 +2570,7 @@ Windows Presentation Foundation (WPF) is Microsoft's latest approach to a GUI fr
             
         </StackPanel>
         
-        <!-- [COVERED]Status Bar -->
+        <!-- Status Bar -->
         <StatusBar Grid.Row="2">
             <StatusBarItem Content="Ready"/>
         </StatusBar>
@@ -2664,14 +2664,14 @@ public class Person : INotifyPropertyChanged
 ```
 
 ```xml
-<!-- [COVERED]Data Binding XAML -->
+<!-- Data Binding XAML -->
 <Window x:Class="WpfApp.DataBindingWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <StackPanel Margin="20">
         
-        <!-- [COVERED]Two-way binding -->
+        <!-- Two-way binding -->
         <Label Content="First Name:"/>
         <TextBox Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" 
                  Margin="0,0,0,10"/>
@@ -2691,7 +2691,7 @@ public class Person : INotifyPropertyChanged
                    FontSize="16"
                    Margin="0,0,0,10"/>
         
-        <!-- [COVERED]Binding with conversion -->
+        <!-- Binding with conversion -->
         <TextBlock Margin="0,10,0,0">
             <TextBlock.Text>
                 <MultiBinding StringFormat="Person: {0}, Age: {1}">
@@ -2733,14 +2733,14 @@ public partial class DataBindingWindow : Window
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
-        <!-- [COVERED]Employee List -->
+        <!-- Employee List -->
         <ListBox Grid.Column="0" 
                  ItemsSource="{Binding Employees}"
                  SelectedItem="{Binding SelectedEmployee}"
                  DisplayMemberPath="FullName"
                  Margin="10"/>
         
-        <!-- [COVERED]Employee Details -->
+        <!-- Employee Details -->
         <StackPanel Grid.Column="1" 
                     DataContext="{Binding SelectedEmployee}"
                     Margin="10">
@@ -3412,7 +3412,7 @@ public class AuthService : IAuthService
 
 #### Authorization Policies
 ```csharp
-// Program.cs - [COVERED]Authorization setup
+// Program.cs - Authorization setup
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOnly", policy => 
@@ -3497,22 +3497,22 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - [COVERED]"8080:80"
+      - "8080:80"
     environment:
       - ConnectionStrings__DefaultConnection=Server=db;Database=MyAppDb;User=sa;Password=YourPassword123;
-      - [COVERED]ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=Production
     depends_on:
-      - [COVERED]db
+      - db
   
   db:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
-      - [COVERED]ACCEPT_EULA=Y
-      - [COVERED]SA_PASSWORD=YourPassword123
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourPassword123
     ports:
-      - [COVERED]"1433:1433"
+      - "1433:1433"
     volumes:
-      - [COVERED]sqldata:/var/opt/mssql
+      - sqldata:/var/opt/mssql
 
 volumes:
   sqldata:
@@ -3668,13 +3668,13 @@ Blazor is a free and open-source web framework that enables developers to create
 
 <div class="row">
     <div class="col-md-6">
-        <!-- [COVERED]One-way binding -->
+        <!-- One-way binding -->
         <h4>One-way Binding</h4>
         <p>Current time: @DateTime.Now.ToString("HH:mm:ss")</p>
         <p>User name: @user.Name</p>
         <p>Is active: @user.IsActive</p>
         
-        <!-- [COVERED]Two-way binding -->
+        <!-- Two-way binding -->
         <h4>Two-way Binding</h4>
         <div class="form-group">
             <label>Name:</label>
@@ -4221,14 +4221,14 @@ public class ProductListViewModel : INotifyPropertyChanged
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         
-        <!-- [COVERED]Search Bar -->
+        <!-- Search Bar -->
         <SearchBar Grid.Row="0"
                    Placeholder="Search products..."
                    Text="{Binding SearchText}"
                    SearchCommand="{Binding SearchCommand}"
                    Margin="10" />
         
-        <!-- [COVERED]Product List -->
+        <!-- Product List -->
         <CollectionView Grid.Row="1"
                         ItemsSource="{Binding Products}"
                         SelectedItem="{Binding SelectedProduct}"
@@ -4270,7 +4270,7 @@ public class ProductListViewModel : INotifyPropertyChanged
             </CollectionView.ItemTemplate>
         </CollectionView>
         
-        <!-- [COVERED]Loading Indicator -->
+        <!-- Loading Indicator -->
         <ActivityIndicator Grid.RowSpan="2"
                           IsVisible="{Binding IsLoading}"
                           IsRunning="{Binding IsLoading}"
@@ -4549,35 +4549,35 @@ public class NavigationService : INavigationService
 ### Key Concepts Checklist
 
 #### Programming Fundamentals
-- [COVERED]… **Visual vs Text Programming**: Visual uses drag-drop; Text uses code
-- [COVERED]… **Event-Driven Programming**: Program flow controlled by events (clicks, input)
-- [COVERED]… **.NET Architecture**: CLR + BCL + Your App
-- [COVERED]… **RAD Tools**: Visual Studio, IntelliSense, designers for rapid development
+- ✓ **Visual vs Text Programming**: Visual uses drag-drop; Text uses code
+- ✓ **Event-Driven Programming**: Program flow controlled by events (clicks, input)
+- ✓ **.NET Architecture**: CLR + BCL + Your App
+- ✓ **RAD Tools**: Visual Studio, IntelliSense, designers for rapid development
 
 #### C# Language Features
-- [COVERED]… **Type Conversion**: Implicit (safe), Explicit (cast), Boxing/Unboxing
-- [COVERED]… **Structures**: Value types, immutable, no inheritance
-- [COVERED]… **Enumerations**: Named constants, type-safe, can use flags
-- [COVERED]… **Collections**: Generic (List<T>, Dictionary<K,V>) vs Non-generic (ArrayList)
-- [COVERED]… **Regex**: Pattern matching with `Regex` class
+- ✓ **Type Conversion**: Implicit (safe), Explicit (cast), Boxing/Unboxing
+- ✓ **Structures**: Value types, immutable, no inheritance
+- ✓ **Enumerations**: Named constants, type-safe, can use flags
+- ✓ **Collections**: Generic (List<T>, Dictionary<K,V>) vs Non-generic (ArrayList)
+- ✓ **Regex**: Pattern matching with `Regex` class
 
 #### OOP Principles
-- [COVERED]… **Polymorphism**: Overloading (compile-time) vs Overriding (runtime)
-- [COVERED]… **Abstract vs Interface**: Abstract has implementation; Interface is contract
-- [COVERED]… **Inheritance**: IS-A relationship, virtual/override for polymorphism
-- [COVERED]… **Encapsulation**: Private fields, public properties, controlled access
+- ✓ **Polymorphism**: Overloading (compile-time) vs Overriding (runtime)
+- ✓ **Abstract vs Interface**: Abstract has implementation; Interface is contract
+- ✓ **Inheritance**: IS-A relationship, virtual/override for polymorphism
+- ✓ **Encapsulation**: Private fields, public properties, controlled access
 
 #### Advanced Topics
-- [COVERED]… **Exception Handling**: try-catch-finally, custom exceptions, proper cleanup
-- [COVERED]… **Parallel Programming**: Tasks, Parallel.For, PLINQ, async/await
-- [COVERED]… **ADO.NET**: DataReader (connected) vs DataSet (disconnected)
-- [COVERED]… **LINQ to SQL**: Object-relational mapping with strongly-typed queries
+- ✓ **Exception Handling**: try-catch-finally, custom exceptions, proper cleanup
+- ✓ **Parallel Programming**: Tasks, Parallel.For, PLINQ, async/await
+- ✓ **ADO.NET**: DataReader (connected) vs DataSet (disconnected)
+- ✓ **LINQ to SQL**: Object-relational mapping with strongly-typed queries
 
 #### UI Technologies
-- [COVERED]… **WPF**: XAML + C#, data binding, MVVM pattern, rich desktop apps
-- [COVERED]… **ASP.NET Core**: MVC pattern, middleware pipeline, Razor Pages
-- [COVERED]… **Blazor**: C# in browser, Server vs WebAssembly, component-based
-- [COVERED]… **Xamarin**: Cross-platform mobile, XAML UI, SQLite data, Shell navigation
+- ✓ **WPF**: XAML + C#, data binding, MVVM pattern, rich desktop apps
+- ✓ **ASP.NET Core**: MVC pattern, middleware pipeline, Razor Pages
+- ✓ **Blazor**: C# in browser, Server vs WebAssembly, component-based
+- ✓ **Xamarin**: Cross-platform mobile, XAML UI, SQLite data, Shell navigation
 
 ## Exam Questions and Answers
 
