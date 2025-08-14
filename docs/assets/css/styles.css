@@ -21,7 +21,6 @@ header {
     color: #fff;
     padding: 1rem 0;
     text-align: center;
-    position: sticky;
     top: 0;
     z-index: 100;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -498,16 +497,35 @@ pre {
 .practice-option {
     transition: all 0.3s ease;
     cursor: pointer;
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
 }
 
 .practice-option:hover {
     background: #f0f0f0 !important;
-    transform: translateX(5px);
+    transform: none;
 }
 
 .practice-option input[type="radio"],
 .practice-option input[type="checkbox"] {
     transform: scale(1.2);
+    margin-right: 1rem;
+}
+
+@media (max-width: 768px) {
+    .practice-option {
+        padding: 1rem 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .practice-option input[type="radio"],
+    .practice-option input[type="checkbox"] {
+        transform: scale(1.1);
+        margin-right: 0.75rem;
+    }
 }
 
 #practice-questions-container {
