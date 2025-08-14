@@ -1,0 +1,290 @@
+﻿Question,Answer 1,Answer 2,Answer 3,Answer 4,Correct Answer
+"What is the entry point in a C# console program?","Main","Start","Run","Init",1
+"Which type prints to the console?","System.IO.File","System.Console","System.Text.StringBuilder","",2
+"What does 'using System;' do?","Imports the System namespace","Creates a new system","Deletes system files","Starts the system",1
+"Which method prints without adding a new line?","Console.WriteLine","Console.Write","Console.Print","Console.Display",2
+"What does 'static' mean in 'static void Main'?","The method never changes","The method belongs to the class, not an instance","The method runs slowly","The method is private",2
+"What does 'void' mean in method declaration?","The method is empty","The method returns nothing","The method is invalid","The method accepts no parameters",2
+"Which symbol terminates a C# statement?",".",":",";",",",3
+"What file extension do C# source files have?",".c",".cs",".csharp",".net",2
+"What happens when you run a console application?","Main method is called","Constructor is called","Static block runs","Nothing happens",1
+"Which namespace contains the Console class?","System.IO","System","Microsoft.Console","System.Console",2
+"Which type stores the most precise decimal values?","float","double","decimal","int",3
+"What happens when you assign one value type to another?","Both variables point to same memory","Data is copied","Reference is shared","Nothing happens",2
+"Which is a reference type?","int","bool","string","char",3
+"What is the size of an int in C#?","16 bits","32 bits","64 bits","128 bits",2
+"Which can store a single character?","string","char","int","bool",2
+"What is boxing in C#?","Converting reference to value type","Converting value type to object","Creating arrays","Memory allocation",2
+"Which type should you use for currency calculations?","float","double","decimal","int",3
+"Can value types be null by default?","Yes","No","Only int","Only bool",2
+"What happens when you modify a string in C#?","Original string changes","New string object is created","Compilation error","Runtime exception",2
+"What is 5/2 with int operands?","2","2.5","3","",1
+"What does 'var x = 10;' create?","A variable of type var","An int variable","A dynamic variable","A string variable",2
+"What is the result of 10 % 3?","1","3","0","10",1
+"Which operator has the highest precedence?","+","*","()","==",3
+"What is the difference between ++x and x++?","No difference","++x increments before returning, x++ increments after","++x is faster","x++ is deprecated",2
+"What does x += 5 do?","Assigns 5 to x","Adds 5 to x","Compares x with 5","Multiplies x by 5",2
+"Which logical operator means 'AND'?","&","&&","||","!",2
+"What is the result of (true && false) || true?","true","false","null","compilation error",1
+"Which is a valid variable name in C#?","2variable","_myVar","class","my-var",2
+"What happens if you use var without initialization?","Creates null variable","Creates default value","Compilation error","Runtime error",3
+"Which is boxing?","int i = 1; object o = i;","object o = ""x""; string s = (string)o;","","",1
+"What happens with: double d = 3.7; int i = (int)d;?","i = 4","i = 3","i = 3.7","Compilation error",2
+"Which conversion is implicit?","double to int","int to double","string to int","long to int",2
+"What's the safest way to convert string to int?","int.Parse()","(int)string","Convert.ToInt32()","int.TryParse()",4
+"What does unboxing require?","Implicit casting","Explicit casting","No casting","Generic casting",2
+"Can nullable types be assigned null?","Yes","No","Only int?","Only reference types",1
+"What is the result of: char c = 'A'; int i = c;?","Compilation error","i = 65","i = 0","i = 1",2
+"Which has performance overhead?","Implicit conversion","Explicit conversion","Boxing/Unboxing","TryParse",3
+"What happens if you unbox to wrong type?","Compilation error","Runtime exception","Returns null","Returns default value",2
+"What does int? mean?","Nullable int","Array of int","Pointer to int","Optional parameter",1
+"What is the primary purpose of namespaces in C#?","To improve performance","To provide security","To organize code and prevent naming conflicts","To enable inheritance",3
+"Which of the following is a valid namespace declaration?","namespace MyApp { }","namespace MyApp.Models { }","namespace MyCompany.Project.Features { }","All of the above",4
+"What does the 'using' directive do?","Declares a namespace","Imports a namespace for use","Creates an alias","Both B and C",4
+"How do you access a class in the global namespace when there's a naming conflict?","global.ClassName","global::ClassName","::ClassName","root::ClassName",2
+"What is the recommended maximum depth for namespace hierarchy?","2 levels","3 levels","2-4 levels","No limit",3
+"Which statement about global using (C# 10+) is correct?","Only works in Program.cs","Applies to all files in the project","Must be declared in every file","Cannot be used with System namespaces",2
+"What happens when you have two classes with the same name in different namespaces?","Compilation error","Runtime error","No conflict if properly qualified","The last one defined wins",3
+"Which is the correct way to create a namespace alias?","alias WinForms = System.Windows.Forms;","using WinForms = System.Windows.Forms;","namespace WinForms = System.Windows.Forms;","import WinForms = System.Windows.Forms;",2
+"What is the difference between namespaces and assemblies?","They are the same thing","Namespaces are logical, assemblies are physical","Assemblies are logical, namespaces are physical","Namespaces contain assemblies",2
+"Best practice for ordering using statements:","Alphabetical order only","System first, then third-party, then custom","Custom first, then third-party, then System","Random order is fine",2
+"Which is a valid switch expression arm?","case 1:","1 => ""one""","1: ""one""","case 1 => ""one""",2
+"What is the discard pattern in switch expressions?","default","_","other","else",2
+"Which logical operator performs short-circuit evaluation?","&","&&","|","All of the above",2
+"What is the ternary operator syntax?","condition ? true : false","if condition then true else false","condition ?? true : false","condition -> true : false",1
+"In pattern matching, what does 'when' keyword do?","Declares a variable","Adds a guard condition","Creates a new pattern","Defines a method",2
+"What happens if you forget 'break' in a switch statement case?","Compilation error","Runtime error","Fall-through to next case","Nothing",3
+"Which is better for checking multiple discrete values?","Multiple if-else statements","Switch statement/expression","Nested ternary operators","Goto statements",2
+"How do you check for null in a pattern matching expression?","null =>","== null =>","is null =>","Both A and C",4
+"What does the && operator do if the first condition is false?","Evaluates the second condition","Skips the second condition","Throws an exception","Returns null",2
+"Which syntax represents a property pattern in switch expressions?","{ Age: 18 }","Age == 18","prop.Age: 18","Age: 18",1
+"Which loop guarantees at least one iteration?","for","while","do-while","foreach",3
+"What is the correct for loop syntax?","for (int i = 0; i < 10; i++)","for (i = 0; i < 10; i++)","for int i = 0; i < 10; i++","for (int i = 0, i < 10, i++)",1
+"What does the 'break' statement do in a loop?","Skips current iteration","Exits the loop completely","Pauses the loop","Restarts the loop",2
+"What does the 'continue' statement do in a loop?","Exits the loop","Skips to next iteration","Pauses execution","Goes to previous iteration",2
+"Which loop is best for iterating over collections?","for","while","foreach","do-while",3
+"What is a common cause of off-by-one errors?","Using <= instead of <","Using < instead of <=","Starting from 1 instead of 0","All of the above",4
+"How do you iterate over a Dictionary's key-value pairs?","foreach (var item in dict)","foreach (KeyValuePair kvp in dict)","for (int i = 0; i < dict.Count; i++)","Both A and B",4
+"What happens if you modify a collection while iterating with foreach?","Nothing","Compilation error","Runtime exception","Undefined behavior",3
+"Which is more efficient for large arrays when you need the index?","foreach with index counter","for loop","while loop","do-while loop",2
+"What is the time complexity of nested loops iterating n times each?","O(n)","O(n log n)","O(nÂ²)","O(2n)",3
+"What does yield return enable?","Eager evaluation","Deferred execution","Immediate execution","Parallel execution",2
+"What happens when you call a method with yield return?","Method executes immediately","Method returns IEnumerable without executing","Method throws an exception","Method returns null",2
+"What does yield break do?","Throws an exception","Returns null","Terminates the iterator","Pauses execution",3
+"How many times does an iterator method execute if enumerated twice?","Once","Twice","Zero times","Depends on implementation",2
+"Which interface do iterator methods return?","IEnumerator<T>","IEnumerable<T>","ICollection<T>","IList<T>",2
+"What is the main benefit of iterators over returning List<T>?","Faster execution","Memory efficiency","Better type safety","Easier debugging",2
+"When does the code inside an iterator method execute?","When method is called","When enumerated","At compile time","Never",2
+"Can you use yield return inside a try-catch block?","Yes, always","No, never","Only in try block","Only in finally block",3
+"What is generated by the compiler for iterator methods?","Lambda expression","State machine","Delegate","Anonymous method",2
+"How do you create an infinite sequence safely?","Use infinite loop with yield return","Use recursive calls","Use goto statements","Impossible in C#",1
+"What does JIT compile IL to?","Java bytecode","Native machine code","Assembly language","SQL queries",2
+"What is the primary responsibility of the CLR?","Compiling source code","Managing memory and execution","Creating user interfaces","Database operations",2
+"What does FCL stand for?","Final Class Library","Framework Class Library","Fast Code Library","File Control Language",2
+"Which command creates a new console application?","dotnet new app","dotnet create console","dotnet new console","dotnet make console",3
+"What is the difference between .NET Framework and .NET 5+?","No difference",".NET 5+ is cross-platform",".NET Framework is newer",".NET 5+ is Windows-only",2
+"Where are value types typically stored?","Heap","Stack","Database","Registry",2
+"What manages automatic memory cleanup in .NET?","Developer code","Garbage Collector","Operating system","Database engine",2
+"Which file extension represents .NET project files?",".proj",".csproj",".project",".netproj",2
+"What is NuGet used for?","Code compilation","Package management","Database access","User interface design",2
+"Which namespace contains core .NET types like Console and String?","System.Core","Microsoft.Net","System","System.Base",3
+"What does static mean?","Per instance","Per type","Per method","Per assembly",2
+"What is the purpose of a constructor?","Delete objects","Initialize objects","Copy objects","Compare objects",2
+"Which access modifier allows access from derived classes?","private","public","protected","internal",3
+"What is an indexer?","A type of constructor","A way to access objects like arrays","A static method","A property type",2
+"What does the 'init' keyword do for properties?","Allows only initialization time setting","Makes property static","Creates a backup","Validates input",1
+"When does a static constructor run?","When object is created","When type is first used","When program starts","When method is called",2
+"What is the difference between a field and a property?","No difference","Properties provide controlled access","Fields are faster","Properties are static",2
+"What does a finalizer (~Class) do?","Initialize objects","Clean up before garbage collection","Create copies","Compare objects",2
+"Which is better for encapsulation?","Public fields","Properties with validation","Static variables","Constants only",2
+"What is constructor chaining?","Multiple inheritance","Calling one constructor from another","Static initialization","Property binding",2
+"Which enables dynamic dispatch?","override","new","static","const",1
+"What is encapsulation?","Hiding data and controlling access","Creating multiple classes","Using inheritance","Implementing interfaces",1
+"What does the 'virtual' keyword allow?","Static access","Method overriding in derived classes","Constant values","Private access",2
+"Which principle states 'favor composition over inheritance'?","Single Responsibility","Open/Closed","Liskov Substitution","General OOP guideline",4
+"What must abstract methods do in derived classes?","Be ignored","Be implemented","Be made static","Be private",2
+"What is polymorphism?","Multiple inheritance","One interface, multiple implementations","Static binding","Code duplication",2
+"When should you use abstract classes vs interfaces?","Always use interfaces","Abstract classes for shared implementation","Always use abstract classes","No difference",2
+"What does the 'protected' access modifier allow?","Public access","Access from derived classes only","Private access","Access from same assembly",2
+"What is the difference between 'override' and 'new'?","No difference","override enables polymorphism, new hides methods","new is faster","override is deprecated",2
+"Which SOLID principle means a class should have only one reason to change?","Single Responsibility","Open/Closed","Liskov Substitution","Interface Segregation",1
+"Struct assignment copies what?","Reference","Value","Memory address","Object pointer",2
+"Where are structs typically stored?","Heap","Stack","Database","Registry",2
+"Can structs inherit from classes?","Yes","No","Only interfaces","Only from System.Object",2
+"What does the [Flags] attribute enable for enums?","Better performance","Bitwise combinations","Type safety","Serialization",2
+"What is the default underlying type for enums?","byte","int","long","string",2
+"When should you use nested classes?","Always","When closely related to outer class","Never","For performance",2
+"What is the main benefit of partial classes?","Performance","Splitting class across multiple files","Inheritance","Polymorphism",2
+"Can partial methods have return values in C# 9+?","No, never","Yes, in extended partial methods","Only void","Only bool",2
+"Which is better for small immutable data?","Class","Struct","Interface","Abstract class",2
+"What happens when you box a struct?","Nothing","Copies to heap as object","Compilation error","Performance improvement",2
+"Which preserves insertion order by default?","List","Dictionary","HashSet","Both List and Dictionary",1
+"What is the time complexity of Dictionary lookup?","O(1)","O(log n)","O(n)","O(nÂ²)",1
+"Which collection automatically removes duplicates?","List<T>","Array","HashSet<T>","Queue<T>",3
+"What does Queue.Dequeue() do?","Adds to front","Removes from front","Adds to back","Removes from back",2
+"What does Stack.Push() do?","Adds to bottom","Adds to top","Removes from top","Removes from bottom",2
+"Which is best for fast membership testing?","List<T>","Array","HashSet<T>","Queue<T>",3
+"What happens when you access a non-existent Dictionary key?","Returns null","Returns default value","Throws KeyNotFoundException","Creates the key",3
+"Which collection is thread-safe by default?","List<T>","Dictionary<K,V>","ConcurrentDictionary<K,V>","HashSet<T>",3
+"What is the primary difference between Array and List<T>?","Performance","Arrays have fixed size","Arrays are slower","No difference",2
+"Which operation is O(1) for List<T>?","Insert at beginning","Search by value","Access by index","Remove by value",3
+"What does yield return build?","Iterator state machine","Array","List","Dictionary",1
+"Which interface must custom collections implement for foreach?","IEnumerable","ICollection","IList","IQueryable",1
+"What is the time complexity of linked list insertion at the beginning?","O(1)","O(log n)","O(n)","O(nÂ²)",1
+"In a binary search tree, what traversal gives sorted order?","Pre-order","In-order","Post-order","Level-order",2
+"What advantage do doubly linked lists have over singly linked lists?","Less memory usage","Faster search","Bidirectional traversal","Better caching",3
+"When should you create custom collections?","Always","Never","When built-in collections don't meet specific needs","Only for performance",3
+"What is lazy evaluation in iterators?","Slow execution","Delayed computation until enumerated","Memory optimization","Thread safety",2
+"Which method do you override for custom equality in tree nodes?","ToString()","Equals()","GetHashCode()","Both B and C",4
+"What is the primary benefit of yield return over returning a List?","Faster execution","Memory efficiency","Thread safety","Type safety",2
+"In BST deletion, what happens when deleting a node with two children?","Delete both children","Replace with in-order successor","Cannot delete","Copy to new location",2
+"What preserves stack trace when rethrowing?","throw ex","throw","throw new","rethrow",2
+"When should you use custom exceptions?","Never","Always","For specific business scenarios","Only for validation",3
+"What is the purpose of the finally block?","Handle exceptions","Cleanup resources","Log errors","Prevent exceptions",2
+"Which logging level should be used for exceptions?","Information","Warning","Error","Debug",3
+"What does Debug.Assert do in Release builds?","Throws exception","Logs message","Nothing","Breaks execution",3
+"Which is better for exception handling?","Catch Exception","Catch specific exceptions","Catch all and ignore","Avoid try-catch",2
+"What should custom exceptions inherit from?","Object","Exception or specific exception","SystemException","ApplicationException",2
+"When should exceptions be used for control flow?","Always","For performance","Never","Only in loops",3
+"What does the [Conditional(""DEBUG"")] attribute do?","Always executes","Only executes in DEBUG builds","Prevents compilation","Adds logging",2
+"Which pattern is best for transient failures?","Circuit Breaker","Retry Pattern","Exception Swallowing","Immediate Failure",2
+"Which way of re-throwing preserves the original stack trace?","throw ex;","throw;","throw new Exception();","return ex;",2
+"What is the purpose of the finally block?","Handle exceptions","Execute code that always runs","Catch specific exceptions","Log errors",2
+"When should you create custom exceptions?","Never","When you need specific error information","Always","Only for database errors",2
+"Which log level should you use for unexpected errors?","Information","Warning","Error","Debug",3
+"What is the correct order of exception handling blocks?","finally, catch, try","try, finally, catch","try, catch, finally","catch, try, finally",3
+"How do you handle multiple exception types with different responses?","Use multiple catch blocks","Use one catch(Exception)","Use if-else statements","Use switch statements",1
+"What should you do when catching an exception you can't handle?","Ignore it","Log it and re-throw","Return null","Show a message box",2
+"Which attribute helps customize how objects appear in the debugger?","[DebuggerDisplay]","[DebuggerShow]","[DebuggerView]","[DebuggerInfo]",1
+"What is the difference between Debug and Trace output?","No difference","Debug only in debug builds, Trace in all builds","Trace only in debug builds, Debug in all builds","Debug is faster",2
+"When should you use exception filters (when clause)?","Always","When you need conditional exception handling","Never","Only with custom exceptions",2
+"Which delegate has no parameters and no return?","Action","Func<int>","Predicate<int>","EventHandler",1
+"What is the difference between delegates and events?","No difference","Events provide encapsulation","Delegates are faster","Events can't be null",2
+"What does the += operator do with delegates?","Adds numbers","Combines delegates (multicast)","Compares delegates","Assigns delegates",2
+"Which is correct for invoking events safely?","event(args)","event?.Invoke(args)","if(event != null) event(args)","Both B and C",4
+"What captures variables from the enclosing scope?","Methods","Closures/Lambda expressions","Properties","Fields",2
+"What happens if one event handler throws an exception?","Program terminates","Other handlers still execute","Other handlers don't execute","Exception is ignored",3
+"Which Func delegate returns a boolean?","Func<bool>","Predicate<T>","Action<bool>","Both A and B",4
+"How do you prevent memory leaks with events?","Use static events","Always unsubscribe","Use weak references","Both B and C",4
+"What is method group syntax?","Grouping methods","Shorthand for lambda expressions","Creating method arrays","Method overloading",2
+"Which pattern is commonly implemented with events?","Singleton","Factory","Observer","Strategy",3
+"Which defers execution until enumerated?","IEnumerable","List","Array","Dictionary",1
+"What is the difference between IEnumerable and IQueryable?","No difference","IQueryable uses expression trees","IEnumerable is faster","IQueryable is older",2
+"Which LINQ method flattens nested sequences?","Select","SelectMany","Where","GroupBy",2
+"What does ToList() do to a LINQ query?","Creates expression tree","Forces immediate execution","Makes it parallel","Optimizes performance",2
+"Which is better for database queries?","IEnumerable with ToList() first","IQueryable with filters","Always use arrays","Parallel LINQ",2
+"What happens with multiple enumerations of the same query?","Uses cached results","Re-executes each time","Throws exception","Returns empty",2
+"Which LINQ syntax is better for complex joins?","Method syntax","Query syntax","Both are equal","Neither",2
+"What does AsParallel() do?","Makes queries faster always","Enables parallel execution for CPU-intensive tasks","Converts to async","Caches results",2
+"Which method groups elements by a key?","Select","Where","GroupBy","OrderBy",3
+"What is deferred execution in LINQ?","Slow performance","Query executes when enumerated","Immediate execution","Compilation delay",2
+"What is the primary purpose of async/await in C#?","To make code run faster","To prevent blocking the calling thread during I/O operations","To enable parallel processing","To reduce memory usage",2
+"Which method should you use to wait for multiple async operations to complete?","Task.Wait()","Task.WhenAll()","Task.Result","Task.GetAwaiter()",2
+"What happens when you use .Result on a Task in a UI application?","It improves performance","It can cause deadlocks","It makes the code asynchronous","It automatically handles exceptions",2
+"When should you use async void?","For all async methods","Only for event handlers","For methods that return values","Never use async void",2
+"What is the purpose of ConfigureAwait(false)?","To make code run faster","To prevent deadlocks in library code","To enable cancellation","To handle exceptions",2
+"How do you cancel an async operation cooperatively?","Using Thread.Abort()","Using CancellationToken","Using Task.Stop()","Using async void",2
+"What does Task.WhenAny() return?","All completed tasks","The first task to complete","The last task to complete","An array of results",2
+"Which is better for high-performance scenarios with potentially synchronous paths?","Task<T>","ValueTask<T>","async void","Task.Run()",2
+"What should you use for streaming large amounts of data asynchronously?","Task<List<T>>","IEnumerable<T>","IAsyncEnumerable<T>","DataTable",3
+"How do you properly handle exceptions in fire-and-forget async operations?","Use async void","Ignore exceptions","Use ContinueWith() to handle faulted tasks","Use try-catch around the method call",3
+"What is the main difference between connected and disconnected models in ADO.NET?","Performance","Connected maintains active database connection, disconnected works with cached data","Security","Memory usage",2
+"Which method should you use to execute an INSERT, UPDATE, or DELETE statement?","ExecuteScalar()","ExecuteReader()","ExecuteNonQuery()","ExecuteAsync()",3
+"What does SqlDataReader provide that DataTable doesn't?","Forward-only, read-only data access","Better performance for large datasets","Lower memory usage","All of the above",4
+"How do you prevent SQL injection attacks in ADO.NET?","Use string concatenation","Use parameterized queries","Validate input manually","Use stored procedures only",2
+"What happens to a database transaction if an exception occurs before calling Commit()?","Changes are saved automatically","Transaction is automatically rolled back","Changes are partially saved","Database becomes corrupted",2
+"Which class is best for bulk inserting large amounts of data?","SqlCommand","SqlDataAdapter","SqlBulkCopy","DataTable",3
+"What is the purpose of connection pooling in ADO.NET?","Improve security","Reuse database connections for better performance","Prevent SQL injection","Enable transactions",2
+"Which property tracks whether a DataRow has been modified?","IsChanged","HasChanges","RowState","IsDirty",3
+"What should you always use when working with database connections?","try-catch blocks","using statements","connection pooling","async methods",2
+"How do you create relationships between DataTables in a DataSet?","ForeignKey property","DataRelation class","Join method","Link property",2
+"What is the main advantage of Code-First approach in EF Core?","Better performance","Database schema is generated from your domain models","Easier to write SQL","Less memory usage",2
+"Which method creates and applies pending migrations to the database?","dotnet ef database update","dotnet ef migrations add","dotnet ef database create","dotnet ef scaffold",1
+"What does Include() method do in EF Core?","Includes database transactions","Eagerly loads related navigation properties","Includes SQL comments","Includes database indexes",2
+"Which method should you use for read-only queries to improve performance?","AsNoTracking()","AsReadOnly()","AsOptimized()","AsStatic()",1
+"What is the difference between Database-First and Code-First approaches?","Performance differences","Database-First scaffolds from existing database, Code-First generates database from models","Security differences","Memory usage differences",2
+"How do you configure entity relationships in EF Core?","Using attributes only","Using Fluent API in OnModelCreating()","Using SQL scripts","Using XML configuration",2
+"What does ExecuteUpdateAsync() method provide in EF Core 7+?","Better error handling","Bulk update operations without loading entities","Faster connection handling","Automatic transaction management",2
+"Which approach is better for large datasets to reduce memory usage?","Load all data at once","Use AsSplitQuery()","Use AsAsyncEnumerable() for streaming","Use ToList() method",3
+"What is the purpose of migrations in EF Core?","Improve query performance","Track and apply database schema changes over time","Handle user authentication","Manage database connections",2
+"How do you prevent a property from being mapped to the database?","Use [NotMapped] attribute","Use [Ignore] attribute","Use [Skip] attribute","Use [Exclude] attribute",1
+"Which method should you use to read a file asynchronously as a string?","File.ReadAllText()","File.ReadAllTextAsync()","FileStream.Read()","StreamReader.ReadLine()",2
+"What is the best practice for handling file operations?","Use try-catch blocks","Use using statements for proper disposal","Check if file exists first","All of the above",4
+"Which stream type is best for in-memory data operations?","FileStream","MemoryStream","BufferedStream","NetworkStream",2
+"What does JsonSerializer.Serialize() return?","A JSON file","A JSON string","A byte array","A Stream object",2
+"How do you ensure atomic file writing operations?","Use File.WriteAllText()","Write to temporary file then rename","Use FileStream directly","Use multiple threads",2
+"Which class is used for XML serialization in .NET?","JsonSerializer","XmlSerializer","BinarySerializer","DataContractSerializer",2
+"What is the advantage of using async file operations?","Faster execution","Non-blocking I/O operations","Better error handling","Smaller file sizes",2
+"Which method reads a file line by line efficiently for large files?","File.ReadAllLines()","StreamReader.ReadLine() in a loop","File.ReadAllText().Split()","MemoryStream.Read()",2
+"How do you compress data while writing to a file?","Use FileStream","Use GZipStream","Use MemoryStream","Use BufferedStream",2
+"What should you do when deserializing JSON that might be invalid?","Use try-catch for JsonException","Validate JSON first","Use default values","All of the above",4
+"What does XAML stand for?","eXtensible Application Markup Language","eXtended Application Modeling Language","eXecutable Application Management Layer","eXternal Application Markup Library",1
+"Which interface must a class implement to notify the UI of property changes?","INotifyCollectionChanged","INotifyPropertyChanged","ICommand","IDataErrorInfo",2
+"What is the purpose of UpdateSourceTrigger=PropertyChanged in data binding?","Improves performance","Updates the source immediately when property changes","Validates input","Handles errors",2
+"Which layout panel stacks elements either vertically or horizontally?","Grid","Canvas","StackPanel","DockPanel",3
+"How do you create a two-way data binding in XAML?","Use Mode=TwoWay","Use UpdateSourceTrigger=PropertyChanged","Use binding without specifying mode (default)","Use Path property",1
+"Which layout panel allows absolute positioning of elements?","Grid","Canvas","StackPanel","WrapPanel",2
+"What is the recommended pattern for WPF applications?","MVC","MVP","MVVM","MVA",3
+"Which collection type should you use for dynamic lists in WPF data binding?","List<T>","ArrayList","ObservableCollection<T>","IEnumerable<T>",3
+"How do you handle button clicks in MVVM pattern?","Use Click event handlers","Use ICommand interface","Use code-behind methods","Use static methods",2
+"What does the DataContext property represent in WPF?","The database connection","The data source for binding","The UI context","The application context",2
+"What does MVVM stand for?","Model-View-ViewModel","Model-View-Manager","Multi-View-Model","Master-View-Module",1
+"Which interface should commands implement in WPF?","INotifyPropertyChanged","ICommand","IDataErrorInfo","IDisposable",2
+"What is the purpose of ControlTemplate in WPF?","Define data layout","Completely customize control appearance","Handle events","Manage resources",2
+"How do you create reusable visual appearance in WPF?","Use Styles","Use Templates","Use Resources","All of the above",4
+"What is the difference between Style and Template?","No difference","Style sets properties, Template defines structure","Template sets properties, Style defines structure","Both are the same concept",2
+"Which method should you call to notify UI about property changes?","OnPropertyChanged()","NotifyChanged()","UpdateUI()","RefreshProperty()",1
+"What is BasedOn used for in WPF Styles?","Setting base colors","Inheriting from another style","Defining base templates","Creating base classes",2
+"How do you bind a Button to a command with a parameter?","Use Command and CommandParameter properties","Use Click event","Use Tag property","Use DataContext",1
+"What is the recommended way to handle long-running operations in MVVM?","Use async void","Use AsyncRelayCommand","Use BackgroundWorker","Use Thread.Start()",2
+"Which property is used to share data between ViewModel and View?","DataSource","DataContext","BindingSource","ModelContext",2
+"Why is middleware order important in ASP.NET Core?","For performance","Middleware processes requests in order and responses in reverse","For security only","It doesn't matter",2
+"What is the main difference between Razor Pages and MVC?","Performance","Razor Pages is page-centric, MVC is action-centric","Security features","Database access methods",2
+"Which method is used to register services in ASP.NET Core?","builder.Services.Add()","builder.Services.Register()","builder.Services.AddScoped()","builder.Configuration.Add()",3
+"What does the [ApiController] attribute provide?","Better performance","Automatic model validation and error responses","Database access","Security features",2
+"Which HTTP status code should you return when creating a new resource via POST?","200 OK","201 Created","202 Accepted","204 No Content",2
+"What is the purpose of DTOs in Web APIs?","Improve performance","Control data exposure and API contracts","Handle errors","Manage sessions",2
+"How do you create a custom middleware in ASP.NET Core?","Inherit from Middleware class","Implement IMiddleware interface","Create class with InvokeAsync method","Use app.Use() only",3
+"What is the advantage of Minimal APIs over traditional controllers?","Better performance","Less code and simpler for basic endpoints","More features","Better security",2
+"Which method should you use for non-query database operations in controllers?","ExecuteScalar()","ExecuteReader()","ExecuteNonQuery()","ExecuteAsync()",3
+"What should you return when a requested resource is not found in a Web API?","null","empty string","404 Not Found status","500 Internal Server Error",3
+"What are the two main hosting models for Blazor?","Client and Server","Blazor Server and Blazor WebAssembly","Desktop and Web","Static and Dynamic",2
+"Where does Blazor WebAssembly run?","On the server","In the browser using WebAssembly","In a separate process","On the database server",2
+"Which directive is used to create a two-way data binding in Blazor?","@model","@bind","@data","@value",2
+"How do you define route parameters in Blazor?","@page ""/user/{id}""","@route ""/user/{id}""","@param ""/user/{id}""","@url ""/user/{id}""",1
+"Which lifecycle method is called when component parameters change?","OnInitialized()","OnParametersSet()","OnAfterRender()","OnStateChanged()",2
+"How do you inject services into Blazor components?","@service","@inject","@dependency","@using",2
+"What is the purpose of StateHasChanged() in Blazor?","Save component state","Clear component state","Trigger UI re-render","Handle errors",3
+"Which component is used for form validation in Blazor?","<ValidationForm>","<EditForm>","<FormValidator>","<DataForm>",2
+"How do you handle events in Blazor components?","@onclick=""MethodName""","onclick=""MethodName()""","(click)=""MethodName""","@click=""MethodName""",1
+"What is the main advantage of Blazor over traditional JavaScript frameworks?","Better performance","Use C# for both server and client","Smaller bundle size","Better SEO",2
+"What does CORS stand for?","Cross-Origin Request Security","Cross-Origin Resource Sharing","Cross-Origin Response Security","Cross-Origin Request Sharing",2
+"Which is used for stateless authentication in Web APIs?","Cookies","Session tokens","JWT (JSON Web Tokens)","ViewState",3
+"What is the difference between Authentication and Authorization?","No difference","Authentication verifies identity, Authorization verifies permissions","Authorization verifies identity, Authentication verifies permissions","Both verify passwords",2
+"Which attribute protects an API endpoint from unauthorized access?","[Authorize]","[Protected]","[Secure]","[Private]",1
+"What protocol should always be used for production web applications?","HTTP","HTTPS","FTP","SMTP",2
+"How do you implement role-based authorization in ASP.NET Core?","[Authorize(Roles = ""Admin"")]","[Role(""Admin"")]","[RequireRole(""Admin"")]","[AdminOnly]",1
+"What is the purpose of CORS in web applications?","Encrypt data","Allow cross-origin requests from browsers","Authenticate users","Authorize API access",2
+"Which security header helps prevent XSS attacks?","Content-Security-Policy","X-Frame-Options","Access-Control-Allow-Origin","Authorization",1
+"How do you store JWT tokens securely in a web application?","Local storage","Session storage","HTTP-only cookies","Global variables",3
+"What is the purpose of the [ValidateAntiForgeryToken] attribute?","Validate input data","Prevent CSRF attacks","Check user permissions","Encrypt form data",2
+"What does .NET MAUI stand for?","Multi-platform App UI","Mobile Application User Interface","Microsoft Application UI","Modern App UI",1
+"Which platforms does .NET MAUI support?","Only mobile","Windows, macOS, iOS, Android","Only desktop","Only web browsers",2
+"What is the navigation method to push a new page in MAUI?","Navigation.GoTo()","Navigation.PushAsync()","Navigation.Navigate()","Navigation.MoveTo()",2
+"Which database is commonly used for local storage in mobile apps?","SQL Server","SQLite","Oracle","MySQL",2
+"How do you access platform-specific features in .NET MAUI?","Platform interfaces","DependencyService","Native calls","Platform APIs",4
+"Which layout is best for responsive design in MAUI?","StackLayout","Grid","AbsoluteLayout","ContentView",2
+"What is the predecessor to .NET MAUI?","Xamarin.Forms","Xamarin.Native","Xamarin.iOS","Xamarin.Android",1
+"How do you handle different screen sizes in MAUI?","Use fixed layouts","Use responsive layouts and adaptive triggers","Use separate apps","Use web views",2
+"Which authentication method is commonly used in mobile apps?","Basic authentication","OAuth 2.0","Digest authentication","Windows authentication",2
+"What file format is used for UI definition in MAUI?","XML","XAML","JSON","HTML",2
+"What file defines the steps to build a Docker container?","docker-compose.yml","Dockerfile","package.json","build.yml",2
+"Which cloud service by Microsoft is used for hosting web applications?","Azure Functions","Azure App Service","Azure Storage","Azure SQL",2
+"What does CI/CD stand for?","Continuous Integration/Continuous Deployment","Computer Integration/Computer Deployment","Code Integration/Code Deployment","Continuous Improvement/Continuous Development",1
+"Which file is used to define GitHub Actions workflows?","Dockerfile","package.json","YAML files in .github/workflows/","appsettings.json",3
+"What is the purpose of containerization with Docker?","Improve performance","Package application with dependencies for consistent deployment","Reduce code size","Enable real-time communication",2
+"Which AWS service is equivalent to Azure App Service?","AWS Lambda","AWS Elastic Beanstalk","AWS S3","AWS RDS",2
+"What triggers a CI pipeline in GitHub Actions?","Manual execution only","Code push, pull requests, or scheduled events","Only on code push","Only on pull requests",2
+"Which command builds a Docker image?","docker run","docker build","docker create","docker start",2
+"What is the benefit of using containerized deployments?","Better performance","Environment consistency and isolation","Smaller applications","Faster development",2
+"Which Azure service can be used for automated build and deployment?","Azure Storage","Azure DevOps","Azure Functions","Azure SQL",2

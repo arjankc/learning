@@ -1,0 +1,201 @@
+﻿Question,Answer 1,Answer 2,Answer 3,Answer 4,Correct Answer
+"What is visual programming?","Programming with colors","Programming paradigm using graphical elements instead of text","Programming for visually impaired","Programming graphics only",2
+"Which is an advantage of visual programming for beginners?","Better performance","Easier learning curve","More flexibility","Faster execution",2
+"What is a limitation of visual programming compared to text-based programming?","Slower development","Limited by available components","No debugging support","Cannot create applications",2
+"Which tool is an example of visual programming in .NET?","Command line compiler","Visual Studio Designer","Text editor","Database manager",2
+"What is XAML Designer used for?","Database design","WPF and UWP application UI design","Web page creation","API development",2
+"In visual programming, how do you typically create UI elements?","Writing code manually","Drag-and-drop from toolbox","Using command line","Drawing by hand",2
+"What type of debugging is typically available in visual programming environments?","Command line debugging only","Visual debugging tools","No debugging","Text-only debugging",2
+"Which programming approach gives you more direct control over performance?","Visual programming","Text-based programming","Both are equal","Neither",2
+"What is generated when you use visual designers?","Images only","Code that implements the visual design","Documentation","Database schemas",2
+"Can visual programming completely replace text-based programming?","Yes, always","No, both have their place","Only for web development","Only for desktop applications",2
+"What is the main interface difference between visual and text-based programming?","No difference","Visual uses drag-and-drop, text uses code writing","Visual is faster","Text is more colorful",2
+"Which type of application is Blazor Visual Designer used for?","Desktop applications","Web components","Mobile applications","Database applications",2
+"What is the flexibility trade-off in visual programming?","More flexible than text","Limited by available components","Equal flexibility","No flexibility",2
+"In WinForms designer, what happens when you drag a button onto a form?","Nothing happens","Code is automatically generated","Application crashes","Form is deleted",2
+"What is the relationship between visual designers and generated code?","No relationship","Designer creates code automatically","Code creates designer","They are separate",2
+"What is event-driven programming?","Programming only for events","Paradigm where program flow is determined by events","Programming without events","Database programming",2
+"What are events in event-driven programming?","Functions only","Notifications that something has happened","Variables only","Classes only",2
+"What is an event handler?","Database connection","Method that responds to events","Variable storage","User interface",2
+"What is the event loop responsible for?","Creating events","Continuously monitoring for events","Deleting events","Storing events",2
+"What are delegates in C# event-driven programming?","Database objects","Type-safe function pointers","UI elements","Network connections",2
+"How do you subscribe to a button click event in C#?","button.OnClick","button.Click += EventHandler","button.Press","button.Select",2
+"What parameters does a typical event handler method receive?","No parameters","sender and EventArgs","Only sender","Only EventArgs",2
+"What triggers the execution of an event handler?","Timer","When the associated event occurs","Manual call only","System startup",2
+"Can multiple event handlers be attached to the same event?","No, only one","Yes, using multicast delegates","Only two","Only for specific events",2
+"What happens if you don't handle an event?","Application crashes","Nothing specific happens","Error is thrown","Event is deleted",2
+"How do you unsubscribe from an event in C#?","event += handler","event -= handler","event == handler","event != handler",2
+"What is the sender parameter in an event handler?","Event data","Object that raised the event","Event type","Handler method",2
+"What type of information does EventArgs typically contain?","Sender information","Event-specific data","Handler information","System information",2
+"In GUI applications, what typically triggers events?","Database queries","User interactions","File operations","Network requests",2
+"What is the advantage of event-driven programming for user interfaces?","Faster execution","Responsive to user actions","Uses less memory","Simpler code",2
+"What is the Common Language Runtime (CLR)?","Programming language","Runtime environment for .NET applications","Database system","Web server",2
+"What is the Base Class Library (BCL)?","User interface library","Fundamental library of types and functionality","Database library","Network library",2
+"What is managed code in .NET?","Code written by managers","Code that runs under CLR management","Code for databases","Code for web applications",2
+"What is the Global Assembly Cache (GAC)?","Database cache","Machine-wide cache for .NET assemblies","Web cache","User cache",2
+"What is Just-In-Time (JIT) compilation?","Compile-time optimization","Converting IL code to native code at runtime","Database compilation","Web compilation",2
+"What is Intermediate Language (IL) code?","High-level language","Platform-independent bytecode","Native machine code","Database query language",2
+"What is the Common Type System (CTS)?","Database type system","Specification defining how types are declared and used","Web type system","UI type system",2
+"What is the Common Language Specification (CLS)?","Programming language","Subset of CTS for language interoperability","Database specification","Web specification",2
+"What is garbage collection in .NET?","Deleting files","Automatic memory management","Code optimization","Database cleanup",2
+"What are assemblies in .NET?","Code files","Compiled units containing one or more modules","Database tables","Web pages",2
+"What is the difference between .NET Framework and .NET Core?","No difference",".NET Core is cross-platform, Framework is Windows-only","Framework is newer","Core is deprecated",2
+"What is Application Domain (AppDomain)?","Database domain","Isolated execution environment within a process","Web domain","Network domain",2
+"What is the purpose of metadata in .NET assemblies?","User data","Information about types and members","Performance data","Security data",2
+"What is the Framework Class Library (FCL)?","User library","Complete library of classes in .NET Framework","Third-party library","Database library",2
+"What is strong naming in .NET assemblies?","Giving descriptive names","Ensuring assembly integrity and uniqueness","Using long names","Database naming",2
+"What does RAD stand for in software development?","Rapid Application Development","Random Access Development","Real Application Development","Reliable Application Development",1
+"What is the main goal of RAD tools?","Slow development","Fast application development with minimal coding","Complex development","Database management",2
+"Which Visual Studio feature is considered a RAD tool?","Command line","Visual designers and IntelliSense","File explorer","Task manager",2
+"What is IntelliSense in Visual Studio?","Database tool","Code completion and suggestion feature","Graphics tool","Testing tool",2
+"What are code snippets in RAD tools?","Deleted code","Pre-written code templates","Error messages","Database queries",2
+"What is scaffolding in RAD development?","Building construction","Auto-generation of basic code structure","Manual coding","Database design",2
+"Which is an example of RAD in web development?","Manual HTML coding","Visual Studio web forms designer","Command line tools","Text editors",2
+"What is the advantage of using RAD tools for prototyping?","Slower development","Quick creation of working prototypes","More complex code","Manual testing",2
+"What is drag-and-drop functionality in RAD tools?","File management","Visual component placement","Database operations","Network operations",2
+"What is auto-complete in IDEs?","Automatic testing","Automatic code completion while typing","Automatic compilation","Automatic deployment",2
+"What are project templates in RAD tools?","Database templates","Pre-configured project structures","UI templates only","Test templates only",2
+"What is the benefit of visual form designers?","Manual coding","Visual UI creation without writing code","Database design","Network configuration",2
+"What is code generation in RAD tools?","Manual code writing","Automatic creation of boilerplate code","Code deletion","Code encryption",2
+"What is a potential disadvantage of over-relying on RAD tools?","Faster development","Less understanding of underlying code","Better performance","Easier debugging",2
+"What is refactoring support in RAD tools?","Code deletion","Automated code restructuring and improvement","Manual rewriting","Code compilation",2
+"What is implicit type conversion?","Manual conversion","Automatic conversion by compiler","Error conversion","No conversion",2
+"What is explicit type conversion?","Automatic conversion","Manual conversion using cast operators","Error conversion","Default conversion",2
+"Which conversion is considered safe?","Explicit conversion","Implicit conversion","No conversion","Error conversion",2
+"What happens during widening conversion?","Data loss","No data loss, smaller to larger type","Type error","Compilation error",2
+"What happens during narrowing conversion?","No data loss","Potential data loss, larger to smaller type","Type expansion","Memory increase",2
+"What does Convert.ToInt32() do with null values?","Throws exception","Returns 0","Returns null","Returns -1",2
+"What does int.Parse() do with null values?","Returns 0","Throws ArgumentNullException","Returns null","Returns -1",2
+"What is the safest method for string to integer conversion?","int.Parse()","Convert.ToInt32()","int.TryParse()","(int)string",3
+"What does int.TryParse() return when conversion fails?","Exception","null","false and out parameter is 0","-1",3
+"What is boxing in type conversion?","Converting reference to value type","Converting value type to object","Array conversion","String conversion",2
+"What is unboxing in type conversion?","Converting value to object","Converting object to value type","Array conversion","String conversion",2
+"What happens if you unbox to the wrong type?","Silent conversion","InvalidCastException","Data loss","Compilation error",2
+"Which has better performance?","Boxing/unboxing","Direct type operations","String conversion","All same",2
+"What is the 'as' operator used for?","Type creation","Safe casting that returns null on failure","Type deletion","Type comparison",2
+"What is the 'is' operator used for?","Type conversion","Type checking","Type creation","Type deletion",2
+"What does (int)3.9 result in?","4","3","3.9","Compilation error",2
+"Can you implicitly convert int to long?","No","Yes","Only with casting","Only with Convert",2
+"Can you implicitly convert long to int?","Yes","No, requires explicit casting","Only positive values","Only small values",2
+"What is a checked context in type conversion?","Unchecked conversion","Throws exception on overflow","Silent overflow","No conversion",2
+"What does unchecked context do?","Prevents conversion","Allows overflow without exception","Forces exception","No effect",2
+"What is a struct in C#?","Reference type","Value type for grouping related data","Class type","Interface type",2
+"What is an enum in C#?","Class type","Value type for named constants","Reference type","Interface type",2
+"Where are structs stored in memory?","Heap","Stack","Database","Registry",2
+"Can structs inherit from other structs?","Yes","No","Only from classes","Only from interfaces",2
+"Can structs implement interfaces?","No","Yes","Only specific interfaces","Only if sealed",2
+"What is the default underlying type of an enum?","string","int","long","byte",2
+"Can you specify a different underlying type for an enum?","No","Yes, using : syntax","Only int","Only string",2
+"What is the default value of an enum?","null","0 (first value)","last value","undefined",2
+"Can struct constructors be parameterless?","Yes, always","No, must have parameters","Only private ones","Only static ones",2
+"Can you assign explicit values to enum members?","No","Yes","Only consecutive values","Only positive values",2
+"What happens when you don't assign values to enum members?","Compilation error","Auto-assigned starting from 0","Random values","Null values",2
+"Can enum members have duplicate values?","No","Yes","Only if explicit","Only adjacent members",2
+"What is a flags enum?","Regular enum","Enum that can be combined with bitwise operations","Enum with strings","Enum with arrays",2
+"Which attribute is used for flags enums?","[Flag]","[Flags]","[Bitwise]","[Combination]",2
+"When should you use struct instead of class?","Always","For small, immutable value types","For large objects","For inheritance",2
+"What is the difference between List<T> and ArrayList?","No difference","List<T> is type-safe, ArrayList is not","ArrayList is faster","List<T> is deprecated",2
+"What is the difference between Array and List<T>?","No difference","Array has fixed size, List<T> is dynamic","List<T> is faster","Array is generic",2
+"What does Dictionary<TKey, TValue> store?","Only keys","Only values","Key-value pairs","Arrays",3
+"What happens if you try to add a duplicate key to Dictionary?","Key is updated","ArgumentException is thrown","Nothing happens","Key is ignored",2
+"What is the difference between Dictionary and Hashtable?","No difference","Dictionary is generic and type-safe","Hashtable is faster","Dictionary is deprecated",2
+"What does Queue<T> implement?","LIFO","FIFO","Random access","Sorted access",2
+"What does Stack<T> implement?","FIFO","LIFO","Random access","Sorted access",2
+"What method adds an item to the end of a List<T>?","Insert()","Add()","Push()","Append()",2
+"What method removes an item from the end of a List<T>?","Remove()","RemoveAt()","Pop()","Delete()",2
+"What is a HashSet<T> used for?","Ordered collection","Collection of unique elements","Key-value pairs","FIFO operations",2
+"What is the difference between IEnumerable and ICollection?","No difference","ICollection extends IEnumerable with modification methods","IEnumerable is faster","ICollection is deprecated",2
+"What does the Contains() method do?","Adds element","Checks if element exists","Removes element","Counts elements",2
+"What is a SortedDictionary<TKey, TValue>?","Regular dictionary","Dictionary that maintains sorted order by key","Dictionary sorted by value","Unsorted dictionary",2
+"What is the difference between Add() and Insert() in List<T>?","No difference","Add() appends, Insert() adds at specific index","Insert() is faster","Add() is deprecated",2
+"What happens when List<T> capacity is exceeded?","Exception thrown","Capacity is automatically increased","Oldest items removed","New items ignored",2
+"What namespace contains regular expression classes in C#?","System.String","System.Text.RegularExpressions","System.Regex","System.Text",2
+"What class is used for regular expressions in C#?","RegularExpression","Regex","Pattern","Match",2
+"What does the '.' metacharacter match?","Only dots","Any character except newline","Whitespace","Numbers only",2
+"What does the '*' quantifier mean?","One or more","Zero or more","Exactly one","Zero or one",2
+"What does the '+' quantifier mean?","Zero or more","One or more","Exactly one","Zero or one",2
+"What does the '?' quantifier mean?","Zero or more","One or more","Zero or one","Exactly one",3
+"What does \\d represent in regex?","Letters","Digits","Whitespace","Special characters",2
+"What does \\w represent in regex?","Whitespace","Word characters (letters, digits, underscore)","Special characters","Numbers only",2
+"What does \\s represent in regex?","Letters","Numbers","Whitespace characters","Special characters",3
+"What does ^ represent in regex?","End of string","Beginning of string","Any character","Negation",2
+"What does $ represent in regex?","Beginning of string","End of string","Any character","Dollar sign",2
+"What do square brackets [] represent in regex?","Grouping","Character class","Quantifier","Literal brackets",2
+"What is a capturing group in regex?","Character class","Parentheses that capture matched text","Quantifier","Anchor",2
+"What method checks if entire string matches pattern?","Regex.Find()","Regex.IsMatch()","Regex.Search()","Regex.Test()",2
+"What is the purpose of regex flags like IgnoreCase?","Performance","Modify pattern behavior","Error handling","Debugging",2
+"What is polymorphism?","Multiple inheritance","Ability of objects to take multiple forms","Single inheritance","Interface implementation",2
+"What are the types of polymorphism in C#?","Static only","Dynamic only","Static and Dynamic","No polymorphism",3
+"What is compile-time polymorphism?","Dynamic binding","Method overloading and operator overloading","Runtime binding","Interface implementation",2
+"What is runtime polymorphism?","Method overloading","Method overriding and virtual methods","Operator overloading","Static methods",2
+"What keyword enables method overriding?","new","virtual","static","sealed",2
+"What keyword is used to override a virtual method?","virtual","override","new","sealed",2
+"What is method overloading?","Same method name, different parameters","Different method names","Virtual methods","Abstract methods",1
+"What is method overriding?","Creating new methods","Redefining inherited virtual methods","Deleting methods","Static methods",2
+"Can you override static methods?","Yes","No","Only virtual static","Only in derived classes",2
+"What happens if you use 'new' instead of 'override'?","Same behavior","Method hiding instead of overriding","Compilation error","Runtime error",2
+"What is operator overloading?","Method overloading","Defining custom behavior for operators","Virtual operators","Abstract operators",2
+"Can you overload all operators in C#?","Yes","No, some are restricted","Only arithmetic operators","Only comparison operators",2
+"What is late binding?","Compile-time binding","Runtime binding","Early binding","Static binding",2
+"What enables dynamic polymorphism?","Static methods","Virtual methods and inheritance","Method overloading","Operator overloading",2
+"Can interface methods be overridden?","No","Yes, through implementation","Only virtual ones","Only abstract ones",2
+"Can abstract classes have constructors?","No","Yes","Only private","Only protected",2
+"Can interfaces have constructors?","Yes","No","Only public","Only private",2
+"Can abstract classes have implemented methods?","No","Yes","Only virtual","Only abstract",2
+"Can interfaces have implemented methods in C# 8+?","No","Yes, default implementations","Only virtual","Only static",2
+"How many abstract classes can a class inherit from?","Multiple","One","Two","None",2
+"How many interfaces can a class implement?","One","Multiple","Two","None",2
+"Can abstract classes have fields?","No","Yes","Only static","Only readonly",2
+"Can interfaces have fields (traditionally)?","Yes","No","Only static","Only readonly",2
+"What access modifiers can abstract class members have?","Only public","Any access modifier","Only protected","Only private",2
+"What access modifier do interface members have by default?","private","public","protected","internal",2
+"Can you instantiate an abstract class?","Yes","No","Only with new","Only derived classes",2
+"Can you instantiate an interface?","Yes","No","Only with new","Only implementations",2
+"When should you use abstract classes?","Never","When you have common implementation to share","Always","Only for interfaces",2
+"When should you use interfaces?","Never","For contracts and multiple inheritance","Always","Only for abstract classes",2
+"Can abstract classes implement interfaces?","No","Yes","Only partially","Only virtually",2
+"What is the purpose of try-catch blocks?","Performance optimization","Handle exceptions gracefully","Variable declaration","Method definition",2
+"What happens if an exception is not caught?","Program continues","Application terminates","Exception disappears","Memory leak",2
+"What is the purpose of the finally block?","Catch exceptions","Code that always executes","Handle specific exceptions","Return values",2
+"When does the finally block execute?","Only when exception occurs","Only when no exception","Always","Never",3
+"What is the base class for all exceptions in .NET?","Error","Exception","SystemException","ApplicationException",2
+"What is the difference between Exception and SystemException?","No difference","SystemException is for runtime errors","Exception is deprecated","SystemException is user-defined",2
+"How do you create custom exceptions?","Use existing exceptions","Inherit from Exception class","Use strings only","Use integers",2
+"What is the purpose of throw statement?","Catch exceptions","Raise exceptions","Handle exceptions","Ignore exceptions",2
+"What does 'throw;' (rethrow) do?","Creates new exception","Re-raises current exception preserving stack trace","Ignores exception","Catches exception",2
+"Can you have multiple catch blocks?","No","Yes, for different exception types","Only two","Only for same type",2
+"What is the order of catch blocks?","Random order","Most specific to least specific","Least specific to most specific","Alphabetical order",2
+"What is ArgumentNullException used for?","All arguments","When null is passed to method that doesn't allow it","Numeric arguments","String arguments",2
+"What is IndexOutOfRangeException?","Network error","Array/collection index outside valid range","File error","Database error",2
+"What information does Exception.StackTrace provide?","Exception message","Call stack when exception occurred","Exception type","Exception data",2
+"Can finally block prevent exception propagation?","Yes, always","No, exceptions still propagate","Only for specific exceptions","Only in debug mode",2
+"What is the Task Parallel Library (TPL)?","Database library","Library for parallel and asynchronous programming","UI library","Network library",2
+"What is the difference between Task.Run() and new Task()?","No difference","Task.Run() automatically starts task","new Task() is faster","Task.Run() is deprecated",2
+"What is Parallel.For() used for?","Sequential loops","Parallel execution of for loop iterations","Database operations","File operations",2
+"What is a race condition?","Fast execution","Multiple threads accessing shared data unsafely","Task completion","Memory allocation",2
+"What is the lock statement used for?","File locking","Thread synchronization","Memory locking","Network locking",2
+"What is deadlock?","Fast execution","Two or more threads waiting for each other indefinitely","Memory error","File error",2
+"What is the purpose of CancellationToken?","Create tasks","Cancel long-running operations","Start tasks","Monitor tasks",2
+"What is ConfigureAwait(false) used for?","Task creation","Avoid deadlocks in UI applications","Task cancellation","Task monitoring",2
+"What is the difference between Task.Wait() and await?","No difference","Wait() blocks thread, await doesn't","await is faster","Wait() is deprecated",2
+"What is thread-safe collection?","Regular collection","Collection that can be safely accessed by multiple threads","Fast collection","Database collection",2
+"What is ConcurrentBag<T>?","Regular list","Thread-safe unordered collection","Dictionary","Array",2
+"What is the purpose of Interlocked class?","File operations","Atomic operations on shared variables","Database operations","Network operations",2
+"What is volatile keyword used for?","Memory optimization","Prevent compiler optimizations on field","Performance improvement","Type checking",2
+"What is async/await used for?","Parallel processing","Asynchronous programming","Synchronous programming","Database operations",2
+"Can you use await in a non-async method?","Yes","No","Only in Main","Only in static methods",2
+"What is a DataSet in ADO.NET?","Single table","In-memory representation of database","Connection object","Command object",2
+"What is the difference between connected and disconnected architecture?","No difference","Connected maintains connection, disconnected works with cached data","Connected is faster","Disconnected is deprecated",2
+"What is a DataAdapter?","Database connection","Bridge between DataSet and database","Query executor","Transaction manager",2
+"What is Entity Framework?","Database","Object-Relational Mapping framework","UI framework","Web framework",2
+"What is Code First approach in Entity Framework?","Database first","Define classes first, generate database","Generate classes from database","No code approach",2
+"What is Database First approach in Entity Framework?","Classes first","Generate classes from existing database","Create database first","No database approach",2
+"What is DbContext in Entity Framework?","Database connection","Session with database and change tracking","Query builder","Data model",2
+"What is LINQ to Entities?","Database query language","LINQ provider for Entity Framework","Web technology","UI technology",2
+"What are migrations in Entity Framework?","Data transfer","Database schema version control","Query optimization","Connection management",2
+"What is lazy loading in Entity Framework?","Fast loading","Loading related data on demand","Loading all data","No loading",2
+"What is eager loading in Entity Framework?","Loading data on demand","Loading related data immediately","Lazy loading","No loading",2
+"What is the purpose of Include() method?","Exclude data","Include related data in query","Include tables","Include databases",2
+"What is change tracking in Entity Framework?","Query tracking","Monitoring entity modifications","Performance tracking","Error tracking",2
+"What is SaveChanges() used for?","Load changes","Persist tracked changes to database","Cancel changes","View changes",2
+"What is the Unit of Work pattern?","Single operation","Managing multiple operations as single transaction","Work scheduling","Task management",2

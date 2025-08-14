@@ -1,0 +1,201 @@
+﻿Question,Answer 1,Answer 2,Answer 3,Answer 4,Correct Answer
+"What is the main difference between 'for loop' and 'foreach loop' in C#?","for loop provides index access, foreach doesn't","foreach is faster than for loop","for loop only works with arrays","No difference",1
+"Which loop is best for iterating through collections when you don't need the index?","for loop","foreach loop","while loop","do-while loop",2
+"What happens if you modify a collection while using foreach?","Nothing happens","Performance improves","InvalidOperationException is thrown","Compilation error",3
+"In a for loop, when is the increment statement executed?","Before each iteration","After each iteration","Only at the end","Before condition check",2
+"Which loop guarantees at least one execution?","for loop","while loop","do-while loop","foreach loop",3
+"What is the purpose of the 'break' statement in loops?","Skip current iteration","Exit the loop completely","Restart the loop","Pause the loop",2
+"What does the 'continue' statement do in a loop?","Exit the loop","Skip remaining code in current iteration","Restart the loop","Create infinite loop",2
+"Which is more efficient for accessing array elements by index?","foreach loop","for loop","while loop","No difference",2
+"Can you use 'break' and 'continue' in foreach loops?","Only break","Only continue","Both break and continue","Neither",3
+"What is the scope of the loop variable in a for loop?","Global","Class level","Method level","Limited to the for loop block",4
+"What is an event in C#?","A method that returns void","A special kind of multicast delegate for notifications","A type of exception","A database connection",2
+"What is a delegate in C#?","A variable","A type that represents references to methods","A class","An interface",2
+"How do you subscribe to an event in C#?","Using = operator","Using += operator","Using == operator","Using -= operator",2
+"How do you unsubscribe from an event in C#?","Using = operator","Using += operator","Using -= operator","Using != operator",3
+"What is a multicast delegate?","A delegate that can hold single method reference","A delegate that can hold multiple method references","A delegate for casting","A delegate for multiplication",2
+"Can events be accessed directly from outside the class?","Yes, always","No, they are encapsulated","Only if public","Only in same namespace",2
+"What is the publisher-subscriber pattern?","Database pattern","Design pattern where publisher notifies subscribers of events","UI pattern","Security pattern",2
+"What happens if you invoke a null delegate?","Nothing happens","NullReferenceException","Compilation error","Default value returned",2
+"Which delegate is used for methods that return void?","Func","Action","Predicate","EventHandler",2
+"Which delegate is used for methods that return a value?","Action","Func","EventHandler","MulticastDelegate",2
+"Can you combine delegates using + operator?","No","Yes, creating multicast delegate","Only for events","Only for Action delegates",2
+"What is the difference between delegates and events?","No difference","Events provide encapsulation and can only be triggered from within the class","Delegates are faster","Events are deprecated",2
+"Can events have return values?","Yes, always","No, events return void","Only if using Func","Only for static events",2
+"What is the EventHandler delegate used for?","Database events","Standard event handling with sender and EventArgs","File events","Network events",2
+"Can you use lambda expressions with delegates?","No","Yes","Only with events","Only with Action",2
+"Which namespace is required for ADO.NET database operations?","System.IO","System.Data","System.Net","System.Web",2
+"What does ADO.NET stand for?","Active Data Objects .NET","Application Data Objects .NET","Advanced Data Objects .NET","Automated Data Objects .NET",1
+"What is the difference between DataReader and DataSet?","No difference","DataReader is forward-only, DataSet loads all data in memory","DataSet is faster","DataReader loads all data",2
+"Which is more efficient for reading large amounts of data?","DataSet","DataReader","DataTable","DataAdapter",2
+"What is SqlConnection used for?","Execute commands","Establish connection to SQL Server","Read data","Update data",2
+"What is SqlCommand used for?","Connect to database","Execute SQL statements","Read data only","Close connections",2
+"Which method is used for SELECT statements?","ExecuteNonQuery","ExecuteReader","ExecuteScalar","ExecuteQuery",2
+"Which method is used for INSERT, UPDATE, DELETE statements?","ExecuteReader","ExecuteNonQuery","ExecuteScalar","ExecuteQuery",2
+"What does ExecuteScalar return?","DataReader","DataSet","Single value","Number of affected rows",3
+"What is a connection string?","SQL query","Database schema","Configuration that specifies database connection details","Table name",3
+"Why should you use parameterized queries?","Better performance","Prevent SQL injection attacks","Easier syntax","Faster execution",2
+"What is Entity Framework?","UI framework","Object-Relational Mapping (ORM) framework","Web framework","Testing framework",2
+"What is the purpose of using statement with database connections?","Better performance","Automatic resource cleanup","SQL injection prevention","Faster queries",2
+"What is LINQ to SQL?","Language Integrated Query for SQL databases","Library for SQL","Language for SQL","Link to SQL",1
+"What is the difference between connected and disconnected architecture?","No difference","Connected maintains connection, disconnected works with cached data","Connected is faster","Disconnected is deprecated",2
+"What does LINQ stand for?","Language Integrated Query","Linear Query","Linked Query","Local Integrated Query",1
+"What is deferred execution in LINQ?","Query executes immediately","Query execution is delayed until enumeration","Query never executes","Query executes in background",2
+"Which LINQ operator is used for filtering?","Select","Where","OrderBy","GroupBy",2
+"Which LINQ operator is used for projection?","Where","Select","OrderBy","GroupBy",2
+"What is the difference between First() and FirstOrDefault()?","No difference","First() throws exception if no element, FirstOrDefault() returns default","FirstOrDefault() is faster","First() is deprecated",2
+"Which LINQ operator is used for sorting?","Where","Select","OrderBy","GroupBy",3
+"What does the Any() method return?","First element","Count of elements","Boolean indicating if any element matches","All elements",3
+"What does the All() method check?","If any element matches condition","If all elements match condition","First element only","Last element only",2
+"Which method forces immediate execution of LINQ query?","Where","Select","ToList()","OrderBy",3
+"What is the purpose of GroupBy in LINQ?","Filter data","Sort data","Group elements by key","Select specific columns",3
+"Can you use LINQ with databases?","No","Yes, with LINQ to SQL and Entity Framework","Only with SQL Server","Only with MySQL",2
+"What is the difference between IEnumerable and IQueryable?","No difference","IQueryable is for database queries, IEnumerable is for in-memory","IEnumerable is faster","IQueryable is deprecated",2
+"Which LINQ method joins two sequences?","Union","Join","Concat","Merge",2
+"What does Skip() method do in LINQ?","Skip all elements","Skip specified number of elements","Skip last element","Skip duplicates",2
+"What does Take() method do in LINQ?","Take all elements","Take specified number of elements","Take last element","Take duplicates",2
+"What is the difference between value types and reference types?","No difference","Value types store data directly, reference types store references","Reference types are faster","Value types can be null",2
+"Where are value types stored?","Heap","Stack","Database","Registry",2
+"Where are reference types stored?","Stack","Heap","Database","Registry",2
+"What happens when you assign one value type to another?","Both variables point to same memory","Data is copied","Reference is shared","Nothing happens",2
+"What happens when you assign one reference type to another?","Data is copied","Reference is copied","New object is created","Nothing happens",2
+"Which of these is a value type?","string","object","int","array",3
+"Which of these is a reference type?","int","bool","string","char",3
+"What is boxing in C#?","Converting reference to value type","Converting value type to object","Creating arrays","Memory allocation",2
+"What is unboxing in C#?","Converting value type to object","Converting object back to value type","Creating objects","Memory deallocation",2
+"Can value types be null by default?","Yes","No","Only int","Only bool",2
+"What is a nullable value type?","Value type that can be null","Reference type","Array type","Object type",1
+"How do you declare a nullable int?","int? x","nullable int x","int x = null","Nullable<int> x",1
+"What is the default value of a reference type?","0","false","null","empty string",3
+"What is the default value of an int?","null","0","1","-1",2
+"Are strings mutable in C#?","Yes","No","Sometimes","Depends on length",2
+"What are the different types of inheritance in C#?","Single, Multiple, Multilevel","Single, Multilevel, Hierarchical, Interface","Only Single","Single and Multiple only",2
+"Does C# support multiple inheritance of classes?","Yes","No","Only with interfaces","Only with abstract classes",2
+"What keyword is used to inherit from a class in C#?","extends","inherits",":","implements",3
+"What is single inheritance?","Class inherits from multiple classes","Class inherits from one class","Interface inheritance","No inheritance",2
+"What is multilevel inheritance?","Multiple classes inherit from one class","Chain of inheritance","No inheritance","Interface inheritance",2
+"What is hierarchical inheritance?","Chain of inheritance","Multiple classes inherit from one base class","No inheritance","Multiple inheritance",2
+"Can you inherit from multiple interfaces?","No","Yes","Only two interfaces","Only if they're related",2
+"What is the base class for all classes in C#?","BaseClass","Object","System","Class",2
+"What keyword prevents a class from being inherited?","private","sealed","static","final",2
+"What keyword is used to call base class constructor?","super","base","this","parent",2
+"Can constructors be inherited?","Yes","No","Only default constructor","Only parameterized constructor",2
+"What is method overriding?","Creating new method","Redefining inherited method","Hiding method","Deleting method",2
+"What keyword is required to override a method?","new","override","virtual","abstract",2
+"What keyword makes a method overridable?","override","virtual","abstract","sealed",2
+"Can you override static methods?","Yes","No","Only virtual static","Only abstract static",2
+"What is AJAX used for in web development?","Database operations","Asynchronous web requests without page reload","File operations","Memory management",2
+"What is the main benefit of using AJAX?","Faster server performance","Improved user experience with partial page updates","Better security","Reduced memory usage",2
+"What does AJAX stand for?","Asynchronous JavaScript and XML","Advanced JavaScript and XML","Automated JavaScript and XML","Active JavaScript and XML",1
+"Which method is commonly used for AJAX requests in jQuery?","$.get()","$.ajax()","$.post()","All of the above",4
+"What is JSON in context of AJAX?","JavaScript Object Notation for data exchange","Java Standard Object Notation","JavaScript Only Notation","Java Script Object Network",1
+"Can AJAX be used without JavaScript?","Yes","No","Only with XML","Only with JSON",2
+"What HTTP methods can be used with AJAX?","Only GET","Only POST","GET, POST, PUT, DELETE","Only GET and POST",3
+"What is the XMLHttpRequest object used for?","Database operations","Making HTTP requests from JavaScript","File operations","UI operations",2
+"How do you handle AJAX errors?","Try-catch blocks","Error callbacks","Status codes","All of the above",4
+"What is the advantage of using JSON over XML in AJAX?","Smaller size and easier parsing","Better security","Faster server processing","More features",1
+"Can AJAX requests be synchronous?","No, always asynchronous","Yes, but not recommended","Only with XML","Only with JSON",2
+"What is CORS in context of AJAX?","Cross-Origin Resource Sharing","Common Object Request System","Cross-Origin Request Security","Common Origin Resource System",1
+"How do you prevent AJAX caching issues?","Add random parameter","Set cache headers","Use POST instead of GET","All of the above",4
+"What status code indicates successful AJAX request?","200","404","500","302",1
+"Can AJAX be used to upload files?","No","Yes, with FormData","Only small files","Only images",2
+"Which method is used to check if conversion is possible in C#?","Convert.ToInt32()","int.Parse()","int.TryParse()","(int)value",3
+"What is implicit conversion?","Manual type conversion","Automatic type conversion","Explicit casting","Error in conversion",2
+"What is explicit conversion?","Automatic type conversion","Manual type conversion using cast operator","Error in conversion","No conversion",2
+"Which conversion is safe and automatic?","Explicit","Implicit","Boxing","Unboxing",2
+"What happens in explicit conversion if data doesn't fit?","Compilation error","Data loss or overflow","Exception thrown","Nothing happens",2
+"Which method is safest for string to int conversion?","int.Parse()","(int)string","Convert.ToInt32()","int.TryParse()",4
+"What does int.Parse() do if string is invalid?","Returns 0","Returns null","Throws exception","Returns -1",3
+"What does int.TryParse() return if conversion fails?","Exception","null","false","0",3
+"What is the difference between Parse and Convert methods?","No difference","Convert handles null values, Parse doesn't","Parse is faster","Convert is deprecated",2
+"Can you convert null string using int.Parse()?","Yes, returns 0","No, throws exception","Yes, returns null","No, compilation error",2
+"What is the result of (int)3.7?","4","3","3.7","Compilation error",2
+"Which conversion has performance overhead?","Implicit conversion","Explicit conversion","Boxing/Unboxing","TryParse",3
+"What does Convert.ToInt32(null) return?","Exception","0","null","-1",2
+"Can you convert between unrelated reference types?","Yes, always","No, never","Only with explicit casting","Only if they implement same interface",3
+"What is narrowing conversion?","Converting to larger type","Converting to smaller type","Converting to same type","No conversion",2
+"What is serialization in C#?","Converting objects to string format","Converting object state to storable/transmittable format","Creating new objects","Deleting objects",2
+"What is deserialization?","Creating objects","Converting serialized data back to objects","Deleting objects","Copying objects",2
+"Which attribute is used to mark a class as serializable?","[Serialize]","[Serializable]","[DataContract]","[Serializeable]",2
+"What is JSON serialization?","Converting to XML","Converting to binary","Converting to JavaScript Object Notation","Converting to text",3
+"Which namespace contains JSON serialization classes in .NET?","System.Json","System.Text.Json","System.Serialization","System.Web.Json",2
+"What is binary serialization?","Converting to text","Converting to binary format","Converting to XML","Converting to JSON",2
+"Which is more human-readable?","Binary serialization","JSON serialization","Both same","Neither",2
+"What happens to non-serializable fields during serialization?","They are serialized","They are ignored","Exception is thrown","They become null",2
+"Which attribute prevents a field from being serialized?","[NonSerialized]","[NotSerialized]","[IgnoreSerialize]","[Skip]",1
+"Can you serialize static fields?","Yes, always","No, never","Only if marked","Only public static",2
+"What is XML serialization?","Converting to binary","Converting to XML format","Converting to JSON","Converting to text",2
+"Which class is used for XML serialization?","XmlSerializer","BinaryFormatter","JsonSerializer","DataContractSerializer",1
+"Can you customize JSON property names during serialization?","No","Yes, using attributes","Only manually","Only for strings",2
+"What is the purpose of serialization?","Performance improvement","Data persistence and transmission","Memory optimization","Error handling",2
+"Can you serialize circular references?","Yes, always","No, causes issues","Only with XML","Only with JSON",2
+"What is TPL in C#?","Type Parameter Library","Task Parallel Library","Template Processing Library","Text Processing Library",2
+"What is the main purpose of parallel programming?","Write code in parallel files","Execute multiple tasks simultaneously","Create multiple classes","Use multiple databases",2
+"Which class represents an asynchronous operation in TPL?","Thread","Task","Process","Async",2
+"How do you create a task in TPL?","new Task()","Task.Run()","Task.Start()","All of the above",4
+"What is the difference between Task and Thread?","No difference","Task is higher-level abstraction over Thread","Thread is newer","Task is deprecated",2
+"How do you wait for a task to complete?","Task.Sleep()","Task.Wait()","Task.Stop()","Task.Pause()",2
+"What does Task.WaitAll() do?","Wait for one task","Wait for all tasks to complete","Cancel all tasks","Start all tasks",2
+"What does Parallel.For() do?","Sequential for loop","Parallel execution of for loop iterations","Infinite loop","Nested loop",2
+"What does Parallel.ForEach() do?","Sequential foreach","Parallel execution of foreach iterations","Infinite loop","Nested loop",2
+"Can tasks return values?","No","Yes, using Task<T>","Only strings","Only integers",2
+"What is async/await in C#?","Error handling","Asynchronous programming pattern","Database operations","UI framework",2
+"What does the async keyword do?","Makes method run faster","Enables use of await keyword","Makes method parallel","Makes method synchronous",2
+"What does the await keyword do?","Waits synchronously","Asynchronously waits for task completion","Cancels task","Starts task",2
+"Can you use await without async?","Yes","No","Only in Main method","Only in static methods",2
+"What is the benefit of using async/await over blocking waits?","Better performance","Non-blocking, improves responsiveness","Simpler code","Automatic error handling",2
+"What is WPF?","Web Programming Framework","Windows Presentation Foundation","Web Page Foundation","Windows Programming Framework",2
+"What is the main advantage of WPF over WinForms?","Better performance","Better UI capabilities and data binding","Smaller file size","Faster development",2
+"What is XAML in WPF?","eXtensible Application Markup Language","eXtended Application Management Language","eXternal Application Markup Language","eXecutable Application Markup Language",1
+"What is data binding in WPF?","Connecting to database","Connecting UI elements to data sources","Creating data structures","Validating data",2
+"What are the types of data binding in WPF?","OneWay, TwoWay","OneWay, TwoWay, OneTime, OneWayToSource","Only TwoWay","Automatic only",2
+"What is OneWay data binding?","Data flows from source to target","Data flows from target to source","Data flows both ways","No data flow",1
+"What is TwoWay data binding?","Data flows from source to target","Data flows from target to source","Data flows both ways","No data flow",3
+"What is MVVM pattern?","Model-View-ViewModel architectural pattern","Multiple-View-Variable-Model pattern","Model-Variable-View-Method pattern","Method-View-Variable-Model pattern",1
+"What is the purpose of ViewModel in MVVM?","Database operations","Mediator between View and Model","UI rendering","Event handling",2
+"What is INotifyPropertyChanged used for?","Database notifications","UI update notifications when properties change","Error notifications","Event notifications",2
+"What are dependency properties in WPF?","Regular properties","Properties that support data binding and styling","Database properties","Static properties",2
+"What is a UserControl in WPF?","Built-in control","Custom reusable UI component","Database control","Web control",2
+"What is the purpose of styles in WPF?","Database styling","UI appearance and behavior customization","Code styling","Performance optimization",2
+"Can you create animations in WPF?","No","Yes, using Storyboard and animations","Only with third-party tools","Only simple animations",2
+"What is the Grid layout panel used for?","Simple stacking","Complex layout with rows and columns","Absolute positioning","Text display",2
+"What is ASP.NET Core?","Desktop application framework","Cross-platform web framework","Database framework","Mobile app framework",2
+"What is middleware in ASP.NET Core?","Database layer","Components that handle HTTP requests/responses","UI components","Configuration files",2
+"What is MVC pattern?","Model-View-Controller architectural pattern","Multiple-View-Components pattern","Model-Variable-Class pattern","Method-View-Class pattern",1
+"What is the role of Controller in MVC?","Data storage","Handle user input and coordinate between Model and View","UI rendering","Database operations",2
+"What is a Razor Page?","JavaScript page","Page-focused framework for building web apps","Database page","Configuration page",2
+"What is dependency injection?","Creating dependencies","Design pattern for providing dependencies to objects","Removing dependencies","Testing dependencies",2
+"What is the purpose of Startup.cs in ASP.NET Core?","Database configuration","Application configuration and service registration","UI configuration","Security configuration",2
+"What is routing in ASP.NET Core?","Database routing","URL to controller/action mapping","Network routing","File routing",2
+"What is authentication in web applications?","Data validation","Verifying user identity","Error handling","Data encryption",2
+"What is authorization in web applications?","User login","Determining what authenticated users can access","Data validation","Error handling",2
+"What is the difference between authentication and authorization?","No difference","Authentication verifies identity, authorization determines access","Authorization is faster","Authentication is deprecated",2
+"What are action filters in ASP.NET Core?","Database filters","Attributes that run code before/after action execution","UI filters","Security filters",2
+"What is model binding in ASP.NET Core?","Database binding","Mapping HTTP request data to action parameters","UI binding","File binding",2
+"What is the purpose of ViewBag?","Database storage","Pass data from controller to view","Session storage","Cache storage",2
+"What is the difference between ViewBag and ViewData?","No difference","ViewBag is dynamic, ViewData is dictionary","ViewData is faster","ViewBag is deprecated",2
+"What is Blazor?","JavaScript framework","Framework for building web UIs using C#","Database framework","Mobile framework",2
+"What are the two types of Blazor?","Client and Server","Server-side and Client-side","Web and Desktop","Static and Dynamic",2
+"What is Blazor Server?","Runs on client browser","Runs on server with SignalR for UI updates","Runs on mobile","Runs on desktop",2
+"What is Blazor WebAssembly?","Runs on server","Runs in browser using WebAssembly","Runs on mobile","Runs on desktop",2
+"What is a Blazor component?","Database component","Reusable UI element with logic","Server component","Network component",2
+"How do you create a Blazor component?","Using .cs files only","Using .razor files","Using .html files","Using .js files",2
+"What is data binding in Blazor?","Database binding","Connecting UI elements to component properties","File binding","Network binding",2
+"What is the @bind directive used for in Blazor?","Database binding","Two-way data binding","Event binding","Style binding",2
+"What is a Razor Class Library?","Database library","Reusable component library for Blazor/Razor","Network library","File library",2
+"Can you use JavaScript with Blazor?","No","Yes, through JavaScript interop","Only in Server-side","Only in WebAssembly",2
+"What is the @code block in Blazor components?","HTML code","C# code section","JavaScript code","CSS code",2
+"How do you handle events in Blazor?","Using JavaScript only","Using @onclick and similar directives","Using HTML only","Using CSS",2
+"What is the lifecycle of a Blazor component?","OnInit only","OnInitialized, OnParametersSet, OnAfterRender, etc.","OnLoad only","OnRender only",2
+"Can Blazor work offline?","No","WebAssembly can, Server cannot","Only Server can","Both can with PWA",2
+"What is StateHasChanged() used for?","Database updates","Force UI re-render","State saving","Navigation",2
+"What is Xamarin used for?","Web development","Cross-platform mobile app development","Desktop applications","Database management",2
+"What is the difference between Xamarin and Xamarin.Forms?","No difference","Xamarin.Forms provides shared UI, Xamarin requires platform-specific UI","Xamarin.Forms is faster","Xamarin is deprecated",2
+"What is SQLite.NET in Xamarin?","Web framework","Local database solution for mobile apps","Network library","UI framework",2
+"What are the navigation patterns in Xamarin.Forms?","Push/Pop only","NavigationPage, TabbedPage, MasterDetailPage","Browser navigation only","No navigation",2
+"What is MVVM pattern in Xamarin?","Model-View-ViewModel architectural pattern","Mobile-View-Variable-Model","Method-View-Variable-Model","Multiple-View-Variable-Model",1
+"What is data binding in Xamarin.Forms?","Database binding","Connecting UI to ViewModel properties","File binding","Network binding",2
+"What platforms does Xamarin.Forms support?","iOS only","Android only","iOS, Android, Windows","Web only",3
+"What is a ContentPage in Xamarin.Forms?","Database page","Single page UI container","Web page","Configuration page",2
+"What is the purpose of Application.MainPage?","Database main page","Set the root page of the application","Main navigation","Main configuration",2
+"What is the future of Xamarin after .NET MAUI?","Xamarin continues unchanged",".NET MAUI is the evolution of Xamarin.Forms","Xamarin is discontinued immediately","No relationship",2
