@@ -39,9 +39,9 @@ Visual programming is a programming paradigm that uses graphical elements rather
 | **Examples** | Visual Studio Designer, Scratch | C#, Java, Python |
 
 ### Examples in .NET
-- [COVERED]**Visual Studio Designer**: For WPF, WinForms
-- [COVERED]**XAML Designer**: For WPF and UWP applications
-- [COVERED]**Blazor Visual Designer**: For web components
+- **Visual Studio Designer**: For WPF, WinForms
+- **XAML Designer**: For WPF and UWP applications
+- **Blazor Visual Designer**: For web components
 
 ```csharp
 // Text-based approach
@@ -2120,7 +2120,7 @@ ADO.NET is a set of classes that expose data access services for .NET Framework 
 |   Application  |<-->|   DataReader     |<-----------+
 |                |    |   (Connected)    |            |
 +----------------+    +------------------+            |
-                                                      V
+                                                      |
                                              +----------------+
                                              |   Data Source  |
                                              |   (Database)   |
@@ -4662,10 +4662,10 @@ public void CompareTypes()
     // Nullable value type
     int? nullableInt = null;  // Can be null
     
-    // Boxing: value type → reference type
+    // Boxing: value type -> reference type
     object boxed = valueType;  // valueType copied to heap
     
-    // Unboxing: reference type → value type
+    // Unboxing: reference type -> value type
     int unboxed = (int)boxed;  // Copy from heap to stack
 }
 ```
@@ -9852,7 +9852,7 @@ public class Program
    - Interface members: `public`
 
 2. **Most Restrictive to Least Restrictive:**
-   - private → private protected → protected → internal → protected internal → public
+   - private -> private protected -> protected -> internal -> protected internal -> public
 
 3. **Best Practices:**
    - Use the most restrictive access level possible
@@ -11036,7 +11036,7 @@ public class CompilerDemo
     public static void DemonstrateCompilationProcess()
     {
         Console.WriteLine("1. COMPILATION PROCESS:");
-        Console.WriteLine("   Source Code (.cs) → C# Compiler → IL Code (.dll/.exe) → JIT Compiler → Native Code");
+        Console.WriteLine("   Source Code (.cs) -> C# Compiler -> IL Code (.dll/.exe) -> JIT Compiler -> Native Code");
         Console.WriteLine();
         
         // Get information about current assembly
@@ -14518,15 +14518,15 @@ namespace MyCompany.Demo  // <- Another NAMESPACE
 #### Hierarchy Example:
 ```
 Assembly: MyApplication.exe
-├── Namespace: MyCompany.EmployeeManagement
-│   ├── Class: Employee
-│   │   ├── Fields: employeeId, firstName, lastName
-│   │   ├── Properties: EmployeeId, FirstName, LastName
-│   │   └── Methods: AddSkill(), GiveRaise(), DisplayInfo()
-│   └── Class: Manager (inherits from Employee)
-└── Namespace: MyCompany.Demo
-    └── Class: Program
-        └── Methods: Main(), DemonstrateAssembly()
+|-- Namespace: MyCompany.EmployeeManagement
+|   |-- Class: Employee
+|   |   |-- Fields: employeeId, firstName, lastName
+|   |   |-- Properties: EmployeeId, FirstName, LastName
+|   |   |-- Methods: AddSkill(), GiveRaise(), DisplayInfo()
+|   |-- Class: Manager (inherits from Employee)
+|-- Namespace: MyCompany.Demo
+    |-- Class: Program
+        |-- Methods: Main(), DemonstrateAssembly()
 ```
 
 This structure provides organization, encapsulation, and reusability in C# applications.

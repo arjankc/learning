@@ -2127,7 +2127,7 @@ public class TaskExamples
 |   Application  |&lt;--&gt;|   DataReader     |&lt;-----------+
 |                |    |   (Connected)    |            |
 +----------------+    +------------------+            |
-                                                      V
+                                                      |
                                              +----------------+
                                              |   Data Source  |
                                              |   (Database)   |
@@ -4607,10 +4607,10 @@ Console.WriteLine($&quot;array2[0] = {array2[0]}&quot;); // Output: array2[0] = 
     // Nullable value type
     int? nullableInt = null;  // Can be null
 
-    // Boxing: value type â†’ reference type
+    // Boxing: value type -&gt; reference type
     object boxed = valueType;  // valueType copied to heap
 
-    // Unboxing: reference type â†’ value type
+    // Unboxing: reference type -&gt; value type
     int unboxed = (int)boxed;  // Copy from heap to stack
 }
 </code></pre>
@@ -9911,7 +9911,7 @@ public class Program
 </li>
 <li><p><strong>Most Restrictive to Least Restrictive:</strong></p>
 <ul>
-<li>private â†’ private protected â†’ protected â†’ internal â†’ protected internal â†’ public</li>
+<li>private -&gt; private protected -&gt; protected -&gt; internal -&gt; protected internal -&gt; public</li>
 </ul>
 </li>
 <li><p><strong>Best Practices:</strong></p>
@@ -11114,7 +11114,7 @@ public class CompilerDemo
     public static void DemonstrateCompilationProcess()
     {
         Console.WriteLine(&quot;1. COMPILATION PROCESS:&quot;);
-        Console.WriteLine(&quot;   Source Code (.cs) â†’ C# Compiler â†’ IL Code (.dll/.exe) â†’ JIT Compiler â†’ Native Code&quot;);
+        Console.WriteLine(&quot;   Source Code (.cs) -&gt; C# Compiler -&gt; IL Code (.dll/.exe) -&gt; JIT Compiler -&gt; Native Code&quot;);
         Console.WriteLine();
 
         // Get information about current assembly
@@ -14764,15 +14764,15 @@ namespace MyCompany.Demo  // &lt;- Another NAMESPACE
 </ol>
 <h4 id="hierarchy-example">Hierarchy Example:</h4>
 <pre><code>Assembly: MyApplication.exe
-â”œâ”€â”€ Namespace: MyCompany.EmployeeManagement
-â”‚   â”œâ”€â”€ Class: Employee
-â”‚   â”‚   â”œâ”€â”€ Fields: employeeId, firstName, lastName
-â”‚   â”‚   â”œâ”€â”€ Properties: EmployeeId, FirstName, LastName
-â”‚   â”‚   â””â”€â”€ Methods: AddSkill(), GiveRaise(), DisplayInfo()
-â”‚   â””â”€â”€ Class: Manager (inherits from Employee)
-â””â”€â”€ Namespace: MyCompany.Demo
-    â””â”€â”€ Class: Program
-        â””â”€â”€ Methods: Main(), DemonstrateAssembly()
+|-- Namespace: MyCompany.EmployeeManagement
+|   |-- Class: Employee
+|   |   |-- Fields: employeeId, firstName, lastName
+|   |   |-- Properties: EmployeeId, FirstName, LastName
+|   |   |-- Methods: AddSkill(), GiveRaise(), DisplayInfo()
+|   |-- Class: Manager (inherits from Employee)
+|-- Namespace: MyCompany.Demo
+    |-- Class: Program
+        |-- Methods: Main(), DemonstrateAssembly()
 </code></pre>
 <p>This structure provides organization, encapsulation, and reusability in C# applications.</p>
 <h3 id="exam-tips">Exam Tips</h3>
