@@ -27,6 +27,33 @@
             a[href]:after { content: ""; }
         }
     </style>
+        <style>
+        /* Custom print styles for stapler-friendly layout */
+        @media print {
+            @page {
+                size: A4;
+                margin-top: 15mm;
+                margin-bottom: 15mm;
+                margin-left: 20mm;
+                margin-right: 5mm;
+            }
+            
+            body {
+                max-width: none !important;
+                margin: 0 !important;
+                padding: 0 10mm 0 5mm !important;
+                font-size: 11pt;
+            }
+            
+            h1, h2, h3, h4, h5, h6 {
+                page-break-after: avoid;
+            }
+            
+            .toc {
+                page-break-after: always;
+            }
+        }
+        </style>
 </head>
 <body>
 <header></header>

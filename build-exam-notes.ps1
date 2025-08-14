@@ -68,6 +68,40 @@ if (Test-Path -Path $bookBuilderTool) {
         $examHtml = $generatedHtml -replace '<title>.*?</title>', '<title>C#/.NET Exam Preparation Notes</title>'
         $examHtml = $examHtml -replace '<h1>.*?</h1>', '<h1>C#/.NET Exam Preparation Notes</h1>'
         
+        # Inject custom CSS for print layout optimization - this will override BookBuilder styles
+        $customPrintCSS = @"
+        <style>
+        /* Custom print styles for stapler-friendly layout */
+        @media print {
+            @page {
+                size: A4;
+                margin-top: 15mm;
+                margin-bottom: 15mm;
+                margin-left: 20mm;
+                margin-right: 5mm;
+            }
+            
+            body {
+                max-width: none !important;
+                margin: 0 !important;
+                padding: 0 10mm 0 5mm !important;
+                font-size: 11pt;
+            }
+            
+            h1, h2, h3, h4, h5, h6 {
+                page-break-after: avoid;
+            }
+            
+            .toc {
+                page-break-after: always;
+            }
+        }
+        </style>
+"@
+        
+        # Insert the custom CSS before the closing </head> tag
+        $examHtml = $examHtml -replace '</head>', "$customPrintCSS`n</head>"
+        
         # Write to our target location
         $examHtml | Out-File -FilePath $htmlPath -Encoding UTF8
         
@@ -100,9 +134,9 @@ if ($useBasicConversion) {
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            max-width: 210mm;
-            margin: 0 auto;
-            padding: 20px;
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
             color: #333;
             background: white;
         }
@@ -233,17 +267,18 @@ if ($useBasicConversion) {
         
         @media print {
             @page {
-                margin: 15mm;
                 size: A4;
                 margin-top: 15mm;
                 margin-bottom: 15mm;
-                margin-left: 15mm;
-                margin-right: 15mm;
+                margin-left: 20mm;
+                margin-right: 5mm;
             }
             
             @page :first {
                 margin-top: 15mm;
                 margin-bottom: 15mm;
+                margin-left: 20mm;
+                margin-right: 5mm;
             }
             
             * {
@@ -254,7 +289,7 @@ if ($useBasicConversion) {
             body {
                 max-width: none;
                 margin: 0;
-                padding: 0;
+                padding: 0 10mm 0 5mm;
             }
             
             h1 {
