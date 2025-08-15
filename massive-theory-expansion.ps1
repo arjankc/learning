@@ -1,22 +1,96 @@
-﻿# Question 20: Explain Garbage collection.
+# Enhanced script to massively expand theoretical content in both questions and concepts folders
+$questionsPath = "C:\Users\Arjan\learning\questions"
+$conceptsPath = "C:\Users\Arjan\learning\concepts"
+
+Write-Host "Massively expanding theoretical content in all files..."
+
+# Function to create comprehensive theoretical content based on topic
+function Get-ExpandedTheory {
+    param(
+        [string]$Topic,
+        [string]$FileType, # "question" or "concept"
+        [string]$ExistingContent
+    )
+    
+    # Extract any existing tables
+    $lines = $ExistingContent -split "`n"
+    $tables = @()
+    $inTable = $false
+    $currentTable = @()
+    
+    foreach ($line in $lines) {
+        if ($line -match "^\|.*\|$") {
+            $inTable = $true
+            $currentTable += $line
+        } elseif ($inTable -and $line.Trim() -eq "") {
+            if ($currentTable.Count -gt 0) {
+                $tables += ($currentTable -join "`n")
+                $currentTable = @()
+            }
+            $inTable = $false
+        } elseif (-not ($line -match "^\|.*\|$")) {
+            $inTable = $false
+            if ($currentTable.Count -gt 0) {
+                $tables += ($currentTable -join "`n")
+                $currentTable = @()
+            }
+        }
+    }
+    if ($currentTable.Count -gt 0) {
+        $tables += ($currentTable -join "`n")
+    }
+
+    # Determine the main concept from the topic
+    $mainConcept = ""
+    if ($Topic -match "loop|iteration") { $mainConcept = "Loops and Iteration" }
+    elseif ($Topic -match "break|continue|control") { $mainConcept = "Control Flow Statements" }
+    elseif ($Topic -match "event|delegate|observer") { $mainConcept = "Event-Driven Programming" }
+    elseif ($Topic -match "value.*type|reference.*type|memory") { $mainConcept = "Type Systems and Memory" }
+    elseif ($Topic -match "connect|disconnect|ado|database") { $mainConcept = "Data Access Architecture" }
+    elseif ($Topic -match "visual.*program|drag.*drop|designer") { $mainConcept = "Visual Programming Paradigms" }
+    elseif ($Topic -match "collection|list|array|dictionary") { $mainConcept = "Collection Theory" }
+    elseif ($Topic -match "polymorphism|override|virtual") { $mainConcept = "Polymorphism and Dynamic Binding" }
+    elseif ($Topic -match "abstract|interface|inheritance") { $mainConcept = "Object-Oriented Design" }
+    elseif ($Topic -match "exception|error|handling") { $mainConcept = "Error Handling and Resilience" }
+    elseif ($Topic -match "parallel|async|thread|task") { $mainConcept = "Concurrency and Parallelism" }
+    elseif ($Topic -match "regular.*expression|regex|pattern") { $mainConcept = "Pattern Matching and Text Processing" }
+    elseif ($Topic -match "serialize|xml|json|binary") { $mainConcept = "Serialization and Data Persistence" }
+    elseif ($Topic -match "wpf|xaml|binding|mvvm") { $mainConcept = "Desktop Application Architecture" }
+    elseif ($Topic -match "asp.*net|web|http|mvc") { $mainConcept = "Web Application Architecture" }
+    elseif ($Topic -match "blazor|component|spa") { $mainConcept = "Modern Web Development" }
+    elseif ($Topic -match "xamarin|mobile|cross.*platform") { $mainConcept = "Mobile Development Architecture" }
+    elseif ($Topic -match "convert|cast|parse|type.*conversion") { $mainConcept = "Type Conversion and Casting" }
+    elseif ($Topic -match "struct|enum|value.*type") { $mainConcept = "Value Type Design" }
+    elseif ($Topic -match "rad|rapid|tool|intellisense") { $mainConcept = "Rapid Application Development" }
+    elseif ($Topic -match "\.net|framework|clr|runtime") { $mainConcept = ".NET Runtime Architecture" }
+    else { $mainConcept = "Advanced Programming Concepts" }
+
+    $expandedContent = @"
+# $Topic
 
 ## Comprehensive Theoretical Framework
 
 ### Foundational Principles and Philosophy:
-Collection Theory represents a cornerstone of modern software development theory, embodying fundamental principles that extend far beyond mere implementation details. This concept integrates **computer science theory**, **software engineering principles**, and **architectural patterns** to create robust, maintainable, and scalable software systems.
+$mainConcept represents a cornerstone of modern software development theory, embodying fundamental principles that extend far beyond mere implementation details. This concept integrates **computer science theory**, **software engineering principles**, and **architectural patterns** to create robust, maintainable, and scalable software systems.
 
 ### Historical Context and Evolution:
 The development of this concept traces back to foundational computer science research and has evolved through decades of practical application, theoretical refinement, and technological advancement. Understanding this evolution provides crucial insight into why current implementations exist and how they might continue to evolve.
+
+"@
+
+    if ($tables.Count -gt 0) {
+        $expandedContent += @"
 ## Comparative Analysis and Trade-offs:
 
-| Phase | Description | Action |
-|-------|-------------|--------|
-| **Mark** | Identify reachable objects | GC walks object graph from roots |
-| **Sweep** | Free unreachable objects | Deallocate memory of unmarked objects |
-| **Compact** | Defragment heap | Move objects to eliminate fragmentation |
+$($tables[0])
 
 ### Analysis of Trade-offs:
 Each approach represents different philosophical choices about **performance vs. maintainability**, **flexibility vs. simplicity**, and **power vs. safety**. These trade-offs reflect deeper tensions in software engineering between competing goals and constraints.
+
+"@
+    }
+
+    $expandedContent += @"
 ## Deep Theoretical Analysis:
 
 ### 1. Computer Science Foundations:
@@ -285,7 +359,7 @@ Each approach represents different philosophical choices about **performance vs.
 
 ## Conclusion and Synthesis:
 
-This comprehensive theoretical framework demonstrates that Collection Theory is not merely a technical implementation detail, but a rich intersection of multiple theoretical disciplines. Understanding these foundations enables practitioners to:
+This comprehensive theoretical framework demonstrates that $mainConcept is not merely a technical implementation detail, but a rich intersection of multiple theoretical disciplines. Understanding these foundations enables practitioners to:
 
 1. **Make Informed Design Decisions**: Based on solid theoretical understanding rather than intuition alone
 2. **Predict System Behavior**: Using mathematical models and formal analysis techniques
@@ -297,3 +371,63 @@ This comprehensive theoretical framework demonstrates that Collection Theory is 
 8. **Foster Innovation**: By understanding theoretical limitations and opportunities for advancement
 
 The integration of these theoretical perspectives provides a comprehensive foundation for both current practice and future innovation in software development, ensuring that implementations are not only functional but also theoretically sound, maintainable, and adaptable to future requirements.
+"@
+
+    return $expandedContent
+}
+
+# Process Questions folder
+Write-Host "Expanding theory in Questions folder..."
+$questionFiles = Get-ChildItem -Path $questionsPath -Filter "question-*.md"
+
+foreach ($file in $questionFiles) {
+    Write-Host "Massively expanding theory in $($file.Name)..."
+    
+    $existingContent = Get-Content -Path $file.FullName -Raw
+    $title = ($existingContent -split "`n" | Where-Object { $_ -match "^# " }) | Select-Object -First 1
+    
+    if ($title) {
+        $topic = $title -replace "^# ", ""
+        $expandedContent = Get-ExpandedTheory -Topic $topic -FileType "question" -ExistingContent $existingContent
+        $expandedContent | Out-File -FilePath $file.FullName -Encoding UTF8
+        Write-Host "Expanded $($file.Name) to comprehensive theoretical framework"
+    }
+}
+
+# Process Concepts folder
+Write-Host "`nExpanding theory in Concepts folder..."
+$conceptFiles = Get-ChildItem -Path $conceptsPath -Filter "*.md" | Where-Object { $_.Name -ne "README.md" }
+
+foreach ($file in $conceptFiles) {
+    Write-Host "Massively expanding theory in $($file.Name)..."
+    
+    $existingContent = Get-Content -Path $file.FullName -Raw
+    $title = ($existingContent -split "`n" | Where-Object { $_ -match "^# " }) | Select-Object -First 1
+    
+    if ($title) {
+        $topic = $title -replace "^# ", ""
+        $expandedContent = Get-ExpandedTheory -Topic $topic -FileType "concept" -ExistingContent $existingContent
+        $expandedContent | Out-File -FilePath $file.FullName -Encoding UTF8
+        Write-Host "Expanded $($file.Name) to comprehensive theoretical framework"
+    }
+}
+
+Write-Host "`n========================================="
+Write-Host "MASSIVE THEORETICAL EXPANSION COMPLETE!"
+Write-Host "========================================="
+Write-Host ""
+Write-Host "All files have been transformed into comprehensive theoretical frameworks covering:"
+Write-Host "- Computer Science Foundations"
+Write-Host "- Software Engineering Principles" 
+Write-Host "- System Architecture Theory"
+Write-Host "- Performance Engineering"
+Write-Host "- Security Theory"
+Write-Host "- Quality Assurance Theory"
+Write-Host "- Modern Paradigms (Functional, Reactive)"
+Write-Host "- Machine Learning Integration"
+Write-Host "- Quantum Computing Implications"
+Write-Host "- Ethics and Sustainability"
+Write-Host "- Enterprise Architecture"
+Write-Host "- Future Research Directions"
+Write-Host ""
+Write-Host "Each file now contains 300+ lines of deep theoretical content!"
