@@ -1656,21 +1656,18 @@ code {
     }
 }
 
-/* Disable hover transforms on touch devices */
+/* Disable hover/active effects on touch devices to prevent wobble */
 @media (hover: none) {
     .card:hover,
     .level-card:hover,
     .button:hover,
     .btn:hover,
-    nav a:hover {
-        transform: none;
-        scale: none;
-    }
-
+    nav a:hover,
     .button:active,
     .btn:active,
     nav a:active {
-        transform: none;
-        scale: none;
+        transform: none !important;
+        scale: none !important;
+        box-shadow: inherit !important;
     }
 }
