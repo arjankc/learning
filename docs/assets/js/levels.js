@@ -922,8 +922,18 @@ function renderQuiz(level){
     }
     
     submitBtn.style.display = 'block';
+
+    // --- START OF NEW LOGIC ---
+    // Shuffle the quiz questions and select 5
+    const shuffledQuiz = [...level.quiz]; // Create a copy
+    for (let i = shuffledQuiz.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledQuiz[i], shuffledQuiz[j]] = [shuffledQuiz[j], shuffledQuiz[i]];
+    }
+    const selectedQuestions = shuffledQuiz.slice(0, 5);
+    // --- END OF NEW LOGIC ---
     
-    level.quiz.forEach((q, qi) => {
+    selectedQuestions.forEach((q, qi) => {
         const block = document.createElement('div');
         block.className = 'quiz-question';
         const isMulti = !!q.multi;
@@ -953,12 +963,12 @@ function renderQuiz(level){
     
     submitBtn.onclick = () => {
         let correct = 0;
-        let totalQuestions = level.quiz.length;
+        let totalQuestions = selectedQuestions.length;
         const concept = getConceptForLevel(level.id);
         const difficulty = getDifficultyForLevel(level.id);
         
         // Check answers and provide visual feedback
-        level.quiz.forEach((q, qi) => {
+        selectedQuestions.forEach((q, qi) => {
             const chosen = Array.from(document.querySelectorAll(`input[name="q_${qi}"]:checked`)).map(i=>parseInt(i.value));
             const expected = Array.isArray(q.answer) ? q.answer.map(n=>parseInt(n)) : [parseInt(q.answer)];
             chosen.sort(); 
