@@ -38,12 +38,59 @@ function addXp(userId, amount) {
     return xp;
 }
 
+function deductXp(userId, amount) {
+    const progress = getUserProgress(userId);
+    const xp = (progress.xp || 0) - amount;
+    saveProgress(userId, { xp: Math.max(0, xp) });
+    return xp;
+}
+
 function completeLevel(userId, levelId) {
     const progress = getUserProgress(userId);
     const completedLevels = new Set(progress.completedLevels || []);
     completedLevels.add(levelId);
     saveProgress(userId, { completedLevels: Array.from(completedLevels) });
 }
+
+// Streak Functions
+function getStreak(userId) {
+    const progress = getUserProgress(userId);
+    return progress.streak || {
+        currentStreak: 0,
+        maxStreak: 0,
+        lastCompletionDate: null
+    };
+}
+
+function updateStreak(userId) {
+    const progress = getUserProgress(userId);
+    const streak = getStreak(userId);
+    const today = new Date().toISOString().split('T')[0];
+
+    if (streak.lastCompletionDate) {
+        const lastDate = new Date(streak.lastCompletionDate);
+        const todayDate = new Date(today);
+        const diffTime = todayDate - lastDate;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 1) {
+            streak.currentStreak++;
+        } else if (diffDays > 1) {
+            streak.currentStreak = 1;
+        }
+    } else {
+        streak.currentStreak = 1;
+    }
+
+    streak.lastCompletionDate = today;
+    if (streak.currentStreak > streak.maxStreak) {
+        streak.maxStreak = streak.currentStreak;
+    }
+
+    saveProgress(userId, { ...progress, streak });
+    return streak;
+}
+
 
 // Weakness Detection Functions
 function recordQuizAttempt(userId, levelId, questionIndex, isCorrect, concept, difficulty) {
@@ -240,7 +287,10 @@ window.LearningStorage = {
     getUserProgress,
     clearProgress,
     addXp,
+    deductXp,
     completeLevel,
+    getStreak,
+    updateStreak,
     recordQuizAttempt,
     getWeaknesses,
     getConceptProgress,

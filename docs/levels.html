@@ -34,6 +34,7 @@
             <ul>
                 <li><a href="index.html">🏠 Home</a></li>
                 <li><a href="achievements.html">🏆 Achievements</a></li>
+                <li><a href="leaderboard.html">📊 Leaderboard</a></li>
             </ul>
         </nav>
     </header>
@@ -48,6 +49,7 @@
                 <div class="profile-info">
                     <h2 id="user-level-display">🏆 Level 1 C# Novice</h2>
                     <p id="xp-display">⭐ 0 XP earned</p>
+                    <p id="streak-display">🔥 0 Day Streak</p>
                 </div>
             </div>
             <div class="linear-progress-section">
@@ -88,6 +90,9 @@
 
         <section class="card">
             <h2>All Levels</h2>
+            <div class="search-container">
+                <input type="text" id="search-bar" placeholder="Search for a concept...">
+            </div>
             <div id="levels-list"></div>
         </section>
 
@@ -121,6 +126,7 @@
 
             <section class="level-section">
                 <h3 class="section-heading">🧠 Quick Quiz</h3>
+                <div id="timer-display" style="display:none; font-size: 1.5rem; font-weight: bold; text-align: center; margin-bottom: 1rem;"></div>
                 <div id="quiz-container" class="quiz-section"></div>
                 <button id="submit-quiz" class="button quiz-submit-btn" style="display:none">🎯 Submit Answers</button>
                 <div id="quiz-result" class="quiz-result"></div>
@@ -136,6 +142,8 @@
     </footer>
     <script src="assets/js/app.js"></script>
     <script src="assets/js/storage.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script src="assets/js/quiz.js"></script>
     <script src="assets/js/achievements.js"></script>
     <script src="assets/js/prism.js"></script>
     <script src="assets/js/levels.js"></script>
