@@ -437,8 +437,8 @@ function showLevelDetail(levelId) {
         code.className = 'language-csharp';
         code.classList.remove('prism-highlighted');
         
-        // Set the plain text content first
-        code.textContent = formattedCode;
+        // Set the inner HTML to render HTML entities correctly
+        code.innerHTML = formattedCode;
         
         // Ensure code is visible with basic styling
         code.style.display = 'block';
