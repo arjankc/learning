@@ -1084,7 +1084,7 @@ code {
     }
 }
 
-/* ========================================
+/* =======================================
    COMPREHENSIVE RESPONSIVE DESIGN
    ======================================== */
 
@@ -1629,5 +1629,16 @@ code {
     .container {
         width: 100%;
         max-width: none;
+    }
+}
+
+/* Disable hover transforms on touch devices */
+@media (hover: none) {
+    .card:hover,
+    .level-card:hover,
+    .button:hover,
+    .btn:hover,
+    nav a:hover {
+        transform: none;
     }
 }
