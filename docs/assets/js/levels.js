@@ -106,8 +106,9 @@ async function fetchLevels() {
 
 function renderProgress() {
     const progressEl = document.getElementById('progress-text');
-    const progressBar = document.getElementById('progress-bar');
+    const progressBar = document.getElementById('progress-bar'); // Course completion bar
     const xpDisplay = document.getElementById('xp-display');
+    const xpProgressBar = document.getElementById('xp-progress-bar'); // New XP progress bar
     
     const progress = window.LearningStorage?.getUserProgress(window.USER_ID) || {};
     const completed = (progress.completedLevels || []).length;
@@ -131,16 +132,24 @@ function renderProgress() {
     
     progressEl.textContent = progressText;
     
-    // Update progress bar with animation
+    // Update course completion progress bar with animation
     if (progressBar) {
         setTimeout(() => {
             progressBar.style.width = `${percentage}%`;
         }, 100);
     }
     
-    // Update XP display
+    // Update XP display and XP progress bar
     if (xpDisplay) {
-        xpDisplay.innerHTML = `⭐ ${xp} XP earned | 🏆 Level ${Math.floor(xp / 100) + 1}`;
+        const xpForCurrentLevel = xp % 100; // Assuming 100 XP per level for the bar
+        const xpLevel = Math.floor(xp / 100) + 1;
+        xpDisplay.innerHTML = `⭐ ${xp} XP earned | 🏆 Level ${xpLevel}`;
+
+        if (xpProgressBar) {
+            setTimeout(() => {
+                xpProgressBar.style.width = `${xpForCurrentLevel}%`;
+            }, 100);
+        }
     }
     
     // Update weakness detection

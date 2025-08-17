@@ -38,15 +38,24 @@
         </nav>
     </header>
     <main class="container">
-        <section class="card">
-            <h2>🎯 Your Progress</h2>
-            <p id="progress-text">Loading…</p>
-            <div class="progress-bar-container" style="margin: 15px 0;">
-                <div class="progress-bar" id="progress-bar" style="width: 0%; height: 20px; background: linear-gradient(90deg, #4CAF50, #8BC34A); border-radius: 10px; transition: width 0.5s ease;"></div>
+        <section class="card user-profile-card">
+            <div class="profile-header">
+                <div class="circular-progress-container">
+                    <div class="circular-progress-bar" id="xp-circular-progress">
+                        <div class="value-container" id="xp-circular-value">0%</div>
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <h2 id="user-level-display">🏆 Level 1 C# Novice</h2>
+                    <p id="xp-display">⭐ 0 XP earned</p>
+                </div>
             </div>
-            <div id="xp-display" style="text-align: center; margin: 10px 0; font-weight: bold; color: #007acc;"></div>
-            <div class="progress-bar-container" style="margin: 10px 0;">
-                <div id="xp-progress-bar" class="progress-bar xp-bar" style="width: 0%;"></div>
+            <div class="linear-progress-section">
+                <h3 style="margin-top: 0;">Course Progress</h3>
+                <p id="progress-text">Loading…</p>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </section>
 
