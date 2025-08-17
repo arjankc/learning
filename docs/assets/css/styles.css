@@ -1388,6 +1388,18 @@ code {
     .quiz-section {
         padding: 1rem;
     }
+
+    /* Reduce padding/margin on inner content on mobile */
+    .level-description,
+    .theory-content,
+    .code-block,
+    .quiz-section {
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+    .requirements-list li {
+        padding: 0.75rem 1rem;
+    }
     
     /* Home page mobile */
     .hero-section {
@@ -1529,6 +1541,18 @@ code {
     .quiz-option label {
         font-size: 0.85rem;
     }
+
+    /* Further reduce padding/margin on small mobile */
+    .level-description,
+    .theory-content,
+    .code-block,
+    .quiz-section {
+        padding: 0.75rem;
+        margin: 0.75rem 0;
+    }
+    .requirements-list li {
+        padding: 0.5rem 0.75rem;
+    }
     
     /* Stats grid single column on very small screens */
     .stats-grid {
@@ -1640,5 +1664,13 @@ code {
     .btn:hover,
     nav a:hover {
         transform: none;
+        scale: none;
+    }
+
+    .button:active,
+    .btn:active,
+    nav a:active {
+        transform: none;
+        scale: none;
     }
 }
