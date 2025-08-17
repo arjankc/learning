@@ -15,7 +15,7 @@ The goal of these changes is to make the application more visually appealing, in
     -   **Current**: Basic animations are present.
     -   **Proposed**: Add more polished animations for:
         -   [x] Level completion (e.g., a celebratory "confetti" effect).
-        -   [ ] Unlocking an achievement (e.g., the achievement badge slides in and glows).
+        -   [x] Unlocking an achievement (e.g., the achievement badge slides in and glows).
         -   [ ] XP bar filling up.
 
 -   **Improved XP & Leveling Display**:

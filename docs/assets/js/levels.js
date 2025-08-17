@@ -539,7 +539,7 @@ function setupLevelNavigation(currentLevelId) {
     };
 }
 
-function showNotification(message, type = 'info') {
+function showNotification(message, type = 'info', isAchievement = false) {
     const notification = document.createElement('div');
     notification.className = 'achievement-notification';
     notification.innerHTML = message;
@@ -551,6 +551,11 @@ function showNotification(message, type = 'info') {
         notification.style.background = 'linear-gradient(135deg, #FF9800, #FFC107)';
     } else if (type === 'error') {
         notification.style.background = 'linear-gradient(135deg, #F44336, #E91E63)';
+    }
+
+    if (isAchievement) {
+        notification.classList.add('pulse');
+        notification.style.border = '2px solid gold';
     }
     
     document.body.appendChild(notification);
@@ -1481,7 +1486,10 @@ function maybeAwardAchievements(level){
         // byLevel completion
         items.filter(a => a.type === 'levelComplete' && a.value === level.id)
              .forEach(a => {
-                if (!unlocked.has || !unlocked.has(a.id)) window.LearningStorage?.unlockAchievement(window.USER_ID, a.id);
+                if (!unlocked.has || !unlocked.has(a.id)) {
+                    window.LearningStorage?.unlockAchievement(window.USER_ID, a.id);
+                    showNotification(`🏆 Achievement Unlocked: ${a.title}`, 'success', true);
+                }
              });
         // tier completion
         const progress = window.LearningStorage?.getUserProgress(window.USER_ID) || {};
@@ -1490,7 +1498,12 @@ function maybeAwardAchievements(level){
             const tierLevels = LevelsData.filter(l=>l.tier===tier).map(l=>l.id);
             if (tierLevels.length>0 && tierLevels.every(id=>done.has(id))){
                 items.filter(a=>a.type==='tierComplete' && a.value===tier)
-                    .forEach(a=>{ if(!unlocked.has || !unlocked.has(a.id)) window.LearningStorage?.unlockAchievement(window.USER_ID, a.id); });
+                    .forEach(a=>{ 
+                        if(!unlocked.has || !unlocked.has(a.id)) {
+                            window.LearningStorage?.unlockAchievement(window.USER_ID, a.id);
+                            showNotification(`🏆 Achievement Unlocked: ${a.title}`, 'success', true);
+                        }
+                    });
             }
         });
       });
@@ -1740,6 +1753,11 @@ function maybeAwardQuizAchievements(level, score){
         const items = data.achievements || [];
         const unlocked = window.LearningStorage?.getUnlockedAchievements(window.USER_ID) || new Set();
         items.filter(a=>a.type==='quizScore' && score >= a.value)
-             .forEach(a=>{ if(!unlocked.has || !unlocked.has(a.id)) window.LearningStorage?.unlockAchievement(window.USER_ID, a.id); });
+             .forEach(a=>{ 
+                if(!unlocked.has || !unlocked.has(a.id)) {
+                    window.LearningStorage?.unlockAchievement(window.USER_ID, a.id);
+                    showNotification(`🏆 Achievement Unlocked: ${a.title}`, 'success', true);
+                }
+             });
       });
 }
