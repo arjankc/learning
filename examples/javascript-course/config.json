@@ -1,0 +1,44 @@
+{
+  "title": "JavaScript Gamified Learning",
+  "shortTitle": "JS Learning",
+  "themeColor": "#f7df1e",
+  "language": "javascript",
+  "dataFile": "data/levels.json",
+  "achievementsFile": "data/achievements.json",
+  "course": {
+    "subject": "JavaScript Programming",
+    "description": "Learn modern JavaScript development through hands-on projects, interactive coding challenges, and real-world applications.",
+    "icon": "🟨",
+    "heroTitle": "🟨 Master JavaScript",
+    "heroSubtitle": "From fundamentals to advanced concepts, build dynamic web applications and become a JavaScript expert through interactive learning.",
+    "footerText": "JavaScript Gamified Learning Project",
+    "loadingMessages": [
+      "⚡ Loading JavaScript curriculum and ES6+ features",
+      "🌐 Preparing interactive coding challenges and projects", 
+      "🎯 Setting up your web development learning environment"
+    ]
+  },
+  "features": [
+    {
+      "icon": "⚡",
+      "title": "Modern JavaScript",
+      "description": "Learn ES6+, async/await, modules, and the latest JavaScript features used in modern web development."
+    },
+    {
+      "icon": "🌐", 
+      "title": "Real-World Projects",
+      "description": "Build actual web applications, APIs, and interactive websites while learning JavaScript concepts."
+    },
+    {
+      "icon": "🎮",
+      "title": "Interactive Coding",
+      "description": "Practice with live code editors, debugging challenges, and gamified programming exercises."
+    }
+  ],
+  "navigation": [
+    { "label": "🏠 Home", "href": "index.html" },
+    { "label": "💻 Challenges", "href": "levels.html" },
+    { "label": "🏆 Achievements", "href": "achievements.html" },
+    { "label": "📊 Leaderboard", "href": "leaderboard.html" }
+  ]
+}

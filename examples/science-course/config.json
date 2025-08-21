@@ -1,0 +1,44 @@
+{
+  "title": "Science Gamified Learning",
+  "shortTitle": "Science Lab",
+  "themeColor": "#4ecdc4",
+  "language": "science",
+  "dataFile": "data/levels.json",
+  "achievementsFile": "data/achievements.json",
+  "course": {
+    "subject": "General Science",
+    "description": "Explore the wonders of science through virtual experiments, interactive simulations, and gamified learning experiences.",
+    "icon": "🔬",
+    "heroTitle": "🔬 Explore Science",
+    "heroSubtitle": "Discover the fascinating world of science through virtual experiments, interactive demonstrations, and hands-on learning activities.",
+    "footerText": "Science Gamified Learning Project",
+    "loadingMessages": [
+      "🧪 Loading virtual laboratory and experiments",
+      "🔬 Preparing interactive science simulations", 
+      "⚗️ Setting up your personalized science exploration journey"
+    ]
+  },
+  "features": [
+    {
+      "icon": "🧪",
+      "title": "Virtual Experiments",
+      "description": "Conduct safe, interactive experiments and see immediate results without the need for a physical lab."
+    },
+    {
+      "icon": "🔬", 
+      "title": "Scientific Method",
+      "description": "Learn to think like a scientist by forming hypotheses, testing theories, and analyzing data."
+    },
+    {
+      "icon": "⚗️",
+      "title": "Interactive Simulations",
+      "description": "Explore complex scientific concepts through engaging visualizations and interactive demonstrations."
+    }
+  ],
+  "navigation": [
+    { "label": "🏠 Home", "href": "index.html" },
+    { "label": "🧪 Experiments", "href": "levels.html" },
+    { "label": "🏆 Discoveries", "href": "achievements.html" },
+    { "label": "📊 Lab Results", "href": "leaderboard.html" }
+  ]
+}

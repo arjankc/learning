@@ -1,0 +1,44 @@
+{
+  "title": "Mathematics Gamified Learning",
+  "shortTitle": "Math Learning",
+  "themeColor": "#ff6b6b",
+  "language": "mathematics",
+  "dataFile": "data/levels.json",
+  "achievementsFile": "data/achievements.json",
+  "course": {
+    "subject": "Mathematics",
+    "description": "Master mathematical concepts through interactive problem-solving and gamified learning experiences.",
+    "icon": "📐",
+    "heroTitle": "📐 Master Mathematics",
+    "heroSubtitle": "Build strong mathematical foundations through step-by-step learning, interactive exercises, and problem-solving challenges.",
+    "footerText": "Mathematics Gamified Learning Project",
+    "loadingMessages": [
+      "📊 Loading comprehensive mathematics curriculum",
+      "🧮 Preparing interactive problem sets and exercises", 
+      "🎯 Setting up your personalized math learning journey"
+    ]
+  },
+  "features": [
+    {
+      "icon": "🧮",
+      "title": "Interactive Problem Solving",
+      "description": "Work through mathematical problems with step-by-step guidance and instant feedback."
+    },
+    {
+      "icon": "📈", 
+      "title": "Progress Visualization",
+      "description": "See your mathematical skills grow with detailed progress tracking and performance analytics."
+    },
+    {
+      "icon": "🏆",
+      "title": "Achievement System",
+      "description": "Unlock badges and achievements as you master different mathematical concepts and techniques."
+    }
+  ],
+  "navigation": [
+    { "label": "🏠 Home", "href": "index.html" },
+    { "label": "📚 Topics", "href": "levels.html" },
+    { "label": "🏆 Achievements", "href": "achievements.html" },
+    { "label": "📊 Progress", "href": "leaderboard.html" }
+  ]
+}

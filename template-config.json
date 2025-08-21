@@ -1,0 +1,44 @@
+{
+  "title": "[Your Course Title] Gamified Learning",
+  "shortTitle": "[Course Name]",
+  "themeColor": "#007acc",
+  "language": "your-subject",
+  "dataFile": "data/levels.json",
+  "achievementsFile": "data/achievements.json",
+  "course": {
+    "subject": "[Your Subject Name]",
+    "description": "Describe what students will learn and how the course helps them.",
+    "icon": "📚",
+    "heroTitle": "📚 Master [Your Subject]",
+    "heroSubtitle": "Write an engaging subtitle that motivates students to start learning.",
+    "footerText": "[Your Course] Gamified Learning Project",
+    "loadingMessages": [
+      "📚 Loading [your subject] curriculum",
+      "🧠 Preparing interactive [content type] and exercises", 
+      "🎯 Setting up your personalized [subject] learning experience"
+    ]
+  },
+  "features": [
+    {
+      "icon": "🎮",
+      "title": "[Feature 1 Title]",
+      "description": "Describe your first key learning feature or methodology."
+    },
+    {
+      "icon": "📝", 
+      "title": "[Feature 2 Title]",
+      "description": "Describe your second key learning feature or methodology."
+    },
+    {
+      "icon": "📈",
+      "title": "[Feature 3 Title]",
+      "description": "Describe your third key learning feature or methodology."
+    }
+  ],
+  "navigation": [
+    { "label": "🏠 Home", "href": "index.html" },
+    { "label": "📚 [Your Content Name]", "href": "levels.html" },
+    { "label": "🏆 Achievements", "href": "achievements.html" },
+    { "label": "📊 [Progress Name]", "href": "leaderboard.html" }
+  ]
+}
