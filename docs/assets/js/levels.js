@@ -1,370 +1,254 @@
-// levels.js
-// This file is responsible for fetching level data, rendering the level list,
-// and handling the main level display logic.
+// levels.js - Handles loading and displaying learning levels.
 
-let LevelsData = [];
+let LevelsData = []; // To store all the levels data globally
 
-/**
- * Fetches the level data from the server.
- * @returns {Promise<object>} A promise that resolves with the level data.
- */
-async function fetchLevels() {
+document.addEventListener('DOMContentLoaded', async () => {
+    showPreloader();
+    updateLoadingProgress(20, 'Loading levels...');
+    
+    await loadLevelsData();
+    
+    updateLoadingProgress(60, 'Rendering UI...');
+    displayLevels(LevelsData);
+    renderProgress(); // Initial render of user progress
+    
+    updateLoadingProgress(100, 'Ready to learn!');
+    hidePreloader();
+    
+    setupLevelEventListeners();
+    addResponsiveEnhancements();
+});
+
+async function loadLevelsData() {
     try {
-        updateLoadingProgress(10, 'Connecting to server...');
-        
         const response = await fetch('data/levels.json');
-        
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
-        updateLoadingProgress(30, 'Receiving data...');
-        
-        const contentLength = response.headers.get('content-length');
-        
-        if (contentLength) {
-            const total = parseInt(contentLength, 10);
-            let loaded = 0;
-            
-            const reader = response.body.getReader();
-            const chunks = [];
-            
-            while (true) {
-                const { done, value } = await reader.read();
-                
-                if (done) break;
-                
-                chunks.push(value);
-                loaded += value.length;
-                
-                const progress = Math.min(30 + (loaded / total) * 40, 70);
-                updateLoadingProgress(progress, 'Loading curriculum data...');
-            }
-            
-            const allChunks = new Uint8Array(loaded);
-            let position = 0;
-            for (const chunk of chunks) {
-                allChunks.set(chunk, position);
-                position += chunk.length;
-            }
-            
-            const text = new TextDecoder().decode(allChunks);
-            updateLoadingProgress(80, 'Processing curriculum...');
-            
-            const data = JSON.parse(text);
-            
-            LevelsData = data.levels || [];
-            
-            updateLoadingProgress(90, 'Initializing interface...');
-            
-            return data;
-        } else {
-            updateLoadingProgress(50, 'Loading curriculum data...');
-            const data = await response.json();
-            
-            LevelsData = data.levels || [];
-            
-            updateLoadingProgress(80, 'Processing curriculum...');
-            return data;
-        }
+        const data = await response.json();
+        LevelsData = data.levels;
     } catch (error) {
-        console.error('Error fetching levels:', error);
-        updateLoadingProgress(0, 'Error loading curriculum. Please refresh the page.');
-        throw error;
+        console.error('Could not load levels data:', error);
+        showErrorMessage('Failed to load the learning curriculum. Please check your connection and try again.');
     }
 }
 
-/**
- * Renders the user's progress, including XP, level, and streak.
- */
-function renderProgress() {
-    const progressEl = document.getElementById('progress-text');
-    const progressBar = document.getElementById('progress-bar');
-    const xpDisplay = document.getElementById('xp-display');
-    const streakDisplay = document.getElementById('streak-display');
-    
-    const progress = window.LearningStorage?.getUserProgress(window.USER_ID) || {};
-    const completed = (progress.completedLevels || []).length;
-    const total = LevelsData.length;
-    const percentage = total > 0 ? (completed / total) * 100 : 0;
-    const xp = progress.xp || 0;
-    
-    const done = new Set(progress.completedLevels || []);
-    const unlocked = LevelsData.filter(l => isLevelUnlocked(l.id, done)).length;
-    
-    progressEl.textContent = `🎯 ${completed}/${total} levels completed | 🔓 ${unlocked} available`;
-    
-    if (progressBar) {
-        progressBar.style.width = `${percentage}%`;
-    }
-    
-    if (xpDisplay) {
-        const xpLevel = Math.floor(xp / 100) + 1;
-        xpDisplay.innerHTML = `⭐ ${xp} XP earned | 🏆 Level ${xpLevel}`;
-    }
+function displayLevels(levels) {
+    const listContainer = document.getElementById('levels-list');
+    if (!listContainer) return;
 
-    if (streakDisplay) {
-        const streak = window.LearningStorage?.getStreak(window.USER_ID);
-        streakDisplay.innerHTML = `🔥 ${streak.currentStreak} Day Streak`;
-    }
-    
-    renderWeaknessDetection();
-}
+    listContainer.innerHTML = '';
+    const progress = window.LearningStorage.getUserProgress(window.USER_ID);
+    const completedLevels = new Set(progress.completedLevels || []);
 
-/**
- * Renders the weakness detection section based on the user's quiz performance.
- */
-function renderWeaknessDetection() {
-    const weaknessSection = document.getElementById('weakness-section');
-    const weaknessList = document.getElementById('weaknesses-list');
-    
-    if (!weaknessSection || !weaknessList) return;
-    
-    const analysis = window.LearningStorage?.getWeaknesses(window.USER_ID);
-    
-    if (!analysis || analysis.needsMoreData) {
-        weaknessSection.style.display = 'none';
-        return;
-    }
-    
-    const { weaknesses } = analysis;
-    
-    if (weaknesses.length === 0) {
-        weaknessList.innerHTML = `<div style="text-align: center; padding: 2rem; color: #4CAF50;"><h3>Excellent Performance!</h3><p>No significant weaknesses detected.</p></div>`;
-        weaknessSection.style.display = 'block';
-        return;
-    }
-    
-    let html = '<div class="weaknesses-grid">';
-    weaknesses.forEach(weakness => {
-        const severityColor = weakness.weaknessScore > 70 ? '#f44336' : weakness.weaknessScore > 50 ? '#ff9800' : '#ffc107';
-        html += `<div class="weakness-card" style="border-color: ${severityColor};"><h4>${weakness.concept}</h4><p>Accuracy: ${weakness.accuracy}%</p></div>`;
-    });
-    html += '</div>';
-    weaknessList.innerHTML = html;
-    weaknessSection.style.display = 'block';
-}
+    const tiers = [...new Set(levels.map(level => level.tier))].sort((a, b) => a - b);
 
-/**
- * Gets an improvement tip for a given concept.
- * @param {string} concept The concept to get a tip for.
- * @returns {string} The improvement tip.
- */
-function getImprovementTip(concept) {
-    const tips = {
-        'Basic Syntax': 'Review C# syntax fundamentals.',
-        'Data Types': 'Focus on understanding value vs reference types.',
-        'Type Conversion': 'Practice explicit and implicit conversions.',
-        'Namespaces': 'Learn about organizing code with namespaces.',
-        'Conditional Logic': 'Practice if-else statements and boolean logic.',
-        'Advanced OOP': 'Study interfaces, abstract classes, and design patterns.',
-    };
-    return tips[concept] || 'Review the theory and practice more exercises in this area.';
-}
+    tiers.forEach(tier => {
+        const tierContainer = document.createElement('div');
+        tierContainer.className = 'tier-container';
+        tierContainer.innerHTML = `<h2 class="tier-title">Tier ${tier}</h2>`;
 
-/**
- * Replaces concept keywords in the theory text with links to the corresponding levels.
- * @param {string} theoryHtml The HTML of the theory section.
- * @returns {string} The theory HTML with concept links.
- */
-function linkConcepts(theoryHtml) {
-    const conceptMap = {
-        'Basic Syntax': 1, 'Data Types': 2, 'Type Conversion': 3, 'Namespaces': 4,
-        'Conditional Logic': 5, 'Switch Statements': 6, 'For Loops': 7, 'While Loops': 8,
-        'Foreach Loops': 9, 'Iterators': 10, 'CLR Fundamentals': 11, 'Framework Class Library': 12,
-        'IDE Usage': 13, 'Classes and Objects': 14, 'OOP Principles': 15, 'Advanced OOP': 16,
-        'Built-in Collections': 17, 'Custom Collections': 18, 'Exception Handling': 19,
-        'Custom Exceptions': 20, 'Debugging': 21, 'Delegates and Events': 22, 'LINQ': 23,
-        'Async Programming': 24, 'ADO.NET': 25, 'Entity Framework': 26, 'File I/O': 27,
-        'XAML Basics': 28, 'Advanced WPF': 29, 'ASP.NET Core': 30, 'Blazor': 31, 'Security': 32,
-        'Cross-Platform Development': 34
-    };
+        const levelsGrid = document.createElement('div');
+        levelsGrid.className = 'levels-grid';
 
-    let linkedHtml = theoryHtml;
-    for (const concept in conceptMap) {
-        const levelId = conceptMap[concept];
-        const regex = new RegExp(`\b(${concept})\b`, 'gi');
-        linkedHtml = linkedHtml.replace(regex, `<a href="#" onclick="showLevelDetail(${levelId}); return false;">$1</a>`);
-    }
-    return linkedHtml;
-}
+        levels.filter(level => level.tier === tier).forEach(level => {
+            const isCompleted = completedLevels.has(level.id);
+            const card = document.createElement('div');
+            card.className = `level-card ${isCompleted ? 'completed' : ''}`;
+            card.dataset.levelId = level.id;
 
-/**
- * Checks if a level is unlocked.
- * @param {number} levelId The ID of the level.
- * @param {Set<number>} completedLevels A set of completed level IDs.
- * @returns {boolean} Whether the level is unlocked.
- */
-function isLevelUnlocked(levelId, completedLevels) {
-    if (levelId === 1) return true;
-    return completedLevels.has(levelId - 1);
-}
-
-/**
- * Renders the list of levels.
- * @param {string} searchTerm The term to filter the levels by.
- */
-function renderLevelsList(searchTerm = '') {
-    const list = document.getElementById('levels-list');
-    if (!list) return;
-    
-    const progress = window.LearningStorage?.getUserProgress(window.USER_ID) || {};
-    const done = new Set(progress.completedLevels || []);
-    list.innerHTML = '';
-    
-    const filteredLevels = LevelsData.filter(l => {
-        const isUnlocked = isLevelUnlocked(l.id, done);
-        if (!isUnlocked) return false;
-
-        if (searchTerm) {
-            return l.title.toLowerCase().includes(searchTerm) ||
-                   l.description.toLowerCase().includes(searchTerm) ||
-                   l.theory.toLowerCase().includes(searchTerm);
-        }
-        return true;
-    });
-    
-    if (filteredLevels.length === 0) {
-        list.innerHTML = '<p>No levels found.</p>';
-        return;
-    }
-    
-    filteredLevels.forEach(l => {
-        const isCompleted = done.has(l.id);
-        const div = document.createElement('div');
-        div.className = `card level-card ${isCompleted ? 'completed' : 'unlocked'}`;
-        
-        const difficulty = l.tier === 1 ? 'beginner' : l.tier === 2 ? 'intermediate' : 'advanced';
-        
-        div.innerHTML = `
-            <div class="level-card-header">
-                <h3>${l.id.toString().padStart(2,'0')}: ${l.title}</h3>
-                <span class="difficulty-indicator difficulty-${difficulty}">${difficulty}</span>
-            </div>
-            <p>${l.description}</p>
-            <div class="level-card-footer">
-                <button class="button" data-level-id="${l.id}">${isCompleted ? 'Review' : 'Start Level'}</button>
-                ${isCompleted ? `<button class="button" onclick="startTimedChallenge(${l.id})">Timed Challenge</button>` : ''}
-            </div>
-        `;
-        
-        list.appendChild(div);
-    });
-
-    list.querySelectorAll('button[data-level-id]').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const id = parseInt(button.getAttribute('data-level-id'));
-            showLevelDetail(id);
+            card.innerHTML = `
+                <div class="level-card-header">
+                    <span class="level-id">Level ${level.id}</span>
+                    <h3 class="level-title">${level.title}</h3>
+                </div>
+                <p class="level-description">${level.description}</p>
+                <div class="level-card-footer">
+                    <span class="level-status">${isCompleted ? '✅ Completed' : '⏳ Not Started'}</span>
+                    <button class="button start-level-button" data-level-id="${level.id}">
+                        ${isCompleted ? 'Revisit' : 'Start'}
+                    </button>
+                </div>
+            `;
+            levelsGrid.appendChild(card);
         });
+
+        tierContainer.appendChild(levelsGrid);
+        listContainer.appendChild(tierContainer);
     });
 }
 
-/**
- * Shows the detail view for a specific level.
- * @param {number} levelId The ID of the level to show.
- */
+function setupLevelEventListeners() {
+    const listContainer = document.getElementById('levels-list');
+    listContainer.addEventListener('click', (event) => {
+        if (event.target.classList.contains('start-level-button')) {
+            const levelId = parseInt(event.target.dataset.levelId);
+            showLevelDetail(levelId);
+        }
+    });
+
+    document.getElementById('close-level').addEventListener('click', () => {
+        document.getElementById('level-detail').style.display = 'none';
+        document.getElementById('levels-list').parentElement.style.display = 'block';
+    });
+    
+    document.getElementById('complete-level').addEventListener('click', () => {
+        const levelId = parseInt(document.getElementById('complete-level').dataset.levelId);
+        const level = LevelsData.find(l => l.id === levelId);
+        if(level) completeCurrentLevel(level);
+    });
+
+    document.getElementById('next-level').addEventListener('click', () => {
+        const currentId = parseInt(document.getElementById('next-level').dataset.levelId);
+        const nextLevel = LevelsData.find(l => l.id > currentId);
+        if (nextLevel) showLevelDetail(nextLevel.id);
+    });
+
+    document.getElementById('prev-level').addEventListener('click', () => {
+        const currentId = parseInt(document.getElementById('prev-level').dataset.levelId);
+        const prevLevel = LevelsData.slice().reverse().find(l => l.id < currentId);
+        if (prevLevel) showLevelDetail(prevLevel.id);
+    });
+}
+
 function showLevelDetail(levelId) {
     const level = LevelsData.find(l => l.id === levelId);
     if (!level) return;
-    
-    const progress = window.LearningStorage?.getUserProgress(window.USER_ID) || {};
-    const done = new Set(progress.completedLevels || []);
-    const isCompleted = done.has(level.id);
-    
-    document.getElementById('level-title').textContent = `${level.id.toString().padStart(2,'0')}: ${level.title}`;
+
+    document.getElementById('levels-list').parentElement.style.display = 'none';
+    const detailContainer = document.getElementById('level-detail');
+    detailContainer.style.display = 'block';
+
+    document.getElementById('level-title').textContent = `Level ${level.id}: ${level.title}`;
     document.getElementById('level-description').textContent = level.description;
     
-    const theory = document.getElementById('level-theory');
-    theory.innerHTML = linkConcepts(level.theory || '—');
-    
-    const code = document.getElementById('level-code');
-    if (level.code) {
-        code.innerHTML = level.code.replace(/\\n/g, '\n');
-        if (window.Prism) {
-            Prism.highlightElement(code);
-        }
-    } else {
-        code.textContent = 'No example code available for this level.';
+    const requirementsList = document.getElementById('level-requirements');
+    requirementsList.innerHTML = level.requirements.map(r => `<li>${r}</li>`).join('');
+
+    const theoryContainer = document.getElementById('level-theory');
+    theoryContainer.innerHTML = level.theory;
+
+    const codeBlock = document.getElementById('level-code');
+    codeBlock.textContent = level.code;
+    if (window.Prism) {
+        window.Prism.highlightElement(codeBlock);
     }
-    
-    const quizContainer = document.getElementById('quiz-container');
+
+    // Setup navigation
+    document.getElementById('next-level').dataset.levelId = level.id;
+    document.getElementById('prev-level').dataset.levelId = level.id;
+
+    // Render the quiz for this level
+    renderQuiz(level);
+
+    // Update completion button state
     const completeBtn = document.getElementById('complete-level');
+    completeBtn.dataset.levelId = level.id;
+    const progress = window.LearningStorage.getUserProgress(window.USER_ID);
+    const isCompleted = (progress.completedLevels || []).includes(level.id);
+
     if (isCompleted) {
-        quizContainer.style.display = 'none';
-        completeBtn.style.display = 'none';
+        completeBtn.textContent = '✅ Already Completed';
+        completeBtn.disabled = true;
     } else {
-        quizContainer.style.display = 'block';
-        completeBtn.style.display = 'block';
-        renderQuiz(level);
+        completeBtn.textContent = '🎉 Mark as Completed';
+        completeBtn.disabled = false; // Re-enable for levels without quizzes
     }
     
-    const levelDetail = document.getElementById('level-detail');
-    levelDetail.style.display = 'block';
-    window.scrollTo({ top: levelDetail.offsetTop - 20, behavior: 'smooth' });
+    // For levels with quizzes, the button might be disabled until the quiz is passed.
+    // This logic is handled within quiz.js
+    if (level.quiz && level.quiz.length > 0 && !isCompleted) {
+        completeBtn.disabled = true;
+        completeBtn.innerHTML = '🔒 Complete quiz perfectly to unlock';
+    }
+
+
+    detailContainer.scrollIntoView({ behavior: 'smooth' });
 }
 
-/**
- * Completes the current level, awards XP, and updates the UI.
- * @param {object} level The level object to complete.
- */
 function completeCurrentLevel(level) {
-    const btn = document.getElementById('complete-level');
-    if (btn.disabled) {
-        showNotification('Complete the quiz perfectly first!', 'warning');
-        return;
+    const userId = window.USER_ID;
+    window.LearningStorage.completeLevel(userId, level.id);
+    window.LearningStorage.addXp(userId, 25); // Award XP for level completion
+    const streak = window.LearningStorage.updateStreak(userId);
+
+    showNotification(`🎉 Level ${level.id} completed! +25 XP`, 'success');
+    if(streak.currentStreak > 1) {
+        showNotification(`🔥 You're on a ${streak.currentStreak}-day streak!`, 'success');
     }
 
-    if (typeof confetti === 'function') {
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+    // Update the UI
+    const completeBtn = document.getElementById('complete-level');
+    completeBtn.textContent = '✅ Completed!';
+    completeBtn.disabled = true;
+    
+    // Update the card in the main list
+    const levelCard = document.querySelector(`.level-card[data-level-id='${level.id}']`);
+    if (levelCard) {
+        levelCard.classList.add('completed');
+        levelCard.querySelector('.level-status').textContent = '✅ Completed';
+        levelCard.querySelector('.start-level-button').textContent = 'Revisit';
     }
-    
-    window.LearningStorage?.completeLevel(window.USER_ID, level.id);
-    window.LearningStorage?.updateStreak(window.USER_ID);
-    const xpAwarded = level.tier * 20;
-    window.LearningStorage?.addXp(window.USER_ID, xpAwarded);
-    maybeAwardAchievements(level);
-    
-    const nextLevel = LevelsData.find(l => l.id === level.id + 1);
-    if (nextLevel) {
-        showNotification(`🎉 Level ${level.id} completed! Level ${nextLevel.id} unlocked!`, 'success');
-    } else {
-        showNotification(`🎉 Level ${level.id} completed! Great job!`, 'success');
-    }
-    
+
     renderProgress();
-    renderLevelsList();
+    maybeAwardAchievements(level);
+    maybeShowProceedSection(level);
     
-    btn.innerHTML = '✅ Completed!';
-    btn.disabled = true;
-    
-    showProceedToNextLevel(level, nextLevel);
-}
-
-/**
- * Initializes the levels page.
- */
-async function initLevelsPage() {
-    console.log('Initializing levels page...');
-    showPreloader();
-    
-    try {
-        await fetchLevels();
-        
-        renderProgress();
-        renderLevelsList();
-
-        const searchBar = document.getElementById('search-bar');
-        searchBar.addEventListener('keyup', () => {
-            renderLevelsList(searchBar.value.toLowerCase());
+    // Confetti effect for fun
+    if (window.confetti) {
+        window.confetti({
+            particleCount: 150,
+            spread: 180,
+            origin: { y: 0.6 }
         });
-        
-        addResponsiveEnhancements();
-        
-        hidePreloader();
-    } catch (error) {
-        console.error('Error initializing levels page:', error);
-        showErrorMessage('Failed to load the curriculum. Please check your internet connection and refresh the page.');
     }
 }
 
-document.addEventListener('DOMContentLoaded', initLevelsPage);
+function maybeAwardAchievements(level) {
+    const userId = window.USER_ID;
+    const progress = window.LearningStorage.getUserProgress(userId);
+    const unlocked = window.LearningStorage.getUnlockedAchievements(userId);
+
+    achievements.forEach(ach => {
+        if (unlocked.has(ach.id)) return;
+
+        let shouldUnlock = false;
+        if (ach.type === 'levelComplete' && ach.value === level.id) {
+            shouldUnlock = true;
+        } else if (ach.type === 'tierComplete') {
+            const tierLevels = LevelsData.filter(l => l.tier === ach.value);
+            const completedTierLevels = tierLevels.filter(l => progress.completedLevels.includes(l.id));
+            if (tierLevels.length === completedTierLevels.length) {
+                shouldUnlock = true;
+            }
+        }
+
+        if (shouldUnlock) {
+            window.LearningStorage.unlockAchievement(userId, ach.id);
+            showNotification(`🏆 Achievement Unlocked: ${ach.title}! (+${ach.points} XP)`, 'success', true);
+            window.LearningStorage.addXp(userId, ach.points);
+            renderProgress();
+        }
+    });
+}
+
+function maybeAwardQuizAchievements(level, score) {
+    const userId = window.USER_ID;
+    const unlocked = window.LearningStorage.getUnlockedAchievements(userId);
+
+    achievements.forEach(ach => {
+        if (unlocked.has(ach.id)) return;
+
+        let shouldUnlock = false;
+        if (ach.type === 'quizScore' && score >= ach.value) {
+            shouldUnlock = true;
+        }
+
+        if (shouldUnlock) {
+            window.LearningStorage.unlockAchievement(userId, ach.id);
+            showNotification(`🏆 Achievement Unlocked: ${ach.title}! (+${ach.points} XP)`, 'success', true);
+            window.LearningStorage.addXp(userId, ach.points);
+            renderProgress();
+        }
+    });
+}
