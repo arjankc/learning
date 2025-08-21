@@ -1,0 +1,8 @@
+{
+  "title": "C# Gamified Learning",
+  "shortTitle": "C# Learning",
+  "themeColor": "#007acc",
+  "language": "csharp",
+  "dataFile": "data/levels.json",
+  "achievementsFile": "data/achievements.json"
+}
