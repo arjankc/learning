@@ -7,7 +7,7 @@
 function showPreloader() {
     const preloader = document.getElementById('preloader');
     if (preloader) {
-        preloader.classList.remove('hidden');
+        preloader.style.display = 'flex';
     }
 }
 
@@ -18,7 +18,7 @@ function hidePreloader() {
     const preloader = document.getElementById('preloader');
     if (preloader) {
         setTimeout(() => {
-            preloader.classList.add('hidden');
+            preloader.style.display = 'none';
         }, 500); // Small delay for better UX
     }
 }

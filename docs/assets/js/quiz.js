@@ -198,12 +198,16 @@ function renderQuiz(level){
         
         const completeBtn = document.getElementById('complete-level');
         if (isPerfectScore) {
-            completeBtn.disabled = false;
-            completeBtn.style.opacity = '1';
-            completeBtn.style.cursor = 'pointer';
-            if (!completeBtn.innerHTML.includes('Already completed')) {
-                completeBtn.innerHTML = '🎉 Mark as Completed';
+            // Automatically complete the level on a perfect score
+            const currentLevel = LevelsData.find(l => l.id === level.id);
+            if (currentLevel && typeof completeCurrentLevel === 'function') {
+                completeCurrentLevel(currentLevel);
             }
+            
+            // Keep the button updated but disabled
+            btn.innerHTML = '✅ Completed!';
+            btn.disabled = true;
+
         } else if (isGoodScore) {
             completeBtn.disabled = true;
             completeBtn.style.opacity = '0.5';
