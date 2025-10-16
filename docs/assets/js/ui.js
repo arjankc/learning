@@ -204,7 +204,7 @@ function showErrorMessage(message) {
  */
 function renderProgress() {
     const userId = window.USER_ID;
-    if (!userId) return;
+    if (!userId || !window.LearningStorage) return;
     
     const progress = window.LearningStorage.getUserProgress(userId);
     const xp = progress.xp || 0;
