@@ -200,6 +200,94 @@ function showErrorMessage(message) {
 }
 
 /**
+ * Renders the user progress display with current level, XP, streak, and completion.
+ */
+function renderProgress() {
+    const userId = window.USER_ID;
+    if (!userId) return;
+    
+    const progress = window.LearningStorage.getUserProgress(userId);
+    const xp = progress.xp || 0;
+    const streak = progress.streak || { currentStreak: 0 };
+    const completedLevels = progress.completedLevels || [];
+    
+    // Determine user level based on XP
+    const levelTiers = [
+        { minXp: 0, level: 1, title: 'C# Novice' },
+        { minXp: 100, level: 2, title: 'C# Beginner' },
+        { minXp: 250, level: 3, title: 'C# Apprentice' },
+        { minXp: 500, level: 4, title: 'C# Practitioner' },
+        { minXp: 1000, level: 5, title: 'C# Developer' },
+        { minXp: 2000, level: 6, title: 'C# Expert' },
+        { minXp: 3500, level: 7, title: 'C# Master' },
+        { minXp: 5000, level: 8, title: 'C# Grandmaster' }
+    ];
+    
+    let currentTier = levelTiers[0];
+    let nextTier = levelTiers[1];
+    
+    for (let i = 0; i < levelTiers.length; i++) {
+        if (xp >= levelTiers[i].minXp) {
+            currentTier = levelTiers[i];
+            nextTier = levelTiers[i + 1] || null;
+        }
+    }
+    
+    // Update user level display
+    const levelDisplay = document.getElementById('user-level-display');
+    if (levelDisplay) {
+        levelDisplay.textContent = `🏆 Level ${currentTier.level} ${currentTier.title}`;
+    }
+    
+    // Update XP display
+    const xpDisplay = document.getElementById('xp-display');
+    if (xpDisplay) {
+        xpDisplay.textContent = `⭐ ${xp} XP earned`;
+    }
+    
+    // Update streak display
+    const streakDisplay = document.getElementById('streak-display');
+    if (streakDisplay) {
+        streakDisplay.textContent = `🔥 ${streak.currentStreak} Day Streak`;
+    }
+    
+    // Calculate progress percentage for next level
+    let progressPercent = 100;
+    if (nextTier) {
+        const xpIntoCurrentLevel = xp - currentTier.minXp;
+        const xpNeededForNextLevel = nextTier.minXp - currentTier.minXp;
+        progressPercent = Math.min(100, Math.round((xpIntoCurrentLevel / xpNeededForNextLevel) * 100));
+    }
+    
+    // Update circular progress
+    const circularProgress = document.getElementById('xp-circular-progress');
+    if (circularProgress) {
+        circularProgress.style.background = `conic-gradient(#4CAF50 ${progressPercent * 3.6}deg, #e0e0e0 0deg)`;
+    }
+    
+    const circularValue = document.getElementById('xp-circular-value');
+    if (circularValue) {
+        circularValue.textContent = `${progressPercent}%`;
+    }
+    
+    // Calculate overall course completion
+    const totalLevels = window.LevelsData ? window.LevelsData.length : 34;
+    const completionPercent = totalLevels > 0 ? Math.round((completedLevels.length / totalLevels) * 100) : 0;
+    
+    // Update progress text
+    const progressText = document.getElementById('progress-text');
+    if (progressText) {
+        progressText.textContent = `${completedLevels.length} of ${totalLevels} levels completed (${completionPercent}%)`;
+    }
+    
+    // Update progress bar
+    const progressBar = document.getElementById('progress-bar');
+    if (progressBar) {
+        progressBar.style.width = `${completionPercent}%`;
+    }
+}
+
+/**
  * Adds responsive and touch enhancements to the UI.
  */
 function addResponsiveEnhancements() {
